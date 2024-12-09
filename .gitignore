@@ -1,0 +1,12 @@
+# Project Artifacts
+testdata/designs/**/*.cir
+output_*
+
+# Mac
+.DS_Store
+
+# Editor swap/backup files
+*.swp
+*.bak
+
+
