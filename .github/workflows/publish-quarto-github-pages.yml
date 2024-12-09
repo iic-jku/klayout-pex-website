@@ -1,0 +1,73 @@
+##
+## --------------------------------------------------------------------------------
+## SPDX-FileCopyrightText: 2024 Martin Jan Köhler and Harald Pretl
+## Johannes Kepler University, Institute for Integrated Circuits.
+##
+## This file is part of KPEX Documentation 
+## (see https://github.com/martinjankoehler/klayout-pex-website).
+##
+## Licensed under the Apache License, Version 2.0 (the "License");
+## you may not use this file except in compliance with the License.
+## You may obtain a copy of the License at
+##
+##     http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+## SPDX-License-Identifier: Apache-2.0
+## --------------------------------------------------------------------------------
+##
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches: [main, reports, quarto]
+    paths:
+      - '**.qmd'
+      - '_quarto.yml'
+
+name: "Publish Quarto Website to GitHub Pages"
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.event.number || github.head_ref || github.sha }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Install APT dependencies
+        run: |
+          sudo apt update
+          sudo apt -y install librsvg2-bin
+      
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+
+      - name: Install Python and Dependencies
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+      # - run: pip install -r requirements.txt
+      # - run: pip install jupyter schemdraw[svgmath] ziamath numpy==1.26.4 pandas matplotlib
+
+      - name: Render and Publish
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          path: quarto
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

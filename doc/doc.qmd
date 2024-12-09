@@ -1,0 +1,28 @@
+---
+title: KLayout-PEX Documentation
+author:
+    - name: Martin Köhler
+      ## orcid: 0000-0003-1519-076X
+      email: martin.koehler@jku.at
+      corresponding: true
+      roles: "Lead author"
+      affiliation:
+        - name: Johannes Kepler University
+          city: Linz
+          state: Austria
+          url: https://www.jku.at/en/institute-for-integrated-circuits-and-quantum-computing
+#    - name: Harald Pretl
+#      roles: "Supporting author"
+date: last-modified
+# bibliography: references.bib
+license: "GNU GPL v3 or later"
+copyright:
+  holder: "Martin Köhler, Harald Pretl and co-authors, Johannes Kepler University."
+  year: 2024
+---
+
+# Test heading
+
+test text.
+
+
