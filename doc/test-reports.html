@@ -129,10 +129,26 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<!--
 <script>
   function resizeIframe(obj) {
     obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
   }
+</script>
+-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+$("document").ready(function(){
+    $('iframe').load(function(){
+        if (typeof $(this).attr('height') == 'undefined') {
+            // Set the height of the iframe based on the embedded page
+            $(this).height(this.contentWindow.document.documentElement.scrollHeight+10);
+        }
+    });
+
+    // Handle iframe loading
+    $('iframe').triggerHandler('load');
+});
 </script>
 <div class="column-screen">
 <iframe id="test_iframe" src="https://martinjankoehler.github.io/klayout-pex/allure/index.html" style="width:100%; height:100%;" onload="resizeIframe(this);">
