@@ -25,10 +25,7 @@ on:
   workflow_call:
   push:
     branches: [main, reports, quarto]
-    paths:
-      - '**.qmd'
-      - '_quarto.yml'
-
+    
 name: "Publish Quarto Website to GitHub Pages"
 
 concurrency:
@@ -57,17 +54,15 @@ jobs:
           tinytex: true
 
       - name: Install Python and Dependencies
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
           cache: 'pip'
-      # - run: pip install -r requirements.txt
-      # - run: pip install jupyter schemdraw[svgmath] ziamath numpy==1.26.4 pandas matplotlib
-
+      - run: pip install -r requirements.txt
+      
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          path: quarto
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

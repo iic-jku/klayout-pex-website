@@ -10,3 +10,6 @@ output_*
 *.bak
 
 
+
+/.quarto/
+_site

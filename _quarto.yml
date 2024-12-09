@@ -24,7 +24,7 @@ project:
   type: website
 
 var:
-  url-repo: https://github.com/martinjankoehler/klayout-pex   # to call this value : {{< meta var.url-repo >}}
+  url-repo: https://github.com/martinjankoehler/klayout-pex-website   # to call this value : {{< meta var.url-repo >}}
 
 website:
   title: "KLayout-PEX"
@@ -33,10 +33,14 @@ website:
     search: true
     left:
       - icon: house
-        href: doc/doc.qmd
+        href: index.qmd
+        text: "About"
+      - href: doc/doc.qmd
         text: "Documentation"
-      - href: doc/tests.qmd
+      - href: doc/test-reports.qmd
         text: "Test Reports"
+      - href: doc/python-coverage.qmd
+        text: "🐍 Coverage"
     right:
       - icon: github
         href: "{{< meta var.url-repo >}}"
@@ -46,17 +50,6 @@ website:
     right: |
       Website built with [Quarto](https://quarto.org/){.external target="_blank"} <br>
       [Code source]({{< meta var.url-repo >}}){.external target="_blank"}
-
-  sidebar:
-    - title: "Test Reports"
-      style: docked
-      contents:
-        - text: "Allure Test Reports"
-          href: "../allure/"
-          target: "test_iframe"
-        - text: "Python Coverage Reports"
-          href: "../pycov/"
-          target: "test_iframe"
 
 execute:
   freeze: auto  # re-render only when source changes

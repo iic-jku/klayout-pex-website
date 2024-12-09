@@ -15,7 +15,7 @@ author:
 #      roles: "Supporting author"
 date: last-modified
 # bibliography: references.bib
-license: "GNU GPL v3 or later"
+license: "Apache-2.0 license"
 copyright:
   holder: "Martin Köhler, Harald Pretl and co-authors, Johannes Kepler University."
   year: 2024
