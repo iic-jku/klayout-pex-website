@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/doc.html</loc>
-    <lastmod>2024-12-09T18:12:32.552Z</lastmod>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/python-coverage.html</loc>
+    <lastmod>2024-12-09T18:12:46.984Z</lastmod>
   </url>
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/test-reports.html</loc>
-    <lastmod>2024-12-09T18:12:32.552Z</lastmod>
+    <lastmod>2024-12-09T18:12:46.984Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/doc.html</loc>
+    <lastmod>2024-12-09T18:12:46.984Z</lastmod>
   </url>
 </urlset>
