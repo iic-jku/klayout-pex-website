@@ -1,0 +1,20 @@
+{
+    "spellright.language": [
+        "de",
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "quarto"
+    ],
+    "spellright.parserByClass": {
+        "quarto": {
+        "parser": "markdown"
+        }
+    },
+    "spellright.ignoreRegExpsByClass": {
+        "quarto": ["/\\{.+\\}/", "/@[^ ]+/", "/\\n\\s*[^\\s\\:]+\\:/"]
+    }
+}
