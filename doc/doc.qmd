@@ -21,8 +21,10 @@ copyright:
   year: 2024
 ---
 
-# Test heading
+{{< include _sec_intro.qmd >}}
+{{< include _sec_first_steps.qmd >}}
 
-test text.
+
+
 
 
