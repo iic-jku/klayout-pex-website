@@ -13,3 +13,5 @@ output_*
 
 /.quarto/
 _site
+doc/_sec*.html
+doc/_sec*_files
