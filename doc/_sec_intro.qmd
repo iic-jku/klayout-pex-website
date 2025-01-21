@@ -16,51 +16,82 @@ limitations under the License.
 
 # Introduction {#sec-intro}
 
-KLayout-PEX (short `KPEX`) is a parasitic extraction tool, well integrated with KLayout.
+[KLayout](https://klayout.de) is an open source VLSI layout viewer and editor.
 
-Multiple PEX engines are supported, currently
-  - `FasterCap` integration (field solver engine)
-  - `MAGIC` integration (wrapper calling magic)
-  - Analytical 2.5D engine (MAGIC parasitic concepts and formulas)
+KLayout-PEX (short `KPEX`) is a parasitic extraction (PEX) tool, well integrated with KLayout by using its API.
 
-Currently, `KPEX` is developed as a POC Python prototype. Eventually, critical parts will be re-implemented in C++.
+There are multiple PEX engines supported, currently:
 
-::: {.callout-important}
-KPEX **tool** source code itself is made publicly available on GitHub ([follow this link](https://github.com/martinjankoehler/klayout-pex)) and shared under the GPL-3.0 license.
+* [FasterCap](https://www.fastfieldsolvers.com/fastercap.htm) integration (field solver engine)
+* [MAGIC](https://opencircuitdesign.com/magic/) integration (wrapper calling `magic`)
+* Analytical 2.5D engine (parasitic concepts and formulas of MAGIC, implemented using KLayout methods)
 
-KPEX **documentation** source code is made publicly available on GitHub ([follow this link](https://github.com/martinjankoehler/klayout-pex-website)) and shared under the Apache-2.0 license.
+::: {.callout-tip}
+KPEX *tool* source code itself is made publicly available on GitHub ([follow this link](https://github.com/martinjankoehler/klayout-pex)) and shared under the GPL-3.0 license.
 
-Please feel free to submit pull requests on GitHub to fix errors and omissions!
+KPEX *documentation* source code is made publicly available on GitHub ([follow this link](https://github.com/martinjankoehler/klayout-pex-website)) and shared under the Apache-2.0 license.
 
-The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `MAGIC`, `protobuf`, `Quarto`, `Python`, `ngspice`, `Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`...
+Please feel free to create issues and/or submit pull requests on GitHub to fix errors and omissions!
+
+The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `MAGIC`, `protobuf`, `Quarto`, `Python`, `ngspice`, `Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`…
+:::
+
+::: {.callout-caution}
+Currently, `KPEX` is developed as a Python prototype, using the KLayout Python API.
+This allows for faster development iterations in the current prototyping phase.
+Eventually, critical parts will be re-implemented in C++, and parallelized, to improve performance.
+As we're already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.
 :::
 
 ## Installation
 
+Generally, `KPEX` is deployed using PyPi (Python Package Index), install via:
+```bash
+pip3 install --upgrade klayout-pex
+
+kpex --version   # check the installed version 
+kpex --help      # this will help with command line arguments
+```
+
+As for the dependencies, there are multiple options available.
+
 ### Option 1: Using `IIC-OSIC-TOOLS` Docker Image
 
-We provide a comprehensive, low entry barrier Docker image that comes with most relevant Open Source ASIC tools, as well as the Open PDKs. This is a pre-compiled Docker image which allows to do circuit design on a virtual machine on virtually any type of computing equipment (personal PC, Raspberry Pi, cloud server) on various operating systems (Windows, macOS, Linux). For further information like installed tools, how to setup a VM, etc., please look at [IIC-OSIC-TOOLS GitHub page](https://github.com/iic-jku/IIC-OSIC-TOOLS).
-Find it on Docker Hub at https://hub.docker.com/r/hpretl/iic-osic-tools.
+We provide a comprehensive, low entry barrier Docker image that comes pre-installed with most relevant open source ASIC tools, as well as the open PDKs. This is a pre-compiled Docker image which allows to do circuit design on a virtual machine on virtually any type of computing equipment (personal PC, Raspberry Pi, cloud server) on various operating systems (Windows, macOS, Linux). 
+
+For further information please look at the [Docker Hub page](https://hub.docker.com/r/hpretl/iic-osic-tools) and for detailled instructions at the [IIC-OSIC-TOOLS GitHub page](https://github.com/iic-jku/IIC-OSIC-TOOLS).
 
 ::: {.callout-warning title="Linux"}
-In this document, we assume that students have a basic knowledge of Linux and how to operate it using the terminal (shell). If you are not yet familiar with Linux (which is basically a must when doing integrated circuit design as many tools are only available on Linux), then please check out a Linux introductory course or tutorial online, there are many resources available.
+In this document, we assume that users have a basic knowledge of Linux and how to operate it using the terminal (shell). If you are not yet familiar with Linux (which is basically a must when doing integrated circuit design as many tools are only available on Linux), then please check out a Linux introductory course or tutorial online, there are many resources available.
 
-A summary of important Linux shell commands is provided in [IIC Linux Cheatsheet](https://iic-jku.github.io/analog-circuit-design/#sec-linux-cheatsheet).
+A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheatsheet](https://iic-jku.github.io/analog-circuit-design/#sec-linux-cheatsheet).
 :::
-
-`KPEX` is deployed using PyPi (Python Package Index), install via:
-```bash
-pip3 install --update klayout-pex
-```
 
 ### Option 2: Standalone Installation
 
-- `KLayout` is mandatory for all engines (besides the MAGIC-wrapper), [get the latest package version](https://www.klayout.de/build.html) or [follow the build instructions](https://www.klayout.de/build.html) at https://www.klayout.de/build.html.
+- [KLayout](https://klayout.de) layout tool:
+  - is mandatory for all engines (besides the MAGIC-wrapper)
+  - [get the latest pre-built package version](https://www.klayout.de/build.html) 
+  - or [follow the build instructions](https://www.klayout.de/build.html)
 
-- `FasterCap` engine:
-  - either compile your own version from the [GitHub repository](https://github.com/ediloren/FasterCap/), or
-  - use precompiled versions available at https://github.com/martinjankoehler/FasterCap/releases
+- [FasterCap](https://www.fastfieldsolvers.com/fastercap.htm) engine:
+  - optional, required to run the FasterCap engine
+  - either compile your own version from the [GitHub repository](https://github.com/ediloren/FasterCap/)
+  - or use precompiled versions available at <https://github.com/martinjankoehler/FasterCap/releases>
 
-- `MAGIC`-wrapper engine:
-  - Follow the [https://github.com/RTimothyEdwards/magic/blob/master/INSTALL](build instructions) at https://github.com/RTimothyEdwards/magic/
+- [MAGIC](https://opencircuitdesign.com/magic/)-wrapper engine:
+  - optional, required to run the MAGIC-wrapper engine
+  - Follow the [installation instructions](https://github.com/RTimothyEdwards/magic/blob/master/INSTALL) at the [GitHub repository](https://github.com/RTimothyEdwards/magic/)
+
+- [Skywater sky130A PDK](https://skywater-pdk.readthedocs.io):
+  - optional, for now, KPEX technology specific files are deployed within the `klayout-pex` Python package
+  - `pip3 install --upgrade volare`  (install PDK package manager)
+  - `volare ls-remote` (retrieve available PDK releases
+    - for example `PRE-RELEASE 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32 (2024.12.11)`)
+  - `volare enable 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32`  (install a PDK version)
+  - PDK files now have been installed under `$HOME/.volare/sky130A`
+
+- [IHP SG13G2 PDK](https://github.com/IHP-GmbH/IHP-Open-PDK):
+  - optional, for now, KPEX technology specific files are deployed within the `klayout-pex` Python package
+  - `git clone https://github.com/IHP-GmbH/IHP-Open-PDK`  (install PDK package manager)
 
