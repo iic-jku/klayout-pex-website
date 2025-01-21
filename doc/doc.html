@@ -245,8 +245,8 @@ Caution
 <p>Currently, <code>KPEX</code> is developed as a Python prototype, using the <a href="https://www.klayout.de/doc-qt5/code/">KLayout Python API</a>. This allows for a faster development cycle during the current prototyping phase. Eventually, critical parts will be re-implemented (in C++, and parallelized), to improve performance. As we’re already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.</p>
 </div>
 </div>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<section id="sec-intro-installation" class="level2">
+<h2 class="anchored" data-anchor-id="sec-intro-installation">Installation</h2>
 <p>Generally, <code>KPEX</code> is deployed using PyPi (Python Package Index), install via:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -310,19 +310,137 @@ Linux
 </ul></li>
 </ul>
 </section>
+<section id="sec-intro-meshlab" class="level3">
+<h3 class="anchored" data-anchor-id="sec-intro-meshlab">Useful tools: <code>meshlab</code></h3>
+<p>For previewing generated 3D geometries, representing the input to <code>FasterCap</code>, we recommend installing <a href="https://www.meshlab.net">MeshLab</a>.</p>
+<p><code>MeshLab</code> can open the <code>STL</code>-files generated in the <code>output</code> directory under <code>output/&lt;design&gt;/Geometries/*.stl</code>.</p>
+</section>
 </section>
 </section>
 <section id="first-steps" class="level1">
 <h1>First Steps</h1>
 <ul>
-<li>The command line tool <code>kpex</code> is used to trigger parasitic extraction from the terminal.</li>
+<li>The command line tool <code>kpex</code> is used to trigger the parasitic extraction flow from the terminal.</li>
 <li>Get help calling <code>kpex --help</code>.</li>
 </ul>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<p>Example layouts are included in the <code>testdata/designs</code> subdirectory of the KLayout-PEX source code:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/martinjankoehler/klayout-pex.git </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for sky130A</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> testdata/designs/sky130A <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># for IHP SG13G2</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> testdata/designs/ihp_sg13g2 <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="running-fastercap" class="level3">
+<h3 class="anchored" data-anchor-id="running-fastercap">Running FasterCap</h3>
+<p>Preconditions:</p>
+<ul>
+<li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.1</a></li>
+<li><code>FasterCap</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.1</a></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Normally, devices with SPICE simulation models (e.g.&nbsp;like MOM-capacitors<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in the sky130A PDK) are ignored (“blackboxed”) during parasitic extraction.</p>
+<p><code>kpex</code> has an option <code>--blacklist n</code> to allow extraction of those devices (whiteboxing), which can be useful during development (during the prototype phase, whiteboxing is actually the default setting, so please use <code>--blacklist y</code> to explicitly configure blackboxing).</p>
+</div>
+</div>
+<p>Let’s try the following:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--gds</span> testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This will report an error that we have not activated one or more engines, and list the available engines:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">–fastercap y</td>
+<td style="text-align: left;">Run kpex/FasterCap engine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">–2.5D y</td>
+<td style="text-align: left;">Run kpex/2.5D engine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">–magic y</td>
+<td style="text-align: left;">Run MAGIC engine</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now, to run the FasterCap engine (might take a couple of minutes):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--fastercap</span> y <span class="at">--gds</span> testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The default output directory is <code>output</code>, in there we see a directory <code>Geometries</code>, containing STL-files. Those STL files provide a preview of the FasterCap input files. Use MeshLab (see <a href="#sec-intro-meshlab" class="quarto-xref">Section&nbsp;1.1.3</a>) to open and preview those files:</p>
+<pre><code>ls -d output/cap_vpp_04p4x04p6_l1m1m2_noshield__cap_vpp_04p4x04p6_l1m1m2_noshield/Geometries/*.stl</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Open the STL files in MeshLab</li>
+<li>Use the eye buttons to hide and show each file/mesh</li>
+<li>Use the align tool (“A” in the toolbar) to assign different colors</li>
+<li>Start by showing only on the conductors (files named <code>cond_*.stl</code>)</li>
+<li>Then try showing different dielectrics (files named <code>diel_*.stl</code>), to see how they surround the conductors.</li>
+</ul>
+<p><img src="figures/meshlab-3D-mom-capacitor.jpg" class="img-fluid" alt="MOM Capacitor 3D Model"></p>
+</div>
+</div>
+<p>In the log file, we see the output of FasterCap including the Maxwell capacitance matrix:</p>
+<pre><code>Capacitance matrix is:
+Dimension 3 x 3
+g1_VSUBS  5.2959e-09 -4.46971e-10 -1.67304e-09
+g2_C1  -5.56106e-10 1.5383e-08 -1.47213e-08
+g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08</code></pre>
+<p><code>KPEX</code> interprets this matrix and logs a CSV netlist, which can be pasted into a spreadsheet application:</p>
+<pre class="csv"><code>Device;Net1;Net2;Capacitance [fF]
+Cext_0_1;VSUBS;C1;0.5
+Cext_0_2;VSUBS;C0;1.69
+Cext_1_2;C1;C0;14.8
+Cext_1_1;C1;VSUBS;0.08</code></pre>
+<p>In addition, a SPICE netlist is generated.</p>
 
 
 </section>
+</section>
+</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section></div></main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Metal-On-Metal capacitors<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
