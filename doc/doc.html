@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2024-12-10">
+<meta name="dcterms.date" content="2025-01-21">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,12 +71,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a2a0e12bb60fe246e2e9f081b0cc26f8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-786175bc03f08c9c0cfecc4767a07620.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-120d9ffdb366f80f4be3d8d4b9ab4133.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-433c775cf9d4f89e97061b8f24aee672.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -160,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 10, 2024</p>
+      <p class="date">January 21, 2025</p>
     </div>
   </div>
   
@@ -172,9 +206,72 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="test-heading" class="level1">
-<h1>Test heading</h1>
-<p>test text.</p>
+<section id="sec-intro" class="level1">
+<h1>Introduction</h1>
+<p>KLayout-PEX (short <code>KPEX</code>) is a parasitic extraction tool, well integrated with KLayout.</p>
+<p>Multiple PEX engines are supported, currently - <code>FasterCap</code> integration (field solver engine) - MAGIC integration (wrapper calling magic) - Analytical 2.5D engine (MAGIC parasitic concepts and formulas)</p>
+<p>Currently, <code>KPEX</code> is developed as a POC Python prototype. Eventually, critical parts will be re-implemented in C++.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>KPEX <strong>tool</strong> source code itself is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex">follow this link</a>) and shared under the GPL-3.0 license.</p>
+<p>KPEX <strong>documentation</strong> source code is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex-website">follow this link</a>) and shared under the Apache-2.0 license.</p>
+<p>Please feel free to submit pull requests on GitHub to fix errors and omissions!</p>
+<p>The production of the tool and this document would be impossible without these (and many more) great open-source software products: <code>KLayout</code>, <code>FasterCap</code>, <code>MAGIC</code>, <code>protobuf</code>, <code>Quarto</code>, <code>Python</code>, <code>ngspice</code>, Numpy<code>,</code>Scipy<code>,</code>Matplotlib<code>,</code>Git<code>,</code>Docker<code>,</code>Ubuntu<code>,</code>Linux`…</p>
+</div>
+</div>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<section id="option-1-using-iic-osic-tools-docker-image" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-using-iic-osic-tools-docker-image">Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</h3>
+<p>We provide a comprehensive, low entry barrier Docker image that comes with most relevant Open Source ASIC tools, as well as the Open PDKs. This is a pre-compiled Docker image which allows to do circuit design on a virtual machine on virtually any type of computing equipment (personal PC, Raspberry Pi, cloud server) on various operating systems (Windows, macOS, Linux). For further information like installed tools, how to setup a VM, etc., please look at <a href="https://github.com/iic-jku/IIC-OSIC-TOOLS">IIC-OSIC-TOOLS GitHub page</a>. Find it on Docker Hub at https://hub.docker.com/r/hpretl/iic-osic-tools.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Linux">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Linux
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this document, we assume that students have a basic knowledge of Linux and how to operate it using the terminal (shell). If you are not yet familiar with Linux (which is basically a must when doing integrated circuit design as many tools are only available on Linux), then please check out a Linux introductory course or tutorial online, there are many resources available.</p>
+<p>A summary of important Linux shell commands is provided in <a href="https://iic-jku.github.io/analog-circuit-design/#sec-linux-cheatsheet">IIC Linux Cheatsheet</a>.</p>
+</div>
+</div>
+<p><code>KPEX</code> is deployed using PyPi (Python Package Index), install via:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--update</span> klayout-pex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="option-2-standalone-installation" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-standalone-installation">Option 2: Standalone Installation</h3>
+<ul>
+<li><p><code>KLayout</code> is mandatory for all engines (besides the MAGIC-wrapper), <a href="https://www.klayout.de/build.html">get the latest package version</a> or <a href="https://www.klayout.de/build.html">follow the build instructions</a> at https://www.klayout.de/build.html.</p></li>
+<li><p><code>FasterCap</code> engine:</p>
+<ul>
+<li>either compile your own version from the <a href="https://github.com/ediloren/FasterCap/">GitHub repository</a>, or</li>
+<li>use precompiled versions available at https://github.com/martinjankoehler/FasterCap/releases</li>
+</ul></li>
+<li><p><code>MAGIC</code>-wrapper engine:</p>
+<ul>
+<li>Follow the <a href="build instructions">https://github.com/RTimothyEdwards/magic/blob/master/INSTALL</a> at https://github.com/RTimothyEdwards/magic/</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="first-steps" class="level1">
+<h1>First Steps</h1>
+<ul>
+<li>The command line tool <code>kpex</code> is used to trigger parasitic extraction from the terminal.</li>
+<li>Get help calling <code>kpex --help</code>.</li>
+</ul>
 
 
 </section>
