@@ -9,7 +9,7 @@ pagetitle: "About"
 
 KLayout-PEX is a parasitic extraction tool for [KLayout](https://klayout.org).
 
-There a multiple engines supported:
+There are multiple engines supported:
 
 - FasterCap (requires [FasterCap](https://github.com/martinjankoehler/FasterCap) installation)
 - MAGIC wrapper (requires [MAGIC](https://github.com/RTimothyEdwards/magic) installation)
