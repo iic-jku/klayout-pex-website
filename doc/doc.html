@@ -208,30 +208,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="sec-intro" class="level1">
 <h1>Introduction</h1>
-<p>KLayout-PEX (short <code>KPEX</code>) is a parasitic extraction tool, well integrated with KLayout.</p>
-<p>Multiple PEX engines are supported, currently - <code>FasterCap</code> integration (field solver engine) - <code>MAGIC</code> integration (wrapper calling magic) - Analytical 2.5D engine (MAGIC parasitic concepts and formulas)</p>
-<p>Currently, <code>KPEX</code> is developed as a POC Python prototype. Eventually, critical parts will be re-implemented in C++.</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<p><a href="https://klayout.de">KLayout</a> is an open source VLSI layout viewer and editor.</p>
+<p>KLayout-PEX (short <code>KPEX</code>) is a parasitic extraction (PEX) tool, well integrated with KLayout by using its API.</p>
+<p>There are multiple PEX engines supported, currently:</p>
+<ul>
+<li><a href="https://www.fastfieldsolvers.com/fastercap.htm">FasterCap</a> integration (field solver engine)</li>
+<li><a href="https://opencircuitdesign.com/magic/">MAGIC</a> integration (wrapper calling <code>magic</code>)</li>
+<li>Analytical 2.5D engine (parasitic concepts and formulas of MAGIC, implemented using KLayout methods)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>KPEX <strong>tool</strong> source code itself is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex">follow this link</a>) and shared under the GPL-3.0 license.</p>
-<p>KPEX <strong>documentation</strong> source code is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex-website">follow this link</a>) and shared under the Apache-2.0 license.</p>
-<p>Please feel free to submit pull requests on GitHub to fix errors and omissions!</p>
+<p>KPEX <em>tool</em> source code itself is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex">follow this link</a>) and shared under the GPL-3.0 license.</p>
+<p>KPEX <em>documentation</em> source code is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex-website">follow this link</a>) and shared under the Apache-2.0 license.</p>
+<p>Please feel free to create issues and/or submit pull requests on GitHub to fix errors and omissions!</p>
 <p>The production of the tool and this document would be impossible without these (and many more) great open-source software products: <code>KLayout</code>, <code>FasterCap</code>, <code>MAGIC</code>, <code>protobuf</code>, <code>Quarto</code>, <code>Python</code>, <code>ngspice</code>, <code>Numpy</code>, <code>Scipy</code>, <code>Matplotlib</code>, <code>Git</code>, <code>Docker</code>, <code>Ubuntu</code>, <code>Linux</code>…</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Currently, <code>KPEX</code> is developed as a Python prototype, using the KLayout Python API. This allows for faster development iterations in the current prototyping phase. Eventually, critical parts will be re-implemented in C++, and parallelized, to improve performance. As we’re already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.</p>
 </div>
 </div>
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>Generally, <code>KPEX</code> is deployed using PyPi (Python Package Index), install via:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--version</span>   <span class="co"># check the installed version </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--help</span>      <span class="co"># this will help with command line arguments</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As for the dependencies, there are multiple options available.</p>
 <section id="option-1-using-iic-osic-tools-docker-image" class="level3">
 <h3 class="anchored" data-anchor-id="option-1-using-iic-osic-tools-docker-image">Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</h3>
-<p>We provide a comprehensive, low entry barrier Docker image that comes with most relevant Open Source ASIC tools, as well as the Open PDKs. This is a pre-compiled Docker image which allows to do circuit design on a virtual machine on virtually any type of computing equipment (personal PC, Raspberry Pi, cloud server) on various operating systems (Windows, macOS, Linux). For further information like installed tools, how to setup a VM, etc., please look at <a href="https://github.com/iic-jku/IIC-OSIC-TOOLS">IIC-OSIC-TOOLS GitHub page</a>. Find it on Docker Hub at https://hub.docker.com/r/hpretl/iic-osic-tools.</p>
+<p>We provide a comprehensive, low entry barrier Docker image that comes pre-installed with most relevant open source ASIC tools, as well as the open PDKs. This is a pre-compiled Docker image which allows to do circuit design on a virtual machine on virtually any type of computing equipment (personal PC, Raspberry Pi, cloud server) on various operating systems (Windows, macOS, Linux).</p>
+<p>For further information please look at the <a href="https://hub.docker.com/r/hpretl/iic-osic-tools">Docker Hub page</a> and for detailled instructions at the <a href="https://github.com/iic-jku/IIC-OSIC-TOOLS">IIC-OSIC-TOOLS GitHub page</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Linux">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -242,25 +267,46 @@ Linux
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In this document, we assume that students have a basic knowledge of Linux and how to operate it using the terminal (shell). If you are not yet familiar with Linux (which is basically a must when doing integrated circuit design as many tools are only available on Linux), then please check out a Linux introductory course or tutorial online, there are many resources available.</p>
-<p>A summary of important Linux shell commands is provided in <a href="https://iic-jku.github.io/analog-circuit-design/#sec-linux-cheatsheet">IIC Linux Cheatsheet</a>.</p>
+<p>In this document, we assume that users have a basic knowledge of Linux and how to operate it using the terminal (shell). If you are not yet familiar with Linux (which is basically a must when doing integrated circuit design as many tools are only available on Linux), then please check out a Linux introductory course or tutorial online, there are many resources available.</p>
+<p>A summary of important Linux shell commands is provided in <a href="https://iic-jku.github.io/analog-circuit-design/#sec-linux-cheatsheet">IIC-JKU Linux Cheatsheet</a>.</p>
 </div>
 </div>
-<p><code>KPEX</code> is deployed using PyPi (Python Package Index), install via:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--update</span> klayout-pex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="option-2-standalone-installation" class="level3">
 <h3 class="anchored" data-anchor-id="option-2-standalone-installation">Option 2: Standalone Installation</h3>
 <ul>
-<li><p><code>KLayout</code> is mandatory for all engines (besides the MAGIC-wrapper), <a href="https://www.klayout.de/build.html">get the latest package version</a> or <a href="https://www.klayout.de/build.html">follow the build instructions</a> at https://www.klayout.de/build.html.</p></li>
-<li><p><code>FasterCap</code> engine:</p>
+<li><a href="https://klayout.de">KLayout</a> layout tool:
 <ul>
-<li>either compile your own version from the <a href="https://github.com/ediloren/FasterCap/">GitHub repository</a>, or</li>
-<li>use precompiled versions available at https://github.com/martinjankoehler/FasterCap/releases</li>
+<li>is mandatory for all engines (besides the MAGIC-wrapper)</li>
+<li><a href="https://www.klayout.de/build.html">get the latest pre-built package version</a></li>
+<li>or <a href="https://www.klayout.de/build.html">follow the build instructions</a></li>
 </ul></li>
-<li><p><code>MAGIC</code>-wrapper engine:</p>
+<li><a href="https://www.fastfieldsolvers.com/fastercap.htm">FasterCap</a> engine:
 <ul>
-<li>Follow the <a href="build instructions">https://github.com/RTimothyEdwards/magic/blob/master/INSTALL</a> at https://github.com/RTimothyEdwards/magic/</li>
+<li>optional, required to run the FasterCap engine</li>
+<li>either compile your own version from the <a href="https://github.com/ediloren/FasterCap/">GitHub repository</a></li>
+<li>or use precompiled versions available at <a href="https://github.com/martinjankoehler/FasterCap/releases" class="uri">https://github.com/martinjankoehler/FasterCap/releases</a></li>
+</ul></li>
+<li><a href="https://opencircuitdesign.com/magic/">MAGIC</a>-wrapper engine:
+<ul>
+<li>optional, required to run the MAGIC-wrapper engine</li>
+<li>Follow the <a href="https://github.com/RTimothyEdwards/magic/blob/master/INSTALL">installation instructions</a> at the <a href="https://github.com/RTimothyEdwards/magic/">GitHub repository</a></li>
+</ul></li>
+<li><a href="https://skywater-pdk.readthedocs.io">Skywater sky130A PDK</a>:
+<ul>
+<li>optional, for now, KPEX technology specific files are deployed within the <code>klayout-pex</code> Python package</li>
+<li><code>pip3 install --upgrade volare</code> (install PDK package manager)</li>
+<li><code>volare ls-remote</code> (retrieve available PDK releases
+<ul>
+<li>for example <code>PRE-RELEASE 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32 (2024.12.11)</code>)</li>
+</ul></li>
+<li><code>volare enable 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32</code> (install a PDK version)</li>
+<li>PDK files now have been installed under <code>$HOME/.volare/sky130A</code></li>
+</ul></li>
+<li><a href="https://github.com/IHP-GmbH/IHP-Open-PDK">IHP SG13G2 PDK</a>:
+<ul>
+<li>optional, for now, KPEX technology specific files are deployed within the <code>klayout-pex</code> Python package</li>
+<li><code>git clone https://github.com/IHP-GmbH/IHP-Open-PDK</code> (install PDK package manager)</li>
 </ul></li>
 </ul>
 </section>
