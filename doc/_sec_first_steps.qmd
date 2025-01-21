@@ -55,11 +55,11 @@ kpex --pdk sky130A --blackbox n --gds testdata/designs/sky130A/cap_vpp_04p4x04p6
 ::: {.callout-note}
 This will report an error that we have not activated one or more engines, and list the available engines:
 
-| Argument       | Description                             |
-|:-------------- |:--------------------------------------- |
-| --fastercap y  | Run kpex/FasterCap engine               |
-| --2.5D y       | Run kpex/2.5D engine                    |
-| --magic y      | Run MAGIC engine                        |
+| Argument         | Description                             |
+|:---------------- |:--------------------------------------- |
+| `--fastercap y`  | Run kpex/FasterCap engine               |
+| `--2.5D y`       | Run kpex/2.5D engine                    |
+| `--magic y`      | Run MAGIC engine                        |
 :::
 
 Now, to run the FasterCap engine (might take a couple of minutes):
