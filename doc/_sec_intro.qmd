@@ -95,3 +95,9 @@ A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheats
   - optional, for now, KPEX technology specific files are deployed within the `klayout-pex` Python package
   - `git clone https://github.com/IHP-GmbH/IHP-Open-PDK`  (install PDK package manager)
 
+### Useful tools: `meshlab` {#sec-intro-meshlab}
+
+For previewing generated 3D geometries, representing the input to `FasterCap`,
+we recommend installing [MeshLab](https://www.meshlab.net).
+
+`MeshLab` can open the `STL`-files generated in the `output` directory under `output/<design>/Geometries/*.stl`.
