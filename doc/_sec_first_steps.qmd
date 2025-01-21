@@ -16,5 +16,92 @@ limitations under the License.
 
 # First Steps
 
-- The command line tool `kpex` is used to trigger parasitic extraction from the terminal.
+- The command line tool `kpex` is used to trigger the parasitic extraction flow from the terminal.
 - Get help calling `kpex --help`.
+
+## Examples
+
+Example layouts are included in the `testdata/designs` subdirectory of the KLayout-PEX source code:
+```bash
+git clone https://github.com/martinjankoehler/klayout-pex.git 
+
+# for sky130A
+find testdata/designs/sky130A -name "*.gds.gz"
+
+# for IHP SG13G2
+find testdata/designs/ihp_sg13g2 -name "*.gds.gz"
+```
+
+### Running FasterCap
+
+Preconditions:
+
+- `klayout-pex` was installed, see @sec-intro-installation
+- `FasterCap` was installed, see @sec-intro-installation
+
+::: {.callout-note}
+Normally, devices with SPICE simulation models (e.g. like MOM-capacitors[^1] in the sky130A PDK) are ignored ("blackboxed") during parasitic extraction.
+
+`kpex` has an option `--blacklist n` to allow extraction of those devices (whiteboxing), which can be useful during development (during the prototype phase, whiteboxing is actually the default setting, so please use `--blacklist y` to explicitly configure blackboxing).
+:::
+
+[^1]: Metal-On-Metal capacitors
+
+Let's try the following:
+```bash
+kpex --pdk sky130A --blackbox n --gds testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
+```
+
+::: {.callout-note}
+This will report an error that we have not activated one or more engines, and list the available engines:
+
+| Argument       | Description                             |
+|:-------------- |:--------------------------------------- |
+| --fastercap y  | Run kpex/FasterCap engine               |
+| --2.5D y       | Run kpex/2.5D engine                    |
+| --magic y      | Run MAGIC engine                        |
+:::
+
+Now, to run the FasterCap engine (might take a couple of minutes):
+```bash
+kpex --pdk sky130A --blackbox n --fastercap y --gds testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
+```
+
+The default output directory is `output`, in there we see a directory `Geometries`, containing STL-files.
+Those STL files provide a preview of the FasterCap input files. 
+Use MeshLab (see @sec-intro-meshlab) to open and preview those files:
+```
+ls -d output/cap_vpp_04p4x04p6_l1m1m2_noshield__cap_vpp_04p4x04p6_l1m1m2_noshield/Geometries/*.stl
+```
+
+::: {.callout-tip}
+- Open the STL files in MeshLab
+- Use the eye buttons to hide and show each file/mesh
+- Use the align tool ("A" in the toolbar) to assign different colors 
+- Start by showing only on the conductors (files named `cond_*.stl`)
+- Then try showing different dielectrics (files named `diel_*.stl`), to see how they surround the conductors.
+
+![](figures/meshlab-3D-mom-capacitor.jpg){fig-alt="MOM Capacitor 3D Model"}
+:::
+
+In the log file, we see the output of FasterCap including the Maxwell capacitance matrix:
+
+```
+Capacitance matrix is:
+Dimension 3 x 3
+g1_VSUBS  5.2959e-09 -4.46971e-10 -1.67304e-09
+g2_C1  -5.56106e-10 1.5383e-08 -1.47213e-08
+g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08
+```
+
+`KPEX` interprets this matrix and logs a CSV netlist, which can be pasted into a spreadsheet application:
+
+```csv
+Device;Net1;Net2;Capacitance [fF]
+Cext_0_1;VSUBS;C1;0.5
+Cext_0_2;VSUBS;C0;1.69
+Cext_1_2;C1;C0;14.8
+Cext_1_1;C1;VSUBS;0.08
+```
+
+In addition, a SPICE netlist is generated.
