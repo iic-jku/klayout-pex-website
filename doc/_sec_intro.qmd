@@ -19,9 +19,9 @@ limitations under the License.
 KLayout-PEX (short `KPEX`) is a parasitic extraction tool, well integrated with KLayout.
 
 Multiple PEX engines are supported, currently
-- ```FasterCap``` integration (field solver engine)
-- MAGIC integration (wrapper calling magic)
-- Analytical 2.5D engine (MAGIC parasitic concepts and formulas)
+  - `FasterCap` integration (field solver engine)
+  - `MAGIC` integration (wrapper calling magic)
+  - Analytical 2.5D engine (MAGIC parasitic concepts and formulas)
 
 Currently, `KPEX` is developed as a POC Python prototype. Eventually, critical parts will be re-implemented in C++.
 
@@ -32,7 +32,7 @@ KPEX **documentation** source code is made publicly available on GitHub ([follow
 
 Please feel free to submit pull requests on GitHub to fix errors and omissions!
 
-The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `MAGIC`, `protobuf`, `Quarto`, `Python`, `ngspice`, Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`...
+The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `MAGIC`, `protobuf`, `Quarto`, `Python`, `ngspice`, `Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`...
 :::
 
 ## Installation
