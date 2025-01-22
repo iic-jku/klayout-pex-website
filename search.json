@@ -16,9 +16,9 @@
   {
     "objectID": "index.html#install",
     "href": "index.html#install",
-    "title": "1 KLayout-PEX",
-    "section": "1.1 Install",
-    "text": "1.1 Install\npip install klayout-pex\nAfter that, you should be able to run kpex --help."
+    "title": "KLayout-PEX",
+    "section": "Install",
+    "text": "Install\npip install klayout-pex\nAfter that, you should be able to run kpex --help."
   },
   {
     "objectID": "doc/doc.html",
