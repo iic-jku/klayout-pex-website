@@ -75,8 +75,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-957390e16f8056bf57452af51c800dd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-0e737baddcd55aaef238ba6a7f21118c.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-120d9ffdb366f80f4be3d8d4b9ab4133.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-433c775cf9d4f89e97061b8f24aee672.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -179,7 +179,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">2.1</span> Examples</a>
   <ul class="collapse">
-  <li><a href="#running-fastercap" id="toc-running-fastercap" class="nav-link" data-scroll-target="#running-fastercap"><span class="header-section-number">2.1.1</span> Running FasterCap</a></li>
+  <li><a href="#running-the-fastercap-engine" id="toc-running-the-fastercap-engine" class="nav-link" data-scroll-target="#running-the-fastercap-engine"><span class="header-section-number">2.1.1</span> Running the FasterCap engine</a></li>
+  <li><a href="#running-the-magic-wrapper-engine" id="toc-running-the-magic-wrapper-engine" class="nav-link" data-scroll-target="#running-the-magic-wrapper-engine"><span class="header-section-number">2.1.2</span> Running the MAGIC-wrapper engine</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#supporting-new-pdks" id="toc-supporting-new-pdks" class="nav-link" data-scroll-target="#supporting-new-pdks"><span class="header-section-number">3</span> Supporting new PDKs</a>
@@ -360,8 +361,8 @@ Linux
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># for IHP SG13G2</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> testdata/designs/ihp_sg13g2 <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="running-fastercap" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="running-fastercap"><span class="header-section-number">2.1.1</span> Running FasterCap</h3>
+<section id="running-the-fastercap-engine" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="running-the-fastercap-engine"><span class="header-section-number">2.1.1</span> Running the FasterCap engine</h3>
 <p>Preconditions:</p>
 <ul>
 <li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.1</a></li>
@@ -455,6 +456,21 @@ Cext_0_2;VSUBS;C0;1.69
 Cext_1_2;C1;C0;14.8
 Cext_1_1;C1;VSUBS;0.08</code></pre>
 <p>In addition, a SPICE netlist is generated.</p>
+</section>
+<section id="running-the-magic-wrapper-engine" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="running-the-magic-wrapper-engine"><span class="header-section-number">2.1.2</span> Running the MAGIC-wrapper engine</h3>
+<p>Preconditions:</p>
+<ul>
+<li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.1</a></li>
+<li><code>magic</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.1</a></li>
+</ul>
+<p>The magic section of <code>kpex --help</code> describes the arguments and their defaults. Important arguments:</p>
+<ul>
+<li><code>--magicrc</code>: specify location of the <code>magicrc</code> file</li>
+<li><code>--gds</code>: path to the GDS input layout</li>
+<li><code>--magic y</code>: enable magic engine</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--magic</span> y <span class="at">--gds</span> testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 </section>
