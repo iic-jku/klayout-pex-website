@@ -39,4 +39,5 @@ format:
 
 
 
+{{< include _footnotes.qmd >}}
 
