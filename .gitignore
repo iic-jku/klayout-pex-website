@@ -15,3 +15,5 @@ output_*
 _site
 doc/_sec*.html
 doc/_sec*_files
+doc/*.html
+doc/*.tex
