@@ -1,0 +1,55 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+# Supporting new PDKs
+
+For every supported PDK, a `KPEX` technology definition is required, as well as customized PEX-"LVS" scripts.
+
+## Technology Definition Files
+
+The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
+
+- formal schema files, defining the structure and data types involved
+   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/tech.proto): main schema / entry point, includes the others
+   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
+   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
+- multiple concrete instantiations, that adhere to this schema (called *messages* in the `protobuf` lingo)
+   - in the form of JSON files
+   - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
+   - IHP SG13G2: `klayout_pex_protobuf/ihp_sg13g2_tech.pb.json`
+
+::: {.callout-note}
+The built-in JSON tech files are programmatically generated during the build process[^tech-gen-script].
+Therefore they not part of the repository source code, but of course part of the deployed Python wheels.
+To review those, look into your Python `site-packages`[^kpex-site-packages]/`klayout_pex_protobuf`.
+:::
+
+## Customized PEX-"LVS" scripts
+
+`KLayout` has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API.
+Customized "LVS" scripts are ("ab")used in `KPEX`, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers.
+
+These customized "LVS" scripts are stored in:
+
+- Skywater sky130A: [`pdk/sky130A/libs.tech/kpex/sky130.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs)
+- IHP SG13G2: [`pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs)
+
+What's specific about this customization:
+
+- Layers names must be assigned, using [KLayout's `(name(layer, name))` function](https://www.klayout.de/doc-qt5/about/drc_ref_netter.html#name)
+- MOM[^abbrev-mom] capacitors, MIM[^abbrev-mim] capacitors and resistors should be extracted to separate layers, to enable blackboxing / whiteboxing.
+
+The layer names in the script must correspond with the names configured in the tech JSON file.
