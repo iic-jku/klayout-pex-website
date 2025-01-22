@@ -10,10 +10,10 @@ output_*
 *.bak
 
 
-
 /.quarto/
 _site
-doc/_sec*.html
-doc/_sec*_files
+
+# Quarto Preview Artifacts
 doc/*.html
 doc/*.tex
+doc/_*_files
