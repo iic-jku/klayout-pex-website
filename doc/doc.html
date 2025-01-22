@@ -182,6 +182,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#running-fastercap" id="toc-running-fastercap" class="nav-link" data-scroll-target="#running-fastercap"><span class="header-section-number">2.1.1</span> Running FasterCap</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#supporting-new-pdks" id="toc-supporting-new-pdks" class="nav-link" data-scroll-target="#supporting-new-pdks"><span class="header-section-number">3</span> Supporting new PDKs</a>
+  <ul class="collapse">
+  <li><a href="#technology-definition-files" id="toc-technology-definition-files" class="nav-link" data-scroll-target="#technology-definition-files"><span class="header-section-number">3.1</span> Technology Definition Files</a></li>
+  <li><a href="#customized-pex-lvs-scripts" id="toc-customized-pex-lvs-scripts" class="nav-link" data-scroll-target="#customized-pex-lvs-scripts"><span class="header-section-number">3.2</span> Customized PEX-“LVS” scripts</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="doc.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -450,9 +455,59 @@ Cext_0_2;VSUBS;C0;1.69
 Cext_1_2;C1;C0;14.8
 Cext_1_1;C1;VSUBS;0.08</code></pre>
 <p>In addition, a SPICE netlist is generated.</p>
-
-
 </section>
+</section>
+</section>
+<section id="supporting-new-pdks" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Supporting new PDKs</h1>
+<p>For every supported PDK, a <code>KPEX</code> technology definition is required, as well as customized PEX-“LVS” scripts.</p>
+<section id="technology-definition-files" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="technology-definition-files"><span class="header-section-number">3.1</span> Technology Definition Files</h2>
+<p>The <code>KPEX</code> technology definition format uses <a href="https://protobuf.net">Google Protocol Buffers</a>, so there is:</p>
+<ul>
+<li>formal schema files, defining the structure and data types involved
+<ul>
+<li><a href="https://github.com/martinjankoehler/klayout-pex/blob/main/protos/tech.proto"><code>protos/tech.proto</code></a>: main schema / entry point, includes the others</li>
+<li><a href="https://github.com/martinjankoehler/klayout-pex/blob/main/protos/process_stack.proto"><code>protos/process_stack.proto</code></a>: describes details of the process stack, such as dielectrics and heights of layers</li>
+<li><a href="https://github.com/martinjankoehler/klayout-pex/blob/main/protos/process_parasitics.proto"><code>protos/process_parasitics.proto</code></a>: parasitic tables, used to parametrize the 2.5D engine</li>
+</ul></li>
+<li>multiple concrete instantiations, that adhere to this schema (called <em>messages</em> in the <code>protobuf</code> lingo)
+<ul>
+<li>in the form of JSON files</li>
+<li>Skywater 130A: <code>klayout_pex_protobuf/sky130A_tech.pb.json</code></li>
+<li>IHP SG13G2: <code>klayout_pex_protobuf/ihp_sg13g2_tech.pb.json</code></li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The built-in JSON tech files are programmatically generated during the build process<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Therefore they not part of the repository source code, but of course part of the deployed Python wheels. To review those, look into your Python <code>site-packages</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>/<code>klayout_pex_protobuf</code>.</p>
+</div>
+</div>
+</section>
+<section id="customized-pex-lvs-scripts" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="customized-pex-lvs-scripts"><span class="header-section-number">3.2</span> Customized PEX-“LVS” scripts</h2>
+<p><code>KLayout</code> has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API. Customized “LVS” scripts are (“ab”)used in <code>KPEX</code>, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers.</p>
+<p>These customized “LVS” scripts are stored in:</p>
+<ul>
+<li>Skywater sky130A: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs"><code>pdk/sky130A/libs.tech/kpex/sky130.lvs</code></a></li>
+<li>IHP SG13G2: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs"><code>pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs</code></a></li>
+</ul>
+<p>What’s specific about this customization:</p>
+<ul>
+<li>Layers names must be assigned, using <a href="https://www.klayout.de/doc-qt5/about/drc_ref_netter.html#name">KLayout’s <code>(name(layer, name))</code> function</a></li>
+<li>MOM<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> capacitors, MIM<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> capacitors and resistors should be extracted to separate layers, to enable blackboxing / whiteboxing.</li>
+</ul>
+<p>The layer names in the script must correspond with the names configured in the tech JSON file.</p>
+
+
 </section>
 </section>
 
@@ -460,7 +515,11 @@ Cext_1_1;C1;VSUBS;0.08</code></pre>
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Metal-On-Metal capacitors<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Metal-Oxide-Metal capacitors<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>C++ generator scripts the built-in tech files are located in <code>cxx/gen_tech_pb/pdk/*.cpp</code>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>To find the <code>site-packages</code> directory for the <code>klayout-pex</code> package, call <code>pip3 show klayout-pex</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Metal-Oxide-Metal capacitors<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Metal-Insulator-Metal capacitors<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
