@@ -62,13 +62,5 @@ format:
     # css: styles.css
     lang: en-US
     fig-align: center
-  
-#  pdf:
-#    toc: true
-#    fig-align: center
-#    lang: en-US
-#    number-sections: true
-#    papersize: A4
-#    pdf-engine: xelatex
 
 
