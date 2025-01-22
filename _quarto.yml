@@ -59,12 +59,9 @@ format:
     theme: 
       light: cosmo
       dark: solar
-    css: styles.css
+    # css: styles.css
     lang: en-US
-    toc: true
     fig-align: center
-    number-sections: true
-    toc-expand: 2
   
 #  pdf:
 #    toc: true
