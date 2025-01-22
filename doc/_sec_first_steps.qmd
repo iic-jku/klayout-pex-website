@@ -32,7 +32,7 @@ find testdata/designs/sky130A -name "*.gds.gz"
 find testdata/designs/ihp_sg13g2 -name "*.gds.gz"
 ```
 
-### Running FasterCap
+### Running the FasterCap engine
 
 Preconditions:
 
@@ -103,3 +103,20 @@ Cext_1_1;C1;VSUBS;0.08
 ```
 
 In addition, a SPICE netlist is generated.
+
+### Running the MAGIC-wrapper engine
+
+Preconditions:
+
+- `klayout-pex` was installed, see @sec-intro-installation
+- `magic` was installed, see @sec-intro-installation
+
+The magic section of `kpex --help` describes the arguments and their defaults. Important arguments:
+
+- `--magicrc`: specify location of the `magicrc` file
+- `--gds`: path to the GDS input layout
+- `--magic y`: enable magic engine
+
+```bash
+kpex --pdk sky130A --magic y --gds testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
+```
