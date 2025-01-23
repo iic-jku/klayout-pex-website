@@ -594,7 +594,20 @@ Note
 <figcaption><code>FasterCap</code> 3D Input: File System Overview</figcaption>
 </figure>
 </div>
-<p><code>KPEX</code> generates 3D input geometries: - <code>*.lst</code> file: Main input file - defines dielectric instances - defines conductor instances - each instance refers to a <code>*.geo</code> file - <code>*.geo</code> files: Defines single geometry - defines shapes (e.g.&nbsp;triangles) - Each shape has a reference point to define inside/outsides</p>
+<p><code>KPEX</code> generates 3D input geometries:</p>
+<ul>
+<li><code>*.lst</code> file: Main input file
+<ul>
+<li>defines dielectric instances</li>
+<li>defines conductor instances</li>
+<li>each instance refers to a <code>*.geo</code> file</li>
+</ul></li>
+<li><code>*.geo</code> files: Defines single geometry
+<ul>
+<li>defines shapes (e.g.&nbsp;triangles)</li>
+<li>Each shape has a reference point to define inside/outsides</li>
+</ul></li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/fastercap-input-geometry-3D-part2.svg" class="img-fluid figure-img"></p>
@@ -604,8 +617,8 @@ Note
 </section>
 <section id="output-maxwell-capacitance-matrix" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="output-maxwell-capacitance-matrix"><span class="header-section-number">4.1.2</span> Output Maxwell Capacitance Matrix</h3>
+<p><code>FasterCap</code> log output prints the Maxwell capacitance matrix (one for each iteration/refinement).</p>
 <ul>
-<li><code>FasterCap</code> log output prints the Maxwell Capacitance Matrix (one for each iteration/refinement)</li>
 <li>Matrix Properties:
 <ul>
 <li>Scaling: units have to be divided by <span class="math inline">\(10^{-6}\)</span></li>
