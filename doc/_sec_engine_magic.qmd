@@ -31,7 +31,7 @@ MAGIC models multiple types of capacitances:
 
 ## Substrate Capacitance
 
-![](figures/magic_cap_type_-_substrate.svg)
+![](figures/magic_cap_type_-_substrate.svg){width=50%}
 
 - Overlapping area:
 $$
@@ -46,7 +46,7 @@ $$
 
 ## Sidewall Capacitance
 
-![](figures/magic_cap_type_-_sidewall.svg)
+![](figures/magic_cap_type_-_sidewall.svg){width=65%}
 
 $$
 C_{sidewall} = \frac{\epsilon_{si} * K}{s} * \text{sidewall area}  \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m^2\right]
@@ -67,17 +67,22 @@ $$
 
 ## Overlap Capacitance
 
-![](figures/magic_cap_type_-_overlap.svg)
+- Overlapping area:
+$$
+C_{area} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m^2\right]
+$$
 
+![Overlap Capacitance](figures/magic_cap_type_-_overlap.svg){width=30%}
 
-![](figures/magic_cap_type_-_fringe_3D.svg)
 ## Fringe Capacitance
+
+![Fringe Capacitance: Overlapping (1)](figures/magic_cap_type_-_fringe_3D.svg){width=50%}
 
 - Causing sidewall (its bottom edge depicted red)
 - Assume: Field is bounded by fringe halo (e.g. $8\, \mu m$ away from edge)
 - Fractions of fringe goes to metal1 or substrate
 
-![](figures/magic_cap_type_-_fringe_mom.svg)
+![Fringe Capacitance: Overlapping (2)](figures/magic_cap_type_-_fringe_mom.svg){width=70%}
 
 - Multiplier $\alpha$ (comes from tech files: overlap table)
   - determines how quickly fringe capacitance drops with increasing distance
@@ -104,20 +109,20 @@ $$
   - $\text{effective length} = \text{edge length} * \text{frac}_{sub}$
   - $C_{fringe_{metal2 \rightarrow sub}} = \text{effective length} * C_{sideoverlap_{metal2 \rightarrow sub}}$
 
-![](figures/magic_cap_type_-_fringe_3D_-_non_overlapping.svg)
+![Fringe Capacitance: Non Overlapping (1)](figures/magic_cap_type_-_fringe_3D_-_non_overlapping.svg){width=50%}
 
 - Partial side overlap
   - In case there is only a partial side overlap, the non-existing near fraction is subtracted from the far fraction
   - $metal1$ wire is offset, starts at $x_{near}$
   - $metal1$ ends at $x_{far}$
 
-![](figures/magic_cap_type_-_fringe_mom_-_non_overlapping.svg)
+![Fringe Capacitance: Non Overlapping (2)](figures/magic_cap_type_-_fringe_mom_-_non_overlapping.svg){width=70%}
 
 - $\text{frac}_{near} = \tfrac{2}{\pi} * \text{atan}(\alpha*x_{near})$
 - $\text{frac}_{far} = \tfrac{2}{\pi} * \text{atan}(\alpha*x_{far})$
 - $\text{frac} = \text{frac}_{far}-\text{frac}_{near}$
 
-### Shielding Effects
+## Shielding Effects
 
 +----------------------------+------------------+--------------------+-------------------+
 | **Type**                   | **Shielding**                                             |
@@ -134,8 +139,14 @@ $$
 +----------------------------+------------------+--------------------+-------------------+
 : Shielding effects {#tbl-magic-cap-shielding-effects}
 
+::: {#fig-magic-cap-shielding layout-nrow=2}
+![Overlap shielding](figures/magic_cap_type_-_overlap_shielding.svg){width=60%}
 
-![Overlap shielding](figures/magic_cap_type_-_overlap_shielding.svg)
 ![Sidewall shielding](figures/magic_cap_type_-_sidewall_shielding.svg)
+
 ![Lateral fringe shielding](figures/magic_cap_type_-_lateral_fringe_shielding.svg)
+
 ![Vertical fringe shielding](figures/magic_cap_type_-_vertical_fringe_shielding.svg)
+
+Shielding Effects
+:::
