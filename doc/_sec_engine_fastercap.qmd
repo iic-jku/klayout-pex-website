@@ -45,6 +45,8 @@ After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpre
 
 ### Output Maxwell Capacitance Matrix
 
+A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between voltages on a set of conductors and the charges on these conductors.
+
 `FasterCap` log output prints the Maxwell capacitance matrix (one for each iteration/refinement).
 
 - Matrix Properties:
@@ -57,5 +59,6 @@ After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpre
     - in theory (ideal world), the matrix would be symmetric
     - in practice it's not  
     - therefore `FastCap2` did average the off-diagonals
+    - `FasterCap` does not average, so it's done as part of `KPEX`
 
 ![`FasterCap` Maxwell Capacitance Matrix](figures/fastercap-maxwell-capacitance-matrix.svg)

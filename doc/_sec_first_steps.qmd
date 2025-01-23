@@ -40,7 +40,7 @@ Preconditions:
 - `FasterCap` was installed, see @sec-intro-installation
 
 ::: {.callout-note}
-Normally, devices with SPICE simulation models (e.g. like MOM-capacitors[^abbrev-mom] in the sky130A PDK) are ignored ("blackboxed") during parasitic extraction.
+Normally, devices with SPICE [@Nagel_1975] simulation models (e.g. like MOM-capacitors[^abbrev-mom] in the sky130A PDK) are ignored ("blackboxed") during parasitic extraction.
 
 `kpex` has an option `--blacklist n` to allow extraction of those devices (whiteboxing), which can be useful during development (during the prototype phase, whiteboxing is actually the default setting, so please use `--blacklist y` to explicitly configure blackboxing).
 :::
