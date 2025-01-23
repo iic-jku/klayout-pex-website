@@ -31,6 +31,13 @@ format:
     number-sections: true
     papersize: A4
     pdf-engine: xelatex
+    keep-tex: true
+    include-in-header:
+      text: |
+        \usepackage{pifont}
+        \usepackage{newunicodechar}
+        \newunicodechar{✔}{\ding{51}}
+        \newunicodechar{✘}{\ding{55}}
 bibliography: ../references.bib
 ---
 
