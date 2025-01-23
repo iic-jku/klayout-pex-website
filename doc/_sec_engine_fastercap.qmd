@@ -32,6 +32,7 @@ After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpre
 ![`FasterCap` 3D Input: File System Overview](figures/fastercap-input-geometry-3D-part1.svg)
 
 `KPEX` generates 3D input geometries:
+
 - `*.lst` file: Main input file
   - defines dielectric instances
   - defines conductor instances
@@ -44,7 +45,8 @@ After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpre
 
 ### Output Maxwell Capacitance Matrix
 
-- `FasterCap` log output prints the Maxwell Capacitance Matrix (one for each iteration/refinement)
+`FasterCap` log output prints the Maxwell capacitance matrix (one for each iteration/refinement).
+
 - Matrix Properties:
   - Scaling: units have to be divided by $10^{-6}$
   - rows and columns are the same (list of net names)
