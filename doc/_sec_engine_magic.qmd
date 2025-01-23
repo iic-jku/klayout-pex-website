@@ -1,0 +1,138 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## MAGIC-wrapper Engine
+
+### Types of Parasitic Capacitances {#sec-magic-cap-types}
+
+MAGIC models multiple types of capacitances:
+
+- *Substrate Overlap*: Overlap area of a metal with the substrate
+- *Substrate Fringing*: Sidewall of a metal fringes out to substrate
+- *Sidewall Capacitance*: Coupling between adjacent sidewalls on the same layer
+- *Overlap Capacitance*: Overlap on different metal layers
+- *Fringe Capacitance* ("Side Overlap"): Sidewall of a metal fringes out other metal layers
+
+#### Substrate Capacitance
+
+![](figures/magic_cap_type_-_substrate.svg)
+
+- Overlapping area:
+$$
+C_{area} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m^2\right]
+$$
+- Fringe ("Perimeter"):
+$$
+C_{fringe\,to\,substrate} = \text{perimeter} * C_{perim} = (2l + 2w)*C_{perim}
+$$
+
+::: {{.callout-note}}
+Coefficients like $C_{perim}$ are part of the tech files (Parasitic Tables)
+:::
+
+#### Sidewall Capacitance
+
+![](figures/magic_cap_type_-_sidewall.svg)
+
+$$
+C_{sidewall} = \frac{\epsilon_{si} * K}{s} * \text{sidewall area}  \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m^2\right]
+$$
+$$
+\,\,\,\,\,\,\,\,\,\,= \frac{\epsilon_{si} * K}{s} * t * l  \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m * \mu m\right]
+$$
+$$
+C_{sidewall} = \frac{C_{sidewall\,coeff}}{s} * l \,\,\,\,\,\,\, \left[ \frac{F}{\mu m} * \mu m\right]
+$$
+
+::: {{.callout-note}}
+- Coefficients are part of the tech files (Parasitic Tables)
+- Layer thickness $t$ is normally multiplied into the coefficient
+- Foundry tables give constant coefficient referenced to $s = 1$
+:::
+
+
+#### Overlap Capacitance
+
+![](figures/magic_cap_type_-_overlap.svg)
+
+#### Fringe Capacitance
+
+![](figures/magic_cap_type_-_fringe_3D.svg)
+
+- Causing sidewall (its bottom edge depicted red)
+- Assume: Field is bounded by fringe halo (e.g. $8\, \mu m$ away from edge)
+- Fractions of fringe goes to metal1 or substrate
+
+![](figures/magic_cap_type_-_fringe_mom.svg)
+
+- Multiplier $\alpha$ (comes from tech files: overlap table)
+  - determines how quickly fringe capacitance drops with increasing distance
+  - $\alpha$ is related to distance $d$￼ between layers
+  - $\alpha$ is proportional to $C_{overlap_{metal1 \leftrightarrow metal2}}= \frac{\epsilon_{si} * K}{d} * \text{area}$  
+    (for fixed value of area $1\, \mu m^2$)
+<!-- Markdown NOTE: to force the last list item two separate lines, I've added 2 blanks at the end of the first line  -->
+
+- Fringe Fractions:
+  - $\text{frac}_{metal1} = \tfrac{2}{\pi} * \text{atan}(\alpha_{metal2 \rightarrow metal1}*x)$
+  - $\text{frac}_{sub} = \tfrac{2}{\pi} * \text{atan}(\alpha_{metal2 \rightarrow sub}*(\text{halo}-x))$
+  - $\tfrac{2}{\pi}$ is multiplied because of scaling to interval $[0.0,\,1.0]$, as￼$\text{atan}(\infty)=\tfrac{\pi}{2}$
+
+- Overlap capacitance:
+  - $C_{overlap} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\,\,(\text{with area}=1 \mu m^2)$
+- Coupling capacitance $metal1 \leftrightarrow metal2$:
+  - $\alpha_{metal1 \leftrightarrow metal2} = \alpha_{scalefac} * C_{overlap_{metal1 \leftrightarrow metal2}}$
+  - $\text{frac}_{metal1} = \tfrac{2}{\pi} * \text{atan}(\alpha_{metal1 \leftrightarrow metal2}*x)$
+  - $\text{effective length} = \text{edge length} * \text{frac}_{metal1}$
+  - $C_{fringe_{metal2 \rightarrow metal1}} = \text{effective length} * C_{sideoverlap_{metal2 \rightarrow metal1}}$
+- Coupling capacitance $metal1 \leftrightarrow sub$:
+  - $\alpha_{metal1 \leftrightarrow sub} = \alpha_{scalefac} * C_{overlap_{metal1 \leftrightarrow sub}}$
+  - $\text{frac}_{sub} = \tfrac{2}{\pi} * \text{atan}(\alpha_{metal1 \leftrightarrow sub}*(\text{halo}-x))$
+  - $\text{effective length} = \text{edge length} * \text{frac}_{sub}$
+  - $C_{fringe_{metal2 \rightarrow sub}} = \text{effective length} * C_{sideoverlap_{metal2 \rightarrow sub}}$
+
+![](figures/magic_cap_type_-_fringe_3D_-_non_overlapping.svg)
+
+- Partial side overlap
+  - In case there is only a partial side overlap, the non-existing near fraction is subtracted from the far fraction
+  - $metal1$ wire is offset, starts at $x_{near}$
+  - $metal1$ ends at $x_{far}$
+
+![](figures/magic_cap_type_-_fringe_mom_-_non_overlapping.svg)
+
+- $\text{frac}_{near} = \tfrac{2}{\pi} * \text{atan}(\alpha*x_{near})$
+- $\text{frac}_{far} = \tfrac{2}{\pi} * \text{atan}(\alpha*x_{far})$
+- $\text{frac} = \text{frac}_{far}-\text{frac}_{near}$
+
+#### Shielding Effects
+
++----------------------------+------------------+--------------------+-------------------+
+| **Type**                   | **Shielding**                                             |
++----------------------------+------------------+--------------------+-------------------+
+|                            | **To Substrate** | **Between layers** | **On same layer** |
++----------------------------+------------------+--------------------+-------------------+
+| Overlap shielding          | ✔                | ✔                  | ✘                 |
++----------------------------+------------------+--------------------+-------------------+
+| Sidewall shielding         | ✘                | ✘                  | ✔                 |
++----------------------------+------------------+--------------------+-------------------+
+| Lateral fringe shielding   | ✘                | ✔                  | ✔                 |
++----------------------------+------------------+--------------------+-------------------+
+| Vertical fringe shielding  | ✔                | ✔                  | ✘                 |
++----------------------------+------------------+--------------------+-------------------+
+
+![Overlap shielding](figures/magic_cap_type_-_overlap_shielding.svg)
+![Sidewall shielding](figures/magic_cap_type_-_sidewall_shielding.svg)
+![Lateral fringe shielding](figures/magic_cap_type_-_lateral_fringe_shielding.svg)
+![Vertical fringe shielding](figures/magic_cap_type_-_vertical_fringe_shielding.svg)
