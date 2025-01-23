@@ -67,15 +67,14 @@ kpex --pdk sky130A --blackbox n --fastercap y --gds \
   testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
 ```
 
-The default output directory is `output`, in there we see a directory `Geometries`, containing STL-files.
-Those STL files provide a preview of the FasterCap input files. 
-Use MeshLab (see @sec-intro-meshlab) to open and preview those files:
+Within the output directory (defaults to `output`), `KPEX` creates a subdirectory `Geometries`, containing STL-files that provide a preview of the `FasterCap` input geometries.
+Use `MeshLab` (see @sec-intro-meshlab) to open and preview those files:
 ```bash
 ls -d output/cap_vpp_04*/Geometries/*.stl
 ```
 
 ::: {.callout-tip}
-- Open the STL files in MeshLab
+- Open the `*.stl` files in `MeshLab`
 - Use the eye buttons to hide and show each file/mesh
 - Use the align tool ("A" in the toolbar) to assign different colors 
 - Start by showing only on the conductors (files named `cond_*.stl`)
@@ -94,7 +93,7 @@ g2_C1  -5.56106e-10 1.5383e-08 -1.47213e-08
 g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08
 ```
 
-`KPEX` interprets this matrix and logs a CSV netlist, which can be pasted into a spreadsheet application:
+`KPEX` interprets this matrix and prints a CSV netlist, which can be pasted into a spreadsheet application:
 
 ```csv
 Device;Net1;Net2;Capacitance [fF]

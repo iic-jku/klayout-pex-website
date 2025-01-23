@@ -18,7 +18,11 @@ limitations under the License.
 
 ## Motivation
 
-In Electronic Design and Automation (EDA) for Integrated Circuits (ICs), a schematic presents an abstraction in comparison to the layout that will eventually be taped-out and fabricated by the semiconductor foundry. While in the schematic, a connection between device terminals is seen as an equipotential, the stacked geometries in a specific layout introduce parasitic effects, which can be thought of additional resistors, capacitors (and inductors), not modeled by and missing in the original schematic. To be able to simulate these effects, a parasitic extraction tool (PEX) is used, to extract a netlist from the layout, which represents the original schematic (created from the layout active and passive elements) augmented with the additional parasitic devices.
+In Electronic Design and Automation (EDA) for Integrated Circuits (ICs), a schematic presents an abstraction in comparison to the layout that will eventually be taped-out and fabricated by the semiconductor foundry. 
+
+While in the schematic, a connection between device terminals is seen as an equipotential, the stacked geometries in a specific layout introduce parasitic effects, which can be thought of additional resistors, capacitors (and inductors), not modeled by and missing in the original schematic. 
+
+To be able to simulate these effects, a parasitic extraction tool (PEX) is used, to extract a netlist from the layout, which represents the original schematic (created from the layout active and passive elements) augmented with the additional parasitic devices.
 
 ## About KLayout-PEX
 
@@ -45,6 +49,7 @@ The production of the tool and this document would be impossible without these (
 ::: {.callout-caution}
 Currently, `KPEX` is developed as a Python prototype, using the [KLayout Python API](https://www.klayout.de/doc-qt5/code/).
 This allows for a faster development cycle during the current prototyping phase.
+
 Eventually, critical parts will be re-implemented (in C++, and parallelized), to improve performance.
 As we're already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.
 :::

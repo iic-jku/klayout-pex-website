@@ -42,9 +42,7 @@ $$
 C_{fringe\,to\,substrate} = \text{perimeter} * C_{perim} = (2l + 2w)*C_{perim}
 $$
 
-::: {{.callout-note}}
-Coefficients like $C_{perim}$ are part of the tech files (Parasitic Tables)
-:::
+- Coefficients like $C_{perim}$ are part of the tech files (Parasitic Tables)
 
 ## Sidewall Capacitance
 
