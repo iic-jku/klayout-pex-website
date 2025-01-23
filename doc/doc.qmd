@@ -85,3 +85,4 @@ bibliography: ../references.bib
 {{< include _footnotes.qmd >}}
 
 ## References
+
