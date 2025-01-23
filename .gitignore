@@ -17,3 +17,4 @@ _site
 doc/*.html
 doc/*.tex
 doc/_*_files
+doc/*_files
