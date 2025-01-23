@@ -24,7 +24,7 @@ In Electronic Design and Automation (EDA) for Integrated Circuits (ICs), a schem
 
 [KLayout](https://klayout.de) is an open source VLSI layout viewer and editor.
 
-KLayout-PEX (short `KPEX`) is a parasitic extraction (PEX) tool, well integrated with KLayout by using its API.
+[KLayout-PEX]({{< var urls.pypi.kpex >}}) (short `KPEX`) is a PEX tool, well integrated with `KLayout` by using its API.
 
 There are multiple PEX engines supported, currently:
 

@@ -2,3 +2,5 @@ urls:
   repo:
     kpex: https://github.com/martinjankoehler/klayout-pex
     kpex-website: https://github.com/martinjankoehler/klayout-pex-website
+  pypi:
+    kpex: https://pypi.org/project/klayout-pex/
