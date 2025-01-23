@@ -51,6 +51,8 @@ A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between volta
 
 `FasterCap` log output prints the Maxwell capacitance matrix (one for each iteration/refinement).
 
+![`FasterCap` Log Output: Maxwell Capacitance Matrix](figures/fastercap-maxwell-capacitance-matrix-log.svg){width=80%}
+
 - Matrix Properties:
   - Scaling: units have to be divided by $10^{-6}$
   - rows and columns are the same (list of net names)
@@ -63,4 +65,4 @@ A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between volta
     - therefore `FastCap2` did average the off-diagonals
     - `FasterCap` does not average, so it's done as part of `KPEX`
 
-![`FasterCap` Maxwell Capacitance Matrix](figures/fastercap-maxwell-capacitance-matrix.svg)
+![`FasterCap` Maxwell Capacitance Matrix: Interpretation](figures/fastercap-maxwell-capacitance-matrix-interpretation.svg)
