@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-## `FasterCap` Engine
+# `KPEX/FasterCap` Engine
 
 `FasterCap` is a 3D and 2D parallel capacitance field solver, inspired by `FastCap2`.
 <https://www.fastfieldsolvers.com/fastercap.htm>
@@ -25,7 +25,7 @@ After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpre
 
 ![`KPEX` `FasterCap` Engine](figures/kpex-engine-fastercap-overview.svg)
 
-### 3D Input Geometries
+## 3D Input Geometries
 
 `FasterCap` supports 2D and 3D input geometries. 
 
@@ -43,7 +43,7 @@ After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpre
 
 ![`FasterCap` 3D Input: File Format](figures/fastercap-input-geometry-3D-part2.svg)
 
-### Output Maxwell Capacitance Matrix
+## Output Maxwell Capacitance Matrix
 
 A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between voltages on a set of conductors and the charges on these conductors.
 

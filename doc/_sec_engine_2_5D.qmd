@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-## 2.5D Engine
+# `KPEX/2.5D` Engine
 
 Field solvers are precise, yet slow, they are useful to obtain a golden reference.
 For most use cases, a faster engine is desirable.

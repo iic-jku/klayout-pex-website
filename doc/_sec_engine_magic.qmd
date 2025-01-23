@@ -14,9 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-## MAGIC-wrapper Engine
+# `KPEX/MAGIC` Engine
 
-### Types of Parasitic Capacitances {#sec-magic-cap-types}
+
+## Types of Parasitic Capacitances {#sec-magic-cap-types}
 
 MAGIC models multiple types of capacitances:
 
@@ -26,7 +27,7 @@ MAGIC models multiple types of capacitances:
 - *Overlap Capacitance*: Overlap on different metal layers
 - *Fringe Capacitance* ("Side Overlap"): Sidewall of a metal fringes out other metal layers
 
-#### Substrate Capacitance
+### Substrate Capacitance
 
 ![](figures/magic_cap_type_-_substrate.svg)
 
@@ -43,7 +44,7 @@ $$
 Coefficients like $C_{perim}$ are part of the tech files (Parasitic Tables)
 :::
 
-#### Sidewall Capacitance
+### Sidewall Capacitance
 
 ![](figures/magic_cap_type_-_sidewall.svg)
 
@@ -64,11 +65,11 @@ $$
 :::
 
 
-#### Overlap Capacitance
+### Overlap Capacitance
 
 ![](figures/magic_cap_type_-_overlap.svg)
 
-#### Fringe Capacitance
+### Fringe Capacitance
 
 ![](figures/magic_cap_type_-_fringe_3D.svg)
 
@@ -116,7 +117,7 @@ $$
 - $\text{frac}_{far} = \tfrac{2}{\pi} * \text{atan}(\alpha*x_{far})$
 - $\text{frac} = \text{frac}_{far}-\text{frac}_{near}$
 
-#### Shielding Effects
+### Shielding Effects
 
 +----------------------------+------------------+--------------------+-------------------+
 | **Type**                   | **Shielding**                                             |
