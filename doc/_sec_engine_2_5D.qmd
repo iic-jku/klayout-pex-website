@@ -1,0 +1,24 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## 2.5D Engine
+
+Field solvers are precise, yet slow, they are useful to obtain a golden reference.
+For most use cases, a faster engine is desirable.
+The `KPEX` 2.5D Engine intends to implement the concepts and formulas of `MAGIC` (see @sec-magic-cap-types) in a way that is best suited to the `KLayout` API.
+
+![`KPEX` 2.5D Engine](figures/kpex-engine-2.5D-overview.svg)
+

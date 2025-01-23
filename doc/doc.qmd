@@ -41,5 +41,7 @@ format:
 
 {{< include _sec_engine_fastercap.qmd >}}
 {{< include _sec_engine_magic.qmd >}}
+{{< include _sec_engine_2_5D.qmd >}}
+
 {{< include _footnotes.qmd >}}
 
