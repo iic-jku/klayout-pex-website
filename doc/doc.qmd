@@ -80,9 +80,8 @@ bibliography: ../references.bib
 {{< include _sec_engine_2_5D.qmd >}}
 
 {{< pagebreak >}}
-# Appendix
 
-## Footnotes
+#  Footnotes
 {{< include _footnotes.qmd >}}
 
 ## References
