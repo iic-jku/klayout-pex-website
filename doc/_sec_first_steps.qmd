@@ -47,7 +47,8 @@ Normally, devices with SPICE [@Nagel_1975] simulation models (e.g. like MOM-capa
 
 Let's try the following:
 ```bash
-kpex --pdk sky130A --blackbox n --gds testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
+kpex --pdk sky130A --blackbox n --gds \
+  testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
 ```
 
 ::: {.callout-note}
@@ -62,14 +63,15 @@ This will report an error that we have not activated one or more engines, and li
 
 Now, to run the FasterCap engine (might take a couple of minutes):
 ```bash
-kpex --pdk sky130A --blackbox n --fastercap y --gds testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
+kpex --pdk sky130A --blackbox n --fastercap y --gds \
+  testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
 ```
 
 The default output directory is `output`, in there we see a directory `Geometries`, containing STL-files.
 Those STL files provide a preview of the FasterCap input files. 
 Use MeshLab (see @sec-intro-meshlab) to open and preview those files:
-```
-ls -d output/cap_vpp_04p4x04p6_l1m1m2_noshield__cap_vpp_04p4x04p6_l1m1m2_noshield/Geometries/*.stl
+```bash
+ls -d output/cap_vpp_04*/Geometries/*.stl
 ```
 
 ::: {.callout-tip}
@@ -118,5 +120,6 @@ The magic section of `kpex --help` describes the arguments and their defaults. I
 - `--magic y`: enable magic engine
 
 ```bash
-kpex --pdk sky130A --magic y --gds testdata/designs/sky130A/cap_vpp_04p4x04p6_l1m1m2_noshield/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
+kpex --pdk sky130A --magic y --gds \
+  testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
 ```
