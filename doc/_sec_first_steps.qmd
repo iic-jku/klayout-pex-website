@@ -32,7 +32,7 @@ find testdata/designs/sky130A -name "*.gds.gz"
 find testdata/designs/ihp_sg13g2 -name "*.gds.gz"
 ```
 
-### Running the FasterCap engine
+### Running the `KPEX/FasterCap` engine {#sec-first-steps-run-fastercap-engine}
 
 Preconditions:
 
@@ -106,7 +106,7 @@ Cext_1_1;C1;VSUBS;0.08
 
 In addition, a SPICE netlist is generated.
 
-### Running the MAGIC-wrapper engine
+### Running the `KPEX/MAGIC` engine {#sec-first-steps-run-magic-engine}
 
 Preconditions:
 

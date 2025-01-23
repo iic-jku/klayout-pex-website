@@ -16,6 +16,8 @@ limitations under the License.
 
 # `KPEX/MAGIC` Engine
 
+This engine is merely just a wrapper around `magic`, which prepares a TCL script that opens the layout file and starts MAGIC's PEX flow.
+See @sec-first-steps-run-magic-engine to get started with a first extraction example.
 
 ## Types of Parasitic Capacitances {#sec-magic-cap-types}
 

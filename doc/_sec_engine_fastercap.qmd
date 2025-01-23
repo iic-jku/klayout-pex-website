@@ -23,6 +23,8 @@ Starting from an input layout (e.g. GDS file) and a process stack-up (part of th
 
 After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpreted to obtain the parasitic capacitances.
 
+See @@sec-first-steps-run-fastercap-engine to get started with a first extraction example.
+
 ![`KPEX` `FasterCap` Engine](figures/kpex-engine-fastercap-overview.svg)
 
 ## 3D Input Geometries
