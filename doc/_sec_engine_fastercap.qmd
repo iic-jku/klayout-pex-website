@@ -1,0 +1,59 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## `FasterCap` Engine
+
+`FasterCap` is a 3D and 2D parallel capacitance field solver, inspired by `FastCap2`.
+<https://www.fastfieldsolvers.com/fastercap.htm>
+
+Starting from an input layout (e.g. GDS file) and a process stack-up (part of the @sec-tech-def), `KPEX` creates input geometries for `FasterCap`.
+
+After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpreted to obtain the parasitic capacitances.
+
+![`KPEX` `FasterCap` Engine](figures/kpex-engine-fastercap-overview.svg)
+
+### 3D Input Geometries
+
+`FasterCap` supports 2D and 3D input geometries. 
+
+![`FasterCap` 3D Input: File System Overview](figures/fastercap-input-geometry-3D-part1.svg)
+
+`KPEX` generates 3D input geometries:
+- `*.lst` file: Main input file
+  - defines dielectric instances
+  - defines conductor instances
+  - each instance refers to a `*.geo` file
+- `*.geo` files: Defines single geometry
+  - defines shapes (e.g. triangles)
+  - Each shape has a reference point to define inside/outsides
+
+![`FasterCap` 3D Input: File Format](figures/fastercap-input-geometry-3D-part2.svg)
+
+### Output Maxwell Capacitance Matrix
+
+- `FasterCap` log output prints the Maxwell Capacitance Matrix (one for each iteration/refinement)
+- Matrix Properties:
+  - Scaling: units have to be divided by $10^{-6}$
+  - rows and columns are the same (list of net names)
+  - Row Cells:
+    - off diagonals cells contains the coupling between row/col nets (times $-1$)
+    - diagonal cells contains the sum of the absolute values of all other cells in the row
+  - Matrix Symmetry:
+    - in theory (ideal world), the matrix would be symmetric
+    - in practice it's not  
+    - therefore `FastCap2` did average the off-diagonals
+
+![`FasterCap` Maxwell Capacitance Matrix](figures/fastercap-maxwell-capacitance-matrix.svg)

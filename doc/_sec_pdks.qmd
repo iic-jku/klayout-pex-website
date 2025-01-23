@@ -18,7 +18,7 @@ limitations under the License.
 
 For every supported PDK, a `KPEX` technology definition is required, as well as customized PEX-"LVS" scripts.
 
-## Technology Definition Files
+## Technology Definition Files {#sec-tech-def}
 
 The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
 

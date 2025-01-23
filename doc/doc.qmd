@@ -39,6 +39,7 @@ format:
 
 # Engines: Technical Notes
 
+{{< include _sec_engine_fastercap.qmd >}}
 {{< include _sec_engine_magic.qmd >}}
 {{< include _footnotes.qmd >}}
 
