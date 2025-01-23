@@ -420,7 +420,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Normally, devices with SPICE simulation models (e.g.&nbsp;like MOM-capacitors<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in the sky130A PDK) are ignored (“blackboxed”) during parasitic extraction.</p>
+<p>Normally, devices with SPICE <span class="citation" data-cites="Nagel_1975">[@Nagel_1975]</span> simulation models (e.g.&nbsp;like MOM-capacitors<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> in the sky130A PDK) are ignored (“blackboxed”) during parasitic extraction.</p>
 <p><code>kpex</code> has an option <code>--blacklist n</code> to allow extraction of those devices (whiteboxing), which can be useful during development (during the prototype phase, whiteboxing is actually the default setting, so please use <code>--blacklist y</code> to explicitly configure blackboxing).</p>
 </div>
 </div>
@@ -617,6 +617,7 @@ Note
 </section>
 <section id="output-maxwell-capacitance-matrix" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="output-maxwell-capacitance-matrix"><span class="header-section-number">4.1.2</span> Output Maxwell Capacitance Matrix</h3>
+<p>A Maxwell capacitance matrix <span class="citation" data-cites="Maxwell_1873">[@Maxwell_1873]</span> provides the relation between voltages on a set of conductors and the charges on these conductors.</p>
 <p><code>FasterCap</code> log output prints the Maxwell capacitance matrix (one for each iteration/refinement).</p>
 <ul>
 <li>Matrix Properties:
@@ -634,6 +635,7 @@ Note
 <li>in practice it’s not<br>
 </li>
 <li>therefore <code>FastCap2</code> did average the off-diagonals</li>
+<li><code>FasterCap</code> does not average, so it’s done as part of <code>KPEX</code></li>
 </ul></li>
 </ul></li>
 </ul>
