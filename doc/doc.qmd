@@ -38,6 +38,26 @@ format:
         \usepackage{newunicodechar}
         \newunicodechar{✔}{\ding{51}}
         \newunicodechar{✘}{\ding{55}}
+        %---
+        \usepackage{geometry}
+        %% Set page size with a wider right margin
+        \geometry{a4paper, total={170mm,257mm}, left=20mm, top=20mm, bottom=20mm, right=20mm}
+        %---
+        \usepackage{fancyhdr}
+        %% Style the page number
+        \fancypagestyle{mystyle}{
+        \fancyhf{}
+        \fancyfoot{}
+        \fancyhead[L]{\leftmark}
+        \fancyhead[R]{\thepage} % Place the page number in the center of the header
+        \renewcommand\headrulewidth{0.4pt}  % Optional: Add a horizontal line below the header
+        \renewcommand\footrulewidth{0pt}    % Optional: Add a horizontal line above the footer
+        }
+        \setlength{\footskip}{20pt}
+        %---        
+    include-before-body:
+      text: |
+        \pagestyle{mystyle}
 bibliography: ../references.bib
 ---
 
