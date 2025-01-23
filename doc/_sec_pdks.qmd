@@ -41,6 +41,9 @@ To review those, look into your Python `site-packages`[^kpex-site-packages]/`kla
 
 `KLayout` has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API.
 Customized "LVS" scripts are ("ab")used in `KPEX`, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers.
+The resulting net information is stored in a `KLayout LVS Database` ("LVSDB").
+
+![`KPEX` Net Formation](figures/kpex-net-formation.svg)
 
 These customized "LVS" scripts are stored in:
 
