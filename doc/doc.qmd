@@ -41,16 +41,28 @@ format:
 bibliography: ../references.bib
 ---
 
+{{< pagebreak >}}
 {{< include _sec_intro.qmd >}}
+
+{{< pagebreak >}}
 {{< include _sec_first_steps.qmd >}}
+
+{{< pagebreak >}}
 {{< include _sec_pdks.qmd >}}
 
+{{< pagebreak >}}
 {{< include _sec_engine_fastercap.qmd >}}
+
+{{< pagebreak >}}
 {{< include _sec_engine_magic.qmd >}}
+
+{{< pagebreak >}}
 {{< include _sec_engine_2_5D.qmd >}}
 
-{{< include _footnotes.qmd >}}
-
+{{< pagebreak >}}
 # Appendix
+
+## Footnotes
+{{< include _footnotes.qmd >}}
 
 ## References
