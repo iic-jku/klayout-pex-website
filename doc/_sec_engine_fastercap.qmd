@@ -41,6 +41,26 @@ See @sec-first-steps-run-fastercap-engine to get started with a first extraction
 
 ![`FasterCap` 3D Input: File Format](figures/fastercap-input-geometry-3D-part2.svg)
 
+## Example: MOM Capacitor
+
+::: {#fig-fastercap-mom-example layout-nrow=2}
+![MOM Capacitor: GDS Layout](figures/mom-capacitor-gds.pdf){width=80%}
+
+![MOM Capacitor: `MeshLab` 3D Preview](figures/mom-capacitor-3D.pdf){width=80%}
+
+MOM Capacitor
+:::
+
+@fig-fastercap-mom-example depicts the MOM capacitor example of a from @sec-first-steps-run-fastercap-engine).
+
+The corresponding schematic representation of @fig-fastercap-maxwell-capacitance-matrix-schematic contains 3 conductors ($N_1$, $N_2$ and $N_3$), and coupling capacitances:
+
+- Capacitances between conductors: $C_{ij} \text{ where } i \ne j$
+  - $C_{23}$ is the capacitance "intended" by the MOM designer
+- Capacitances between conductors and ground: $C_{ii}$
+
+{{< include /figures/fastercap-maxwell-capacitance-matrix-schematic.qmd >}}
+
 ## Output Maxwell Capacitance Matrix
 
 A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between voltages on a set of conductors and the charges on these conductors.
