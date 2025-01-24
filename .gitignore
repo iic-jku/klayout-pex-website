@@ -18,3 +18,4 @@ doc/*.html
 doc/*.tex
 doc/_*_files
 doc/*_files
+_freeze
