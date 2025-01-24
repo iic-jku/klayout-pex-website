@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-01-23">
+<meta name="dcterms.date" content="2025-01-24">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -240,7 +240,8 @@ window.Quarto = {
   <li><a href="#kpexfastercap-engine" id="toc-kpexfastercap-engine" class="nav-link" data-scroll-target="#kpexfastercap-engine"><span class="header-section-number">4</span> <code>KPEX/FasterCap</code> Engine</a>
   <ul class="collapse">
   <li><a href="#d-input-geometries" id="toc-d-input-geometries" class="nav-link" data-scroll-target="#d-input-geometries"><span class="header-section-number">4.1</span> 3D Input Geometries</a></li>
-  <li><a href="#output-maxwell-capacitance-matrix" id="toc-output-maxwell-capacitance-matrix" class="nav-link" data-scroll-target="#output-maxwell-capacitance-matrix"><span class="header-section-number">4.2</span> Output Maxwell Capacitance Matrix</a></li>
+  <li><a href="#example-mom-capacitor" id="toc-example-mom-capacitor" class="nav-link" data-scroll-target="#example-mom-capacitor"><span class="header-section-number">4.2</span> Example: MOM Capacitor</a></li>
+  <li><a href="#output-maxwell-capacitance-matrix" id="toc-output-maxwell-capacitance-matrix" class="nav-link" data-scroll-target="#output-maxwell-capacitance-matrix"><span class="header-section-number">4.3</span> Output Maxwell Capacitance Matrix</a></li>
   </ul></li>
   <li><a href="#kpexmagic-engine" id="toc-kpexmagic-engine" class="nav-link" data-scroll-target="#kpexmagic-engine"><span class="header-section-number">5</span> <code>KPEX/MAGIC</code> Engine</a>
   <ul class="collapse">
@@ -290,7 +291,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 23, 2025</p>
+      <p class="date">January 24, 2025</p>
     </div>
   </div>
   
@@ -633,6 +634,7 @@ Note
 <figcaption><code>FasterCap</code> 3D Input: File System Overview</figcaption>
 </figure>
 </div>
+<p>The <code>FasterCap</code> input files and their format is documented in <span class="citation" data-cites="fastfieldsolvers-fastercap-manual-chm">(<a href="#ref-fastfieldsolvers-fastercap-manual-chm" role="doc-biblioref">Di Lorenzo 2019</a>)</span>, a PDF version of the Windows-specific <code>*.chm</code> file is available at <a href="https://github.com/martinjankoehler/FasterCap/tree/master/doc/pdf" class="uri">https://github.com/martinjankoehler/FasterCap/tree/master/doc/pdf</a>.</p>
 <p><code>KPEX</code> generates 3D input geometries:</p>
 <ul>
 <li><code>*.lst</code> file: Main input file
@@ -654,9 +656,64 @@ Note
 </figure>
 </div>
 </section>
-<section id="output-maxwell-capacitance-matrix" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="output-maxwell-capacitance-matrix"><span class="header-section-number">4.2</span> Output Maxwell Capacitance Matrix</h2>
-<p>A Maxwell capacitance matrix <span class="citation" data-cites="Maxwell_1873">(<a href="#ref-Maxwell_1873" role="doc-biblioref">Maxwell 1873</a>)</span> provides the relation between voltages on a set of conductors and the charges on these conductors.</p>
+<section id="example-mom-capacitor" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="example-mom-capacitor"><span class="header-section-number">4.2</span> Example: MOM Capacitor</h2>
+<div id="fig-fastercap-mom-example" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fastercap-mom-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><embed src="figures/mom-capacitor-gds.pdf" class="img-fluid" style="width:80.0%"></p>
+<figcaption>MOM Capacitor: GDS Layout</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><embed src="figures/mom-capacitor-3D.pdf" class="img-fluid" style="width:80.0%"></p>
+<figcaption>MOM Capacitor: <code>MeshLab</code> 3D Preview</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fastercap-mom-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MOM Capacitor
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-fastercap-mom-example" class="quarto-xref">Figure&nbsp;1</a> depicts the MOM capacitor example of a from <a href="#sec-first-steps-run-fastercap-engine" class="quarto-xref">Section&nbsp;2.2</a>).</p>
+<p>The corresponding schematic representation of <a href="#fig-fastercap-maxwell-capacitance-matrix-schematic" class="quarto-xref">Figure&nbsp;2</a> contains 3 conductors (<span class="math inline">\(N_1\)</span>, <span class="math inline">\(N_2\)</span> and <span class="math inline">\(N_3\)</span>), and coupling capacitances:</p>
+<ul>
+<li>Capacitances between conductors: <span class="math inline">\(C_{ij} \text{ where } i \ne j\)</span>
+<ul>
+<li><span class="math inline">\(C_{23}\)</span> is the capacitance “intended” by the MOM designer</li>
+</ul></li>
+<li>Capacitances between conductors and ground: <span class="math inline">\(C_{ii}\)</span></li>
+</ul>
+<div id="cell-fig-fastercap-maxwell-capacitance-matrix-schematic" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div id="fig-fastercap-maxwell-capacitance-matrix-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fastercap-maxwell-capacitance-matrix-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="doc_files/figure-html/fig-fastercap-maxwell-capacitance-matrix-schematic-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fastercap-maxwell-capacitance-matrix-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Schematic representation of the MOM capacitor.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="output-maxwell-capacitance-matrix" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="output-maxwell-capacitance-matrix"><span class="header-section-number">4.3</span> Output Maxwell Capacitance Matrix</h2>
+<p>A Maxwell capacitance matrix <span class="citation" data-cites="Maxwell_1873">(<a href="#ref-Maxwell_1873" role="doc-biblioref">Maxwell 1873</a>)</span> provides the relation between voltages on a set of conductors and the charges on these conductors, as described by the <code>FasterCap</code> author in the white paper <span class="citation" data-cites="fastfieldsolvers-maxwell-capacitance-matrix">(<a href="#ref-fastfieldsolvers-maxwell-capacitance-matrix" role="doc-biblioref">Di Lorenzo 2023</a>)</span>.</p>
 <p><code>FasterCap</code> log output prints the Maxwell capacitance matrix (one for each iteration/refinement).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -928,7 +985,7 @@ Table&nbsp;1: Shielding effects
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-magic-cap-shielding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Shielding Effects
+Figure&nbsp;3: Shielding Effects
 </figcaption>
 </figure>
 </div>
@@ -978,6 +1035,12 @@ Caution
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">7.1 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-fastfieldsolvers-fastercap-manual-chm" class="csl-entry" role="listitem">
+Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help.”</span> 2019. <a href="https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm">https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm</a>.
+</div>
+<div id="ref-fastfieldsolvers-maxwell-capacitance-matrix" class="csl-entry" role="listitem">
+———. 2023. <span>“The Maxwell Capacitance Matrix: White Paper WP110301. Revision 03.”</span> 2023. <a href="https://www.fastfieldsolvers.com/Papers/The_Maxwell_Capacitance_Matrix_WP110301_R03.pdf">https://www.fastfieldsolvers.com/Papers/The_Maxwell_Capacitance_Matrix_WP110301_R03.pdf</a>.
+</div>
 <div id="ref-Maxwell_1873" class="csl-entry" role="listitem">
 Maxwell, James Clerk. 1873. <em>A Treatise on Electricity and Magnetism</em>. Vol. 1. Clarendon Press.
 </div>

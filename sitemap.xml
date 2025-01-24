@@ -2,18 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/python-coverage.html</loc>
-    <lastmod>2025-01-23T23:10:03.770Z</lastmod>
+    <lastmod>2025-01-24T15:57:01.841Z</lastmod>
   </url>
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/test-reports.html</loc>
-    <lastmod>2025-01-23T23:10:03.770Z</lastmod>
+    <lastmod>2025-01-24T15:57:01.841Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/fastercap-maxwell-capacitance-matrix-schematic.html</loc>
+    <lastmod>2025-01-24T15:57:01.857Z</lastmod>
   </url>
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/index.html</loc>
-    <lastmod>2025-01-23T23:10:03.913Z</lastmod>
+    <lastmod>2025-01-24T15:57:01.992Z</lastmod>
   </url>
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/doc.html</loc>
-    <lastmod>2025-01-23T23:10:03.770Z</lastmod>
+    <lastmod>2025-01-24T15:57:01.841Z</lastmod>
   </url>
 </urlset>
