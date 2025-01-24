@@ -46,9 +46,9 @@ The `FasterCap` input files and their format is documented in [@fastfieldsolvers
 ## Example: MOM Capacitor
 
 ::: {#fig-fastercap-mom-example layout-nrow=2}
-![MOM Capacitor: GDS Layout](figures/mom-capacitor-gds.pdf){width=80%}
+![MOM Capacitor: GDS Layout](figures/mom-capacitor-gds.jpg){width=80%}
 
-![MOM Capacitor: `MeshLab` 3D Preview](figures/mom-capacitor-3D.pdf){width=80%}
+![MOM Capacitor: `MeshLab` 3D Preview](figures/mom-capacitor-3D.jpg){width=80%}
 
 MOM Capacitor
 :::
