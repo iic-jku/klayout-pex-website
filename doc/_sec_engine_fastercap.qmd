@@ -29,6 +29,8 @@ See @sec-first-steps-run-fastercap-engine to get started with a first extraction
 
 ![`FasterCap` 3D Input: File System Overview](figures/fastercap-input-geometry-3D-part1.svg)
 
+The `FasterCap` input files and their format is documented in [@fastfieldsolvers-fastercap-manual-chm], a PDF version of the Windows-specific `*.chm` file is available at <https://github.com/martinjankoehler/FasterCap/tree/master/doc/pdf>.
+
 `KPEX` generates 3D input geometries:
 
 - `*.lst` file: Main input file
@@ -63,7 +65,7 @@ The corresponding schematic representation of @fig-fastercap-maxwell-capacitance
 
 ## Output Maxwell Capacitance Matrix
 
-A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between voltages on a set of conductors and the charges on these conductors.
+A Maxwell capacitance matrix [@Maxwell_1873] provides the relation between voltages on a set of conductors and the charges on these conductors, as described by the `FasterCap` author in the white paper [@fastfieldsolvers-maxwell-capacitance-matrix].
 
 `FasterCap` log output prints the Maxwell capacitance matrix (one for each iteration/refinement).
 
