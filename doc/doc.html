@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-01-24">
+<meta name="dcterms.date" content="2025-01-27">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -291,7 +291,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 24, 2025</p>
+      <p class="date">January 27, 2025</p>
     </div>
   </div>
   
@@ -486,15 +486,15 @@ Note
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>--fastercap y</code></td>
+<td style="text-align: left;"><code>--fastercap</code></td>
 <td style="text-align: left;">Run kpex/FasterCap engine</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>--2.5D y</code></td>
+<td style="text-align: left;"><code>--2.5D</code></td>
 <td style="text-align: left;">Run kpex/2.5D engine</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>--magic y</code></td>
+<td style="text-align: left;"><code>--magic</code></td>
 <td style="text-align: left;">Run MAGIC engine</td>
 </tr>
 </tbody>
@@ -502,7 +502,7 @@ Note
 </div>
 </div>
 <p>Now, to run the FasterCap engine (might take a couple of minutes):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--fastercap</span> y <span class="at">--gds</span> <span class="dt">\</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--fastercap</span> <span class="at">--gds</span> <span class="dt">\</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Within the output directory (defaults to <code>output</code>), <code>KPEX</code> creates a subdirectory <code>Geometries</code>, containing STL-files that provide a preview of the <code>FasterCap</code> input geometries. Use <code>MeshLab</code> (see <a href="#sec-intro-meshlab" class="quarto-xref">Section&nbsp;1.3.3</a>) to open and preview those files:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> output/cap_vpp_04<span class="pp">*</span>/Geometries/<span class="pp">*</span>.stl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -551,9 +551,9 @@ Cext_1_1;C1;VSUBS;0.08</code></pre>
 <ul>
 <li><code>--magicrc</code>: specify location of the <code>magicrc</code> file</li>
 <li><code>--gds</code>: path to the GDS input layout</li>
-<li><code>--magic y</code>: enable magic engine</li>
+<li><code>--magic</code>: enable magic engine</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--magic</span> y <span class="at">--gds</span> <span class="dt">\</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--magic</span> <span class="at">--gds</span> <span class="dt">\</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div style="page-break-after: always;"></div>
 </section>
