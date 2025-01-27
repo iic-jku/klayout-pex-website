@@ -56,14 +56,14 @@ This will report an error that we have not activated one or more engines, and li
 
 | Argument         | Description                             |
 |:---------------- |:--------------------------------------- |
-| `--fastercap y`  | Run kpex/FasterCap engine               |
-| `--2.5D y`       | Run kpex/2.5D engine                    |
-| `--magic y`      | Run MAGIC engine                        |
+| `--fastercap`    | Run kpex/FasterCap engine               |
+| `--2.5D`         | Run kpex/2.5D engine                    |
+| `--magic`        | Run MAGIC engine                        |
 :::
 
 Now, to run the FasterCap engine (might take a couple of minutes):
 ```bash
-kpex --pdk sky130A --blackbox n --fastercap y --gds \
+kpex --pdk sky130A --blackbox n --fastercap --gds \
   testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
 ```
 
@@ -116,9 +116,9 @@ The magic section of `kpex --help` describes the arguments and their defaults. I
 
 - `--magicrc`: specify location of the `magicrc` file
 - `--gds`: path to the GDS input layout
-- `--magic y`: enable magic engine
+- `--magic`: enable magic engine
 
 ```bash
-kpex --pdk sky130A --magic y --gds \
+kpex --pdk sky130A --magic --gds \
   testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
 ```
