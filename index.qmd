@@ -23,6 +23,10 @@ Check out the [documentation](doc/doc.qmd) for more information.
 
 After that, you should be able to run `kpex --help`.
 
+## Status
+
+{{< include doc/_status.qmd >}}
+
 ## Acknowledgements
 
 {{< include doc/_funding_note.qmd >}}
