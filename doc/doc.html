@@ -254,7 +254,7 @@ window.Quarto = {
   <li><a href="#fringe-capacitance" id="toc-fringe-capacitance" class="nav-link" data-scroll-target="#fringe-capacitance"><span class="header-section-number">5.5</span> Fringe Capacitance</a></li>
   <li><a href="#shielding-effects" id="toc-shielding-effects" class="nav-link" data-scroll-target="#shielding-effects"><span class="header-section-number">5.6</span> Shielding Effects</a></li>
   </ul></li>
-  <li><a href="#kpex2.5d-engine" id="toc-kpex2.5d-engine" class="nav-link" data-scroll-target="#kpex2.5d-engine"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</a></li>
+  <li><a href="#sec-engine-kpex-2_5D" id="toc-sec-engine-kpex-2_5D" class="nav-link" data-scroll-target="#sec-engine-kpex-2_5D"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</a></li>
   <li><a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="header-section-number">7</span> Footnotes</a>
   <ul class="collapse">
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.1</span> References</a></li>
@@ -823,15 +823,16 @@ Figure&nbsp;2: Schematic representation of the MOM capacitor.
 <section id="kpexmagic-engine" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> <code>KPEX/MAGIC</code> Engine</h1>
 <p>This engine is merely just a wrapper around <code>magic</code>, which prepares a TCL script that opens the layout file and starts MAGIC’s PEX flow. See <a href="#sec-first-steps-run-magic-engine" class="quarto-xref">Section&nbsp;2.3</a> to get started with a first extraction example.</p>
+<p>The following chapter will illustrate concepts of the parasitic extraction done in <code>MAGIC</code>, also motivated by the fact that the engine in <a href="#sec-engine-kpex-2_5D" class="quarto-xref">Section&nbsp;6</a> will be based on those. Major parts of this illustration, the figures and concepts are based on work done by <code>MAGIC</code> maintainer Tim Edwards, especially his talk from FSiC conference 2022 <span class="citation" data-cites="edwards-2022-fsic-talk">(<a href="#ref-edwards-2022-fsic-talk" role="doc-biblioref">Edwards 2022</a>)</span> and a (conceptual follow-up) ChipsAlliance meeting on April 4, 2023, see <span class="citation" data-cites="edwards-2023-chipsalliance-talk-video">(<a href="#ref-edwards-2023-chipsalliance-talk-video" role="doc-biblioref">Edwards 2023b</a>)</span> and <span class="citation" data-cites="edwards-2023-chipsalliance-talk-slides">(<a href="#ref-edwards-2023-chipsalliance-talk-slides" role="doc-biblioref">Edwards 2023a</a>)</span>. In addition, code review and debugging of the MAGIC codebase was performed.</p>
 <section id="sec-magic-cap-types" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="sec-magic-cap-types"><span class="header-section-number">5.1</span> Types of Parasitic Capacitances</h2>
 <p>MAGIC models multiple types of capacitances:</p>
 <ul>
-<li><em>Substrate Overlap</em>: Overlap area of a metal with the substrate</li>
-<li><em>Substrate Fringing</em>: Sidewall of a metal fringes out to substrate</li>
-<li><em>Sidewall Capacitance</em>: Coupling between adjacent sidewalls on the same layer</li>
-<li><em>Overlap Capacitance</em>: Overlap on different metal layers</li>
-<li><em>Fringe Capacitance</em> (“Side Overlap”): Sidewall of a metal fringes out other metal layers</li>
+<li><em>Substrate Overlap:</em> Overlap area of a metal with the substrate</li>
+<li><em>Substrate Fringing:</em> Sidewall of a metal fringes out to substrate</li>
+<li><em>Sidewall Capacitance:</em> Coupling between adjacent sidewalls on the same layer</li>
+<li><em>Overlap Capacitance:</em> Overlap on different metal layers</li>
+<li><em>Fringe Capacitance (“Side Overlap”):</em> Sidewall of a metal fringes out other metal layers</li>
 </ul>
 </section>
 <section id="substrate-capacitance" class="level2" data-number="5.2">
@@ -1062,7 +1063,7 @@ Figure&nbsp;3: Shielding Effects
 <div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="kpex2.5d-engine" class="level1" data-number="6">
+<section id="sec-engine-kpex-2_5D" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</h1>
 <p>Field solvers are precise, yet slow, they are useful to obtain a golden reference.</p>
 <p>For most use cases, a faster engine is desirable-. <code>KPEX/MAGIC</code> is such an engine, but the <code>MAGIC</code> code is tightly coupled with the database, layer/via design choices, and user interface of <code>MAGIC</code>. For example, it runs single-threaded.</p>
@@ -1110,6 +1111,15 @@ Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help.”</span> 2019. <a h
 </div>
 <div id="ref-fastfieldsolvers-maxwell-capacitance-matrix" class="csl-entry" role="listitem">
 ———. 2023. <span>“The Maxwell Capacitance Matrix: White Paper WP110301. Revision 03.”</span> 2023. <a href="https://www.fastfieldsolvers.com/Papers/The_Maxwell_Capacitance_Matrix_WP110301_R03.pdf">https://www.fastfieldsolvers.com/Papers/The_Maxwell_Capacitance_Matrix_WP110301_R03.pdf</a>.
+</div>
+<div id="ref-edwards-2022-fsic-talk" class="csl-entry" role="listitem">
+Edwards, R. Timothy. 2022. <span>“Whom Do You Trust? Validating Process Parameters for Open-Source Tools.”</span> <a href="https://wiki.f-si.org/index.php?title=Whom_do_you_trust%3F:_Validating_process_parameters_for_open-source_tools">https://wiki.f-si.org/index.php?title=Whom_do_you_trust%3F:_Validating_process_parameters_for_open-source_tools</a>.
+</div>
+<div id="ref-edwards-2023-chipsalliance-talk-slides" class="csl-entry" role="listitem">
+———. 2023a. <span>“Full r-c Extraction in Magic (Presentation Slides).”</span> <a href="https://lists.chipsalliance.org/g/analog-wg/attachment/99/0/AWG_040423_Tim_Edwards_chips_alliance_slides.pdf">https://lists.chipsalliance.org/g/analog-wg/attachment/99/0/AWG_040423_Tim_Edwards_chips_alliance_slides.pdf</a>.
+</div>
+<div id="ref-edwards-2023-chipsalliance-talk-video" class="csl-entry" role="listitem">
+———. 2023b. <span>“Full r-c Extraction in Magic (Presentation Video).”</span> <a href="https://www.youtube.com/watch?v=4d2mtiEHHeo">https://www.youtube.com/watch?v=4d2mtiEHHeo</a>.
 </div>
 <div id="ref-Maxwell_1873" class="csl-entry" role="listitem">
 Maxwell, James Clerk. 1873. <em>A Treatise on Electricity and Magnetism</em>. Vol. 1. Clarendon Press.
