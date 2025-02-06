@@ -27,11 +27,11 @@ In addition, code review and debugging of the MAGIC codebase was performed.
 
 MAGIC models multiple types of capacitances:
 
-- *Substrate Overlap*: Overlap area of a metal with the substrate
-- *Substrate Fringing*: Sidewall of a metal fringes out to substrate
-- *Sidewall Capacitance*: Coupling between adjacent sidewalls on the same layer
-- *Overlap Capacitance*: Overlap on different metal layers
-- *Fringe Capacitance* ("Side Overlap"): Sidewall of a metal fringes out other metal layers
+- *Substrate Overlap:* Overlap area of a metal with the substrate
+- *Substrate Fringing:* Sidewall of a metal fringes out to substrate
+- *Sidewall Capacitance:* Coupling between adjacent sidewalls on the same layer
+- *Overlap Capacitance:* Overlap on different metal layers
+- *Fringe Capacitance ("Side Overlap"):* Sidewall of a metal fringes out other metal layers
 
 ## Substrate Capacitance
 
