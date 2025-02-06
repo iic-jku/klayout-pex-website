@@ -58,6 +58,10 @@ Eventually, critical parts will be re-implemented (in C++, and parallelized), to
 As we're already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.
 :::
 
+## Status
+
+{{< include _status.qmd >}}
+
 ## Installation {#sec-intro-installation}
 
 Generally, `KPEX` is deployed using PyPi (Python Package Index), install via:
