@@ -24,6 +24,10 @@ While in the schematic, a connection between device terminals is seen as an equi
 
 To be able to simulate these effects, a parasitic extraction tool (PEX) is used, to extract a netlist from the layout, which represents the original schematic (created from the layout active and passive elements) augmented with the additional parasitic devices.
 
+## Acknowledgements
+
+{{< include _funding_note.qmd >}}
+
 ## About KLayout-PEX
 
 [KLayout](https://klayout.de) is an open source VLSI layout viewer and editor.

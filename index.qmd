@@ -22,3 +22,7 @@ Check out the [documentation](doc/doc.qmd) for more information.
 `pip install klayout-pex`
 
 After that, you should be able to run `kpex --help`.
+
+## Acknowledgements
+
+{{< include doc/_funding_note.qmd >}}
