@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-01-27">
+<meta name="dcterms.date" content="2025-02-06">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -218,12 +218,13 @@ window.Quarto = {
   <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro"><span class="header-section-number">1</span> Introduction</a>
   <ul class="collapse">
   <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">1.1</span> Motivation</a></li>
-  <li><a href="#about-klayout-pex" id="toc-about-klayout-pex" class="nav-link" data-scroll-target="#about-klayout-pex"><span class="header-section-number">1.2</span> About KLayout-PEX</a></li>
-  <li><a href="#sec-intro-installation" id="toc-sec-intro-installation" class="nav-link" data-scroll-target="#sec-intro-installation"><span class="header-section-number">1.3</span> Installation</a>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements"><span class="header-section-number">1.2</span> Acknowledgements</a></li>
+  <li><a href="#about-klayout-pex" id="toc-about-klayout-pex" class="nav-link" data-scroll-target="#about-klayout-pex"><span class="header-section-number">1.3</span> About KLayout-PEX</a></li>
+  <li><a href="#sec-intro-installation" id="toc-sec-intro-installation" class="nav-link" data-scroll-target="#sec-intro-installation"><span class="header-section-number">1.4</span> Installation</a>
   <ul class="collapse">
-  <li><a href="#option-1-using-iic-osic-tools-docker-image" id="toc-option-1-using-iic-osic-tools-docker-image" class="nav-link" data-scroll-target="#option-1-using-iic-osic-tools-docker-image"><span class="header-section-number">1.3.1</span> Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</a></li>
-  <li><a href="#option-2-standalone-installation" id="toc-option-2-standalone-installation" class="nav-link" data-scroll-target="#option-2-standalone-installation"><span class="header-section-number">1.3.2</span> Option 2: Standalone Installation</a></li>
-  <li><a href="#sec-intro-meshlab" id="toc-sec-intro-meshlab" class="nav-link" data-scroll-target="#sec-intro-meshlab"><span class="header-section-number">1.3.3</span> Useful tools: <code>meshlab</code></a></li>
+  <li><a href="#option-1-using-iic-osic-tools-docker-image" id="toc-option-1-using-iic-osic-tools-docker-image" class="nav-link" data-scroll-target="#option-1-using-iic-osic-tools-docker-image"><span class="header-section-number">1.4.1</span> Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</a></li>
+  <li><a href="#option-2-standalone-installation" id="toc-option-2-standalone-installation" class="nav-link" data-scroll-target="#option-2-standalone-installation"><span class="header-section-number">1.4.2</span> Option 2: Standalone Installation</a></li>
+  <li><a href="#sec-intro-meshlab" id="toc-sec-intro-meshlab" class="nav-link" data-scroll-target="#sec-intro-meshlab"><span class="header-section-number">1.4.3</span> Useful tools: <code>meshlab</code></a></li>
   </ul></li>
   </ul></li>
   <li><a href="#first-steps" id="toc-first-steps" class="nav-link" data-scroll-target="#first-steps"><span class="header-section-number">2</span> First Steps</a>
@@ -291,7 +292,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 27, 2025</p>
+      <p class="date">February 6, 2025</p>
     </div>
   </div>
   
@@ -312,8 +313,12 @@ window.Quarto = {
 <p>While in the schematic, a connection between device terminals is seen as an equipotential, the stacked geometries in a specific layout introduce parasitic effects, which can be thought of additional resistors, capacitors (and inductors), not modeled by and missing in the original schematic.</p>
 <p>To be able to simulate these effects, a parasitic extraction tool (PEX) is used, to extract a netlist from the layout, which represents the original schematic (created from the layout active and passive elements) augmented with the additional parasitic devices.</p>
 </section>
-<section id="about-klayout-pex" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="about-klayout-pex"><span class="header-section-number">1.2</span> About KLayout-PEX</h2>
+<section id="acknowledgements" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="acknowledgements"><span class="header-section-number">1.2</span> Acknowledgements</h2>
+<p>Special thanks to the public funded German project FMD-QNC (16ME0831) <a href="https://www.elektronikforschung.de/projekte/fmd-qnc" class="uri">https://www.elektronikforschung.de/projekte/fmd-qnc</a> for financial support to this work.</p>
+</section>
+<section id="about-klayout-pex" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="about-klayout-pex"><span class="header-section-number">1.3</span> About KLayout-PEX</h2>
 <p><a href="https://klayout.de">KLayout</a> is an open source VLSI layout viewer and editor.</p>
 <p><a href="https://pypi.org/project/klayout-pex/">KLayout-PEX</a> (short <code>KPEX</code>) is a PEX tool, well integrated with <code>KLayout</code> by using its API.</p>
 <p>There are multiple PEX engines supported, currently:</p>
@@ -353,16 +358,16 @@ Caution
 </div>
 </div>
 </section>
-<section id="sec-intro-installation" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="sec-intro-installation"><span class="header-section-number">1.3</span> Installation</h2>
+<section id="sec-intro-installation" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-intro-installation"><span class="header-section-number">1.4</span> Installation</h2>
 <p>Generally, <code>KPEX</code> is deployed using PyPi (Python Package Index), install via:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--version</span>   <span class="co"># check the installed version </span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--help</span>      <span class="co"># this will help with command line arguments</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As for the dependencies, there are multiple options available.</p>
-<section id="option-1-using-iic-osic-tools-docker-image" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="option-1-using-iic-osic-tools-docker-image"><span class="header-section-number">1.3.1</span> Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</h3>
+<section id="option-1-using-iic-osic-tools-docker-image" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="option-1-using-iic-osic-tools-docker-image"><span class="header-section-number">1.4.1</span> Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</h3>
 <p>We provide a comprehensive, low entry barrier Docker image that comes pre-installed with most relevant open source ASIC tools, as well as the open PDKs. This is a pre-compiled Docker image which allows to do circuit design on a virtual machine on virtually any type of computing equipment (personal PC, Raspberry Pi, cloud server) on various operating systems (Windows, macOS, Linux).</p>
 <p>For further information please look at the <a href="https://hub.docker.com/r/hpretl/iic-osic-tools">Docker Hub page</a> and for detailed instructions at the <a href="https://github.com/iic-jku/IIC-OSIC-TOOLS">IIC-OSIC-TOOLS GitHub page</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Linux">
@@ -380,8 +385,8 @@ Linux
 </div>
 </div>
 </section>
-<section id="option-2-standalone-installation" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="option-2-standalone-installation"><span class="header-section-number">1.3.2</span> Option 2: Standalone Installation</h3>
+<section id="option-2-standalone-installation" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="option-2-standalone-installation"><span class="header-section-number">1.4.2</span> Option 2: Standalone Installation</h3>
 <ul>
 <li><a href="https://klayout.de">KLayout</a> layout tool:
 <ul>
@@ -418,8 +423,8 @@ Linux
 </ul></li>
 </ul>
 </section>
-<section id="sec-intro-meshlab" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="sec-intro-meshlab"><span class="header-section-number">1.3.3</span> Useful tools: <code>meshlab</code></h3>
+<section id="sec-intro-meshlab" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="sec-intro-meshlab"><span class="header-section-number">1.4.3</span> Useful tools: <code>meshlab</code></h3>
 <p>For previewing generated 3D geometries, representing the input to <code>FasterCap</code>, we recommend installing <a href="https://www.meshlab.net">MeshLab</a>. The generated <code>STL</code>-files are located at <code>output/&lt;design&gt;/Geometries/*.stl</code>.</p>
 <div style="page-break-after: always;"></div>
 </section>
@@ -446,8 +451,8 @@ Linux
 <h2 data-number="2.2" class="anchored" data-anchor-id="sec-first-steps-run-fastercap-engine"><span class="header-section-number">2.2</span> Running the <code>KPEX/FasterCap</code> engine</h2>
 <p>Preconditions:</p>
 <ul>
-<li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.3</a></li>
-<li><code>FasterCap</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.3</a></li>
+<li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.4</a></li>
+<li><code>FasterCap</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.4</a></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -504,7 +509,7 @@ Note
 <p>Now, to run the FasterCap engine (might take a couple of minutes):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--fastercap</span> <span class="at">--gds</span> <span class="dt">\</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Within the output directory (defaults to <code>output</code>), <code>KPEX</code> creates a subdirectory <code>Geometries</code>, containing STL-files that provide a preview of the <code>FasterCap</code> input geometries. Use <code>MeshLab</code> (see <a href="#sec-intro-meshlab" class="quarto-xref">Section&nbsp;1.3.3</a>) to open and preview those files:</p>
+<p>Within the output directory (defaults to <code>output</code>), <code>KPEX</code> creates a subdirectory <code>Geometries</code>, containing STL-files that provide a preview of the <code>FasterCap</code> input geometries. Use <code>MeshLab</code> (see <a href="#sec-intro-meshlab" class="quarto-xref">Section&nbsp;1.4.3</a>) to open and preview those files:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> output/cap_vpp_04<span class="pp">*</span>/Geometries/<span class="pp">*</span>.stl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -544,8 +549,8 @@ Cext_1_1;C1;VSUBS;0.08</code></pre>
 <h2 data-number="2.3" class="anchored" data-anchor-id="sec-first-steps-run-magic-engine"><span class="header-section-number">2.3</span> Running the <code>KPEX/MAGIC</code> engine</h2>
 <p>Preconditions:</p>
 <ul>
-<li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.3</a></li>
-<li><code>magic</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.3</a></li>
+<li><code>klayout-pex</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.4</a></li>
+<li><code>magic</code> was installed, see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.4</a></li>
 </ul>
 <p>The magic section of <code>kpex --help</code> describes the arguments and their defaults. Important arguments:</p>
 <ul>
