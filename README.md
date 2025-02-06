@@ -28,11 +28,14 @@ Online at https://martinjankoehler.github.io/klayout-pex-documentation
 
 ### Prerequisites
 
+For documentation:
 - quarto
 
 For `run_licenseheaders.sh`
-- python3 with packages:
-   - licenseheaders
+- `python3` with packages:
+   - `licenseheaders`
+
+For more details, see `.github/workflows`.
 
 ### Acknowledgements
 
