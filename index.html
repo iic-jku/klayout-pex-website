@@ -148,6 +148,70 @@ ul.task-list li input[type="checkbox"] {
 <p><code>pip install klayout-pex</code></p>
 <p>After that, you should be able to run <code>kpex --help</code>.</p>
 </section>
+<section id="status" class="level2">
+<h2 class="anchored" data-anchor-id="status">Status</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please keep in mind that this software is early stage, and not yet intended for production use.</p>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 17%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Engine</th>
+<th style="text-align: left;">PEX Type</th>
+<th style="text-align: left;">Status</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>KPEX/MAGIC</code></td>
+<td style="text-align: left;"><code>CC</code>, <code>RC</code></td>
+<td style="text-align: left;">Usable</td>
+<td style="text-align: left;">Wrapper engine, using installed <code>magic</code> tool</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>KPEX/FasterCap</code></td>
+<td style="text-align: left;"><code>CC</code></td>
+<td style="text-align: left;">Usable, <strong>pending QA</strong></td>
+<td style="text-align: left;">Field solver engine using <code>FasterCap</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>KPEX/FastHenry2</code></td>
+<td style="text-align: left;"><code>R</code>, <code>L</code></td>
+<td style="text-align: left;">Planned</td>
+<td style="text-align: left;">Field solver engine using <code>FastHenry2</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>KPEX/2.5D</code></td>
+<td style="text-align: left;"><code>CC</code></td>
+<td style="text-align: left;"><strong>Under construction</strong></td>
+<td style="text-align: left;">Prototype engine implementing MAGIC concepts/formulas with <code>KLayout</code> means</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>KPEX/2.5D</code></td>
+<td style="text-align: left;"><code>R</code>, <code>RC</code></td>
+<td style="text-align: left;">Planned</td>
+<td style="text-align: left;">Prototype engine implementing MAGIC concepts/formulas with <code>KLayout</code> means</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
 <p>Special thanks to the public funded German project FMD-QNC (16ME0831) <a href="https://www.elektronikforschung.de/projekte/fmd-qnc" class="uri">https://www.elektronikforschung.de/projekte/fmd-qnc</a> for financial support to this work.</p>
