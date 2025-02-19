@@ -66,3 +66,71 @@ CapDebug (extSetResist): li_0_0# area=400000000 (10000 µm^2) perim=80000 (400 �
 CapDebug ---
 ```
 
+
+## Test Pattern `sidewall_20um_length_distance_200nm_li1`
+
+GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz>
+
+{{< include /figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_overlap.qmd >}}
+
+| Description | Layer Top | Net Top | Layer Bottom  | Net Bottom | MAGIC [fF]| KPEX/2.5D [fF]| MAGIC Lines |
+|-------------|----------:|:--------|--------------:|:----------:|----------:|--------------:|------------:|
+| Overlap     |       li1 | A       |     substrate | VSUBS      |    0.7398 |          0.74 |          4  |
+| Overlap     |       li1 | B       |     substrate | VSUBS      |    0.7398 |          0.74 |          11 |
+: Extracted Parasitic Overlap Capacitances
+
+
+{{< include /figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_sidewall.qmd >}}
+
+| Description | Layer | Net1 | Net2 | MAGIC [fF]| KPEX/2.5D [fF]| MAGIC Lines |
+|-------------|------:|:----:|-----:|----------:|--------------:|------------:|
+| Sidewall    |   li1 | A    |    B |      0.75 |          0.75 |          18 |
+| Sidewall    |   li1 | B    |    A |      0.75 |          0.75 |          21 |
+: Extracted Parasitic Sidewall Capacitances
+
+{{< include /figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_fringe_A.qmd >}}
+
+| Description     | Layer Top | Net Top | Layer Bottom  | Net Bottom | MAGIC [fF]| KPEX/2.5D [fF]| MAGIC Lines |
+|-----------------|----------:|:--------|--------------:|:----------:|----------:|--------------:|------------:|
+| Fringe (top)    |       li1 | A       |     substrate | VSUBS      |     0.814 |         0.814 |           5 |
+| Fringe (left)   |       li1 | A       |     substrate | VSUBS      |    0.0407 |         0.041 |           6 |
+| Fringe (bottom) |       li1 | A       |     substrate | VSUBS      |     0.814 |         0.076 |           7 |
+| Fringe (bottom) |       li1 | A       |     substrate | VSUBS      |   -0.7379 |           --- |          19 |
+| Fringe (right)  |       li1 | A       |     substrate | VSUBS      |    0.0407 |         0.041 |           8 |
+| Fringe (top)    |       li1 | B       |     substrate | VSUBS      |     0.814 |         0.076 |          12 |
+| Fringe (top)    |       li1 | B       |     substrate | VSUBS      |   -0.7379 |           --- |          22 |
+| Fringe (left)   |       li1 | B       |     substrate | VSUBS      |    0.0407 |         0.041 |          13 |
+| Fringe (bottom) |       li1 | B       |     substrate | VSUBS      |     0.814 |         0.814 |          14 |
+| Fringe (right)  |       li1 | B       |     substrate | VSUBS      |    0.0407 |         0.041 |          15 |
+: Extracted Parasitic Fringe Capacitances between nets A, B on li1 and substrate
+
+
+---
+code-line-numbers: true
+---
+```{csv}
+Magic 8.3 revision 486 - Compiled on `date`.
+----------------------------------------------------
+
+CapDebug (extNodeAreaFunc/Area) layer li(90), net li_0_240#, area=800000 (20 µm^2) nreg_cap += 0.7398 fF
+CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_0_240#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 1.5538 fF)
+CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_0_240#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 1.5945 fF)
+CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_0_240#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 2.4085 fF)
+CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_0_240#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 2.4492 fF)
+CapDebug (extSetResist): li_0_240# area=800000 (20 µm^2) perim=8400 (42 µm)
+CapDebug ---
+CapDebug (extNodeAreaFunc/Area) layer li(90), net li_0_0#, area=800000 (20 µm^2) nreg_cap += 0.7398 fF
+CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_0_0#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 1.5538 fF)
+CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_0_0#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 1.5945 fF)
+CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_0_0#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 2.4085 fF)
+CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_0_0#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 2.4492 fF)
+CapDebug (extSetResist): li_0_0# area=800000 (20 µm^2) perim=8400 (42 µm)
+CapDebug ---
+CapDebug (sidewall): A-B (layer li), overlap=4000 (20 µm), sep=40 (0.2 µm), e->ec_cap=12.75 (0.0255 fF), e->ec_offset=28 (0.14 µm), delta += 0.75 fF …	now is 0.75 fF
+CapDebug (obsolete_fringe (blocked)): A -= 0.737881 fF …	now A == 1.711319 fF
+	overlapMult=0.003699 (3.699 aF/µm^2) dnear=40 (0.2 µm), snear=0.0935129 (0.000467564 µm), perimCap[90][0]=0.2035 (40.7 /µm), length=4000 (20 µm)
+CapDebug (sidewall): A-B (layer li), overlap=4000 (20 µm), sep=40 (0.2 µm), e->ec_cap=12.75 (0.0255 fF), e->ec_offset=28 (0.14 µm), delta += 0.75 fF …	now is 1.5 fF
+CapDebug (obsolete_fringe (blocked)): B -= 0.737881 fF …	now B == 1.711319 fF
+	overlapMult=0.003699 (3.699 aF/µm^2) dnear=40 (0.2 µm), snear=0.0935129 (0.000467564 µm), perimCap[90][0]=0.2035 (40.7 /µm), length=4000 (20 µm)
+exttospice finished.
+```
