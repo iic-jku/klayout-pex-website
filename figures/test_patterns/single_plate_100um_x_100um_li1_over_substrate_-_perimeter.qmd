@@ -1,0 +1,51 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: single_plate_100um_x_100um_li1_over_substrate_-_perimeter
+#| echo: false
+#| fig-cap: "Perimeter (fringe) capacitance li1 to substrate."
+import drawsvg as dw
+import os
+
+def image_path(file_name: str) -> str:
+    quarto_dir = os.getenv('QUARTO_PROJECT_ROOT', None)
+    if quarto_dir is None: # called from Jupyter
+        return os.path.join(os.path.dirname(__file__), file_name)
+    else:  # called from Quarto
+        return os.path.join(quarto_dir, 'figures', 'test_patterns', file_name)
+
+w = 400
+h = 423
+
+img_path = image_path('single_plate_100um_x_100um_li1_over_substrate_-_perimeter.png')
+
+d = dw.Drawing(w, h)
+d.append(dw.Image(0, 0, w, h, img_path, embed=True))
+d.append(dw.Text(['Perimeter li1 → substrate: ',
+                 'Total = 16.28 fF'],
+                 x=200,  y=190, fill='red', font_size=16, text_anchor='middle'))
+d.append(dw.Text('Top: 4.07 fF', 
+                 x=160,  y=38, fill='white', font_size=16))
+d.append(dw.Text('Left: 4.07 fF',
+                 x=65,  y=250, fill='white', font_size=16))                 
+d.append(dw.Text('Right: 4.07 fF', 
+                 x=245,  y=250, fill='white', font_size=16))                 
+d.append(dw.Text('Bottom: 4.07 fF',
+                 x=90,  y=365, fill='white', font_size=16))                 
+d
+d
+```

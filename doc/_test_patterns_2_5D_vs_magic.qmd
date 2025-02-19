@@ -17,4 +17,52 @@ limitations under the License.
 # Comparison KPEX/2.5D with MAGIC {#sec-test-patterns}
 
 The initial goal of `KPEX/2.5D` is to basically come up with the same results as `KPEX/MAGIC`.
-This comparison uses the version `Magic 8.3 rev 486`, but augmented with debug logging, which will be shown and discussed for each example.
+
+::: {.callout-note}
+Notes about this comparison:
+
+- Version `Magic 8.3 rev 486` is used, but augmented with debug logging[^magic-with-debug-logging], which will be shown and discussed for each example.
+- `KPEX/MAGIC` halo is set to `--magic_halo=100000`
+   - NOTE: the screenshots however were created with `--magic_halo=8` to give better illustrations
+- `KPEX/2.5D` halo is set to `--halo=100000`
+:::
+
+
+## Test Pattern `single_plate_100um_x_100um_li1_over_substrate`
+
+GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz>
+
+{{< include /figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_overlap.qmd >}}
+
+| Description | Layer Top | Net Top | Layer Bottom  | Net Bottom | MAGIC [fF]| KPEX/2.5D [fF]| MAGIC Lines |
+|-------------|----------:|:--------|--------------:|:----------:|----------:|--------------:|------------:|
+| Overlap     |       li1 | li1     |     substrate | VSUBS      |     369.9 |         369.9 |           4 |
+: Extracted Parasitic Overlap Capacitances
+
+{{< include /figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_perimeter.qmd >}}
+
+
+| Description     | Layer Top | Net Top | Layer Bottom  | Net Bottom | MAGIC [fF]| KPEX/2.5D [fF]| MAGIC Lines |
+|-----------------|----------:|:--------|--------------:|:----------:|----------:|--------------:|------------:|
+| Fringe (top)    |       li1 | li1     |     substrate | VSUBS      |      4.07 |          4.07 |          5  |
+| Fringe (left)   |       li1 | li1     |     substrate | VSUBS      |      4.07 |          4.07 |          6  |
+| Fringe (right)  |       li1 | li1     |     substrate | VSUBS      |      4.07 |          4.07 |          7  |
+| Fringe (bottom) |       li1 | li1     |     substrate | VSUBS      |      4.07 |          4.07 |          8  |
+
+
+---
+code-line-numbers: true
+---
+```{csv}
+Magic 8.3 revision 486 - Compiled on `date`.
+----------------------------------------------------
+
+CapDebug (extNodeAreaFunc/Area) layer li(90), net li_0_0#, area=400000000 (10000 µm^2) nreg_cap += 369.9 fF
+CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 373.97 fF)
+CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 378.04 fF)
+CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 382.11 fF)
+CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 386.18 fF)
+CapDebug (extSetResist): li_0_0# area=400000000 (10000 µm^2) perim=80000 (400 µm)
+CapDebug ---
+```
+

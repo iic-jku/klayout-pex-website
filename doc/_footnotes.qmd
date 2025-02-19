@@ -18,3 +18,4 @@ limitations under the License.
 [^abbrev-mim]: Metal-Insulator-Metal capacitors
 [^tech-gen-script]: C++ generator scripts the built-in tech files are located in `cxx/gen_tech_pb/pdk/*.cpp`.
 [^kpex-site-packages]: To find the `site-packages` directory for the `klayout-pex` package, call `pip3 show klayout-pex`.
+[^magic-with-debug-logging]: A fork of MAGIC which includes debug logging about the different parasitic contributions is hosted here: <https://github.com/martinjankoehler/magic>
