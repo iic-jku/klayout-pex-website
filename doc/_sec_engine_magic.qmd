@@ -148,9 +148,20 @@ $$
 
 ![Sidewall shielding](figures/magic_cap_type_-_sidewall_shielding.svg)
 
-![Lateral fringe shielding](figures/magic_cap_type_-_lateral_fringe_shielding.svg)
+![Lateral fringe shielding (1/2)](figures/magic_cap_type_-_lateral_fringe_shielding.svg)
 
 ![Vertical fringe shielding](figures/magic_cap_type_-_vertical_fringe_shielding.svg)
 
 Shielding Effects
 :::
+
+Note, given an analyzed sidewall (edge in 2D), lateral fringe shielding 
+
+- is caused by opposing shapes on the same layer
+   - even by the same polygon
+   - by other polygons (same net)
+   - by other polygons (different net) --- this is what we also look at when analyzing sidewall coupling
+- will shield the fringing to the lower layers, i.e. in @fig-lateral-fringe-shielding-2 the coupling between the two shapes is the same in the above and below cases
+
+![Lateral fringe shielding (2/2)](figures/magic_cap_type_-_lateral_fringe_shielding2.svg){#fig-lateral-fringe-shielding-2}
+
