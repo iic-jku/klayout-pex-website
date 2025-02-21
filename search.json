@@ -256,7 +256,7 @@
     "href": "doc/doc.html#shielding-effects",
     "title": "KLayout-PEX Documentation",
     "section": "5.6 Shielding Effects",
-    "text": "5.6 Shielding Effects\n\n\n\nTable 1: Shielding effects\n\n\n\n\n\n\n\n\n\n\n\nType\nShielding\n\n\n\nTo Substrate\nBetween layers\nOn same layer\n\n\n\n\nOverlap shielding\n✔\n✔\n✘\n\n\nSidewall shielding\n✘\n✘\n✔\n\n\nLateral fringe shielding\n✘\n✔\n✔\n\n\nVertical fringe shielding\n✔\n✔\n✘\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOverlap shielding\n\n\n\n\n\n\n\nSidewall shielding\n\n\n\n\n\n\n\n\n\nLateral fringe shielding\n\n\n\n\n\n\n\nVertical fringe shielding\n\n\n\n\n\n\nFigure 3: Shielding Effects"
+    "text": "5.6 Shielding Effects\n\n\n\nTable 1: Shielding effects\n\n\n\n\n\n\n\n\n\n\n\nType\nShielding\n\n\n\nTo Substrate\nBetween layers\nOn same layer\n\n\n\n\nOverlap shielding\n✔\n✔\n✘\n\n\nSidewall shielding\n✘\n✘\n✔\n\n\nLateral fringe shielding\n✘\n✔\n✔\n\n\nVertical fringe shielding\n✔\n✔\n✘\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOverlap shielding\n\n\n\n\n\n\n\nSidewall shielding\n\n\n\n\n\n\n\n\n\nLateral fringe shielding (1/2)\n\n\n\n\n\n\n\nVertical fringe shielding\n\n\n\n\n\n\nFigure 3: Shielding Effects\n\n\n\nNote, given an analyzed sidewall (edge in 2D), lateral fringe shielding\n\nis caused by opposing shapes on the same layer\n\neven by the same polygon\nby other polygons (same net)\nby other polygons (different net) — this is what we also look at when analyzing sidewall coupling\n\nwill shield the fringing to the lower layers, i.e. in Figure 4 the coupling between the two shapes is the same in the above and below cases\n\n\n\n\n\n\n\nFigure 4: Lateral fringe shielding (2/2)"
   },
   {
     "objectID": "doc/doc.html#test-pattern-single_plate_100um_x_100um_li1_over_substrate",
