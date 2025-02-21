@@ -80,6 +80,9 @@ bibliography: ../references.bib
 {{< include _sec_engine_2_5D.qmd >}}
 
 {{< pagebreak >}}
+{{< include _test_patterns_2_5D_vs_magic.qmd >}}
+
+{{< pagebreak >}}
 
 #  Footnotes
 {{< include _footnotes.qmd >}}

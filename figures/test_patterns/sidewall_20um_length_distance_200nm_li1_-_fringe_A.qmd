@@ -1,0 +1,55 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: sidewall_20um_length_distance_200nm_li1_-_fringe_A
+#| echo: false
+#| fig-cap: "Fringe capacitance between net A and substrate."
+import drawsvg as dw
+import os
+
+def image_path(file_name: str) -> str:
+    quarto_dir = os.getenv('QUARTO_PROJECT_ROOT', None)
+    if quarto_dir is None: # called from Jupyter
+        return os.path.join(os.path.dirname(__file__), file_name)
+    else:  # called from Quarto
+        return os.path.join(quarto_dir, 'figures', 'test_patterns', file_name)
+
+w = 600
+h = 411
+
+img_path = image_path('sidewall_20um_length_distance_200nm_li1_-_fringe_A.png')
+
+d = dw.Drawing(w, h)
+d.append(dw.Image(0, 0, w, h, img_path, embed=True))
+d.append(dw.Text(['Perimeter A → substrate:',
+                  'Total = 0.9715 fF'], x=60,  y=20, fill='red', font_size=16))
+
+d.append(dw.Text('Top: 0.814 fF', 
+                 x=290,  y=125, fill='white', font_size=16, text_anchor='middle'))
+d.append(dw.Text('Left: 0.041 fF',
+                 x=25,  y=170, fill='white', font_size=16))                 
+d.append(dw.Text('Right: 0.041 fF', 
+                 x=475,  y=170, fill='white', font_size=16))                 
+d.append(dw.Text('Bottom: 0.814 - 0.738 = 0.076 fF',
+                 x=290,  y=350, fill='white', font_size=16, text_anchor='middle'))
+
+d.append(dw.Line(sx=140, sy=200, ex=460, ey=323, 
+                 stroke='blue', stroke_width=1.5))                 
+d.append(dw.Line(sx=140, sy=323, ex=460, ey=200, 
+                 stroke='blue', stroke_width=1.5))                 
+d
+```
