@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.41">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-02-06">
+<meta name="dcterms.date" content="2025-02-21">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -91,12 +91,12 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-957390e16f8056bf57452af51c800dd0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-0e737baddcd55aaef238ba6a7f21118c.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-57f86f76a34a3b5fcd4725c815234fdf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ebe4cc08c959f78266c1f62ba9a6f235.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -255,9 +255,15 @@ window.Quarto = {
   <li><a href="#shielding-effects" id="toc-shielding-effects" class="nav-link" data-scroll-target="#shielding-effects"><span class="header-section-number">5.6</span> Shielding Effects</a></li>
   </ul></li>
   <li><a href="#sec-engine-kpex-2_5D" id="toc-sec-engine-kpex-2_5D" class="nav-link" data-scroll-target="#sec-engine-kpex-2_5D"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</a></li>
-  <li><a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="header-section-number">7</span> Footnotes</a>
+  <li><a href="#sec-test-patterns" id="toc-sec-test-patterns" class="nav-link" data-scroll-target="#sec-test-patterns"><span class="header-section-number">7</span> Comparison KPEX/2.5D with MAGIC</a>
   <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.1</span> References</a></li>
+  <li><a href="#test-pattern-single_plate_100um_x_100um_li1_over_substrate" id="toc-test-pattern-single_plate_100um_x_100um_li1_over_substrate" class="nav-link" data-scroll-target="#test-pattern-single_plate_100um_x_100um_li1_over_substrate"><span class="header-section-number">7.1</span> Test Pattern <code>single_plate_100um_x_100um_li1_over_substrate</code></a></li>
+  <li><a href="#test-pattern-sidewall_20um_length_distance_200nm_li1" id="toc-test-pattern-sidewall_20um_length_distance_200nm_li1" class="nav-link" data-scroll-target="#test-pattern-sidewall_20um_length_distance_200nm_li1"><span class="header-section-number">7.2</span> Test Pattern <code>sidewall_20um_length_distance_200nm_li1</code></a></li>
+  <li><a href="#test-pattern-sideoverlap_simple_plates_li1_m1" id="toc-test-pattern-sideoverlap_simple_plates_li1_m1" class="nav-link" data-scroll-target="#test-pattern-sideoverlap_simple_plates_li1_m1"><span class="header-section-number">7.3</span> Test Pattern <code>sideoverlap_simple_plates_li1_m1</code></a></li>
+  </ul></li>
+  <li><a href="#footnotes" id="toc-footnotes" class="nav-link" data-scroll-target="#footnotes"><span class="header-section-number">8</span> Footnotes</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8.1</span> References</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="doc.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -293,7 +299,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 6, 2025</p>
+      <p class="date">February 21, 2025</p>
     </div>
   </div>
   
@@ -426,10 +432,10 @@ Warning
 <section id="sec-intro-installation" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="sec-intro-installation"><span class="header-section-number">1.5</span> Installation</h2>
 <p>Generally, <code>KPEX</code> is deployed using PyPi (Python Package Index), install via:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--version</span>   <span class="co"># check the installed version </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--help</span>      <span class="co"># this will help with command line arguments</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="ex">kpex</span> <span class="at">--version</span>   <span class="co"># check the installed version </span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="ex">kpex</span> <span class="at">--help</span>      <span class="co"># this will help with command line arguments</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As for the dependencies, there are multiple options available.</p>
 <section id="option-1-using-iic-osic-tools-docker-image" class="level3" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="option-1-using-iic-osic-tools-docker-image"><span class="header-section-number">1.5.1</span> Option 1: Using <code>IIC-OSIC-TOOLS</code> Docker Image</h3>
@@ -504,13 +510,13 @@ Linux
 <section id="example-layouts" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="example-layouts"><span class="header-section-number">2.1</span> Example Layouts</h2>
 <p>Example layouts are included in the <code>testdata/designs</code> subdirectory of the KLayout-PEX source code:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/martinjankoehler/klayout-pex.git </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># for sky130A</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> testdata/designs/sky130A <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># for IHP SG13G2</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> testdata/designs/ihp_sg13g2 <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">git</span> clone https://github.com/martinjankoehler/klayout-pex.git </span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co"># for sky130A</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">find</span> testdata/designs/sky130A <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co"># for IHP SG13G2</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">find</span> testdata/designs/ihp_sg13g2 <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="sec-first-steps-run-fastercap-engine" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="sec-first-steps-run-fastercap-engine"><span class="header-section-number">2.2</span> Running the <code>KPEX/FasterCap</code> engine</h2>
@@ -534,8 +540,8 @@ Note
 </div>
 </div>
 <p>Let’s try the following:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--gds</span> <span class="dt">\</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--gds</span> <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -572,10 +578,10 @@ Note
 </div>
 </div>
 <p>Now, to run the FasterCap engine (might take a couple of minutes):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--fastercap</span> <span class="at">--gds</span> <span class="dt">\</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--blackbox</span> n <span class="at">--fastercap</span> <span class="at">--gds</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Within the output directory (defaults to <code>output</code>), <code>KPEX</code> creates a subdirectory <code>Geometries</code>, containing STL-files that provide a preview of the <code>FasterCap</code> input geometries. Use <code>MeshLab</code> (see <a href="#sec-intro-meshlab" class="quarto-xref">Section&nbsp;1.5.3</a>) to open and preview those files:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> output/cap_vpp_04<span class="pp">*</span>/Geometries/<span class="pp">*</span>.stl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">ls</span> <span class="at">-d</span> output/cap_vpp_04<span class="pp">*</span>/Geometries/<span class="pp">*</span>.stl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -603,11 +609,11 @@ g1_VSUBS  5.2959e-09 -4.46971e-10 -1.67304e-09
 g2_C1  -5.56106e-10 1.5383e-08 -1.47213e-08
 g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08</code></pre>
 <p><code>KPEX</code> interprets this matrix and prints a CSV netlist, which can be pasted into a spreadsheet application:</p>
-<pre class="csv"><code>Device;Net1;Net2;Capacitance [fF]
-Cext_0_1;VSUBS;C1;0.5
-Cext_0_2;VSUBS;C0;1.69
-Cext_1_2;C1;C0;14.8
-Cext_1_1;C1;VSUBS;0.08</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource csv number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>Device;Net1;Net2;Capacitance [fF]</span>
+<span id="cb7-2"><a href="#cb7-2"></a>Cext_0_1;VSUBS;C1;0.5</span>
+<span id="cb7-3"><a href="#cb7-3"></a>Cext_0_2;VSUBS;C0;1.69</span>
+<span id="cb7-4"><a href="#cb7-4"></a>Cext_1_2;C1;C0;14.8</span>
+<span id="cb7-5"><a href="#cb7-5"></a>Cext_1_1;C1;VSUBS;0.08</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In addition, a SPICE netlist is generated.</p>
 </section>
 <section id="sec-first-steps-run-magic-engine" class="level2" data-number="2.3">
@@ -623,8 +629,8 @@ Cext_1_1;C1;VSUBS;0.08</code></pre>
 <li><code>--gds</code>: path to the GDS input layout</li>
 <li><code>--magic</code>: enable magic engine</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--magic</span> <span class="at">--gds</span> <span class="dt">\</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">kpex</span> <span class="at">--pdk</span> sky130A <span class="at">--magic</span> <span class="at">--gds</span> <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  testdata/designs/sky130A/<span class="pp">*</span>/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
@@ -1094,9 +1100,774 @@ Caution
 </div>
 <div style="page-break-after: always;"></div>
 </section>
-<section id="footnotes" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Footnotes</h1>
-<section id="references" class="level2" data-number="7.1">
+<section id="sec-test-patterns" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Comparison KPEX/2.5D with MAGIC</h1>
+<p>The initial goal of <code>KPEX/2.5D</code> is to basically come up with the same results as <code>KPEX/MAGIC</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notes about this comparison:</p>
+<ul>
+<li>Version <code>Magic 8.3 rev 486</code> is used, but augmented with debug logging<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>, which will be shown and discussed for each example.</li>
+<li><code>KPEX/MAGIC</code> halo is set to <code>--magic_halo=100000</code>
+<ul>
+<li>NOTE: the screenshots however were created with <code>--magic_halo=8</code> to give better illustrations</li>
+</ul></li>
+<li><code>KPEX/2.5D</code> halo is set to <code>--halo=100000</code></li>
+</ul>
+</div>
+</div>
+<section id="test-pattern-single_plate_100um_x_100um_li1_over_substrate" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="test-pattern-single_plate_100um_x_100um_li1_over_substrate"><span class="header-section-number">7.1</span> Test Pattern <code>single_plate_100um_x_100um_li1_over_substrate</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz</a></p>
+<div id="cell-single_plate_100um_x_100um_li1_over_substrate_-_overlap" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="single_plate_100um_x_100um_li1_over_substrate_-_overlap" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/single_plate_100um_x_100um_li1_over_substrate_-_overlap-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Overlap capacitance li1 to substrate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Overlap Capacitances</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Overlap</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">369.9</td>
+<td style="text-align: right;">369.9</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-single_plate_100um_x_100um_li1_over_substrate_-_perimeter" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="single_plate_100um_x_100um_li1_over_substrate_-_perimeter" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/single_plate_100um_x_100um_li1_over_substrate_-_perimeter-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Perimeter (fringe) capacitance li1 to substrate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fringe (top)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Fringe (left)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td>Fringe (right)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb9-2"><a href="#cb9-2"></a>----------------------------------------------------</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>CapDebug (extNodeAreaFunc/Area) layer li(90), net li_0_0#, area=400000000 (10000 µm^2) nreg_cap += 369.9 fF</span>
+<span id="cb9-5"><a href="#cb9-5"></a>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 373.97 fF)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 378.04 fF)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 382.11 fF)</span>
+<span id="cb9-8"><a href="#cb9-8"></a>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_0_0#, length=20000 (100 µm), nreg_cap += 4.07 fF (now nreg_cap = 386.18 fF)</span>
+<span id="cb9-9"><a href="#cb9-9"></a>CapDebug (extSetResist): li_0_0# area=400000000 (10000 µm^2) perim=80000 (400 µm)</span>
+<span id="cb9-10"><a href="#cb9-10"></a>CapDebug ---</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-pattern-sidewall_20um_length_distance_200nm_li1" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="test-pattern-sidewall_20um_length_distance_200nm_li1"><span class="header-section-number">7.2</span> Test Pattern <code>sidewall_20um_length_distance_200nm_li1</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz</a></p>
+<div id="cell-sidewall_20um_length_distance_200nm_li1_-_overlap" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="sidewall_20um_length_distance_200nm_li1_-_overlap" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sidewall_20um_length_distance_200nm_li1_-_overlap-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Overlap capacitance of nets on li1.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Overlap Capacitances</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Overlap</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.7398</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>Overlap</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.7398</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-sidewall_20um_length_distance_200nm_li1_-_sidewall" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div id="sidewall_20um_length_distance_200nm_li1_-_sidewall" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sidewall_20um_length_distance_200nm_li1_-_sidewall-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Sidewall capacitance between nets A and B on li1.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Sidewall Capacitances</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer</th>
+<th style="text-align: center;">Net1</th>
+<th style="text-align: right;">Net2</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sidewall</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: center;">A</td>
+<td style="text-align: right;">B</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td>Sidewall</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: center;">B</td>
+<td style="text-align: right;">A</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">21</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-sidewall_20um_length_distance_200nm_li1_-_fringe_A" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="sidewall_20um_length_distance_200nm_li1_-_fringe_a" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sidewall_20um_length_distance_200nm_li1_-_fringe_a-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Fringe capacitance between net A and substrate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Fringe Capacitances between nets A, B on li1 and substrate</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fringe (top)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>Fringe (left)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.0407</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">-0.7379</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="odd">
+<td>Fringe (right)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.0407</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>Fringe (top)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td>Fringe (top)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">-0.7379</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="even">
+<td>Fringe (left)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.0407</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">0.814</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td>Fringe (right)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.0407</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb10-2"><a href="#cb10-2"></a>----------------------------------------------------</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>CapDebug (extNodeAreaFunc/Area) layer li(90), net li_0_240#, area=800000 (20 µm^2) nreg_cap += 0.7398 fF</span>
+<span id="cb10-5"><a href="#cb10-5"></a>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_0_240#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 1.5538 fF)</span>
+<span id="cb10-6"><a href="#cb10-6"></a>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_0_240#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 1.5945 fF)</span>
+<span id="cb10-7"><a href="#cb10-7"></a>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_0_240#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 2.4085 fF)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_0_240#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 2.4492 fF)</span>
+<span id="cb10-9"><a href="#cb10-9"></a>CapDebug (extSetResist): li_0_240# area=800000 (20 µm^2) perim=8400 (42 µm)</span>
+<span id="cb10-10"><a href="#cb10-10"></a>CapDebug ---</span>
+<span id="cb10-11"><a href="#cb10-11"></a>CapDebug (extNodeAreaFunc/Area) layer li(90), net li_0_0#, area=800000 (20 µm^2) nreg_cap += 0.7398 fF</span>
+<span id="cb10-12"><a href="#cb10-12"></a>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_0_0#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 1.5538 fF)</span>
+<span id="cb10-13"><a href="#cb10-13"></a>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_0_0#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 1.5945 fF)</span>
+<span id="cb10-14"><a href="#cb10-14"></a>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_0_0#, length=4000 (20 µm), nreg_cap += 0.814 fF (now nreg_cap = 2.4085 fF)</span>
+<span id="cb10-15"><a href="#cb10-15"></a>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_0_0#, length=200 (1 µm), nreg_cap += 0.0407 fF (now nreg_cap = 2.4492 fF)</span>
+<span id="cb10-16"><a href="#cb10-16"></a>CapDebug (extSetResist): li_0_0# area=800000 (20 µm^2) perim=8400 (42 µm)</span>
+<span id="cb10-17"><a href="#cb10-17"></a>CapDebug ---</span>
+<span id="cb10-18"><a href="#cb10-18"></a>CapDebug (sidewall): A-B (layer li), overlap=4000 (20 µm), sep=40 (0.2 µm), e-&gt;ec_cap=12.75 (0.0255 fF), e-&gt;ec_offset=28 (0.14 µm), delta += 0.75 fF …  now is 0.75 fF</span>
+<span id="cb10-19"><a href="#cb10-19"></a>CapDebug (obsolete_fringe (blocked)): A -= 0.737881 fF …    now A == 1.711319 fF</span>
+<span id="cb10-20"><a href="#cb10-20"></a>    overlapMult=0.003699 (3.699 aF/µm^2) dnear=40 (0.2 µm), snear=0.0935129 (0.000467564 µm), perimCap[90][0]=0.2035 (40.7 /µm), length=4000 (20 µm)</span>
+<span id="cb10-21"><a href="#cb10-21"></a>CapDebug (sidewall): A-B (layer li), overlap=4000 (20 µm), sep=40 (0.2 µm), e-&gt;ec_cap=12.75 (0.0255 fF), e-&gt;ec_offset=28 (0.14 µm), delta += 0.75 fF …  now is 1.5 fF</span>
+<span id="cb10-22"><a href="#cb10-22"></a>CapDebug (obsolete_fringe (blocked)): B -= 0.737881 fF …    now B == 1.711319 fF</span>
+<span id="cb10-23"><a href="#cb10-23"></a>    overlapMult=0.003699 (3.699 aF/µm^2) dnear=40 (0.2 µm), snear=0.0935129 (0.000467564 µm), perimCap[90][0]=0.2035 (40.7 /µm), length=4000 (20 µm)</span>
+<span id="cb10-24"><a href="#cb10-24"></a>exttospice finished.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-pattern-sideoverlap_simple_plates_li1_m1" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="test-pattern-sideoverlap_simple_plates_li1_m1"><span class="header-section-number">7.3</span> Test Pattern <code>sideoverlap_simple_plates_li1_m1</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz</a></p>
+<div id="cell-sideoverlap_simple_plates_li1_m1_-_overlap" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div id="sideoverlap_simple_plates_li1_m1_-_overlap" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sideoverlap_simple_plates_li1_m1_-_overlap-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Overlap capacitances to substrate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Overlap Capacitances</caption>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Overlap</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">3.699</td>
+<td style="text-align: right;">3.7</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td>Overlap</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">232.02</td>
+<td style="text-align: right;">232.02</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+<div id="cell-sideoverlap_simple_plates_li1_m1_-_fringe_li1_substrate" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="sideoverlap_simple_plates_li1_m1_-_fringe_li1_substrate" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sideoverlap_simple_plates_li1_m1_-_fringe_li1_substrate-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Fringe capacitances li1 to substrate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-sideoverlap_simple_plates_li1_m1_-_fringe_m1_substrate" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="sideoverlap_simple_plates_li1_m1_-_fringe_m1_substrate" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sideoverlap_simple_plates_li1_m1_-_fringe_m1_substrate-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Fringe capacitances met1 to substrate.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Fringe Capacitances between metals and substrate</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fringe (top)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">2.035</td>
+<td style="text-align: right;">2.035</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">2.035</td>
+<td style="text-align: right;">2.035</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="odd">
+<td>Fringe (left)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td>Fringe (right)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td>Fringe (top)</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">6.0855</td>
+<td style="text-align: right;">6.085</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">6.0855</td>
+<td style="text-align: right;">5.927</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="odd">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">-0.1579</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">19</td>
+</tr>
+<tr class="even">
+<td>Fringe (left)</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">2.4342</td>
+<td style="text-align: right;">2.434</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td>Fringe (right)</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">substrate</td>
+<td style="text-align: center;">VSUBS</td>
+<td style="text-align: right;">2.4342</td>
+<td style="text-align: right;">2.434</td>
+<td style="text-align: right;">20</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>MAGIC</code> handles shielding differently than <code>KPEX/2.5D</code>, it first assumes no shield exists, and later subtracts portions to arrive at the shielded value. That’s why the bold cells differ. Line 15 - 20 accumulate contributions, whereas line 34 subtracts a contribution:</p>
+<ul>
+<li>Line 15: <code>CapDebug (extNodeAreaFunc/Area) layer m1(97), net m1_10000_10000#, area=360000000 (9000 µm^2) nreg_cap += 232.02 fF</code></li>
+<li>Line 17: <code>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer m1(97), net m1_10000_10000#, length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 238.105 fF)</code></li>
+<li>Line 18: <code>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer m1(97), net m1_10000_10000#, length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 240.54 fF)</code></li>
+<li>Line 19: <code>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer m1(97), net m1_10000_10000#, length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 246.625 fF)</code></li>
+<li>Line 20: <code>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer m1(97), net m1_10000_10000#, length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 249.059 fF)</code></li>
+<li>Line 34: <code>nreg_cap -= 0.157966 fF (now nreg_cap = 248.901 fF)</code></li>
+</ul>
+<p>Comparison:</p>
+<ul>
+<li><code>KPEX/2.5D</code>: <span class="math inline">\(4.86834 + 0.77242 + 0.2867 = 5.9275\)</span></li>
+<li><code>MAGIC</code>: <span class="math inline">\(6.0855 - 0.157966 = 5.9275\)</span></li>
+</ul>
+</div>
+</div>
+<div id="cell-sideoverlap_simple_plates_li1_m1_-_fringe_li1_m1" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="sideoverlap_simple_plates_li1_m1_-_fringe_li1_m1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sideoverlap_simple_plates_li1_m1_-_fringe_li1_m1-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Fringe capacitances li1 to m1.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-sideoverlap_simple_plates_li1_m1_-_fringe_m1_li1" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div id="sideoverlap_simple_plates_li1_m1_-_fringe_m1_li1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/sideoverlap_simple_plates_li1_m1_-_fringe_m1_li1-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Fringe capacitances m1 to li1.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Fringe Capacitances between metals</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Description</th>
+<th style="text-align: right;">Layer Top</th>
+<th style="text-align: left;">Net Top</th>
+<th style="text-align: right;">Layer Bottom</th>
+<th style="text-align: center;">Net Bottom</th>
+<th style="text-align: right;">MAGIC [fF]</th>
+<th style="text-align: right;">KPEX/2.5D [fF]</th>
+<th style="text-align: right;">MAGIC Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fringe (top)</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: center;">met1</td>
+<td style="text-align: right;">0.598</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="even">
+<td>Fringe (bottom)</td>
+<td style="text-align: right;">met1</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">li1</td>
+<td style="text-align: center;">li1</td>
+<td style="text-align: right;">0.0654</td>
+<td style="text-align: right;">0.065</td>
+<td style="text-align: right;">36</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href="#cb11-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>----------------------------------------------------</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a>Extracting sideoverlap_simple_plates_li1_m1 into /Users/martin/Source/klayout-pex/output_sky130A/sideoverlap_simple_plates_li1_m1__sideoverlap_simple_plates_li1_m1/magic_CC/sideoverlap_simple_plates_li1_m1.ext:</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a>CapDebug (extNodeAreaFunc/Area) layer li(90), net li_34000_9000, area=4000000 (100 µm^2) nreg_cap += 3.699 fF</span>
+<span id="cb11-8"><a href="#cb11-8"></a></span>
+<span id="cb11-9"><a href="#cb11-9"></a>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer li(90), net li_34000_9000, length=10000 (50 µm), nreg_cap += 2.035 fF (now nreg_cap = 5.734 fF)</span>
+<span id="cb11-10"><a href="#cb11-10"></a>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer li(90), net li_34000_9000, length=400 (2 µm), nreg_cap += 0.0814 fF (now nreg_cap = 5.8154 fF)</span>
+<span id="cb11-11"><a href="#cb11-11"></a>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer li(90), net li_34000_9000, length=10000 (50 µm), nreg_cap += 2.035 fF (now nreg_cap = 7.8504 fF)</span>
+<span id="cb11-12"><a href="#cb11-12"></a>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer li(90), net li_34000_9000, length=400 (2 µm), nreg_cap += 0.0814 fF (now nreg_cap = 7.9318 fF)</span>
+<span id="cb11-13"><a href="#cb11-13"></a>CapDebug (extSetResist): li_34000_9000 area=4000000 (100 µm^2) perim=20800 (104 µm)</span>
+<span id="cb11-14"><a href="#cb11-14"></a>CapDebug ---</span>
+<span id="cb11-15"><a href="#cb11-15"></a>CapDebug (extNodeAreaFunc/Area) layer m1(97), net m1_10000_10000#, area=360000000 (9000 µm^2) nreg_cap += 232.02 fF</span>
+<span id="cb11-16"><a href="#cb11-16"></a></span>
+<span id="cb11-17"><a href="#cb11-17"></a>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer m1(97), net m1_10000_10000#, length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 238.105 fF)</span>
+<span id="cb11-18"><a href="#cb11-18"></a>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer m1(97), net m1_10000_10000#, length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 240.54 fF)</span>
+<span id="cb11-19"><a href="#cb11-19"></a>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer m1(97), net m1_10000_10000#, length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 246.625 fF)</span>
+<span id="cb11-20"><a href="#cb11-20"></a>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer m1(97), net m1_10000_10000#, length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 249.059 fF)</span>
+<span id="cb11-21"><a href="#cb11-21"></a>CapDebug (extSetResist): m1_10000_10000# area=360000000 (9000 µm^2) perim=84000 (420 µm)</span>
+<span id="cb11-22"><a href="#cb11-22"></a>CapDebug ---</span>
+<span id="cb11-23"><a href="#cb11-23"></a>CapDebug (extSideOverlapHalo): (li-m1) length=30.000000 µm, mult=0.011420, dnear=3.000000 µm (600), dfar=8.000000 µm (1600), snear=0.907713, sfar=0.965163 (cfrac=0.057450)</span>
+<span id="cb11-24"><a href="#cb11-24"></a>CapDebug (extSideOverlapHalo) (li-substrate): mult=0.003699, snear=0.730477, sfar=0.893413 (sfrac=0.162935)</span>
+<span id="cb11-25"><a href="#cb11-25"></a>CapDebug (extSideOverlapHalo): efflength=1.72351 µm, cap+=0.299029 aF, cap=59.8059 aF, e-&gt;ec_cap=0.1735, so_coupfrac=0, subfrac+=0, subfrac=0, so_subfrac=0</span>
+<span id="cb11-26"><a href="#cb11-26"></a>CapDebug (sideoverlaphalo): met1-li1 += 0.059806 fF …   now met1-li1 == 0.059806 fF</span>
+<span id="cb11-27"><a href="#cb11-27"></a>CapDebug ---</span>
+<span id="cb11-28"><a href="#cb11-28"></a>CapDebug (extSideOverlapHalo): (m1-li) length=30.000000 µm, mult=0.011420, dnear=3.000000 µm (600), dfar=5.000000 µm (1000), snear=0.907713, sfar=0.944366 (cfrac=0.036653)</span>
+<span id="cb11-29"><a href="#cb11-29"></a>CapDebug (extSideOverlapHalo) (m1-substrate): mult=0.002578, snear=0.634619, sfar=0.764408 (sfrac=0.129789)</span>
+<span id="cb11-30"><a href="#cb11-30"></a>CapDebug (extSideOverlapHalo): efflength=1.0996 µm, cap+=0.327131 aF, cap=65.4263 aF, e-&gt;ec_cap=0.2975, so_coupfrac=0, subfrac+=0, subfrac=0, so_subfrac=0</span>
+<span id="cb11-31"><a href="#cb11-31"></a>CapDebug (extSideOverlapHalo/obsolete_perimcap) layer m1(97), net met1, </span>
+<span id="cb11-32"><a href="#cb11-32"></a>    efflength=3.89366 µm (778.733) = (sfrac(0.129789) - subfrac(0)) * length(30 µm)</span>
+<span id="cb11-33"><a href="#cb11-33"></a>    exts_perimCap[m1][0] = 0.20285</span>
+<span id="cb11-34"><a href="#cb11-34"></a>    nreg_cap -= 0.157966 fF (now nreg_cap = 248.901 fF)</span>
+<span id="cb11-35"><a href="#cb11-35"></a>CapDebug (obsolete_perimcap): met1 -= 0.157966 fF … now met1 == 248.901423 fF</span>
+<span id="cb11-36"><a href="#cb11-36"></a>CapDebug (sideoverlaphalo): met1-li1 += 0.065426 fF …   now met1-li1 == 0.125232 fF</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="footnotes" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Footnotes</h1>
+<section id="references" class="level2" data-number="8.1">
 
 
 
@@ -1105,7 +1876,7 @@ Caution
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">7.1 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">8.1 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-fastfieldsolvers-fastercap-manual-chm" class="csl-entry" role="listitem">
 Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help.”</span> 2019. <a href="https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm">https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm</a>.
 </div>
@@ -1135,6 +1906,7 @@ Nagel, Laurence W. 1975. <span>“SPICE2: A Computer Program to Simulate Semicon
 <li id="fn3"><p>To find the <code>site-packages</code> directory for the <code>klayout-pex</code> package, call <code>pip3 show klayout-pex</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>Metal-Oxide-Metal capacitors<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>Metal-Insulator-Metal capacitors<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>A fork of MAGIC which includes debug logging about the different parasitic contributions is hosted here: <a href="https://github.com/martinjankoehler/magic" class="uri">https://github.com/martinjankoehler/magic</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

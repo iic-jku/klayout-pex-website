@@ -1,23 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/python-coverage.html</loc>
-    <lastmod>2025-02-06T22:23:49.655Z</lastmod>
-  </url>
-  <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/test-reports.html</loc>
-    <lastmod>2025-02-06T22:23:49.655Z</lastmod>
+    <lastmod>2025-02-21T20:29:15.921Z</lastmod>
   </url>
   <url>
-    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/fastercap-maxwell-capacitance-matrix-schematic.html</loc>
-    <lastmod>2025-02-06T22:23:49.672Z</lastmod>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/python-coverage.html</loc>
+    <lastmod>2025-02-21T20:29:15.921Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_sidewall.html</loc>
+    <lastmod>2025-02-21T20:29:16.089Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_li1_m1.html</loc>
+    <lastmod>2025-02-21T20:29:16.085Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_m1_substrate.html</loc>
+    <lastmod>2025-02-21T20:29:16.087Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_fringe_A.html</loc>
+    <lastmod>2025-02-21T20:29:16.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_li1_substrate.html</loc>
+    <lastmod>2025-02-21T20:29:16.085Z</lastmod>
   </url>
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/index.html</loc>
-    <lastmod>2025-02-06T22:23:49.811Z</lastmod>
+    <lastmod>2025-02-21T20:29:16.090Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/notebooks/fringe_magic_substrate_issue.html</loc>
+    <lastmod>2025-02-21T20:29:16.090Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_overlap.html</loc>
+    <lastmod>2025-02-21T20:29:16.089Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_overlap.html</loc>
+    <lastmod>2025-02-21T20:29:16.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_m1_li1.html</loc>
+    <lastmod>2025-02-21T20:29:16.086Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_overlap.html</loc>
+    <lastmod>2025-02-21T20:29:16.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_perimeter.html</loc>
+    <lastmod>2025-02-21T20:29:16.089Z</lastmod>
+  </url>
+  <url>
+    <loc>https://martinjankoehler.github.io/klayout-pex-website/figures/fastercap-maxwell-capacitance-matrix-schematic.html</loc>
+    <lastmod>2025-02-21T20:29:15.939Z</lastmod>
   </url>
   <url>
     <loc>https://martinjankoehler.github.io/klayout-pex-website/doc/doc.html</loc>
-    <lastmod>2025-02-06T22:23:49.655Z</lastmod>
+    <lastmod>2025-02-21T20:29:15.921Z</lastmod>
   </url>
 </urlset>
