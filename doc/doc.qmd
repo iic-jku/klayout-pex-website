@@ -84,8 +84,9 @@ bibliography: ../references.bib
 
 {{< pagebreak >}}
 
-#  Footnotes
-{{< include _footnotes.qmd >}}
+# Appendix
 
 ## References
+
+{{< include _footnotes.qmd >}}
 
