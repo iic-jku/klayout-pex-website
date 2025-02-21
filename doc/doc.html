@@ -1745,11 +1745,11 @@ Note
 <div class="callout-body-container callout-body">
 <p><code>MAGIC</code> handles shielding differently than <code>KPEX/2.5D</code>, it first assumes no shield exists, and later subtracts portions to arrive at the shielded value. That’s why the bold cells differ. Line 15 - 20 accumulate contributions, whereas line 34 subtracts a contribution:</p>
 <ul>
-<li>Line 15: <code>CapDebug (extNodeAreaFunc/Area) layer m1(97), net m1_10000_10000#, area=360000000 (9000 µm^2) nreg_cap += 232.02 fF</code></li>
-<li>Line 17: <code>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer m1(97), net m1_10000_10000#, length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 238.105 fF)</code></li>
-<li>Line 18: <code>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer m1(97), net m1_10000_10000#, length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 240.54 fF)</code></li>
-<li>Line 19: <code>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer m1(97), net m1_10000_10000#, length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 246.625 fF)</code></li>
-<li>Line 20: <code>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer m1(97), net m1_10000_10000#, length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 249.059 fF)</code></li>
+<li>Line 15: <code>CapDebug (extNodeAreaFunc/Area) layer m1(97), net m1_10000_10000#,</code> <code>area=360000000 (9000 µm^2) nreg_cap += 232.02 fF</code></li>
+<li>Line 17: <code>CapDebug (extNodeAreaFunc/Perimeter/TopSide) layer m1(97), net m1_10000_10000#,</code> <code>length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 238.105 fF)</code></li>
+<li>Line 18: <code>CapDebug (extNodeAreaFunc/Perimeter/LeftSide) layer m1(97), net m1_10000_10000#,</code> <code>length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 240.54 fF)</code></li>
+<li>Line 19: <code>CapDebug (extNodeAreaFunc/Perimeter/BottomSide) layer m1(97), net m1_10000_10000#,</code> <code>length=30000 (150 µm), nreg_cap += 6.0855 fF (now nreg_cap = 246.625 fF)</code></li>
+<li>Line 20: <code>CapDebug (extNodeAreaFunc/Perimeter/RightSide) layer m1(97), net m1_10000_10000#,</code> <code>length=12000 (60 µm), nreg_cap += 2.4342 fF (now nreg_cap = 249.059 fF)</code></li>
 <li>Line 34: <code>nreg_cap -= 0.157966 fF (now nreg_cap = 248.901 fF)</code></li>
 </ul>
 <p>Comparison:</p>
