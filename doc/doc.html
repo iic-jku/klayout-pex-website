@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.41">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-02-21">
+<meta name="dcterms.date" content="2025-03-06">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -91,12 +91,12 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-48ffa3e5b9d089919c6712c39e5b00f2.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-71390cc8b9bae10139428574d3aab2c6.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-57f86f76a34a3b5fcd4725c815234fdf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-ebe4cc08c959f78266c1f62ba9a6f235.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-bd706bf7cc79ec682822fd2bf903aab3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-903665f6a46130ffbaec3b80528a79ef.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -247,12 +247,18 @@ window.Quarto = {
   </ul></li>
   <li><a href="#kpexmagic-engine" id="toc-kpexmagic-engine" class="nav-link" data-scroll-target="#kpexmagic-engine"><span class="header-section-number">5</span> <code>KPEX/MAGIC</code> Engine</a>
   <ul class="collapse">
-  <li><a href="#sec-magic-cap-types" id="toc-sec-magic-cap-types" class="nav-link" data-scroll-target="#sec-magic-cap-types"><span class="header-section-number">5.1</span> Types of Parasitic Capacitances</a></li>
-  <li><a href="#substrate-capacitance" id="toc-substrate-capacitance" class="nav-link" data-scroll-target="#substrate-capacitance"><span class="header-section-number">5.2</span> Substrate Capacitance</a></li>
-  <li><a href="#sidewall-capacitance" id="toc-sidewall-capacitance" class="nav-link" data-scroll-target="#sidewall-capacitance"><span class="header-section-number">5.3</span> Sidewall Capacitance</a></li>
-  <li><a href="#overlap-capacitance" id="toc-overlap-capacitance" class="nav-link" data-scroll-target="#overlap-capacitance"><span class="header-section-number">5.4</span> Overlap Capacitance</a></li>
-  <li><a href="#fringe-capacitance" id="toc-fringe-capacitance" class="nav-link" data-scroll-target="#fringe-capacitance"><span class="header-section-number">5.5</span> Fringe Capacitance</a></li>
-  <li><a href="#shielding-effects" id="toc-shielding-effects" class="nav-link" data-scroll-target="#shielding-effects"><span class="header-section-number">5.6</span> Shielding Effects</a></li>
+  <li><a href="#magic-database-units" id="toc-magic-database-units" class="nav-link" data-scroll-target="#magic-database-units"><span class="header-section-number">5.1</span> MAGIC database units</a></li>
+  <li><a href="#sec-magic-cap-types" id="toc-sec-magic-cap-types" class="nav-link" data-scroll-target="#sec-magic-cap-types"><span class="header-section-number">5.2</span> Types of Parasitic Capacitances</a></li>
+  <li><a href="#substrate-capacitance" id="toc-substrate-capacitance" class="nav-link" data-scroll-target="#substrate-capacitance"><span class="header-section-number">5.3</span> Substrate Capacitance</a></li>
+  <li><a href="#sidewall-capacitance" id="toc-sidewall-capacitance" class="nav-link" data-scroll-target="#sidewall-capacitance"><span class="header-section-number">5.4</span> Sidewall Capacitance</a></li>
+  <li><a href="#overlap-capacitance" id="toc-overlap-capacitance" class="nav-link" data-scroll-target="#overlap-capacitance"><span class="header-section-number">5.5</span> Overlap Capacitance</a></li>
+  <li><a href="#fringe-capacitance" id="toc-fringe-capacitance" class="nav-link" data-scroll-target="#fringe-capacitance"><span class="header-section-number">5.6</span> Fringe Capacitance</a></li>
+  <li><a href="#shielding-effects" id="toc-shielding-effects" class="nav-link" data-scroll-target="#shielding-effects"><span class="header-section-number">5.7</span> Shielding Effects</a></li>
+  <li><a href="#parasitic-resistance" id="toc-parasitic-resistance" class="nav-link" data-scroll-target="#parasitic-resistance"><span class="header-section-number">5.8</span> Parasitic Resistance</a>
+  <ul class="collapse">
+  <li><a href="#sec-magic-resistance-wire" id="toc-sec-magic-resistance-wire" class="nav-link" data-scroll-target="#sec-magic-resistance-wire"><span class="header-section-number">5.8.1</span> Wire resistance</a></li>
+  <li><a href="#sec-magic-resistance-via" id="toc-sec-magic-resistance-via" class="nav-link" data-scroll-target="#sec-magic-resistance-via"><span class="header-section-number">5.8.2</span> Via resistance</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#sec-engine-kpex-2_5D" id="toc-sec-engine-kpex-2_5D" class="nav-link" data-scroll-target="#sec-engine-kpex-2_5D"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</a></li>
   <li><a href="#sec-test-patterns" id="toc-sec-test-patterns" class="nav-link" data-scroll-target="#sec-test-patterns"><span class="header-section-number">7</span> Comparison KPEX/2.5D with MAGIC</a>
@@ -260,6 +266,9 @@ window.Quarto = {
   <li><a href="#test-pattern-single_plate_100um_x_100um_li1_over_substrate" id="toc-test-pattern-single_plate_100um_x_100um_li1_over_substrate" class="nav-link" data-scroll-target="#test-pattern-single_plate_100um_x_100um_li1_over_substrate"><span class="header-section-number">7.1</span> Test Pattern <code>single_plate_100um_x_100um_li1_over_substrate</code></a></li>
   <li><a href="#test-pattern-sidewall_20um_length_distance_200nm_li1" id="toc-test-pattern-sidewall_20um_length_distance_200nm_li1" class="nav-link" data-scroll-target="#test-pattern-sidewall_20um_length_distance_200nm_li1"><span class="header-section-number">7.2</span> Test Pattern <code>sidewall_20um_length_distance_200nm_li1</code></a></li>
   <li><a href="#test-pattern-sideoverlap_simple_plates_li1_m1" id="toc-test-pattern-sideoverlap_simple_plates_li1_m1" class="nav-link" data-scroll-target="#test-pattern-sideoverlap_simple_plates_li1_m1"><span class="header-section-number">7.3</span> Test Pattern <code>sideoverlap_simple_plates_li1_m1</code></a></li>
+  <li><a href="#test-pattern-r_single_wire_li1" id="toc-test-pattern-r_single_wire_li1" class="nav-link" data-scroll-target="#test-pattern-r_single_wire_li1"><span class="header-section-number">7.4</span> Test Pattern <code>r_single_wire_li1</code></a></li>
+  <li><a href="#test-pattern-r_contact_1x1_minsize_mcon" id="toc-test-pattern-r_contact_1x1_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></a></li>
+  <li><a href="#test-pattern-r_contact_2x2_minsize_mcon" id="toc-test-pattern-r_contact_2x2_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_2x2_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_2x2_minsize_mcon</code></a></li>
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">8</span> Appendix</a>
   <ul class="collapse">
@@ -299,7 +308,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 21, 2025</p>
+      <p class="date">March 6, 2025</p>
     </div>
   </div>
   
@@ -830,8 +839,15 @@ Figure&nbsp;2: Schematic representation of the MOM capacitor.
 <h1 data-number="5"><span class="header-section-number">5</span> <code>KPEX/MAGIC</code> Engine</h1>
 <p>This engine is merely just a wrapper around <code>magic</code>, which prepares a TCL script that opens the layout file and starts MAGIC’s PEX flow. See <a href="#sec-first-steps-run-magic-engine" class="quarto-xref">Section&nbsp;2.3</a> to get started with a first extraction example.</p>
 <p>The following chapter will illustrate concepts of the parasitic extraction done in <code>MAGIC</code>, also motivated by the fact that the engine in <a href="#sec-engine-kpex-2_5D" class="quarto-xref">Section&nbsp;6</a> will be based on those. Major parts of this illustration, the figures and concepts are based on work done by <code>MAGIC</code> maintainer Tim Edwards, especially his talk from FSiC conference 2022 <span class="citation" data-cites="edwards-2022-fsic-talk">(<a href="#ref-edwards-2022-fsic-talk" role="doc-biblioref">Edwards 2022</a>)</span> and a (conceptual follow-up) ChipsAlliance meeting on April 4, 2023, see <span class="citation" data-cites="edwards-2023-chipsalliance-talk-video">(<a href="#ref-edwards-2023-chipsalliance-talk-video" role="doc-biblioref">Edwards 2023b</a>)</span> and <span class="citation" data-cites="edwards-2023-chipsalliance-talk-slides">(<a href="#ref-edwards-2023-chipsalliance-talk-slides" role="doc-biblioref">Edwards 2023a</a>)</span>. In addition, code review and debugging of the MAGIC codebase was performed.</p>
-<section id="sec-magic-cap-types" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="sec-magic-cap-types"><span class="header-section-number">5.1</span> Types of Parasitic Capacitances</h2>
+<section id="magic-database-units" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="magic-database-units"><span class="header-section-number">5.1</span> MAGIC database units</h2>
+<ul>
+<li>To convert between MAGIC database units and <span class="math inline">\(\mu m\)</span>, a scaling factor <span class="math inline">\(\alpha\)</span> is used, so that <span class="math inline">\(L_{\mu m} = \frac{L_{dbu}}{\alpha}\)</span></li>
+<li>E.g. for <code>sky130A</code>, <span class="math inline">\(\alpha = 200.0\)</span></li>
+</ul>
+</section>
+<section id="sec-magic-cap-types" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-magic-cap-types"><span class="header-section-number">5.2</span> Types of Parasitic Capacitances</h2>
 <p>MAGIC models multiple types of capacitances:</p>
 <ul>
 <li><em>Substrate Overlap:</em> Overlap area of a metal with the substrate</li>
@@ -841,8 +857,8 @@ Figure&nbsp;2: Schematic representation of the MOM capacitor.
 <li><em>Fringe Capacitance (“Side Overlap”):</em> Sidewall of a metal fringes out other metal layers</li>
 </ul>
 </section>
-<section id="substrate-capacitance" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="substrate-capacitance"><span class="header-section-number">5.2</span> Substrate Capacitance</h2>
+<section id="substrate-capacitance" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="substrate-capacitance"><span class="header-section-number">5.3</span> Substrate Capacitance</h2>
 <p><img src="figures/magic_cap_type_-_substrate.svg" class="img-fluid" style="width:50.0%"></p>
 <ul>
 <li><p>Overlapping area: <span class="math display">\[
@@ -854,8 +870,8 @@ C_{fringe\,to\,substrate} = \text{perimeter} * C_{perim} = (2l + 2w)*C_{perim}
 <li><p>Coefficients like <span class="math inline">\(C_{perim}\)</span> are part of the tech files (Parasitic Tables)</p></li>
 </ul>
 </section>
-<section id="sidewall-capacitance" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="sidewall-capacitance"><span class="header-section-number">5.3</span> Sidewall Capacitance</h2>
+<section id="sidewall-capacitance" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sidewall-capacitance"><span class="header-section-number">5.4</span> Sidewall Capacitance</h2>
 <p><img src="figures/magic_cap_type_-_sidewall.svg" class="img-fluid" style="width:65.0%"></p>
 <p><span class="math display">\[
 C_{sidewall} = \frac{\epsilon_{si} * K}{s} * \text{sidewall area}  \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m^2\right]
@@ -872,8 +888,8 @@ C_{sidewall} = \frac{C_{sidewall\,coeff}}{s} * l \,\,\,\,\,\,\, \left[ \frac{F}{
 </ul>
 </div>
 </section>
-<section id="overlap-capacitance" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="overlap-capacitance"><span class="header-section-number">5.4</span> Overlap Capacitance</h2>
+<section id="overlap-capacitance" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="overlap-capacitance"><span class="header-section-number">5.5</span> Overlap Capacitance</h2>
 <ul>
 <li>Overlapping area: <span class="math display">\[
 C_{area} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\, \left[ \frac{F}{\mu m^2} * \mu m^2\right]
@@ -886,8 +902,8 @@ C_{area} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\, \left[ \frac
 </figure>
 </div>
 </section>
-<section id="fringe-capacitance" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="fringe-capacitance"><span class="header-section-number">5.5</span> Fringe Capacitance</h2>
+<section id="fringe-capacitance" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="fringe-capacitance"><span class="header-section-number">5.6</span> Fringe Capacitance</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/magic_cap_type_-_fringe_3D.svg" class="img-fluid figure-img" style="width:50.0%"></p>
@@ -964,8 +980,8 @@ C_{area} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\, \left[ \frac
 <li><span class="math inline">\(\text{frac} = \text{frac}_{far}-\text{frac}_{near}\)</span></li>
 </ul>
 </section>
-<section id="shielding-effects" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="shielding-effects"><span class="header-section-number">5.6</span> Shielding Effects</h2>
+<section id="shielding-effects" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="shielding-effects"><span class="header-section-number">5.7</span> Shielding Effects</h2>
 <div id="tbl-magic-cap-shielding-effects" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-magic-cap-shielding-effects-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1086,14 +1102,74 @@ Figure&nbsp;4: Lateral fringe shielding (2/2)
 </figcaption>
 </figure>
 </div>
+</section>
+<section id="parasitic-resistance" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="parasitic-resistance"><span class="header-section-number">5.8</span> Parasitic Resistance</h2>
+<p>Magic constructs a graph of resistors between nodes</p>
+<ul>
+<li>device terminals</li>
+<li>pins</li>
+<li>junctions</li>
+</ul>
+<section id="sec-magic-resistance-wire" class="level3" data-number="5.8.1">
+<h3 data-number="5.8.1" class="anchored" data-anchor-id="sec-magic-resistance-wire"><span class="header-section-number">5.8.1</span> Wire resistance</h3>
+<ul>
+<li><p>Given a wire with length <span class="math inline">\(l\)</span> and height <span class="math inline">\(h\)</span>, the basic formula is <span class="math display">\[
+R_{wire} = \frac{l}{h} * R_{coeff}  \,\,\,\,\,\,\, \left[ \frac{\mu m}{\mu m} * mΩ\right]
+\]</span></p></li>
+<li><p>Coefficient <span class="math inline">\(R_{coeff}\)</span> is part of the tech files (Parasitic Tables)</p>
+<ul>
+<li>defined for every metal layer</li>
+<li>in <span class="math inline">\(mΩ\)</span> for <span class="math inline">\(1\,{\mu m}^2\)</span></li>
+<li>Coefficient already includes the thickness aspect of the layer, so the formula works in 2D</li>
+</ul></li>
+</ul>
+</section>
+<section id="sec-magic-resistance-via" class="level3" data-number="5.8.2">
+<h3 data-number="5.8.2" class="anchored" data-anchor-id="sec-magic-resistance-via"><span class="header-section-number">5.8.2</span> Via resistance</h3>
+<ul>
+<li>Given
+<ul>
+<li>a via in the layout, drawn with width <span class="math inline">\(w\)</span> and height <span class="math inline">\(h\)</span></li>
+<li>design rules defined for each via layer:
+<ul>
+<li>via size <span class="math inline">\(viasize\)</span></li>
+<li><span class="math inline">\(spacing\)</span> between vias (in case of a via array)</li>
+</ul></li>
+</ul></li>
+<li><code>MAGIC</code> interpretation of the via drawing
+<ul>
+<li>determine number of vias in <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> direction, i.e.&nbsp;<span class="math inline">\(n_x\)</span> and <span class="math inline">\(n_y\)</span></li>
+<li>if <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> dimensions are below the minimum size, <code>MAGIC</code> counts 1 via in each direction</li>
+<li>if the dimensions are larger, we calculate how much vias fit</li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
+R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
+\]</span></p>
+<p><span class="math display">\[
+n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+\]</span></p>
+<p><span class="math display">\[
+n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+\]</span></p>
+<ul>
+<li>Coefficient <span class="math inline">\(R_{coeff}\)</span> is part of the tech files (Parasitic Tables)
+<ul>
+<li>defined for every via layer</li>
+<li>in <span class="math inline">\(mΩ\)</span> per via</li>
+<li>Coefficient already includes the thickness aspect of the layer, so the formula works in 2D</li>
+</ul></li>
+</ul>
 <div style="page-break-after: always;"></div>
+</section>
 </section>
 </section>
 <section id="sec-engine-kpex-2_5D" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</h1>
 <p>Field solvers are precise, yet slow, they are useful to obtain a golden reference.</p>
 <p>For most use cases, a faster engine is desirable-. <code>KPEX/MAGIC</code> is such an engine, but the <code>MAGIC</code> code is tightly coupled with the database, layer/via design choices, and user interface of <code>MAGIC</code>. For example, it runs single-threaded.</p>
-<p>Therefore, the <code>KPEX</code> 2.5D Engine intends to implement the concepts and formulas of <code>MAGIC</code> (see <a href="#sec-magic-cap-types" class="quarto-xref">Section&nbsp;5.1</a>), but in a way that is best suited to the <code>KLayout</code> API.</p>
+<p>Therefore, the <code>KPEX</code> 2.5D Engine intends to implement the concepts and formulas of <code>MAGIC</code> (see <a href="#sec-magic-cap-types" class="quarto-xref">Section&nbsp;5.2</a>), but in a way that is best suited to the <code>KLayout</code> API.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/kpex-engine-2.5D-overview.svg" class="img-fluid figure-img"></p>
@@ -1882,6 +1958,181 @@ Note
 <span id="cb11-34"><a href="#cb11-34"></a>    nreg_cap -= 0.157966 fF (now nreg_cap = 248.901 fF)</span>
 <span id="cb11-35"><a href="#cb11-35"></a>CapDebug (obsolete_perimcap): met1 -= 0.157966 fF … now met1 == 248.901423 fF</span>
 <span id="cb11-36"><a href="#cb11-36"></a>CapDebug (sideoverlaphalo): met1-li1 += 0.065426 fF …   now met1-li1 == 0.125232 fF</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-pattern-r_single_wire_li1" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="test-pattern-r_single_wire_li1"><span class="header-section-number">7.4</span> Test Pattern <code>r_single_wire_li1</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz</a></p>
+<div id="cell-r_single_wire_li1" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div id="r_single_wire_li1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/r_single_wire_li1-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Resistance of a single wire on li1.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Wire length <span class="math inline">\(L = 9.85\,\mu m\)</span></li>
+<li>Wire height <span class="math inline">\(H = 0.15\,\mu m\)</span></li>
+<li>Layer is <code>li1</code></li>
+<li>Parasitic Table Coefficient <span class="math inline">\(R_{coeff}(li1) = 12800\,mΩ\)</span></li>
+</ul>
+<p>If we apply the formula illustrated in <a href="#sec-magic-resistance-wire" class="quarto-xref">Section&nbsp;5.8.1</a>, we get <span class="math display">\[
+R_{wire} = \frac{L}{H} * R_{coeff}
+\]</span> <span class="math display">\[
+R_{wire} = \frac{9.85\,\mu m}{0.15\,\mu m} * 12800\,mΩ = 8405\dot{3}\,mΩ = 840.5\dot{3}\,Ω
+\]</span></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a href="#cb12-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb12-2"><a href="#cb12-2"></a>----------------------------------------------------</span>
+<span id="cb12-3"><a href="#cb12-3"></a>...</span>
+<span id="cb12-4"><a href="#cb12-4"></a>Warning:  Ports "A" and "B" are electrically shorted.</span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a>Location is (1970, -15); drivepoint (1970, -15)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>Location is (0, -15); drivepoint (0, -15)</span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a>ResCalcEastWest: A (0, -0.075) &lt;-&gt; B (9.85, -0.075) @ li</span>
+<span id="cb12-10"><a href="#cb12-10"></a>    exts_sheetResist[li]=12800, length=9.85, height=0.15, resistor-&gt;rr_value = 840533 mΩ</span>
+<span id="cb12-11"><a href="#cb12-11"></a>ResCalcEastWest: A (0, -0.075) &lt;-&gt; B (9.85, -0.075) @ li</span>
+<span id="cb12-12"><a href="#cb12-12"></a>    exts_sheetResist[li]=12800, length=9.85, height=0.15, resistor-&gt;rr_value = 840533 mΩ</span>
+<span id="cb12-13"><a href="#cb12-13"></a>Total Nets: 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>MAGIC</code> recognizes that ports <code>A</code> and <code>B</code> are shorted. The purpose of these test patterns is to look at minimized problems in isolation, like the resistance of the wire here. They are not realistic examples, so it appears to be a bug in that corner case, that the resistance is reported twice.</p>
+</div>
+</div>
+</section>
+<section id="test-pattern-r_contact_1x1_minsize_mcon" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz</a></p>
+<div id="cell-r_contact_1x1_minsize_mcon" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="r_contact_1x1_minsize_mcon" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/r_contact_1x1_minsize_mcon-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Resistance of a minimum sized via on mcon.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Layers:
+<ul>
+<li>Top Layer: <code>met1</code></li>
+<li>Via: <code>mcon</code></li>
+<li>Bottom Layer: <code>li1</code></li>
+</ul></li>
+<li>Design rules:
+<ul>
+<li>Via minimum side length: <span class="math inline">\(minside = 0.17\,\mu m\)</span></li>
+<li>Via spacing: <span class="math inline">\(spacing = 0.19\,\mu m\)</span></li>
+</ul></li>
+<li>Parasitic Table Coefficient <span class="math inline">\(R_{coeff}(mcon) = 9300\,mΩ\)</span></li>
+<li>Drawn via:
+<ul>
+<li><span class="math inline">\(w = 0.17\,\mu m\)</span></li>
+<li><span class="math inline">\(h = 0.17\,\mu m\)</span></li>
+</ul></li>
+</ul>
+<p>If we apply the formula illustrated in <a href="#sec-magic-resistance-via" class="quarto-xref">Section&nbsp;5.8.2</a>, we get</p>
+<p><span class="math display">\[
+n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+\]</span></p>
+<p><span class="math display">\[
+n_x = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+\]</span></p>
+<p><span class="math display">\[
+n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+\]</span></p>
+<p><span class="math display">\[
+n_y = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+\]</span></p>
+<p><span class="math display">\[
+R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
+\]</span></p>
+<p><span class="math display">\[
+R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
+\]</span></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href="#cb13-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb13-2"><a href="#cb13-2"></a>----------------------------------------------------</span>
+<span id="cb13-3"><a href="#cb13-3"></a>...</span>
+<span id="cb13-4"><a href="#cb13-4"></a>Warning:  Ports "TOP" and "BOT" are electrically shorted.</span>
+<span id="cb13-5"><a href="#cb13-5"></a>Location is (0, 0); drivepoint (0, 0)</span>
+<span id="cb13-6"><a href="#cb13-6"></a>Location is (0, 0); drivepoint (0, 0)</span>
+<span id="cb13-7"><a href="#cb13-7"></a></span>
+<span id="cb13-8"><a href="#cb13-8"></a>ResDoContacts: (null) (0.085, 0.085) &lt;-&gt; (null) (0.085, 0.085) @ v0</span>
+<span id="cb13-9"><a href="#cb13-9"></a>    W = 0.17 µm, H = 0.17 µm</span>
+<span id="cb13-10"><a href="#cb13-10"></a>    exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm</span>
+<span id="cb13-11"><a href="#cb13-11"></a>    squaresx=1, squaresy=1, resistor-&gt;rr_value = 9300 mΩ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-pattern-r_contact_2x2_minsize_mcon" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="test-pattern-r_contact_2x2_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_2x2_minsize_mcon</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz</a></p>
+<div id="cell-r_contact_2x2_minsize_mcon" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div id="r_contact_2x2_minsize_mcon" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="doc_files/figure-html/r_contact_2x2_minsize_mcon-output-1.svg" class="img-fluid figure-img"></p>
+<figcaption>Resistance of a minimum sized 2x2 via on mcon.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Layers:
+<ul>
+<li>Top Layer: <code>met1</code></li>
+<li>Via: <code>mcon</code></li>
+<li>Bottom Layer: <code>li1</code></li>
+</ul></li>
+<li>Design rules:
+<ul>
+<li>Via minimum side length: <span class="math inline">\(minside = 0.17\,\mu m\)</span></li>
+<li>Via spacing: <span class="math inline">\(spacing = 0.19\,\mu m\)</span></li>
+</ul></li>
+<li>Parasitic Table Coefficient <span class="math inline">\(R_{coeff}(mcon) = 9300\,mΩ\)</span></li>
+<li>Drawn via:
+<ul>
+<li><span class="math inline">\(w = 0.53\,\mu m\)</span></li>
+<li><span class="math inline">\(h = 0.53\,\mu m\)</span></li>
+</ul></li>
+</ul>
+<p>If we apply the formula illustrated in <a href="#sec-magic-resistance-via" class="quarto-xref">Section&nbsp;5.8.2</a>, we get</p>
+<p><span class="math display">\[
+n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+\]</span></p>
+<p><span class="math display">\[
+n_x = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+\]</span></p>
+<p><span class="math display">\[
+n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+\]</span></p>
+<p><span class="math display">\[
+n_y = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+\]</span></p>
+<p><span class="math display">\[
+R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
+\]</span></p>
+<p><span class="math display">\[
+R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
+\]</span></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb14-2"><a href="#cb14-2"></a>----------------------------------------------------</span>
+<span id="cb14-3"><a href="#cb14-3"></a>...</span>
+<span id="cb14-4"><a href="#cb14-4"></a>Warning:  Ports "TOP" and "BOT" are electrically shorted.</span>
+<span id="cb14-5"><a href="#cb14-5"></a>...</span>
+<span id="cb14-6"><a href="#cb14-6"></a>ResDoContacts: (null) (0.265, 0.265) &lt;-&gt; (null) (0.265, 0.265) @ v0</span>
+<span id="cb14-7"><a href="#cb14-7"></a>    W = 0.53 µm, H = 0.53 µm</span>
+<span id="cb14-8"><a href="#cb14-8"></a>    exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm</span>
+<span id="cb14-9"><a href="#cb14-9"></a>    squaresx=2, squaresy=2, resistor-&gt;rr_value = 2325 mΩ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
