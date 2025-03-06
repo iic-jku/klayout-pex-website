@@ -20,3 +20,4 @@ doc/_*_files
 doc/*_files
 _freeze
 site_libs
+*.quarto_ipynb
