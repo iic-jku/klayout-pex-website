@@ -23,6 +23,11 @@ The following chapter will illustrate concepts of the parasitic extraction done 
 Major parts of this illustration, the figures and concepts are based on work done by `MAGIC` maintainer Tim Edwards, especially his talk from FSiC conference 2022 [@edwards-2022-fsic-talk] and a (conceptual follow-up) ChipsAlliance meeting on April 4, 2023, see  [@edwards-2023-chipsalliance-talk-video] and [@edwards-2023-chipsalliance-talk-slides].
 In addition, code review and debugging of the MAGIC codebase was performed.
 
+## MAGIC database units
+
+- To convert between MAGIC database units and $\mu m$, a scaling factor $\alpha$ is used, so that $L_{\mu m} = \frac{L_{dbu}}{\alpha}$
+- E.g. for `sky130A`, $\alpha = 200.0$
+
 ## Types of Parasitic Capacitances {#sec-magic-cap-types}
 
 MAGIC models multiple types of capacitances:
@@ -165,3 +170,52 @@ Note, given an analyzed sidewall (edge in 2D), lateral fringe shielding
 
 ![Lateral fringe shielding (2/2)](figures/magic_cap_type_-_lateral_fringe_shielding2.svg){#fig-lateral-fringe-shielding-2}
 
+## Parasitic Resistance
+
+Magic constructs a graph of resistors between nodes
+
+- device terminals
+- pins
+- junctions
+
+### Wire resistance {#sec-magic-resistance-wire}
+
+- Given a wire with length $l$ and height $h$, the basic formula is 
+$$
+R_{wire} = \frac{l}{h} * R_{coeff}  \,\,\,\,\,\,\, \left[ \frac{\mu m}{\mu m} * mΩ\right]
+$$
+
+- Coefficient $R_{coeff}$ is part of the tech files (Parasitic Tables)
+   - defined for every metal layer
+   - in $mΩ$ for $1\,{\mu m}^2$
+   - Coefficient already includes the thickness aspect of the layer, so the formula works in 2D
+
+### Via resistance {#sec-magic-resistance-via}
+
+- Given 
+   - a via in the layout, drawn with width $w$ and height $h$
+   - design rules defined for each via layer:
+     - via size $viasize$
+     - $spacing$ between vias (in case of a via array)
+- `MAGIC` interpretation of the via drawing
+   - determine number of vias in $x$ and $y$ direction, i.e. $n_x$ and $n_y$
+   - if $x$ and $y$ dimensions are below the minimum size, `MAGIC` counts 1 via in each direction
+   - if the dimensions are larger, we calculate how much vias fit
+
+$$
+R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
+$$
+
+$$
+n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+$$
+
+$$
+n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+$$
+
+
+- Coefficient $R_{coeff}$ is part of the tech files (Parasitic Tables)
+   - defined for every via layer
+   - in $mΩ$ per via
+   - Coefficient already includes the thickness aspect of the layer, so the formula works in 2D

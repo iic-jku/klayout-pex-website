@@ -1,0 +1,41 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: r_contact_1x1_minsize_mcon
+#| echo: false
+#| fig-cap: "Resistance of a minimum sized via on mcon."
+import drawsvg as dw
+import os
+
+def image_path(file_name: str) -> str:
+    quarto_dir = os.getenv('QUARTO_PROJECT_ROOT', None)
+    if quarto_dir is None: # called from Jupyter
+        return os.path.join(os.path.dirname(__file__), file_name)
+    else:  # called from Quarto
+        return os.path.join(quarto_dir, 'figures', 'test_patterns', file_name)
+
+w = 400
+h = 281
+
+img_path = image_path('r_contact_1x1_minsize_mcon.png')
+
+d = dw.Drawing(w, h)
+d.append(dw.Image(0, 0, w, h, img_path, embed=True))
+# d.append(dw.Text('840.533 Ω',
+#                  x=300,  y=65, fill='red', font_size=16, text_anchor='middle'))
+d
+```

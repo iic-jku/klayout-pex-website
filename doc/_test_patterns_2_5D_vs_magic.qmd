@@ -239,4 +239,170 @@ CapDebug (obsolete_perimcap): met1 -= 0.157966 fF …	now met1 == 248.901423 fF
 CapDebug (sideoverlaphalo): met1-li1 += 0.065426 fF …	now met1-li1 == 0.125232 fF
 ```
 
+## Test Pattern `r_single_wire_li1` 
 
+GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz>
+
+{{< include /figures/test_patterns/r_single_wire_li1.qmd >}}
+
+- Wire length $L = 9.85\,\mu m$
+- Wire height $H = 0.15\,\mu m$
+- Layer is `li1`
+- Parasitic Table Coefficient $R_{coeff}(li1) = 12800\,mΩ$
+
+If we apply the formula illustrated in @sec-magic-resistance-wire, we get
+$$
+R_{wire} = \frac{L}{H} * R_{coeff}
+$$
+$$
+R_{wire} = \frac{9.85\,\mu m}{0.15\,\mu m} * 12800\,mΩ = 8405\dot{3}\,mΩ = 840.5\dot{3}\,Ω
+$$
+
+---
+code-line-numbers: true
+---
+```{csv}
+Magic 8.3 revision 486 - Compiled on `date`.
+----------------------------------------------------
+...
+Warning:  Ports "A" and "B" are electrically shorted.
+
+Location is (1970, -15); drivepoint (1970, -15)
+Location is (0, -15); drivepoint (0, -15)
+
+ResCalcEastWest: A (0, -0.075) <-> B (9.85, -0.075) @ li
+	exts_sheetResist[li]=12800, length=9.85, height=0.15, resistor->rr_value = 840533 mΩ
+ResCalcEastWest: A (0, -0.075) <-> B (9.85, -0.075) @ li
+	exts_sheetResist[li]=12800, length=9.85, height=0.15, resistor->rr_value = 840533 mΩ
+Total Nets: 2
+```
+
+::: {.callout-note}
+`MAGIC` recognizes that ports `A` and `B` are shorted. 
+The purpose of these test patterns is to look at minimized problems in isolation, like the resistance of the wire here.
+They are not realistic examples, so it appears to be a bug in that corner case, that the resistance is reported twice.
+:::
+
+
+## Test Pattern `r_contact_1x1_minsize_mcon` 
+
+GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz>
+
+{{< include /figures/test_patterns/r_contact_1x1_minsize_mcon.qmd >}}
+
+- Layers:
+   - Top Layer: `met1`
+   - Via: `mcon`
+   - Bottom Layer: `li1`
+- Design rules: 
+   - Via minimum side length: $minside = 0.17\,\mu m$
+   - Via spacing: $spacing = 0.19\,\mu m$
+- Parasitic Table Coefficient $R_{coeff}(mcon) = 9300\,mΩ$
+- Drawn via:
+   - $w = 0.17\,\mu m$
+   - $h = 0.17\,\mu m$
+
+If we apply the formula illustrated in @sec-magic-resistance-via, we get
+
+$$
+n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+$$
+
+$$
+n_x = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+$$
+
+
+
+$$
+n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+$$
+
+$$
+n_y = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+$$
+
+
+$$
+R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
+$$
+
+$$
+R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
+$$
+
+---
+code-line-numbers: true
+---
+```{csv}
+Magic 8.3 revision 486 - Compiled on `date`.
+----------------------------------------------------
+...
+Warning:  Ports "TOP" and "BOT" are electrically shorted.
+Location is (0, 0); drivepoint (0, 0)
+Location is (0, 0); drivepoint (0, 0)
+
+ResDoContacts: (null) (0.085, 0.085) <-> (null) (0.085, 0.085) @ v0
+	W = 0.17 µm, H = 0.17 µm
+	exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm
+	squaresx=1, squaresy=1, resistor->rr_value = 9300 mΩ
+```
+
+## Test Pattern `r_contact_2x2_minsize_mcon` 
+
+GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz>
+
+{{< include /figures/test_patterns/r_contact_2x2_minsize_mcon.qmd >}}
+
+- Layers:
+   - Top Layer: `met1`
+   - Via: `mcon`
+   - Bottom Layer: `li1`
+- Design rules: 
+   - Via minimum side length: $minside = 0.17\,\mu m$
+   - Via spacing: $spacing = 0.19\,\mu m$
+- Parasitic Table Coefficient $R_{coeff}(mcon) = 9300\,mΩ$
+- Drawn via:
+   - $w = 0.53\,\mu m$
+   - $h = 0.53\,\mu m$
+
+If we apply the formula illustrated in @sec-magic-resistance-via, we get
+
+$$
+n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+$$
+
+$$
+n_x = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+$$
+
+$$
+n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+$$
+
+$$
+n_y = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+$$
+
+$$
+R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
+$$
+
+$$
+R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
+$$
+
+---
+code-line-numbers: true
+---
+```{csv}
+Magic 8.3 revision 486 - Compiled on `date`.
+----------------------------------------------------
+...
+Warning:  Ports "TOP" and "BOT" are electrically shorted.
+...
+ResDoContacts: (null) (0.265, 0.265) <-> (null) (0.265, 0.265) @ v0
+	W = 0.53 µm, H = 0.53 µm
+	exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm
+	squaresx=2, squaresy=2, resistor->rr_value = 2325 mΩ
+```
