@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-03-06">
+<meta name="dcterms.date" content="2025-03-07">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -308,7 +308,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 6, 2025</p>
+      <p class="date">March 7, 2025</p>
     </div>
   </div>
   
@@ -1127,14 +1127,25 @@ R_{wire} = \frac{l}{h} * R_{coeff}  \,\,\,\,\,\,\, \left[ \frac{\mu m}{\mu m} * 
 </section>
 <section id="sec-magic-resistance-via" class="level3" data-number="5.8.2">
 <h3 data-number="5.8.2" class="anchored" data-anchor-id="sec-magic-resistance-via"><span class="header-section-number">5.8.2</span> Via resistance</h3>
+<div id="fig-magic-via-dimensions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-magic-via-dimensions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/magic_via_-_dimensions.svg" class="img-fluid figure-img" style="width:40.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-magic-via-dimensions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Via dimensions)
+</figcaption>
+</figure>
+</div>
 <ul>
 <li>Given
 <ul>
-<li>a via in the layout, drawn with width <span class="math inline">\(w\)</span> and height <span class="math inline">\(h\)</span></li>
+<li>drawn via in the layout, with width <span class="math inline">\(w\)</span> and height <span class="math inline">\(h\)</span></li>
 <li>design rules defined for each via layer:
 <ul>
-<li>via size <span class="math inline">\(viasize\)</span></li>
+<li>via width <span class="math inline">\(viawidth\)</span></li>
 <li><span class="math inline">\(spacing\)</span> between vias (in case of a via array)</li>
+<li><span class="math inline">\(border\)</span> on each side of the via</li>
 </ul></li>
 </ul></li>
 <li><code>MAGIC</code> interpretation of the via drawing
@@ -1148,10 +1159,10 @@ R_{wire} = \frac{l}{h} * R_{coeff}  \,\,\,\,\,\,\, \left[ \frac{\mu m}{\mu m} * 
 R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
 \]</span></p>
 <p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 \]</span></p>
 <p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 \]</span></p>
 <ul>
 <li>Coefficient <span class="math inline">\(R_{coeff}\)</span> is part of the tech files (Parasitic Tables)
@@ -2032,8 +2043,9 @@ Note
 </ul></li>
 <li>Design rules:
 <ul>
-<li>Via minimum side length: <span class="math inline">\(minside = 0.17\,\mu m\)</span></li>
+<li>Via width: <span class="math inline">\(viawidth = 0.17\,\mu m\)</span></li>
 <li>Via spacing: <span class="math inline">\(spacing = 0.19\,\mu m\)</span></li>
+<li>Via border: <span class="math inline">\(border = 0.0\,\mu m\)</span></li>
 </ul></li>
 <li>Parasitic Table Coefficient <span class="math inline">\(R_{coeff}(mcon) = 9300\,mΩ\)</span></li>
 <li>Drawn via:
@@ -2044,16 +2056,16 @@ Note
 </ul>
 <p>If we apply the formula illustrated in <a href="#sec-magic-resistance-via" class="quarto-xref">Section&nbsp;5.8.2</a>, we get</p>
 <p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 \]</span></p>
 <p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+n_x = 1 + \left\lfloor\frac{0.17\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
 \]</span></p>
 <p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 \]</span></p>
 <p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+n_y = 1 + \left\lfloor\frac{0.17\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
 \]</span></p>
 <p><span class="math display">\[
 R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
@@ -2095,8 +2107,9 @@ R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
 </ul></li>
 <li>Design rules:
 <ul>
-<li>Via minimum side length: <span class="math inline">\(minside = 0.17\,\mu m\)</span></li>
+<li>Via width: <span class="math inline">\(viawidth = 0.17\,\mu m\)</span></li>
 <li>Via spacing: <span class="math inline">\(spacing = 0.19\,\mu m\)</span></li>
+<li>Via border: <span class="math inline">\(border = 0.0\,\mu m\)</span></li>
 </ul></li>
 <li>Parasitic Table Coefficient <span class="math inline">\(R_{coeff}(mcon) = 9300\,mΩ\)</span></li>
 <li>Drawn via:
@@ -2107,16 +2120,16 @@ R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
 </ul>
 <p>If we apply the formula illustrated in <a href="#sec-magic-resistance-via" class="quarto-xref">Section&nbsp;5.8.2</a>, we get</p>
 <p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 \]</span></p>
 <p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+n_x = 1 + \left\lfloor\frac{0.53\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
 \]</span></p>
 <p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 \]</span></p>
 <p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+n_y = 1 + \left\lfloor\frac{0.53\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
 \]</span></p>
 <p><span class="math display">\[
 R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
