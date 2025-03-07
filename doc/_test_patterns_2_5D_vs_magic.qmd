@@ -295,8 +295,9 @@ GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs
    - Via: `mcon`
    - Bottom Layer: `li1`
 - Design rules: 
-   - Via minimum side length: $minside = 0.17\,\mu m$
+   - Via width: $viawidth = 0.17\,\mu m$
    - Via spacing: $spacing = 0.19\,\mu m$
+   - Via border: $border = 0.0\,\mu m$
 - Parasitic Table Coefficient $R_{coeff}(mcon) = 9300\,mΩ$
 - Drawn via:
    - $w = 0.17\,\mu m$
@@ -305,21 +306,20 @@ GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs
 If we apply the formula illustrated in @sec-magic-resistance-via, we get
 
 $$
-n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 $$
 
 $$
-n_x = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+n_x = 1 + \left\lfloor\frac{0.17\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
 $$
 
 
+$$
+n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
+$$
 
 $$
-n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
-$$
-
-$$
-n_y = 1 + \left\lfloor\frac{0.17\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
+n_y = 1 + \left\lfloor\frac{0.17\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1
 $$
 
 
@@ -359,8 +359,9 @@ GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs
    - Via: `mcon`
    - Bottom Layer: `li1`
 - Design rules: 
-   - Via minimum side length: $minside = 0.17\,\mu m$
+   - Via width: $viawidth = 0.17\,\mu m$
    - Via spacing: $spacing = 0.19\,\mu m$
+   - Via border: $border = 0.0\,\mu m$
 - Parasitic Table Coefficient $R_{coeff}(mcon) = 9300\,mΩ$
 - Drawn via:
    - $w = 0.53\,\mu m$
@@ -369,19 +370,19 @@ GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs
 If we apply the formula illustrated in @sec-magic-resistance-via, we get
 
 $$
-n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 $$
 
 $$
-n_x = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+n_x = 1 + \left\lfloor\frac{0.53\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
 $$
 
 $$
-n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 $$
 
 $$
-n_y = 1 + \left\lfloor\frac{0.53\,\mu m - 0.17\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
+n_y = 1 + \left\lfloor\frac{0.53\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
 $$
 
 $$
