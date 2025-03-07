@@ -192,11 +192,14 @@ $$
 
 ### Via resistance {#sec-magic-resistance-via}
 
+![Via dimensions)](figures/magic_via_-_dimensions.svg){#fig-magic-via-dimensions width=40%}
+
 - Given 
-   - a via in the layout, drawn with width $w$ and height $h$
+   - drawn via in the layout, with width $w$ and height $h$
    - design rules defined for each via layer:
-     - via size $viasize$
+     - via width $viawidth$
      - $spacing$ between vias (in case of a via array)
+     - $border$ on each side of the via
 - `MAGIC` interpretation of the via drawing
    - determine number of vias in $x$ and $y$ direction, i.e. $n_x$ and $n_y$
    - if $x$ and $y$ dimensions are below the minimum size, `MAGIC` counts 1 via in each direction
@@ -207,11 +210,11 @@ R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{vi
 $$
 
 $$
-n_x = 1 + \left\lfloor\frac{w - minside}{viasize + spacing}\right\rfloor
+n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 $$
 
 $$
-n_y = 1 + \left\lfloor\frac{h - minside}{viasize + spacing}\right\rfloor
+n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
 $$
 
 
