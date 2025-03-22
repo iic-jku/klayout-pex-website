@@ -41,7 +41,7 @@ website:
         text: PDF
         href: content.pdf
       - href: doc/test-reports.qmd
-        text: "Test Reports"
+        text: "🚦 Test Reports"
       - href: doc/python-coverage.qmd
         text: "🐍 Coverage"
     right:
