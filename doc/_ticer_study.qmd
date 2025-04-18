@@ -33,17 +33,13 @@ Given an RC circuit, each node $N$, with multiple ($M$) terminals, can be repres
 Sum of resistances $\gamma_N$, and capacitances $\chi_N$:
 
 $$
-\begin{equation}
 \gamma_N = \sum_{k=0}^{N-1} g_{kN}, \quad \chi_N = \sum_{k=0}^{N-1} c_{kN}
 \tag{1.2}
-\end{equation}
 $$
 
 The time constant $\tau_N$ of a given node $N$ then is:
 $$
-\begin{equation}
 \tau_N = \frac{\chi_N}{\gamma_N} = \frac{\sum_{k=0}^{N-1} c_{kN}}{\sum_{k=0}^{N-1} g_{kN}}   \tag{1.3}
-\end{equation}
 $$
 
 **Basic node elimination idea:** Given a desired frequency window, using the time-constants, we can classify nodes into 3 groups: slow / normal / quick.
@@ -51,9 +47,7 @@ Then we can eliminate slow and quick nodes, as the normal nodes will suffice to 
 
 **RC circuit in Laplace domain:**
 $$
-\begin{equation}
 (s \mathbf{C} + \mathbf{G})\mathbf{v} = \mathbf{Y} \mathbf{v} = \mathbf{J}  \tag{2.1}
-\end{equation}
 $$
 
 - $s \in \mathbb{C}$: Complex Frequency
@@ -64,7 +58,6 @@ $$
 
 This can be written as a block system:
 $$
-\begin{equation}
 \begin{bmatrix}
 \tilde{Y} & \mathbf{y} \\
 \mathbf{y}^T & s\chi_N + \gamma_N
@@ -79,11 +72,9 @@ v_N
 j_N
 \end{bmatrix}
 \tag{2.2}
-\end{equation}
 $$
 
 In equation (2.2), Sheehan uses the tilde accent to name the remainder of the matrix $\mathbf{Y}$ as $\mathbf{\tilde{Y}}$, when looking only at the last row and column (same principle applies to vector $\mathbf{v}$ and $\mathbf{\tilde{v}}$):
-$$
 \begin{equation}
 Y =
 \left[
@@ -111,7 +102,6 @@ y_{N1} & y_{N2} & \cdots & y_{N,N-1}
 y_{NN}
 \end{array}
 \right]
-\end{equation}
 =
 \left[
 \begin{array}{c:c}
@@ -122,7 +112,7 @@ y_{NN}
 y_{NN}
 \end{array}
 \right]
-$$
+\end{equation}
 
 ### Comments on page 2, equation $(2.3)$
 
@@ -131,7 +121,6 @@ To arrive at equations (2.3), (2.4), and (2.5) from equation (2.2), the process 
 Starting with equation (2.2):
 
 $$
-\begin{equation}
 \begin{bmatrix}
 \tilde{Y} & \mathbf{y} \\
 \mathbf{y}^T & s\chi_N + \gamma_N
@@ -146,23 +135,18 @@ v_N
 j_N
 \end{bmatrix}
 \tag{2.2}
-\end{equation}
 $$
 
 we have two block equations:
 
 $$
-\begin{equation}
    \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} v_N = \tilde{\mathbf{J}}
 \tag{\small First block equation of 2.2}
-\end{equation}
 $$ 
 
 $$
-\begin{equation}
    \mathbf{y}^T \tilde{\mathbf{v}} + (s\chi_N + \gamma_N) v_N = j_N
 \tag{\small Second block equation of 2.2}
-\end{equation}
 $$
 
 Solve the second block equation for $v_N$:
@@ -182,24 +166,18 @@ Substitute the expression for $v_N$ in the first block equation:
 
 This leads to the modified system:
 $$
-\begin{equation}
 (\tilde{Y} - \mathbf{E}) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \mathbf{F}
 \tag{2.3}
-\end{equation}
 $$
 
 Where:
 
 $$
-\begin{equation}
 \mathbf{E} = \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}
-\end{equation}
 $$
 
 $$
-\begin{equation}
 \mathbf{F} = \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
-\end{equation}
 $$
 
 ::: {.callout-note}
@@ -208,16 +186,12 @@ There's a typo in the original paper in (2.3), the printed variable $\mathbf{v_N
 
 So we arrive at:
 $$
-\begin{equation}
 \mathbf{E}_{ij} = \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N}
 \tag{2.4}
-\end{equation}  
 $$
 $$
-\begin{equation}
 \mathbf{F}_{i} = \frac{g_{iN} + s c_{iN}}{s\chi_N + \gamma_N} j_N
 \tag{2.5}
-\end{equation}  
 $$
 
 ### Quick Nodes
@@ -230,17 +204,18 @@ Suppose:
 - we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
 
 $$
-\begin{align*}
+\begin{aligned}
 \mathbf{E}_{ij} &= \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N} \\
                 &= \frac{g_{iN}g_{jN}}{s\chi_N + \gamma_N} + \frac{s \left( g_{jN} c_{iN} + g_{iN} c_{jN} \right)}{s\chi_N + \gamma_N} + \frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}
-\end{align*}
+\end{aligned}
 $$
 
 $$
-\begin{align*}
-\mathbf{E}_{ij} &\approx \frac{g_{iN}g_{jN}}{\cancel{s\chi_N} + \gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\cancel{s\chi_N} + \gamma_N} + \cancel{\frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}} \\
-\mathbf{E}_{ij} &\approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\gamma_N} \tag {3.2}
-\end{align*}
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\cancel{s\chi_N} + \gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\cancel{s\chi_N} + \gamma_N} + \cancel{\frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}}
+$$
+
+$$
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\gamma_N}   \tag{3.2}
 $$
 
 **Eliminating a quick node:**
@@ -260,10 +235,8 @@ Suppose:
 - we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
 
 $$
-\begin{equation}
 \mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
 \tag{4.1}
-\end{equation}
 $$
 
 - Rules:
