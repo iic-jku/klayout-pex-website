@@ -54,7 +54,11 @@ format:
         \renewcommand\footrulewidth{0pt}    % Optional: Add a horizontal line above the footer
         }
         \setlength{\footskip}{20pt}
-        %---        
+        %---
+        \usepackage{arydshln}
+        %---
+        \usepackage{cancel}
+        %---
     include-before-body:
       text: |
         \pagestyle{mystyle}
