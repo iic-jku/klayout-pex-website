@@ -54,7 +54,11 @@ format:
         \renewcommand\footrulewidth{0pt}    % Optional: Add a horizontal line above the footer
         }
         \setlength{\footskip}{20pt}
-        %---        
+        %---
+        \usepackage{arydshln}
+        %---
+        \usepackage{cancel}
+        %---
     include-before-body:
       text: |
         \pagestyle{mystyle}
@@ -81,6 +85,9 @@ bibliography: ../references.bib
 
 {{< pagebreak >}}
 {{< include _test_patterns_2_5D_vs_magic.qmd >}}
+
+{{< pagebreak >}}
+{{< include _ticer_study.qmd >}}
 
 {{< pagebreak >}}
 

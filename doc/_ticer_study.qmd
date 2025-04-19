@@ -1,0 +1,246 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+# Netlist reduction: Feasibility study
+
+## TICER algorithm: TIme-Constant Equilibration Reduction
+
+This section reviews the original TICER paper [@ticer-sheenan-1999], and illustrates the main ideas.
+
+Given an RC circuit, each node $N$, with multiple ($M$) terminals, can be represented as:
+
+- $m$-terminal star network
+- each branch, going from the terminal $T_i$ to $N$, contains a resistor and a capacitor in parallel
+- resistor values are given as conductance (easier parallel summation): $g_{ij}\,\,[\mho]$  
+- capacitances values: $c_{ij}\,\,[F]$
+
+
+![N-terminal star network](figures/ticer_n-terminal_star_network.svg){width=40%}
+
+Sum of resistances $\gamma_N$, and capacitances $\chi_N$:
+
+$$
+\gamma_N = \sum_{k=0}^{N-1} g_{kN}, \quad \chi_N = \sum_{k=0}^{N-1} c_{kN}
+\tag{1.2}
+$$
+
+The time constant $\tau_N$ of a given node $N$ then is:
+$$
+\tau_N = \frac{\chi_N}{\gamma_N} = \frac{\sum_{k=0}^{N-1} c_{kN}}{\sum_{k=0}^{N-1} g_{kN}}   \tag{1.3}
+$$
+
+**Basic node elimination idea:** Given a desired frequency window, using the time-constants, we can classify nodes into 3 groups: slow / normal / quick.
+Then we can eliminate slow and quick nodes, as the normal nodes will suffice to preserve the behavior for the frequency window:
+
+**RC circuit in Laplace domain:**
+$$
+(s \mathbf{C} + \mathbf{G})\mathbf{v} = \mathbf{Y} \mathbf{v} = \mathbf{J}  \tag{2.1}
+$$
+
+- $s \in \mathbb{C}$: Complex Frequency
+- $\mathbf{C} \in \mathbb{R}^{N \times N}$: nodal capacitances
+- $\mathbf{G} \in \mathbb{R}^{N \times N}$: nodal conductances
+- $\mathbf{v} \in \mathbb{R}^N$: nodal voltages
+- $\mathbf{J} \in \mathbb{R}^N$: current sources at the nodes
+
+This can be written as a block system:
+$$
+\begin{bmatrix}
+\tilde{Y} & \mathbf{y} \\
+\mathbf{y}^T & s\chi_N + \gamma_N
+\end{bmatrix}
+\begin{bmatrix}
+\tilde{\mathbf{v}} \\
+v_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+\tilde{\mathbf{J}} \\
+j_N
+\end{bmatrix}
+\tag{2.2}
+$$
+
+In equation (2.2), Sheehan uses the tilde accent to name the remainder of the matrix $\mathbf{Y}$ as $\mathbf{\tilde{Y}}$, when looking only at the last row and column (same principle applies to vector $\mathbf{v}$ and $\mathbf{\tilde{v}}$):
+\begin{equation}
+Y =
+\left[
+\begin{array}{cccc:c}
+y_{11} & y_{12} & \cdots & y_{1,N-1} & y_{1N} \\
+y_{21} & y_{22} & \cdots & y_{2,N-1} & y_{2N} \\
+\vdots & \vdots & \ddots & \vdots   & \vdots \\
+\hdashline
+y_{N1} & y_{N} & \cdots & y_{N,N-1} & y_{NN}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c:c}
+\mbox{\LARGE $\tilde{Y}$} & 
+\begin{array}{c}
+y_{1N} \\
+y_{2N} \\
+\vdots
+\end{array} \\ \hdashline
+\begin{array}{cccc}
+y_{N1} & y_{N2} & \cdots & y_{N,N-1}
+\end{array}
+&
+y_{NN}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c:c}
+\mbox{\LARGE $\tilde{Y}$} & 
+\mbox{\LARGE $\mathbf{y}$} \\ \hdashline
+\mbox{\LARGE $\mathbf{y}^T$} 
+&
+y_{NN}
+\end{array}
+\right]
+\end{equation}
+
+### Comments on page 2, equation $(2.3)$
+
+To arrive at equations (2.3), (2.4), and (2.5) from equation (2.2), the process involves solving for $v_N$, the voltage at the node to be eliminated (node $N$), and substituting it back into the system of equations.
+
+Starting with equation (2.2):
+
+$$
+\begin{bmatrix}
+\tilde{Y} & \mathbf{y} \\
+\mathbf{y}^T & s\chi_N + \gamma_N
+\end{bmatrix}
+\begin{bmatrix}
+\tilde{\mathbf{v}} \\
+v_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+\tilde{\mathbf{J}} \\
+j_N
+\end{bmatrix}
+\tag{2.2}
+$$
+
+we have two block equations:
+
+$$
+   \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} v_N = \tilde{\mathbf{J}}
+\tag{\small First block equation of 2.2}
+$$ 
+
+$$
+   \mathbf{y}^T \tilde{\mathbf{v}} + (s\chi_N + \gamma_N) v_N = j_N
+\tag{\small Second block equation of 2.2}
+$$
+
+Solve the second block equation for $v_N$:
+   $$
+   v_N = \frac{j_N - \mathbf{y}^T \tilde{\mathbf{v}}}{s\chi_N + \gamma_N}
+   $$
+
+Substitute the expression for $v_N$ in the first block equation:
+
+   $$
+   \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} \left(\frac{j_N - \mathbf{y}^T \tilde{\mathbf{v}}}{s\chi_N + \gamma_N}\right) = \tilde{\mathbf{J}}
+   $$
+   Simplifying, we get:
+   $$
+   \left(\tilde{Y} - \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}\right) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
+   $$
+
+This leads to the modified system:
+$$
+(\tilde{Y} - \mathbf{E}) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \mathbf{F}
+\tag{2.3}
+$$
+
+Where:
+
+$$
+\mathbf{E} = \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}
+$$
+
+$$
+\mathbf{F} = \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
+$$
+
+::: {.callout-note}
+There's a typo in the original paper in (2.3), the printed variable $\mathbf{v_N}$ should instead be $\mathbf{\tilde{v}}$.
+:::
+
+So we arrive at:
+$$
+\mathbf{E}_{ij} = \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N}
+\tag{2.4}
+$$
+$$
+\mathbf{F}_{i} = \frac{g_{iN} + s c_{iN}}{s\chi_N + \gamma_N} j_N
+\tag{2.5}
+$$
+
+### Quick Nodes
+
+Suppose:
+
+- we eliminate a quick node $N$
+- $s\chi_N \ll \gamma_N$
+- we want to approximate $\mathbf{E_{ij}}$  from (2.4)
+- we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
+
+$$
+\begin{aligned}
+\mathbf{E}_{ij} &= \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N} \\
+                &= \frac{g_{iN}g_{jN}}{s\chi_N + \gamma_N} + \frac{s \left( g_{jN} c_{iN} + g_{iN} c_{jN} \right)}{s\chi_N + \gamma_N} + \frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}
+\end{aligned}
+$$
+
+$$
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\cancel{s\chi_N} + \gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\cancel{s\chi_N} + \gamma_N} + \cancel{\frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}}
+$$
+
+$$
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\gamma_N}   \tag{3.2}
+$$
+
+**Eliminating a quick node:**
+
+- remove all resistors and capacitors connecting other nodes to $N$
+- insert new resistors and capacitors between former neighbors $i$, $j$ of $N$ according to these rules:
+   - If nodes $i$ and $j$ had been connected to $N$ through conductances $g_{iN}$ and $g_{jN}$, insert conductance $\frac{g_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
+   - If node $i$ had a capacitor $c_{iN}$ to $N$, and node $j$ had a conductance $g_{jN}$ to $N$, insert a capacitor $\frac{c_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
+
+### Slow Nodes
+
+Suppose:
+
+- we eliminate a slow node $N$
+- $s\chi_N \gg \gamma_N$
+- we want to approximate $\mathbf{E_{ij}}$  from (2.4)
+- we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
+
+$$
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
+\tag{4.1}
+$$
+
+- Rules:
+   - If nodes $i$ and $j$ had been connected to $N$ through conductances $g_{iN}$ and $g_{jN}$, insert conductance $\frac{g_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
+   - If node $i$ had a capacitor $c_{iN}$ to $N$, and node $j$ had a capacitor $c_{jN}$ to $N$, insert a capacitor $\frac{c_{iN} c_{jN}}{\gamma_N}$ from $i$ to $j$
+
+<span style="color:red">TODO: why not $\frac{c_{iN} c_{jN}}{\chi_N}$?</span>
