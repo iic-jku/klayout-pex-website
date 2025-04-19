@@ -275,9 +275,18 @@ window.Quarto = {
   <li><a href="#test-pattern-r_contact_1x1_minsize_mcon" id="toc-test-pattern-r_contact_1x1_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></a></li>
   <li><a href="#test-pattern-r_contact_2x2_minsize_mcon" id="toc-test-pattern-r_contact_2x2_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_2x2_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_2x2_minsize_mcon</code></a></li>
   </ul></li>
-  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">8</span> Appendix</a>
+  <li><a href="#netlist-reduction-feasibility-study" id="toc-netlist-reduction-feasibility-study" class="nav-link" data-scroll-target="#netlist-reduction-feasibility-study"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</a>
   <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8.1</span> References</a></li>
+  <li><a href="#ticer-algorithm-time-constant-equilibration-reduction" id="toc-ticer-algorithm-time-constant-equilibration-reduction" class="nav-link" data-scroll-target="#ticer-algorithm-time-constant-equilibration-reduction"><span class="header-section-number">8.1</span> TICER algorithm: TIme-Constant Equilibration Reduction</a>
+  <ul class="collapse">
+  <li><a href="#comments-on-page-2-equation-2.3" id="toc-comments-on-page-2-equation-2.3" class="nav-link" data-scroll-target="#comments-on-page-2-equation-2.3"><span class="header-section-number">8.1.1</span> Comments on page 2, equation <span class="math inline">\((2.3)\)</span></a></li>
+  <li><a href="#quick-nodes" id="toc-quick-nodes" class="nav-link" data-scroll-target="#quick-nodes"><span class="header-section-number">8.1.2</span> Quick Nodes</a></li>
+  <li><a href="#slow-nodes" id="toc-slow-nodes" class="nav-link" data-scroll-target="#slow-nodes"><span class="header-section-number">8.1.3</span> Slow Nodes</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.1</span> References</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="doc.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -2154,9 +2163,227 @@ R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
 <div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="appendix" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Appendix</h1>
-<section id="references" class="level2" data-number="8.1">
+<section id="netlist-reduction-feasibility-study" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</h1>
+<section id="ticer-algorithm-time-constant-equilibration-reduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="ticer-algorithm-time-constant-equilibration-reduction"><span class="header-section-number">8.1</span> TICER algorithm: TIme-Constant Equilibration Reduction</h2>
+<p>This section summarizes and reviews the original TICER paper by Sheenan in 1999 <span class="citation" data-cites="ticer-sheenan-1999">(<a href="#ref-ticer-sheenan-1999" role="doc-biblioref">Sheehan 1999</a>)</span>, and illustrates the main ideas.</p>
+<p>Given an RC circuit, each node <span class="math inline">\(N\)</span>, with multiple (<span class="math inline">\(M\)</span>) terminals, can be represented as:</p>
+<ul>
+<li><span class="math inline">\(m\)</span>-terminal star network</li>
+<li>each branch, going from the terminal <span class="math inline">\(T_i\)</span> to <span class="math inline">\(N\)</span>, contains a resistor and a capacitor in parallel</li>
+<li>resistor values are given as conductance (easier parallel summation): <span class="math inline">\(g_{ij}\,\,[\mho]\)</span><br>
+</li>
+<li>capacitances values: <span class="math inline">\(c_{ij}\,\,[F]\)</span></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ticer_n-terminal_star_network.svg" class="img-fluid figure-img" style="width:40.0%"></p>
+<figcaption>N-terminal star network</figcaption>
+</figure>
+</div>
+<p>Sum of resistances <span class="math inline">\(\gamma_N\)</span>, and capacitances <span class="math inline">\(\chi_N\)</span>:</p>
+<p><span class="math display">\[
+\gamma_N = \sum_{k=0}^{N-1} g_{kN}, \quad \chi_N = \sum_{k=0}^{N-1} c_{kN}
+\tag{1.2}
+\]</span></p>
+<p>The time constant <span class="math inline">\(\tau_N\)</span> of a given node <span class="math inline">\(N\)</span> then is: <span class="math display">\[
+\tau_N = \frac{\chi_N}{\gamma_N} = \frac{\sum_{k=0}^{N-1} c_{kN}}{\sum_{k=0}^{N-1} g_{kN}}   \tag{1.3}
+\]</span></p>
+<p><strong>Basic node elimination idea:</strong> Given a desired frequency window, using the time-constants, we can classify nodes into 3 groups: slow / normal / quick. Then we can eliminate slow and quick nodes, as the normal nodes will suffice to preserve the behavior for the frequency window:</p>
+<p><strong>RC circuit in Laplace domain:</strong> <span class="math display">\[
+(s \mathbf{C} + \mathbf{G})\mathbf{v} = \mathbf{Y} \mathbf{v} = \mathbf{J}  \tag{2.1}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(s \in \mathbb{C}\)</span>: Complex Frequency</li>
+<li><span class="math inline">\(\mathbf{C} \in \mathbb{R}^{N \times N}\)</span>: nodal capacitances</li>
+<li><span class="math inline">\(\mathbf{G} \in \mathbb{R}^{N \times N}\)</span>: nodal conductances</li>
+<li><span class="math inline">\(\mathbf{v} \in \mathbb{R}^N\)</span>: nodal voltages</li>
+<li><span class="math inline">\(\mathbf{J} \in \mathbb{R}^N\)</span>: current sources at the nodes</li>
+</ul>
+<p>This can be written as a block system: <span class="math display">\[
+\begin{bmatrix}
+\tilde{Y} &amp; \mathbf{y} \\
+\mathbf{y}^T &amp; s\chi_N + \gamma_N
+\end{bmatrix}
+\begin{bmatrix}
+\tilde{\mathbf{v}} \\
+v_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+\tilde{\mathbf{J}} \\
+j_N
+\end{bmatrix}
+\tag{2.2}
+\]</span></p>
+<p>In equation (2.2), Sheehan uses the tilde accent to name the remainder of the matrix <span class="math inline">\(\mathbf{Y}\)</span> as <span class="math inline">\(\mathbf{\tilde{Y}}\)</span>, when looking only at the last row and column (same principle applies to vector <span class="math inline">\(\mathbf{v}\)</span> and <span class="math inline">\(\mathbf{\tilde{v}}\)</span>): <span class="math display">\[\begin{equation}
+Y =
+\left[
+\begin{array}{cccc:c}
+y_{11} &amp; y_{12} &amp; \cdots &amp; y_{1,N-1} &amp; y_{1N} \\
+y_{21} &amp; y_{22} &amp; \cdots &amp; y_{2,N-1} &amp; y_{2N} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots   &amp; \vdots \\
+\hdashline
+y_{N1} &amp; y_{N} &amp; \cdots &amp; y_{N,N-1} &amp; y_{NN}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c:c}
+\mbox{\LARGE $\tilde{Y}$} &amp;
+\begin{array}{c}
+y_{1N} \\
+y_{2N} \\
+\vdots
+\end{array} \\ \hdashline
+\begin{array}{cccc}
+y_{N1} &amp; y_{N2} &amp; \cdots &amp; y_{N,N-1}
+\end{array}
+&amp;
+y_{NN}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c:c}
+\mbox{\LARGE $\tilde{Y}$} &amp;
+\mbox{\LARGE $\mathbf{y}$} \\ \hdashline
+\mbox{\LARGE $\mathbf{y}^T$}
+&amp;
+y_{NN}
+\end{array}
+\right]
+\end{equation}\]</span></p>
+<section id="comments-on-page-2-equation-2.3" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="comments-on-page-2-equation-2.3"><span class="header-section-number">8.1.1</span> Comments on page 2, equation <span class="math inline">\((2.3)\)</span></h3>
+<p>To arrive at equations (2.3), (2.4), and (2.5) from equation (2.2), the process involves solving for <span class="math inline">\(v_N\)</span>, the voltage at the node to be eliminated (node <span class="math inline">\(N\)</span>), and substituting it back into the system of equations.</p>
+<p>Starting with equation (2.2):</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+\tilde{Y} &amp; \mathbf{y} \\
+\mathbf{y}^T &amp; s\chi_N + \gamma_N
+\end{bmatrix}
+\begin{bmatrix}
+\tilde{\mathbf{v}} \\
+v_N
+\end{bmatrix}
+=
+\begin{bmatrix}
+\tilde{\mathbf{J}} \\
+j_N
+\end{bmatrix}
+\tag{2.2}
+\]</span></p>
+<p>we have two block equations:</p>
+<p><span class="math display">\[
+   \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} v_N = \tilde{\mathbf{J}}
+\tag{\small First block equation of 2.2}
+\]</span></p>
+<p><span class="math display">\[
+   \mathbf{y}^T \tilde{\mathbf{v}} + (s\chi_N + \gamma_N) v_N = j_N
+\tag{\small Second block equation of 2.2}
+\]</span></p>
+<p>Solve the second block equation for <span class="math inline">\(v_N\)</span>: <span class="math display">\[
+   v_N = \frac{j_N - \mathbf{y}^T \tilde{\mathbf{v}}}{s\chi_N + \gamma_N}
+   \]</span></p>
+<p>Substitute the expression for <span class="math inline">\(v_N\)</span> in the first block equation:</p>
+<p><span class="math display">\[
+   \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} \left(\frac{j_N - \mathbf{y}^T \tilde{\mathbf{v}}}{s\chi_N + \gamma_N}\right) = \tilde{\mathbf{J}}
+   \]</span> Simplifying, we get: <span class="math display">\[
+   \left(\tilde{Y} - \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}\right) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
+   \]</span></p>
+<p>This leads to the modified system: <span class="math display">\[
+(\tilde{Y} - \mathbf{E}) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \mathbf{F}
+\tag{2.3}
+\]</span></p>
+<p>Where:</p>
+<p><span class="math display">\[
+\mathbf{E} = \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{F} = \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There’s a typo in the original paper in (2.3), the printed variable <span class="math inline">\(\mathbf{v_N}\)</span> should instead be <span class="math inline">\(\mathbf{\tilde{v}}\)</span>.</p>
+</div>
+</div>
+<p>So we arrive at: <span class="math display">\[
+\mathbf{E}_{ij} = \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N}
+\tag{2.4}
+\]</span> <span class="math display">\[
+\mathbf{F}_{i} = \frac{g_{iN} + s c_{iN}}{s\chi_N + \gamma_N} j_N
+\tag{2.5}
+\]</span></p>
+</section>
+<section id="quick-nodes" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="quick-nodes"><span class="header-section-number">8.1.2</span> Quick Nodes</h3>
+<p>Suppose:</p>
+<ul>
+<li>we eliminate a quick node <span class="math inline">\(N\)</span></li>
+<li><span class="math inline">\(s\chi_N \ll \gamma_N\)</span></li>
+<li>we want to approximate <span class="math inline">\(\mathbf{E_{ij}}\)</span> from (2.4)</li>
+<li>we eliminate higher-order terms, containing factors like <span class="math inline">\(s^n\)</span> for <span class="math inline">\(n \ge 2\)</span></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{E}_{ij} &amp;= \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N} \\
+                &amp;= \frac{g_{iN}g_{jN}}{s\chi_N + \gamma_N} + \frac{s \left( g_{jN} c_{iN} + g_{iN} c_{jN} \right)}{s\chi_N + \gamma_N} + \frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\cancel{s\chi_N} + \gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\cancel{s\chi_N} + \gamma_N} + \cancel{\frac{s^2 c_{iN} c_{jN}}{s\chi_N + \gamma_N}}
+\]</span></p>
+<p><span class="math display">\[
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\gamma_N}   \tag{3.2}
+\]</span></p>
+<p><strong>Eliminating a quick node:</strong></p>
+<ul>
+<li>remove all resistors and capacitors connecting other nodes to <span class="math inline">\(N\)</span></li>
+<li>insert new resistors and capacitors between former neighbors <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span> of <span class="math inline">\(N\)</span> according to these rules:
+<ul>
+<li>If nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> had been connected to <span class="math inline">\(N\)</span> through conductances <span class="math inline">\(g_{iN}\)</span> and <span class="math inline">\(g_{jN}\)</span>, insert conductance <span class="math inline">\(\frac{g_{iN} g_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
+<li>If node <span class="math inline">\(i\)</span> had a capacitor <span class="math inline">\(c_{iN}\)</span> to <span class="math inline">\(N\)</span>, and node <span class="math inline">\(j\)</span> had a conductance <span class="math inline">\(g_{jN}\)</span> to <span class="math inline">\(N\)</span>, insert a capacitor <span class="math inline">\(\frac{c_{iN} g_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="slow-nodes" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="slow-nodes"><span class="header-section-number">8.1.3</span> Slow Nodes</h3>
+<p>Suppose:</p>
+<ul>
+<li>we eliminate a slow node <span class="math inline">\(N\)</span></li>
+<li><span class="math inline">\(s\chi_N \gg \gamma_N\)</span></li>
+<li>we want to approximate <span class="math inline">\(\mathbf{E_{ij}}\)</span> from (2.4)</li>
+<li>we eliminate higher-order terms, containing factors like <span class="math inline">\(s^n\)</span> for <span class="math inline">\(n \ge 2\)</span></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
+\tag{4.1}
+\]</span></p>
+<ul>
+<li>Rules:
+<ul>
+<li>If nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> had been connected to <span class="math inline">\(N\)</span> through conductances <span class="math inline">\(g_{iN}\)</span> and <span class="math inline">\(g_{jN}\)</span>, insert conductance <span class="math inline">\(\frac{g_{iN} g_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
+<li>If node <span class="math inline">\(i\)</span> had a capacitor <span class="math inline">\(c_{iN}\)</span> to <span class="math inline">\(N\)</span>, and node <span class="math inline">\(j\)</span> had a capacitor <span class="math inline">\(c_{jN}\)</span> to <span class="math inline">\(N\)</span>, insert a capacitor <span class="math inline">\(\frac{c_{iN} c_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
+</ul></li>
+</ul>
+<p><span style="color:red">TODO: why not <span class="math inline">\(\frac{c_{iN} c_{jN}}{\chi_N}\)</span>?</span></p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+</section>
+<section id="appendix" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Appendix</h1>
+<section id="references" class="level2" data-number="9.1">
 
 
 
@@ -2165,7 +2392,7 @@ R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">8.1 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">9.1 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-fastfieldsolvers-fastercap-manual-chm" class="csl-entry" role="listitem">
 Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help.”</span> 2019. <a href="https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm">https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm</a>.
 </div>
@@ -2186,6 +2413,9 @@ Maxwell, James Clerk. 1873. <em>A Treatise on Electricity and Magnetism</em>. Vo
 </div>
 <div id="ref-Nagel_1975" class="csl-entry" role="listitem">
 Nagel, Laurence W. 1975. <span>“SPICE2: A Computer Program to Simulate Semiconductor Circuits.”</span> PhD thesis, EECS Department, University of California, Berkeley. <a href="http://www2.eecs.berkeley.edu/Pubs/TechRpts/1975/9602.html">http://www2.eecs.berkeley.edu/Pubs/TechRpts/1975/9602.html</a>.
+</div>
+<div id="ref-ticer-sheenan-1999" class="csl-entry" role="listitem">
+Sheehan, B. N. 1999. <span>“TICER: Realizable Reduction of Extracted RC Circuits.”</span> In <em>1999 IEEE/ACM International Conference on Computer-Aided Design. Digest of Technical Papers (Cat. No.99CH37051)</em>, 200–203. <a href="https://doi.org/10.1109/ICCAD.1999.810649">https://doi.org/10.1109/ICCAD.1999.810649</a>.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
