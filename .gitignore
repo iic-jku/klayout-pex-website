@@ -21,3 +21,7 @@ doc/*_files
 _freeze
 site_libs
 *.quarto_ipynb
+index_files
+*.aux
+*.log
+index.tex
