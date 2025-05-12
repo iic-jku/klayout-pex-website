@@ -20,15 +20,15 @@ limitations under the License.
 
 This section reviews the original TICER paper [@ticer-sheenan-1999], and illustrates the main ideas.
 
-Given an RC circuit, each node $N$, with multiple ($M$) terminals, can be represented as:
+Given $N$-terminal star network:
 
-- $m$-terminal star network
+- node $N$ is the center
+- terminals labeled from $0$ to $N\!-\!1$   (in @fig-n-terminal-star-network, $m$ is used instead of $N\!-\!1$)
 - each branch, going from the terminal $T_i$ to $N$, contains a resistor and a capacitor in parallel
 - resistor values are given as conductance (easier parallel summation): $g_{ij}\,\,[\mho]$  
 - capacitances values: $c_{ij}\,\,[F]$
 
-
-![N-terminal star network](figures/ticer_n-terminal_star_network.svg){width=40%}
+![N-terminal star network](figures/ticer_n-terminal_star_network.svg){width=40% #fig-n-terminal-star-network}
 
 Sum of resistances $\gamma_N$, and capacitances $\chi_N$:
 
@@ -59,7 +59,7 @@ $$
 This can be written as a block system:
 $$
 \begin{bmatrix}
-\tilde{Y} & \mathbf{y} \\
+\mathbf{\tilde{Y}} & \mathbf{y} \\
 \mathbf{y}^T & s\chi_N + \gamma_N
 \end{bmatrix}
 \begin{bmatrix}
@@ -74,9 +74,10 @@ j_N
 \tag{2.2}
 $$
 
+::: {.callout-note}
 In equation (2.2), Sheehan uses the tilde accent to name the remainder of the matrix $\mathbf{Y}$ as $\mathbf{\tilde{Y}}$, when looking only at the last row and column (same principle applies to vector $\mathbf{v}$ and $\mathbf{\tilde{v}}$):
 \begin{equation}
-Y =
+\mathbf{Y} =
 \left[
 \begin{array}{cccc:c}
 y_{11} & y_{12} & \cdots & y_{1,N-1} & y_{1N} \\
@@ -89,7 +90,7 @@ y_{N1} & y_{N} & \cdots & y_{N,N-1} & y_{NN}
 =
 \left[
 \begin{array}{c:c}
-\mbox{\LARGE $\tilde{Y}$} & 
+\mbox{\LARGE $\mathbf{\tilde{Y}}$} & 
 \begin{array}{c}
 y_{1N} \\
 y_{2N} \\
@@ -105,7 +106,7 @@ y_{NN}
 =
 \left[
 \begin{array}{c:c}
-\mbox{\LARGE $\tilde{Y}$} & 
+\mbox{\LARGE $\mathbf{\tilde{Y}}$} & 
 \mbox{\LARGE $\mathbf{y}$} \\ \hdashline
 \mbox{\LARGE $\mathbf{y}^T$} 
 &
@@ -113,6 +114,7 @@ y_{NN}
 \end{array}
 \right]
 \end{equation}
+:::
 
 ### Comments on page 2, equation $(2.3)$
 
@@ -122,7 +124,7 @@ Starting with equation (2.2):
 
 $$
 \begin{bmatrix}
-\tilde{Y} & \mathbf{y} \\
+\mathbf{\tilde{Y}} & \mathbf{y} \\
 \mathbf{y}^T & s\chi_N + \gamma_N
 \end{bmatrix}
 \begin{bmatrix}
@@ -140,7 +142,7 @@ $$
 we have two block equations:
 
 $$
-   \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} v_N = \tilde{\mathbf{J}}
+   \mathbf{\tilde{Y}} \tilde{\mathbf{v}} + \mathbf{y} v_N = \tilde{\mathbf{J}}
 \tag{\small First block equation of 2.2}
 $$ 
 
@@ -157,11 +159,11 @@ Solve the second block equation for $v_N$:
 Substitute the expression for $v_N$ in the first block equation:
 
    $$
-   \tilde{Y} \tilde{\mathbf{v}} + \mathbf{y} \left(\frac{j_N - \mathbf{y}^T \tilde{\mathbf{v}}}{s\chi_N + \gamma_N}\right) = \tilde{\mathbf{J}}
+   \mathbf{\tilde{Y}} \tilde{\mathbf{v}} + \mathbf{y} \left(\frac{j_N - \mathbf{y}^T \tilde{\mathbf{v}}}{s\chi_N + \gamma_N}\right) = \tilde{\mathbf{J}}
    $$
    Simplifying, we get:
    $$
-   \left(\tilde{Y} - \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}\right) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
+   \left(\mathbf{\tilde{Y}} - \frac{\mathbf{y} \mathbf{y}^T}{s\chi_N + \gamma_N}\right) \tilde{\mathbf{v}} = \tilde{\mathbf{J}} - \frac{\mathbf{y} j_N}{s\chi_N + \gamma_N}
    $$
 
 This leads to the modified system:
@@ -200,7 +202,7 @@ Suppose:
 
 - we eliminate a quick node $N$
 - $s\chi_N \ll \gamma_N$
-- we want to approximate $\mathbf{E_{ij}}$  from (2.4)
+- we approximate $\mathbf{E}_{ij}$  from (2.4)
 - we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
 
 $$
@@ -231,16 +233,79 @@ Suppose:
 
 - we eliminate a slow node $N$
 - $s\chi_N \gg \gamma_N$
-- we want to approximate $\mathbf{E_{ij}}$  from (2.4)
-- we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
+- we approximate $\mathbf{E}_{ij}$ from (2.4)
+- we retain terms containing $s$
+- to preserve DC characteristics, we use $\frac{g_{iN}g_{jN}}{\gamma_N}$ in place of whatever constant terms come from the equation
+- higher-order terms in $\gamma_N$ and $s$ are neglected to simplify the expression.
+
+Starting with (2.4):
+
+$$
+\mathbf{E}_{ij} = \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N + \gamma_N}
+\tag{2.4}
+$$
+
+Given the approximation:
+
+$$
+\frac{1}{s \chi_N + \gamma_N} \approx \frac{1}{s \chi_N} \left( 1 - \frac{\gamma_N}{s \chi_N} \right)
+\tag{4.2}
+$$
+
+Substitute (4.2) into (2.4):
+
+$$
+\begin{aligned}
+\mathbf{E}_{ij} &\approx \frac{(g_{iN} + s c_{iN})(g_{jN} + s c_{jN})}{s\chi_N}\left(1 - \frac{\gamma_N}{s\chi_N}\right) \\
+                &\approx \left(\frac{g_{iN}g_{jN}}{s\chi_N} + \frac{\cancel{s} \left( g_{jN} c_{iN} + g_{iN} c_{jN} \right)}{\cancel{s}\chi_N} + \frac{s\cancel{^2} c_{iN} c_{jN}}{\cancel{s}\chi_N}\right)\left(1 - \frac{\gamma_N}{s\chi_N}\right) \\
+\end{aligned}
+$$
+
+Expand:
+
+$$
+\begin{aligned}
+\mathbf{E}_{ij} &= \frac{g_{iN}g_{jN}}{s\chi_N} - \frac{g_{iN}g_{jN} \gamma_N}{s^2 \chi_N^2} \\
+                &+ \frac{g_{jN} c_{iN} + g_{iN} c_{jN}}{\chi_N} - \frac{\left( g_{jN} c_{iN} + g_{iN} c_{jN} \right) \gamma_N}{s\chi_N^2} \\
+                &+ \frac{s c_{iN} c_{jN}}{\chi_N} - \frac{\cancel{s} c_{iN} c_{jN} \gamma_N}{\cancel{s}\chi_N^2}
+\end{aligned}
+$$
+
+After we remove constant terms:
+
+$$
+\begin{aligned}
+\mathbf{E}_{ij} &\approx \frac{g_{iN}g_{jN}}{s\chi_N} - \frac{g_{iN}g_{jN} \gamma_N}{s^2 \chi_N^2} - \frac{\left( g_{jN} c_{iN} + g_{iN} c_{jN} \right) \gamma_N}{s\chi_N^2} + s \frac{c_{iN} c_{jN}}{\chi_N}
+\end{aligned}
+$$
+
+
+
+Remove higher-order terms in $\gamma_N$ and $s$:
+
+$$
+\begin{aligned}
+\mathbf{E}_{ij} &\approx \frac{g_{iN}g_{jN}}{s\chi_N} + s \frac{c_{iN} c_{jN}}{\chi_N}
+\end{aligned}
+$$
+
+Sheenan arrives at (4.1):
 
 $$
 \mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
 \tag{4.1}
 $$
 
+$$
+\textcolor{red}{\text{TODO: why not }\frac{g_{iN} g_{jN}}{s\chi_N} \text{?}}
+$$
+
+
+
 - Rules:
    - If nodes $i$ and $j$ had been connected to $N$ through conductances $g_{iN}$ and $g_{jN}$, insert conductance $\frac{g_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
    - If node $i$ had a capacitor $c_{iN}$ to $N$, and node $j$ had a capacitor $c_{jN}$ to $N$, insert a capacitor $\frac{c_{iN} c_{jN}}{\gamma_N}$ from $i$ to $j$
 
-<span style="color:red">TODO: why not $\frac{c_{iN} c_{jN}}{\chi_N}$?</span>
+$$
+\textcolor{red}{\text{TODO: why not }\frac{c_{iN} c_{jN}}{\chi_N} \text{?}}
+$$
