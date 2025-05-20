@@ -447,7 +447,7 @@ The goal is to eliminate the quick node $v_3$.
 {{< include /figures/ticer-example-schematic.qmd >}}
 
 - Time constant $\tau_{v_3} = \frac{c_3}{g_{13} + g_{23}}$
-- Quick node condition: $\text{is\_quick}(N) := 2 \pi f^{\text{max}} \tau_N \lt \epsilon$
+- Quick node condition: $\text{is\_quick}(N) := 2 \pi f^{\text{max}} \tau_N < \epsilon$
 
 Elimination of node $N_2$:
 
@@ -504,7 +504,6 @@ $$
 **Laplace domain (MNA[^abbrev-mna] form):**
 
 $$
-\begin{equation}
 \left(
 s 
 \left[
@@ -538,7 +537,6 @@ J_{1}(s) \\
 0
 \end{array}
 \right]
-\end{equation}
 $$
 
 So given the values from Sheehan's numerical example:
@@ -589,7 +587,6 @@ $$
 **Laplace domain (MNA[^abbrev-mna] form):**
 
 $$
-\begin{equation}
 \left(
 s 
 \left[
@@ -619,7 +616,6 @@ J_{1}(s) \\
 0
 \end{array}
 \right]
-\end{equation}
 $$
 
 **New devices:**
