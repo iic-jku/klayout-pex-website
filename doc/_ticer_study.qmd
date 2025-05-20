@@ -545,6 +545,12 @@ So given the values from Sheehan's numerical example:
 - $c_1 = c_2 = 1$
 - $c_3 = 0.01$
 
+
+Node $v_3$ is a quick node:
+
+- Time constant: $\tau_{v_3} = \frac{c_3}{g_{13} + g_{23}} = \frac{0.001}{1 + 1} = 0.0005$
+- Frequency: $f = \frac{1}{2 \pi \tau_{v_3}} \approx 318.31\,\text{Hz}$
+
 We have a system with
 $$
 \mathbf{C} = 
