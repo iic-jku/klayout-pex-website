@@ -312,3 +312,367 @@ $$
 $$
 \textcolor{red}{\text{TODO: why not }\frac{c_{iN} c_{jN}}{\chi_N} \text{?}}
 $$
+
+
+## TICER 2007 paper
+
+This section reviews some aspects of the 2007 TICER paper [@ticer-sheehan-2007].
+
+User-supplied algorithm parameters:
+
+- Set of $\mathbf{fixed}$ nodes (designated to be left alone, i.e., not to be eliminated)
+- $\mathbf{MaxDeg} \in \mathbb{N}\!\setminus\!\{0, 1\}$: number of passes (user-supplied parameter)
+- $f^{\text{max}}$: maximum operating frequency  of interest
+- $\epsilon \in \mathbb{R}_{[0,1]}$: small number enforcing the requirement that $|s \tau_N| \ll 1$
+
+In the paper, figure 5 and 6 demonstrate the algorithm for eliminating a quick node (here is a python conversion of those).
+
+```python
+def eliminate_quick_node(N: Node):
+   neighbors = nodes_incident_to(node=N)
+   for i in neighbors:
+      g_iN = conductance[i, N]
+      if g_iN == 0: 
+         continue
+      for j in neighbors:
+         if i <= j:
+            continue
+         g_jN = conductance[j, N]
+         c_jN = capacitance[j, N]
+         gamma_N = incident_conductance_sum(node=N)
+         if g_jN > 0:
+            add_conductance(i, j, g_iN * g_jN / gamma_N)
+         if c_jN > 0:
+            add_capacitance(i, j, g_iN * c_jN / gamma_N)
+   remove_all_incident_conductances_and_capacitances(i, N)
+```
+
+```python
+def ticer(freq_max: float, epsilon: float, max_deg: int):
+   for deg in range(2, max_deg):
+      Q = queue.Queue(nodes_not_fixed())
+      while not Q.empty():
+         N = Q.get()  # pop
+         if number_of_incident_resistors(N) > deg:
+            continue
+         tau_N = time_constant(N)
+         if 2 * math.pi * freq_max * tau_N <= epsilon:
+            # ensure the neighbors are in the queue,
+            # because the neighbors' incident resistors and time constants 
+            # might have been changed, so they should be reconsidered for elimination
+            missing_neighbors = [n in nodes_incident_to(node=N) if n not in Q]
+            q.push(missing_neighbors)
+
+            eliminate_quick_node(N)
+
+   # NOTE: "leaf node" N means, number_of_incident_resistors(N) == 1
+   for N in leaf_nodes():
+      if N in fixed_nodes():  # N is protected
+         continue
+
+      tau_N = time_constant(N)
+      if 2 * math.pi * freq_max * tau_N <= epsilon:
+         eliminate_quick_node(N)
+```
+
+### Pseudocode for slow node elimination
+
+Sheehan mentions that elimination of slow nodes is of reduced importances, and therefore does not explicitly provide pseudocode for this case, instead refers to the original TICER paper [@ticer-sheehan-1999].
+
+So if we fill in the gaps we arrive at:
+
+```python
+def eliminate_slow_node(N: Node):
+   neighbors = nodes_incident_to(node=N)
+   for i in neighbors:
+      g_iN = conductance[i, N]
+      c_iN = capacitance[i, N]
+      for j in neighbors:
+         if i <= j:
+            continue
+         g_jN = conductance[j, N]
+         c_jN = capacitance[j, N]
+         gamma_N = incident_conductance_sum(node=N)
+         if g_iN > 0 and g_jN > 0:
+            add_conductance(i, j, g_iN * g_jN / gamma_N)
+         if c_iN > 0 and c_jN > 0:
+            add_capacitance(i, j, c_iN * c_jN / gamma_N)
+   remove_all_incident_conductances_and_capacitances(i, N)
+```
+
+To integrate this into the algorithm, we additionally need a minimum frequency $f^{\text{min}}$ parameter supplied by the user.
+
+```python
+def ticer(freq_min: float, freq_max: float, epsilon: float, max_deg: int):
+   for deg in range(2, max_deg):
+      Q = queue.Queue(nodes_not_fixed())
+      while not Q.empty():
+         N = Q.get()  # pop
+         if number_of_incident_resistors(N) > deg:
+            continue
+         tau_N = time_constant(N)
+         if 2 * math.pi * freq_max * tau_N <= epsilon:
+            # NOTE: ensure the neighbors are in the queue,
+            # because the neighbors' incident resistors and time constants 
+            # might have been changed, so they should be reconsidered for elimination
+            missing_neighbors = [n in nodes_incident_to(node=N) if n not in Q]
+            q.push(missing_neighbors)
+
+            eliminate_quick_node(N)
+
+         if 2 * math.pi * freq_min * tau_N <= epsilon:
+            # NOTE: ensure the neighbors are in the queue,
+            # because the neighbors' incident resistors and time constants 
+            # might have been changed, so they should be reconsidered for elimination
+            missing_neighbors = [n in nodes_incident_to(node=N) if n not in Q]
+            q.push(missing_neighbors)
+
+            eliminate_slow_node(N)
+
+   # NOTE: "leaf node" N means, number_of_incident_resistors(N) == 1
+   for N in leaf_nodes():
+      if N in fixed_nodes():  # N is protected
+         continue
+
+      tau_N = time_constant(N)
+      if 2 * math.pi * freq_max * tau_N <= epsilon:
+         eliminate_quick_node(N)
+```
+
+### Example 1
+
+Let's reduce the example presented by Sheehan in the from the 2007 paper  [@ticer-sheehan-2007], as shown in @fig-ticer-example-schematic.
+The goal is to eliminate the quick node $v_3$.
+
+{{< include /figures/ticer-example-schematic.qmd >}}
+
+- Time constant $\tau_{v_3} = \frac{c_3}{g_{13} + g_{23}}$
+- Quick node condition: $\text{is\_quick}(N) := 2 \pi f^{\text{max}} \tau_N \lt \epsilon$
+
+Elimination of node $N_2$:
+
+- Incident devices $R_{13}$, $R_{23}$, $C_{3}$ are removed
+- New devices for neighbors
+  - Between nodes $(v_0, v_1)$: 
+    - add $c_{10} = \frac{g_{13}*c_{3}}{g_{13} + g_{23}}$
+  - Between nodes $(v_0, v_2)$: 
+    - add $c_{20} = \frac{g_{23}*c_{3}}{g_{13} + g_{23}}$
+  - Between nodes $(v_1, v_2)$: 
+    - add $g_{12} = \frac{g_{13}*g_{23}}{g_{13} + g_{23}}$
+
+{{< include /figures/ticer-example-schematic-reduced.qmd >}}
+
+**RC circuit in Laplace domain:**
+
+$$
+(s \mathbf{C} + \mathbf{G})\mathbf{v} = \mathbf{Y} \mathbf{v} = \mathbf{J}  \tag{2.1}
+$$
+
+**Solve for voltages:**
+
+$$
+\mathbf{v} = (s \mathbf{C} + \mathbf{G})^{-1} \mathbf{J} = Y^{-1} \mathbf{J}
+$$
+
+**Transfer function:**
+
+$$
+H(s) = \frac{\mathbf{v}(s)}{\mathbf{J}(s)} = Y^{-1}(s) = (s \mathbf{G} + \mathbf{C})^{-1}
+$$
+
+E.g. the transfer function (for input $J_1(s)$, output $V_2(s)$) is:
+
+$$
+H(s) = \frac{\text{adj}(s \mathbf{C} + \mathbf{G})_{21}}{det(s \mathbf{C} + \mathbf{G})}
+$$
+
+
+#### Analysis of the original circuit
+
+So for the original circuit of @fig-ticer-example-schematic, we have 3 nodes, in addition to GND ($v_0$).
+
+**So we have 3 nodal equations:**
+
+$$
+\begin{aligned}
+c_1 \dot{v_1} + g_d v_1 + g_{13} (v_1 - v_3)              &= j_1(t) \\
+c_2 \dot{v_2} + g_{23} (v_2 - v_3)                        &= 0      \\
+c_3 \dot{v_3} + g_{13} (v_3 - v_1) + g_{23} * (v_3 - v_2) &= 0
+\end{aligned}
+$$
+
+**Laplace domain (MNA[^abbrev-mna] form):**
+
+$$
+\begin{equation}
+\left(
+s 
+\left[
+\begin{array}{ccc}
+c_1 &   0 &   0 \\
+  0 & c_2 &   0 \\
+  0 &   0 & c_3
+\end{array}
+\right] 
++
+\left[
+\begin{array}{cccc}
+g_d + g_{13}  &        0 & -g_{13}         \\
+0             &   g_{23} & -g_{23}         \\
+-g_{13}       &  -g_{23} & g_{13} + g_{23}
+\end{array}
+\right]
+\right)
+\left[
+\begin{array}{c}
+V_{1}(s) \\
+V_{2}(s) \\
+V_{3}(s)
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+J_{1}(s) \\
+0 \\
+0
+\end{array}
+\right]
+\end{equation}
+$$
+
+So given the values from Sheehan's numerical example:
+
+- $g_d = g_{13} = g_{23} = 1$
+- $c_1 = c_2 = 1$
+- $c_3 = 0.01$
+
+We have a system with
+$$
+\mathbf{C} = 
+\left[
+\begin{array}{ccc}
+  1 &   0 &    0 \\
+  0 &   1 &    0 \\
+  0 &   0 & 0.01
+\end{array}
+\right],
+\mathbf{G} =
+\left[
+\begin{array}{ccc}
+   2 &   0 & -1 \\
+   0 &   1 & -1 \\
+  -1 &  -1 &  2
+\end{array}
+\right]
+$$
+
+**Transfer function:**
+
+$$
+H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
+$$
+
+#### Analysis of the reduced circuit
+
+The reduced circuit in @fig-ticer-example-schematic-reduced only has 2 remaining nodes (besides GND).
+
+**So we have 2 nodal equations:**
+
+$$
+\begin{aligned}
+(c_1 + c_{10}) \dot{v_1} + g_d v_1 + g_{12} (v_1 - v_2)   &= j_1(t) \\
+(c_2 + c_{20}) \dot{v_2} + g_{12} (v_2 - v_1)             &= 0
+\end{aligned}
+$$
+
+**Laplace domain (MNA[^abbrev-mna] form):**
+
+$$
+\begin{equation}
+\left(
+s 
+\left[
+\begin{array}{cc}
+c_1 + c_{10} &            0 \\
+           0 & c_2 + c_{20}
+\end{array}
+\right] 
++
+\left[
+\begin{array}{cccc}
+g_d + g_{12}  & -g_{12}         \\
+-g_{12}       &  g_{12}
+\end{array}
+\right]
+\right)
+\left[
+\begin{array}{c}
+V_{1}(s) \\
+V_{2}(s)
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+J_{1}(s) \\
+0
+\end{array}
+\right]
+\end{equation}
+$$
+
+**New devices:**
+
+  - $c_{10} = \frac{g_{13}*c_{3}}{g_{13} + g_{23}} = \frac{1 * 0.01}{1 + 1} = 0.005$
+  - $c_{20} = \frac{g_{23}*c_{3}}{g_{13} + g_{23}} = \frac{1 * 0.01}{1 + 1} = 0.005$
+  - $g_{12} = \frac{g_{13}*g_{23}}{g_{13} + g_{23}} = \frac{1 * 1}{1 + 1} = 0.5$
+
+We have a system with:
+
+$$
+\mathbf{C} = 
+\left[
+\begin{array}{ccc}
+1.005 &   0  \\
+  0 & 1.005  
+\end{array}
+\right],
+\mathbf{G} =
+\left[
+\begin{array}{ccc}
+    1.5 &  -0.5 \\
+   -0.5 &  0.5
+\end{array}
+\right]
+$$
+
+**Transfer function:**
+
+$$
+H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
+$$
+
+
+#### Comparison of bode plots
+
+Bode plots:
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-bode-plot-ft-vs-mag >}}
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-bode-plot-ft-vs-phase >}}
+
+In the original circuit we have an additional pole at $s = 201$, which is expendable.
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original >}}
+
+If we remove this pole (for better comparison), we have:
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original-without-201 >}}
+
+So in the reduced circuit, that pole is no longer present, but the others are.
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-reduced >}}
+
+
+

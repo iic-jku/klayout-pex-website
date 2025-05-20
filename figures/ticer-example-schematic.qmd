@@ -1,0 +1,67 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-ticer-example-schematic
+#| echo: false
+#| fig-cap: "Passive RC circuit shown in @ticer-sheenan-2007."
+import schemdraw as sd
+import schemdraw.elements as elm
+import schemdraw.segments as seg
+import schemdraw.flow as flow
+sd.svgconfig.svg2 = False
+
+class InvisibleDot(elm.Element):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.segments.append(seg.SegmentCircle((0, 0), 0.0001))  # very small radius
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=2)
+    d.config(fontsize=16)
+    
+    J = elm.SourceI(label='$J(t)$')
+    L_J = elm.Line().right().dot()
+    elm.Resistor(label='$g_d$').down()
+    elm.Line().left()
+    elm.Line().right().at(L_J.end)
+    elm.Dot().label('$v_1$', loc='top')
+    C1 = elm.Capacitor(label='$c_1$').down().dot()
+    elm.Line().left().dot()
+    R13 = elm.Resistor(label='$g_{13}$').right().length(3).at(C1.start)
+    elm.Dot().label('$v_3$', loc='top')
+    C3 = elm.Capacitor().down().label('$c_3$')
+    elm.Dot().label('$v_0$', loc='bottom', ofst=(0.3, -0.1))
+    elm.Line().left().length(3)
+    L_G = elm.Line().down().at(C3.end).length(0.3)
+    elm.Ground()
+    R23 = elm.Resistor().label('$g_{23}$').right().length(3).at(C3.start)
+    InvisibleDot().label('$v_2$', loc='top')
+    C2 = elm.Capacitor().label('$c_2$').down()
+    elm.Line().left().length(3)
+
+
+    # N1 = flow.Circle(r=.7).label('$N_1$\n"IN"').right()
+    # C12 = elm.Capacitor().right().label('$C_{12}$').length(1)
+    # N2 = flow.Circle(r=.7).label('$N_2$')
+    # R20 = elm.Resistor().down().at(N2.S).label('$R_{20}$').length(1)
+    # N0 = flow.Circle(r=.7).label('$N_0$\n"GND"')
+    # R23 = elm.Resistor().right().at(N2.E).label('$R_{23}$').length(1)
+    # N3 = flow.Circle(r=.7).label('$N_3$\n"OUT"').right()
+    # C30 = elm.Capacitor().down().at(N3.S).label('$C_{30}$').length(1)
+    # L30 = elm.Line().down(0.7)
+    # elm.Line().endpoints(L30.end, N0.E)
+```

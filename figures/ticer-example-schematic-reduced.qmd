@@ -1,0 +1,77 @@
+::: {.content-hidden}
+Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-ticer-example-schematic-reduced
+#| echo: false
+#| fig-cap: "Passive RC circuit after the elimination of $v_3$."
+import schemdraw as sd
+import schemdraw.elements as elm
+import schemdraw.segments as seg
+import schemdraw.flow as flow
+sd.svgconfig.svg2 = False
+
+def strike_through(drawing: sd.Drawing,
+                   element: elm.Element):
+    hw = 0.5  # half width
+    hh = 0.5  # half height
+
+    p_lower_left = element.center[0] - hw, element.center[1] - hh
+    p_upper_right = element.center[0] + hw, element.center[1] + hh
+    d.add(elm.Line().at(p_lower_left).to(p_upper_right).color('red').linewidth(2))
+
+class InvisibleDot(elm.Element):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.segments.append(seg.SegmentCircle((0, 0), 0.0001))  # very small radius
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=2)
+    d.config(fontsize=16)
+    
+    J = elm.SourceI(label='$J(t)$')
+    L_J = elm.Line().right().dot()
+    elm.Resistor(label='$g_d$').down()
+    elm.Line().left()
+    elm.Line().right().at(L_J.end)
+    V1 = elm.Dot().label('$v_1$', loc='top', ofst=(-0.3, 0))
+    C1 = elm.Capacitor(label='$c_1$').down().dot()
+    elm.Line().left().dot()
+    R13 = elm.Resistor(label='$g_{13}$').right().length(3).at(C1.start)
+    elm.Dot().label('$v_3$', loc='top')
+    C3 = elm.Capacitor().down().label('$c_3$')
+    V0 = elm.Dot().label('$v_0$', loc='bottom', ofst=(0.3, -0.1))
+    elm.Line().left().length(3)
+    L_G = elm.Line().down().at(C3.end).length(0.3)
+    elm.Ground()
+    R23 = elm.Resistor().label('$g_{23}$').right().length(3).at(C3.start)
+    V2 = elm.Dot().label('$v_2$', loc='top', ofst=(0.3, 0))
+    C2 = elm.Capacitor().label('$c_2$').down()
+    elm.Line().left().length(3)
+
+    strike_through(d, R13)
+    strike_through(d, R23)
+    strike_through(d, C3)
+
+    C10 = elm.Capacitor().endpoints(V1.end, V0.end).label('$c_{10}$', loc='bottom', ofst=(0.2, 0.1)).color('green')
+    C20 = elm.Capacitor().endpoints(V2.end, V0.end).label('$c_{20}$', loc='bottom', ofst=(0.2, -0.0)).color('green')
+    elm.Line().up().at(V1.end).color('green').length(1)
+    R12 = elm.Resistor().right().label('$g_{12}$').length(6).color('green')
+    elm.Line().down().color('green').length(1)
+    # L10 = elm.Line().down(0.7).color('green')
+    # elm.Line().endpoints(L10.end, N0.W).color('green')
+
+```
