@@ -25,3 +25,5 @@ index_files
 *.aux
 *.log
 index.tex
+
+notebooks/*_files
