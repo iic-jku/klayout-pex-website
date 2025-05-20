@@ -18,7 +18,7 @@ limitations under the License.
 
 ## TICER algorithm: TIme-Constant Equilibration Reduction
 
-This section reviews the original TICER paper [@ticer-sheenan-1999], and illustrates the main ideas.
+This section reviews the original TICER paper [@ticer-sheehan-1999], and illustrates the main ideas.
 
 Given $N$-terminal star network:
 
@@ -51,10 +51,10 @@ $$
 $$
 
 - $s \in \mathbb{C}$: Complex Frequency
-- $\mathbf{C} \in \mathbb{R}^{N \times N}$: nodal capacitances
-- $\mathbf{G} \in \mathbb{R}^{N \times N}$: nodal conductances
-- $\mathbf{v} \in \mathbb{R}^N$: nodal voltages
-- $\mathbf{J} \in \mathbb{R}^N$: current sources at the nodes
+- $\mathbf{C} \in \mathbb{R}^{N-1 \times N-1}$: nodal capacitances
+- $\mathbf{G} \in \mathbb{R}^{N-1 \times N-1}$: nodal conductances
+- $\mathbf{v} \in \mathbb{R}^{N-1}$: nodal voltages
+- $\mathbf{J} \in \mathbb{R}^{N-1}$: current sources at the nodes
 
 This can be written as a block system:
 $$
@@ -202,6 +202,7 @@ Suppose:
 
 - we eliminate a quick node $N$
 - $s\chi_N \ll \gamma_N$
+- equivalently, $|s \tau_N| \ll 1$
 - we approximate $\mathbf{E}_{ij}$  from (2.4)
 - we eliminate higher-order terms, containing factors like $s^n$ for $n \ge 2$
 
@@ -222,10 +223,12 @@ $$
 
 **Eliminating a quick node:**
 
+Recipe for translating (3.2) into a modified circuit:
+
 - remove all resistors and capacitors connecting other nodes to $N$
 - insert new resistors and capacitors between former neighbors $i$, $j$ of $N$ according to these rules:
-   - If nodes $i$ and $j$ had been connected to $N$ through conductances $g_{iN}$ and $g_{jN}$, insert conductance $\frac{g_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
-   - If node $i$ had a capacitor $c_{iN}$ to $N$, and node $j$ had a conductance $g_{jN}$ to $N$, insert a capacitor $\frac{c_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
+   - If nodes $i$ and $j$ had been connected to $N$ through conductances $g_{iN}$ and $g_{jN}$, insert conductance $\frac{g_{iN} g_{jN}}{\gamma_N}$ between $i$ and $j$
+   - If node $i$ had a capacitor $c_{iN}$ to $N$, and node $j$ had a conductance $g_{jN}$ to $N$, insert a capacitor $\frac{c_{iN} g_{jN}}{\gamma_N}$ between $i$ and $j$
 
 ### Slow Nodes
 
@@ -233,6 +236,7 @@ Suppose:
 
 - we eliminate a slow node $N$
 - $s\chi_N \gg \gamma_N$
+- equivalently, $|s \tau_N| \gg 1$
 - we approximate $\mathbf{E}_{ij}$ from (2.4)
 - we retain terms containing $s$
 - to preserve DC characteristics, we use $\frac{g_{iN}g_{jN}}{\gamma_N}$ in place of whatever constant terms come from the equation
@@ -289,7 +293,7 @@ $$
 \end{aligned}
 $$
 
-Sheenan arrives at (4.1):
+Sheehan arrives at (4.1):
 
 $$
 \mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
@@ -299,7 +303,6 @@ $$
 $$
 \textcolor{red}{\text{TODO: why not }\frac{g_{iN} g_{jN}}{s\chi_N} \text{?}}
 $$
-
 
 
 - Rules:
