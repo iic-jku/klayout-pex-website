@@ -462,6 +462,8 @@ Elimination of node $N_2$:
 
 {{< include /figures/ticer-example-schematic-reduced.qmd >}}
 
+### Modified Nodal Analysis in the Laplace domain
+
 **RC circuit in Laplace domain:**
 
 $$
