@@ -62,7 +62,6 @@ bibliography: ../references.bib
 
 ---
 
-{{< pagebreak >}}
 {{< include _sec_intro.qmd >}}
 
 {{< pagebreak >}}
