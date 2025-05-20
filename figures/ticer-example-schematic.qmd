@@ -17,7 +17,7 @@ limitations under the License.
 ```{python}
 #| label: fig-ticer-example-schematic
 #| echo: false
-#| fig-cap: "Passive RC circuit shown in @ticer-sheenan-2007."
+#| fig-cap: "Passive RC circuit shown in @ticer-sheehan-2007."
 import schemdraw as sd
 import schemdraw.elements as elm
 import schemdraw.segments as seg
