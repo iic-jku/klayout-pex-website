@@ -449,10 +449,15 @@ window.Quarto = {
   <li><a href="#quick-nodes" id="toc-quick-nodes" class="nav-link" data-scroll-target="#quick-nodes"><span class="header-section-number">8.1.2</span> Quick Nodes</a></li>
   <li><a href="#slow-nodes" id="toc-slow-nodes" class="nav-link" data-scroll-target="#slow-nodes"><span class="header-section-number">8.1.3</span> Slow Nodes</a></li>
   </ul></li>
-  <li><a href="#ticer-2007-paper" id="toc-ticer-2007-paper" class="nav-link" data-scroll-target="#ticer-2007-paper"><span class="header-section-number">8.2</span> TICER 2007 paper</a>
+  <li><a href="#ticer-2007-paper-pseudocode" id="toc-ticer-2007-paper-pseudocode" class="nav-link" data-scroll-target="#ticer-2007-paper-pseudocode"><span class="header-section-number">8.2</span> TICER 2007 paper: Pseudocode</a>
   <ul class="collapse">
   <li><a href="#pseudocode-for-slow-node-elimination" id="toc-pseudocode-for-slow-node-elimination" class="nav-link" data-scroll-target="#pseudocode-for-slow-node-elimination"><span class="header-section-number">8.2.1</span> Pseudocode for slow node elimination</a></li>
-  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">8.2.2</span> Example 1</a></li>
+  </ul></li>
+  <li><a href="#example-from-ticer-2007-paper" id="toc-example-from-ticer-2007-paper" class="nav-link" data-scroll-target="#example-from-ticer-2007-paper"><span class="header-section-number">8.3</span> Example from TICER 2007 paper</a>
+  <ul class="collapse">
+  <li><a href="#analysis-of-the-original-circuit" id="toc-analysis-of-the-original-circuit" class="nav-link" data-scroll-target="#analysis-of-the-original-circuit"><span class="header-section-number">8.3.1</span> Analysis of the original circuit</a></li>
+  <li><a href="#analysis-of-the-reduced-circuit" id="toc-analysis-of-the-reduced-circuit" class="nav-link" data-scroll-target="#analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.2</span> Analysis of the reduced circuit</a></li>
+  <li><a href="#comparison-of-original-and-reduced-circuits" id="toc-comparison-of-original-and-reduced-circuits" class="nav-link" data-scroll-target="#comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.3</span> Comparison of original and reduced circuits</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a>
@@ -2640,8 +2645,8 @@ Note
 \]</span></p>
 </section>
 </section>
-<section id="ticer-2007-paper" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="ticer-2007-paper"><span class="header-section-number">8.2</span> TICER 2007 paper</h2>
+<section id="ticer-2007-paper-pseudocode" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="ticer-2007-paper-pseudocode"><span class="header-section-number">8.2</span> TICER 2007 paper: Pseudocode</h2>
 <p>This section reviews some aspects of the 2007 TICER paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>.</p>
 <p>User-supplied algorithm parameters:</p>
 <ul>
@@ -2749,8 +2754,9 @@ Note
 <span id="cb26-33"><a href="#cb26-33"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
 <span id="cb26-34"><a href="#cb26-34"></a>         eliminate_quick_node(N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="example-1" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="example-1"><span class="header-section-number">8.2.2</span> Example 1</h3>
+</section>
+<section id="example-from-ticer-2007-paper" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="example-from-ticer-2007-paper"><span class="header-section-number">8.3</span> Example from TICER 2007 paper</h2>
 <p>Let’s reduce the example presented by Sheehan in the from the 2007 paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>, as shown in <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>. The goal is to eliminate the quick node <span class="math inline">\(v_3\)</span>.</p>
 <div id="cell-fig-ticer-example-schematic" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
@@ -2819,8 +2825,8 @@ H(s) = \frac{\mathbf{v}(s)}{\mathbf{J}(s)} = Y^{-1}(s) = (s \mathbf{G} + \mathbf
 <p><span class="math display">\[
 H(s) = \frac{\text{adj}(s \mathbf{C} + \mathbf{G})_{21}}{det(s \mathbf{C} + \mathbf{G})}
 \]</span></p>
-<section id="analysis-of-the-original-circuit" class="level4" data-number="8.2.2.1">
-<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="analysis-of-the-original-circuit"><span class="header-section-number">8.2.2.1</span> Analysis of the original circuit</h4>
+<section id="analysis-of-the-original-circuit" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="analysis-of-the-original-circuit"><span class="header-section-number">8.3.1</span> Analysis of the original circuit</h3>
 <p>So for the original circuit of <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>, we have 3 nodes, in addition to GND (<span class="math inline">\(v_0\)</span>).</p>
 <p><strong>So we have 3 nodal equations:</strong></p>
 <p><span class="math display">\[
@@ -2872,6 +2878,11 @@ J_{1}(s) \\
 <li><span class="math inline">\(c_1 = c_2 = 1\)</span></li>
 <li><span class="math inline">\(c_3 = 0.01\)</span></li>
 </ul>
+<p>Node <span class="math inline">\(v_3\)</span> is a quick node:</p>
+<ul>
+<li>Time constant: <span class="math inline">\(\tau_{v_3} = \frac{c_3}{g_{13} + g_{23}} = \frac{0.001}{1 + 1} = 0.0005\)</span></li>
+<li>Frequency: <span class="math inline">\(f = \frac{1}{2 \pi \tau_{v_3}} \approx 318.31\,\text{Hz}\)</span></li>
+</ul>
 <p>We have a system with <span class="math display">\[
 \mathbf{C} =
 \left[
@@ -2895,8 +2906,8 @@ J_{1}(s) \\
 H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
 \]</span></p>
 </section>
-<section id="analysis-of-the-reduced-circuit" class="level4" data-number="8.2.2.2">
-<h4 data-number="8.2.2.2" class="anchored" data-anchor-id="analysis-of-the-reduced-circuit"><span class="header-section-number">8.2.2.2</span> Analysis of the reduced circuit</h4>
+<section id="analysis-of-the-reduced-circuit" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.2</span> Analysis of the reduced circuit</h3>
 <p>The reduced circuit in <a href="#fig-ticer-example-schematic-reduced" class="quarto-xref">Figure&nbsp;8</a> only has 2 remaining nodes (besides GND).</p>
 <p><strong>So we have 2 nodal equations:</strong></p>
 <p><span class="math display">\[
@@ -2965,8 +2976,8 @@ J_{1}(s) \\
 H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
 \]</span></p>
 </section>
-<section id="comparison-of-bode-plots" class="level4" data-number="8.2.2.3">
-<h4 data-number="8.2.2.3" class="anchored" data-anchor-id="comparison-of-bode-plots"><span class="header-section-number">8.2.2.3</span> Comparison of bode plots</h4>
+<section id="comparison-of-original-and-reduced-circuits" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.3</span> Comparison of original and reduced circuits</h3>
 <p>Bode plots:</p>
 <div class="quarto-embed-nb-cell">
 <div class="cell" data-execution_count="196">
@@ -3072,7 +3083,6 @@ Figure&nbsp;13
 </div>
 </div>
 <div style="page-break-after: always;"></div>
-</section>
 </section>
 </section>
 </section>
