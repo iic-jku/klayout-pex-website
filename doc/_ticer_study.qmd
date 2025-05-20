@@ -314,7 +314,7 @@ $$
 $$
 
 
-## TICER 2007 paper
+## TICER 2007 paper: Pseudocode
 
 This section reviews some aspects of the 2007 TICER paper [@ticer-sheehan-2007].
 
@@ -439,9 +439,9 @@ def ticer(freq_min: float, freq_max: float, epsilon: float, max_deg: int):
          eliminate_quick_node(N)
 ```
 
-### Example 1
+## Example from TICER 2007 paper
 
-Let's reduce the example presented by Sheehan in the from the 2007 paper  [@ticer-sheehan-2007], as shown in @fig-ticer-example-schematic.
+Let's reduce the example presented by Sheehan in the from the 2007 paper [@ticer-sheehan-2007], as shown in @fig-ticer-example-schematic.
 The goal is to eliminate the quick node $v_3$.
 
 {{< include /figures/ticer-example-schematic.qmd >}}
@@ -487,7 +487,7 @@ H(s) = \frac{\text{adj}(s \mathbf{C} + \mathbf{G})_{21}}{det(s \mathbf{C} + \mat
 $$
 
 
-#### Analysis of the original circuit
+### Analysis of the original circuit
 
 So for the original circuit of @fig-ticer-example-schematic, we have 3 nodes, in addition to GND ($v_0$).
 
@@ -571,7 +571,7 @@ $$
 H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
 $$
 
-#### Analysis of the reduced circuit
+### Analysis of the reduced circuit
 
 The reduced circuit in @fig-ticer-example-schematic-reduced only has 2 remaining nodes (besides GND).
 
@@ -650,7 +650,7 @@ H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
 $$
 
 
-#### Comparison of bode plots
+### Comparison of original and reduced circuits
 
 Bode plots:
 
