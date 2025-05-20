@@ -455,9 +455,10 @@ window.Quarto = {
   </ul></li>
   <li><a href="#example-from-ticer-2007-paper" id="toc-example-from-ticer-2007-paper" class="nav-link" data-scroll-target="#example-from-ticer-2007-paper"><span class="header-section-number">8.3</span> Example from TICER 2007 paper</a>
   <ul class="collapse">
-  <li><a href="#analysis-of-the-original-circuit" id="toc-analysis-of-the-original-circuit" class="nav-link" data-scroll-target="#analysis-of-the-original-circuit"><span class="header-section-number">8.3.1</span> Analysis of the original circuit</a></li>
-  <li><a href="#analysis-of-the-reduced-circuit" id="toc-analysis-of-the-reduced-circuit" class="nav-link" data-scroll-target="#analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.2</span> Analysis of the reduced circuit</a></li>
-  <li><a href="#comparison-of-original-and-reduced-circuits" id="toc-comparison-of-original-and-reduced-circuits" class="nav-link" data-scroll-target="#comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.3</span> Comparison of original and reduced circuits</a></li>
+  <li><a href="#modified-nodal-analysis-in-the-laplace-domain" id="toc-modified-nodal-analysis-in-the-laplace-domain" class="nav-link" data-scroll-target="#modified-nodal-analysis-in-the-laplace-domain"><span class="header-section-number">8.3.1</span> Modified Nodal Analysis in the Laplace domain</a></li>
+  <li><a href="#analysis-of-the-original-circuit" id="toc-analysis-of-the-original-circuit" class="nav-link" data-scroll-target="#analysis-of-the-original-circuit"><span class="header-section-number">8.3.2</span> Analysis of the original circuit</a></li>
+  <li><a href="#analysis-of-the-reduced-circuit" id="toc-analysis-of-the-reduced-circuit" class="nav-link" data-scroll-target="#analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.3</span> Analysis of the reduced circuit</a></li>
+  <li><a href="#comparison-of-original-and-reduced-circuits" id="toc-comparison-of-original-and-reduced-circuits" class="nav-link" data-scroll-target="#comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.4</span> Comparison of original and reduced circuits</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a>
@@ -2805,6 +2806,8 @@ Figure&nbsp;8: Passive RC circuit after the elimination of <span class="math inl
 </div>
 </div>
 </div>
+<section id="modified-nodal-analysis-in-the-laplace-domain" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="modified-nodal-analysis-in-the-laplace-domain"><span class="header-section-number">8.3.1</span> Modified Nodal Analysis in the Laplace domain</h3>
 <p><strong>RC circuit in Laplace domain:</strong></p>
 <p><span class="math display">\[
 (s \mathbf{C} + \mathbf{G})\mathbf{v} = \mathbf{Y} \mathbf{v} = \mathbf{J}  \tag{2.1}
@@ -2821,8 +2824,9 @@ H(s) = \frac{\mathbf{v}(s)}{\mathbf{J}(s)} = Y^{-1}(s) = (s \mathbf{G} + \mathbf
 <p><span class="math display">\[
 H(s) = \frac{\text{adj}(s \mathbf{C} + \mathbf{G})_{21}}{det(s \mathbf{C} + \mathbf{G})}
 \]</span></p>
-<section id="analysis-of-the-original-circuit" class="level3" data-number="8.3.1">
-<h3 data-number="8.3.1" class="anchored" data-anchor-id="analysis-of-the-original-circuit"><span class="header-section-number">8.3.1</span> Analysis of the original circuit</h3>
+</section>
+<section id="analysis-of-the-original-circuit" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="analysis-of-the-original-circuit"><span class="header-section-number">8.3.2</span> Analysis of the original circuit</h3>
 <p>So for the original circuit of <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>, we have 3 nodes, in addition to GND (<span class="math inline">\(v_0\)</span>).</p>
 <p><strong>So we have 3 nodal equations:</strong></p>
 <p><span class="math display">\[
@@ -2902,8 +2906,8 @@ J_{1}(s) \\
 H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
 \]</span></p>
 </section>
-<section id="analysis-of-the-reduced-circuit" class="level3" data-number="8.3.2">
-<h3 data-number="8.3.2" class="anchored" data-anchor-id="analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.2</span> Analysis of the reduced circuit</h3>
+<section id="analysis-of-the-reduced-circuit" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.3</span> Analysis of the reduced circuit</h3>
 <p>The reduced circuit in <a href="#fig-ticer-example-schematic-reduced" class="quarto-xref">Figure&nbsp;8</a> only has 2 remaining nodes (besides GND).</p>
 <p><strong>So we have 2 nodal equations:</strong></p>
 <p><span class="math display">\[
@@ -2972,8 +2976,8 @@ J_{1}(s) \\
 H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
 \]</span></p>
 </section>
-<section id="comparison-of-original-and-reduced-circuits" class="level3" data-number="8.3.3">
-<h3 data-number="8.3.3" class="anchored" data-anchor-id="comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.3</span> Comparison of original and reduced circuits</h3>
+<section id="comparison-of-original-and-reduced-circuits" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.4</span> Comparison of original and reduced circuits</h3>
 <p>Bode plots:</p>
 <div class="quarto-embed-nb-cell">
 <div class="cell" data-execution_count="196">
