@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.30">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-05-12">
+<meta name="dcterms.date" content="2025-05-20">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -93,14 +93,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2b3e328b71be8d25427581baeb23079b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e896437f06904e28f1c37c833914ee60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-cb15edfa54ee05dcaf90bc0701c0204a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-e896437f06904e28f1c37c833914ee60.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-88e4149282663ae75af6e4b78a81db7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ff2216277e75cbfedf475c38a50561bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-88e4149282663ae75af6e4b78a81db7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -449,13 +449,18 @@ window.Quarto = {
   <li><a href="#quick-nodes" id="toc-quick-nodes" class="nav-link" data-scroll-target="#quick-nodes"><span class="header-section-number">8.1.2</span> Quick Nodes</a></li>
   <li><a href="#slow-nodes" id="toc-slow-nodes" class="nav-link" data-scroll-target="#slow-nodes"><span class="header-section-number">8.1.3</span> Slow Nodes</a></li>
   </ul></li>
+  <li><a href="#ticer-2007-paper" id="toc-ticer-2007-paper" class="nav-link" data-scroll-target="#ticer-2007-paper"><span class="header-section-number">8.2</span> TICER 2007 paper</a>
+  <ul class="collapse">
+  <li><a href="#pseudocode-for-slow-node-elimination" id="toc-pseudocode-for-slow-node-elimination" class="nav-link" data-scroll-target="#pseudocode-for-slow-node-elimination"><span class="header-section-number">8.2.1</span> Pseudocode for slow node elimination</a></li>
+  <li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">8.2.2</span> Example 1</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix"><span class="header-section-number">9</span> Appendix</a>
   <ul class="collapse">
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.1</span> References</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="doc.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="doc.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div><div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/ticer_example_bode_plots-preview.html"><i class="bi bi-journal-code"></i>TICER Example: Bode Plots</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -489,7 +494,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 12, 2025</p>
+      <p class="date">May 20, 2025</p>
     </div>
   </div>
   
@@ -2358,7 +2363,7 @@ R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
 <h1 data-number="8"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</h1>
 <section id="ticer-algorithm-time-constant-equilibration-reduction" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="ticer-algorithm-time-constant-equilibration-reduction"><span class="header-section-number">8.1</span> TICER algorithm: TIme-Constant Equilibration Reduction</h2>
-<p>This section reviews the original TICER paper <span class="citation" data-cites="ticer-sheenan-1999">(<a href="#ref-ticer-sheenan-1999" role="doc-biblioref">Sheehan 1999</a>)</span>, and illustrates the main ideas.</p>
+<p>This section reviews the original TICER paper <span class="citation" data-cites="ticer-sheehan-1999">(<a href="#ref-ticer-sheehan-1999" role="doc-biblioref">B. N. Sheehan 1999</a>)</span>, and illustrates the main ideas.</p>
 <p>Given <span class="math inline">\(N\)</span>-terminal star network:</p>
 <ul>
 <li>node <span class="math inline">\(N\)</span> is the center</li>
@@ -2392,10 +2397,10 @@ Figure&nbsp;6: N-terminal star network
 \]</span></p>
 <ul>
 <li><span class="math inline">\(s \in \mathbb{C}\)</span>: Complex Frequency</li>
-<li><span class="math inline">\(\mathbf{C} \in \mathbb{R}^{N \times N}\)</span>: nodal capacitances</li>
-<li><span class="math inline">\(\mathbf{G} \in \mathbb{R}^{N \times N}\)</span>: nodal conductances</li>
-<li><span class="math inline">\(\mathbf{v} \in \mathbb{R}^N\)</span>: nodal voltages</li>
-<li><span class="math inline">\(\mathbf{J} \in \mathbb{R}^N\)</span>: current sources at the nodes</li>
+<li><span class="math inline">\(\mathbf{C} \in \mathbb{R}^{N-1 \times N-1}\)</span>: nodal capacitances</li>
+<li><span class="math inline">\(\mathbf{G} \in \mathbb{R}^{N-1 \times N-1}\)</span>: nodal conductances</li>
+<li><span class="math inline">\(\mathbf{v} \in \mathbb{R}^{N-1}\)</span>: nodal voltages</li>
+<li><span class="math inline">\(\mathbf{J} \in \mathbb{R}^{N-1}\)</span>: current sources at the nodes</li>
 </ul>
 <p>This can be written as a block system: <span class="math display">\[
 \begin{bmatrix}
@@ -2539,6 +2544,7 @@ Note
 <ul>
 <li>we eliminate a quick node <span class="math inline">\(N\)</span></li>
 <li><span class="math inline">\(s\chi_N \ll \gamma_N\)</span></li>
+<li>equivalently, <span class="math inline">\(|s \tau_N| \ll 1\)</span></li>
 <li>we approximate <span class="math inline">\(\mathbf{E}_{ij}\)</span> from (2.4)</li>
 <li>we eliminate higher-order terms, containing factors like <span class="math inline">\(s^n\)</span> for <span class="math inline">\(n \ge 2\)</span></li>
 </ul>
@@ -2555,12 +2561,13 @@ Note
 \mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{g_{jN} c_{iN} +  g_{iN} c_{jN}}{\gamma_N}   \tag{3.2}
 \]</span></p>
 <p><strong>Eliminating a quick node:</strong></p>
+<p>Recipe for translating (3.2) into a modified circuit:</p>
 <ul>
 <li>remove all resistors and capacitors connecting other nodes to <span class="math inline">\(N\)</span></li>
 <li>insert new resistors and capacitors between former neighbors <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span> of <span class="math inline">\(N\)</span> according to these rules:
 <ul>
-<li>If nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> had been connected to <span class="math inline">\(N\)</span> through conductances <span class="math inline">\(g_{iN}\)</span> and <span class="math inline">\(g_{jN}\)</span>, insert conductance <span class="math inline">\(\frac{g_{iN} g_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
-<li>If node <span class="math inline">\(i\)</span> had a capacitor <span class="math inline">\(c_{iN}\)</span> to <span class="math inline">\(N\)</span>, and node <span class="math inline">\(j\)</span> had a conductance <span class="math inline">\(g_{jN}\)</span> to <span class="math inline">\(N\)</span>, insert a capacitor <span class="math inline">\(\frac{c_{iN} g_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
+<li>If nodes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> had been connected to <span class="math inline">\(N\)</span> through conductances <span class="math inline">\(g_{iN}\)</span> and <span class="math inline">\(g_{jN}\)</span>, insert conductance <span class="math inline">\(\frac{g_{iN} g_{jN}}{\gamma_N}\)</span> between <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span></li>
+<li>If node <span class="math inline">\(i\)</span> had a capacitor <span class="math inline">\(c_{iN}\)</span> to <span class="math inline">\(N\)</span>, and node <span class="math inline">\(j\)</span> had a conductance <span class="math inline">\(g_{jN}\)</span> to <span class="math inline">\(N\)</span>, insert a capacitor <span class="math inline">\(\frac{c_{iN} g_{jN}}{\gamma_N}\)</span> between <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span></li>
 </ul></li>
 </ul>
 </section>
@@ -2570,6 +2577,7 @@ Note
 <ul>
 <li>we eliminate a slow node <span class="math inline">\(N\)</span></li>
 <li><span class="math inline">\(s\chi_N \gg \gamma_N\)</span></li>
+<li>equivalently, <span class="math inline">\(|s \tau_N| \gg 1\)</span></li>
 <li>we approximate <span class="math inline">\(\mathbf{E}_{ij}\)</span> from (2.4)</li>
 <li>we retain terms containing <span class="math inline">\(s\)</span></li>
 <li>to preserve DC characteristics, we use <span class="math inline">\(\frac{g_{iN}g_{jN}}{\gamma_N}\)</span> in place of whatever constant terms come from the equation</li>
@@ -2612,7 +2620,7 @@ Note
 \mathbf{E}_{ij} &amp;\approx \frac{g_{iN}g_{jN}}{s\chi_N} + s \frac{c_{iN} c_{jN}}{\chi_N}
 \end{aligned}
 \]</span></p>
-<p>Sheenan arrives at (4.1):</p>
+<p>Sheehan arrives at (4.1):</p>
 <p><span class="math display">\[
 \mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
 \tag{4.1}
@@ -2630,7 +2638,441 @@ Note
 <p><span class="math display">\[
 \textcolor{red}{\text{TODO: why not }\frac{c_{iN} c_{jN}}{\chi_N} \text{?}}
 \]</span></p>
+</section>
+</section>
+<section id="ticer-2007-paper" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="ticer-2007-paper"><span class="header-section-number">8.2</span> TICER 2007 paper</h2>
+<p>This section reviews some aspects of the 2007 TICER paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>.</p>
+<p>User-supplied algorithm parameters:</p>
+<ul>
+<li>Set of <span class="math inline">\(\mathbf{fixed}\)</span> nodes (designated to be left alone, i.e., not to be eliminated)</li>
+<li><span class="math inline">\(\mathbf{MaxDeg} \in \mathbb{N}\!\setminus\!\{0, 1\}\)</span>: number of passes (user-supplied parameter)</li>
+<li><span class="math inline">\(f^{\text{max}}\)</span>: maximum operating frequency of interest</li>
+<li><span class="math inline">\(\epsilon \in \mathbb{R}_{[0,1]}\)</span>: small number enforcing the requirement that <span class="math inline">\(|s \tau_N| \ll 1\)</span></li>
+</ul>
+<p>In the paper, figure 5 and 6 demonstrate the algorithm for eliminating a quick node (here is a python conversion of those).</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">def</span> eliminate_quick_node(N: Node):</span>
+<span id="cb23-2"><a href="#cb23-2"></a>   neighbors <span class="op">=</span> nodes_incident_to(node<span class="op">=</span>N)</span>
+<span id="cb23-3"><a href="#cb23-3"></a>   <span class="cf">for</span> i <span class="kw">in</span> neighbors:</span>
+<span id="cb23-4"><a href="#cb23-4"></a>      g_iN <span class="op">=</span> conductance[i, N]</span>
+<span id="cb23-5"><a href="#cb23-5"></a>      <span class="cf">if</span> g_iN <span class="op">==</span> <span class="dv">0</span>: </span>
+<span id="cb23-6"><a href="#cb23-6"></a>         <span class="cf">continue</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>      <span class="cf">for</span> j <span class="kw">in</span> neighbors:</span>
+<span id="cb23-8"><a href="#cb23-8"></a>         <span class="cf">if</span> i <span class="op">&lt;=</span> j:</span>
+<span id="cb23-9"><a href="#cb23-9"></a>            <span class="cf">continue</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>         g_jN <span class="op">=</span> conductance[j, N]</span>
+<span id="cb23-11"><a href="#cb23-11"></a>         c_jN <span class="op">=</span> capacitance[j, N]</span>
+<span id="cb23-12"><a href="#cb23-12"></a>         gamma_N <span class="op">=</span> incident_conductance_sum(node<span class="op">=</span>N)</span>
+<span id="cb23-13"><a href="#cb23-13"></a>         <span class="cf">if</span> g_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb23-14"><a href="#cb23-14"></a>            add_conductance(i, j, g_iN <span class="op">*</span> g_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb23-15"><a href="#cb23-15"></a>         <span class="cf">if</span> c_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb23-16"><a href="#cb23-16"></a>            add_capacitance(i, j, g_iN <span class="op">*</span> c_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb23-17"><a href="#cb23-17"></a>   remove_all_incident_conductances_and_capacitances(i, N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">def</span> ticer(freq_max: <span class="bu">float</span>, epsilon: <span class="bu">float</span>, max_deg: <span class="bu">int</span>):</span>
+<span id="cb24-2"><a href="#cb24-2"></a>   <span class="cf">for</span> deg <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, max_deg):</span>
+<span id="cb24-3"><a href="#cb24-3"></a>      Q <span class="op">=</span> queue.Queue(nodes_not_fixed())</span>
+<span id="cb24-4"><a href="#cb24-4"></a>      <span class="cf">while</span> <span class="kw">not</span> Q.empty():</span>
+<span id="cb24-5"><a href="#cb24-5"></a>         N <span class="op">=</span> Q.get()  <span class="co"># pop</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>         <span class="cf">if</span> number_of_incident_resistors(N) <span class="op">&gt;</span> deg:</span>
+<span id="cb24-7"><a href="#cb24-7"></a>            <span class="cf">continue</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>         tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb24-9"><a href="#cb24-9"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb24-10"><a href="#cb24-10"></a>            <span class="co"># ensure the neighbors are in the queue,</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
+<span id="cb24-12"><a href="#cb24-12"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
+<span id="cb24-14"><a href="#cb24-14"></a>            q.push(missing_neighbors)</span>
+<span id="cb24-15"><a href="#cb24-15"></a></span>
+<span id="cb24-16"><a href="#cb24-16"></a>            eliminate_quick_node(N)</span>
+<span id="cb24-17"><a href="#cb24-17"></a></span>
+<span id="cb24-18"><a href="#cb24-18"></a>   <span class="co"># </span><span class="al">NOTE</span><span class="co">: "leaf node" N means, number_of_incident_resistors(N) == 1</span></span>
+<span id="cb24-19"><a href="#cb24-19"></a>   <span class="cf">for</span> N <span class="kw">in</span> leaf_nodes():</span>
+<span id="cb24-20"><a href="#cb24-20"></a>      <span class="cf">if</span> N <span class="kw">in</span> fixed_nodes():  <span class="co"># N is protected</span></span>
+<span id="cb24-21"><a href="#cb24-21"></a>         <span class="cf">continue</span></span>
+<span id="cb24-22"><a href="#cb24-22"></a></span>
+<span id="cb24-23"><a href="#cb24-23"></a>      tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb24-24"><a href="#cb24-24"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb24-25"><a href="#cb24-25"></a>         eliminate_quick_node(N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="pseudocode-for-slow-node-elimination" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="pseudocode-for-slow-node-elimination"><span class="header-section-number">8.2.1</span> Pseudocode for slow node elimination</h3>
+<p>Sheehan mentions that elimination of slow nodes is of reduced importances, and therefore does not explicitly provide pseudocode for this case, instead refers to the original TICER paper <span class="citation" data-cites="ticer-sheehan-1999">(<a href="#ref-ticer-sheehan-1999" role="doc-biblioref">B. N. Sheehan 1999</a>)</span>.</p>
+<p>So if we fill in the gaps we arrive at:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">def</span> eliminate_slow_node(N: Node):</span>
+<span id="cb25-2"><a href="#cb25-2"></a>   neighbors <span class="op">=</span> nodes_incident_to(node<span class="op">=</span>N)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>   <span class="cf">for</span> i <span class="kw">in</span> neighbors:</span>
+<span id="cb25-4"><a href="#cb25-4"></a>      g_iN <span class="op">=</span> conductance[i, N]</span>
+<span id="cb25-5"><a href="#cb25-5"></a>      c_iN <span class="op">=</span> capacitance[i, N]</span>
+<span id="cb25-6"><a href="#cb25-6"></a>      <span class="cf">for</span> j <span class="kw">in</span> neighbors:</span>
+<span id="cb25-7"><a href="#cb25-7"></a>         <span class="cf">if</span> i <span class="op">&lt;=</span> j:</span>
+<span id="cb25-8"><a href="#cb25-8"></a>            <span class="cf">continue</span></span>
+<span id="cb25-9"><a href="#cb25-9"></a>         g_jN <span class="op">=</span> conductance[j, N]</span>
+<span id="cb25-10"><a href="#cb25-10"></a>         c_jN <span class="op">=</span> capacitance[j, N]</span>
+<span id="cb25-11"><a href="#cb25-11"></a>         gamma_N <span class="op">=</span> incident_conductance_sum(node<span class="op">=</span>N)</span>
+<span id="cb25-12"><a href="#cb25-12"></a>         <span class="cf">if</span> g_iN <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> g_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb25-13"><a href="#cb25-13"></a>            add_conductance(i, j, g_iN <span class="op">*</span> g_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb25-14"><a href="#cb25-14"></a>         <span class="cf">if</span> c_iN <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> c_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb25-15"><a href="#cb25-15"></a>            add_capacitance(i, j, c_iN <span class="op">*</span> c_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb25-16"><a href="#cb25-16"></a>   remove_all_incident_conductances_and_capacitances(i, N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To integrate this into the algorithm, we additionally need a minimum frequency <span class="math inline">\(f^{\text{min}}\)</span> parameter supplied by the user.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">def</span> ticer(freq_min: <span class="bu">float</span>, freq_max: <span class="bu">float</span>, epsilon: <span class="bu">float</span>, max_deg: <span class="bu">int</span>):</span>
+<span id="cb26-2"><a href="#cb26-2"></a>   <span class="cf">for</span> deg <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, max_deg):</span>
+<span id="cb26-3"><a href="#cb26-3"></a>      Q <span class="op">=</span> queue.Queue(nodes_not_fixed())</span>
+<span id="cb26-4"><a href="#cb26-4"></a>      <span class="cf">while</span> <span class="kw">not</span> Q.empty():</span>
+<span id="cb26-5"><a href="#cb26-5"></a>         N <span class="op">=</span> Q.get()  <span class="co"># pop</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a>         <span class="cf">if</span> number_of_incident_resistors(N) <span class="op">&gt;</span> deg:</span>
+<span id="cb26-7"><a href="#cb26-7"></a>            <span class="cf">continue</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>         tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb26-9"><a href="#cb26-9"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb26-10"><a href="#cb26-10"></a>            <span class="co"># </span><span class="al">NOTE</span><span class="co">: ensure the neighbors are in the queue,</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
+<span id="cb26-14"><a href="#cb26-14"></a>            q.push(missing_neighbors)</span>
+<span id="cb26-15"><a href="#cb26-15"></a></span>
+<span id="cb26-16"><a href="#cb26-16"></a>            eliminate_quick_node(N)</span>
+<span id="cb26-17"><a href="#cb26-17"></a></span>
+<span id="cb26-18"><a href="#cb26-18"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_min <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb26-19"><a href="#cb26-19"></a>            <span class="co"># </span><span class="al">NOTE</span><span class="co">: ensure the neighbors are in the queue,</span></span>
+<span id="cb26-20"><a href="#cb26-20"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
+<span id="cb26-21"><a href="#cb26-21"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
+<span id="cb26-22"><a href="#cb26-22"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
+<span id="cb26-23"><a href="#cb26-23"></a>            q.push(missing_neighbors)</span>
+<span id="cb26-24"><a href="#cb26-24"></a></span>
+<span id="cb26-25"><a href="#cb26-25"></a>            eliminate_slow_node(N)</span>
+<span id="cb26-26"><a href="#cb26-26"></a></span>
+<span id="cb26-27"><a href="#cb26-27"></a>   <span class="co"># </span><span class="al">NOTE</span><span class="co">: "leaf node" N means, number_of_incident_resistors(N) == 1</span></span>
+<span id="cb26-28"><a href="#cb26-28"></a>   <span class="cf">for</span> N <span class="kw">in</span> leaf_nodes():</span>
+<span id="cb26-29"><a href="#cb26-29"></a>      <span class="cf">if</span> N <span class="kw">in</span> fixed_nodes():  <span class="co"># N is protected</span></span>
+<span id="cb26-30"><a href="#cb26-30"></a>         <span class="cf">continue</span></span>
+<span id="cb26-31"><a href="#cb26-31"></a></span>
+<span id="cb26-32"><a href="#cb26-32"></a>      tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb26-33"><a href="#cb26-33"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb26-34"><a href="#cb26-34"></a>         eliminate_quick_node(N)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example-1" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="example-1"><span class="header-section-number">8.2.2</span> Example 1</h3>
+<p>Let’s reduce the example presented by Sheehan in the from the 2007 paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>, as shown in <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>. The goal is to eliminate the quick node <span class="math inline">\(v_3\)</span>.</p>
+<div id="cell-fig-ticer-example-schematic" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div id="fig-ticer-example-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ticer-example-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="doc_files/figure-html/fig-ticer-example-schematic-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ticer-example-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Passive RC circuit shown in <span class="citation" data-cites="ticer-sheehan-2007">Bernard N. Sheehan (<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">2007</a>)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Time constant <span class="math inline">\(\tau_{v_3} = \frac{c_3}{g_{13} + g_{23}}\)</span></li>
+<li>Quick node condition: <span class="math inline">\(\text{is\_quick}(N) := 2 \pi f^{\text{max}} \tau_N &lt; \epsilon\)</span></li>
+</ul>
+<p>Elimination of node <span class="math inline">\(N_2\)</span>:</p>
+<ul>
+<li>Incident devices <span class="math inline">\(R_{13}\)</span>, <span class="math inline">\(R_{23}\)</span>, <span class="math inline">\(C_{3}\)</span> are removed</li>
+<li>New devices for neighbors
+<ul>
+<li>Between nodes <span class="math inline">\((v_0, v_1)\)</span>:
+<ul>
+<li>add <span class="math inline">\(c_{10} = \frac{g_{13}*c_{3}}{g_{13} + g_{23}}\)</span></li>
+</ul></li>
+<li>Between nodes <span class="math inline">\((v_0, v_2)\)</span>:
+<ul>
+<li>add <span class="math inline">\(c_{20} = \frac{g_{23}*c_{3}}{g_{13} + g_{23}}\)</span></li>
+</ul></li>
+<li>Between nodes <span class="math inline">\((v_1, v_2)\)</span>:
+<ul>
+<li>add <span class="math inline">\(g_{12} = \frac{g_{13}*g_{23}}{g_{13} + g_{23}}\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="cell-fig-ticer-example-schematic-reduced" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div id="fig-ticer-example-schematic-reduced" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ticer-example-schematic-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="doc_files/figure-html/fig-ticer-example-schematic-reduced-output-1.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ticer-example-schematic-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Passive RC circuit after the elimination of <span class="math inline">\(v_3\)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>RC circuit in Laplace domain:</strong></p>
+<p><span class="math display">\[
+(s \mathbf{C} + \mathbf{G})\mathbf{v} = \mathbf{Y} \mathbf{v} = \mathbf{J}  \tag{2.1}
+\]</span></p>
+<p><strong>Solve for voltages:</strong></p>
+<p><span class="math display">\[
+\mathbf{v} = (s \mathbf{C} + \mathbf{G})^{-1} \mathbf{J} = Y^{-1} \mathbf{J}
+\]</span></p>
+<p><strong>Transfer function:</strong></p>
+<p><span class="math display">\[
+H(s) = \frac{\mathbf{v}(s)}{\mathbf{J}(s)} = Y^{-1}(s) = (s \mathbf{G} + \mathbf{C})^{-1}
+\]</span></p>
+<p>E.g. the transfer function (for input <span class="math inline">\(J_1(s)\)</span>, output <span class="math inline">\(V_2(s)\)</span>) is:</p>
+<p><span class="math display">\[
+H(s) = \frac{\text{adj}(s \mathbf{C} + \mathbf{G})_{21}}{det(s \mathbf{C} + \mathbf{G})}
+\]</span></p>
+<section id="analysis-of-the-original-circuit" class="level4" data-number="8.2.2.1">
+<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="analysis-of-the-original-circuit"><span class="header-section-number">8.2.2.1</span> Analysis of the original circuit</h4>
+<p>So for the original circuit of <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>, we have 3 nodes, in addition to GND (<span class="math inline">\(v_0\)</span>).</p>
+<p><strong>So we have 3 nodal equations:</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+c_1 \dot{v_1} + g_d v_1 + g_{13} (v_1 - v_3)              &amp;= j_1(t) \\
+c_2 \dot{v_2} + g_{23} (v_2 - v_3)                        &amp;= 0      \\
+c_3 \dot{v_3} + g_{13} (v_3 - v_1) + g_{23} * (v_3 - v_2) &amp;= 0
+\end{aligned}
+\]</span></p>
+<p><strong>Laplace domain (MNA<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> form):</strong></p>
+<p><span class="math display">\[
+\left(
+s
+\left[
+\begin{array}{ccc}
+c_1 &amp;   0 &amp;   0 \\
+  0 &amp; c_2 &amp;   0 \\
+  0 &amp;   0 &amp; c_3
+\end{array}
+\right]
++
+\left[
+\begin{array}{cccc}
+g_d + g_{13}  &amp;        0 &amp; -g_{13}         \\
+0             &amp;   g_{23} &amp; -g_{23}         \\
+-g_{13}       &amp;  -g_{23} &amp; g_{13} + g_{23}
+\end{array}
+\right]
+\right)
+\left[
+\begin{array}{c}
+V_{1}(s) \\
+V_{2}(s) \\
+V_{3}(s)
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+J_{1}(s) \\
+0 \\
+0
+\end{array}
+\right]
+\]</span></p>
+<p>So given the values from Sheehan’s numerical example:</p>
+<ul>
+<li><span class="math inline">\(g_d = g_{13} = g_{23} = 1\)</span></li>
+<li><span class="math inline">\(c_1 = c_2 = 1\)</span></li>
+<li><span class="math inline">\(c_3 = 0.01\)</span></li>
+</ul>
+<p>We have a system with <span class="math display">\[
+\mathbf{C} =
+\left[
+\begin{array}{ccc}
+  1 &amp;   0 &amp;    0 \\
+  0 &amp;   1 &amp;    0 \\
+  0 &amp;   0 &amp; 0.01
+\end{array}
+\right],
+\mathbf{G} =
+\left[
+\begin{array}{ccc}
+   2 &amp;   0 &amp; -1 \\
+   0 &amp;   1 &amp; -1 \\
+  -1 &amp;  -1 &amp;  2
+\end{array}
+\right]
+\]</span></p>
+<p><strong>Transfer function:</strong></p>
+<p><span class="math display">\[
+H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
+\]</span></p>
+</section>
+<section id="analysis-of-the-reduced-circuit" class="level4" data-number="8.2.2.2">
+<h4 data-number="8.2.2.2" class="anchored" data-anchor-id="analysis-of-the-reduced-circuit"><span class="header-section-number">8.2.2.2</span> Analysis of the reduced circuit</h4>
+<p>The reduced circuit in <a href="#fig-ticer-example-schematic-reduced" class="quarto-xref">Figure&nbsp;8</a> only has 2 remaining nodes (besides GND).</p>
+<p><strong>So we have 2 nodal equations:</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+(c_1 + c_{10}) \dot{v_1} + g_d v_1 + g_{12} (v_1 - v_2)   &amp;= j_1(t) \\
+(c_2 + c_{20}) \dot{v_2} + g_{12} (v_2 - v_1)             &amp;= 0
+\end{aligned}
+\]</span></p>
+<p><strong>Laplace domain (MNA<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> form):</strong></p>
+<p><span class="math display">\[
+\left(
+s
+\left[
+\begin{array}{cc}
+c_1 + c_{10} &amp;            0 \\
+           0 &amp; c_2 + c_{20}
+\end{array}
+\right]
++
+\left[
+\begin{array}{cccc}
+g_d + g_{12}  &amp; -g_{12}         \\
+-g_{12}       &amp;  g_{12}
+\end{array}
+\right]
+\right)
+\left[
+\begin{array}{c}
+V_{1}(s) \\
+V_{2}(s)
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+J_{1}(s) \\
+0
+\end{array}
+\right]
+\]</span></p>
+<p><strong>New devices:</strong></p>
+<ul>
+<li><span class="math inline">\(c_{10} = \frac{g_{13}*c_{3}}{g_{13} + g_{23}} = \frac{1 * 0.01}{1 + 1} = 0.005\)</span></li>
+<li><span class="math inline">\(c_{20} = \frac{g_{23}*c_{3}}{g_{13} + g_{23}} = \frac{1 * 0.01}{1 + 1} = 0.005\)</span></li>
+<li><span class="math inline">\(g_{12} = \frac{g_{13}*g_{23}}{g_{13} + g_{23}} = \frac{1 * 1}{1 + 1} = 0.5\)</span></li>
+</ul>
+<p>We have a system with:</p>
+<p><span class="math display">\[
+\mathbf{C} =
+\left[
+\begin{array}{ccc}
+1.005 &amp;   0  \\
+  0 &amp; 1.005  
+\end{array}
+\right],
+\mathbf{G} =
+\left[
+\begin{array}{ccc}
+    1.5 &amp;  -0.5 \\
+   -0.5 &amp;  0.5
+\end{array}
+\right]
+\]</span></p>
+<p><strong>Transfer function:</strong></p>
+<p><span class="math display">\[
+H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
+\]</span></p>
+</section>
+<section id="comparison-of-bode-plots" class="level4" data-number="8.2.2.3">
+<h4 data-number="8.2.2.3" class="anchored" data-anchor-id="comparison-of-bode-plots"><span class="header-section-number">8.2.2.3</span> Comparison of bode plots</h4>
+<p>Bode plots:</p>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-execution_count="196">
+<div id="fig-bode-plot-ft-vs-mag" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="196">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9
+</figcaption>
+</figure>
+</div>
+</div>
+<a class="quarto-notebook-link" id="nblink-1" href="notebooks/ticer_example_bode_plots-preview.html#fig-bode-plot-ft-vs-mag">Source: TICER Example: Bode Plots</a></div>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-execution_count="197">
+<div id="fig-bode-plot-ft-vs-phase" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="197">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In the original circuit we have an additional pole at <span class="math inline">\(s = 201\)</span>, which is expendable.</p>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-execution_count="199">
+<div id="fig-pole-zero-plot-original" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="199">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>If we remove this pole (for better comparison), we have:</p>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-execution_count="204">
+<div id="fig-pole-zero-plot-original-without-201" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="204">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>So in the reduced circuit, that pole is no longer present, but the others are.</p>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-execution_count="200">
+<div id="fig-pole-zero-plot-reduced" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="200">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;13
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <div style="page-break-after: always;"></div>
+</section>
 </section>
 </section>
 </section>
@@ -2667,8 +3109,11 @@ Maxwell, James Clerk. 1873. <em>A Treatise on Electricity and Magnetism</em>. Vo
 <div id="ref-Nagel_1975" class="csl-entry" role="listitem">
 Nagel, Laurence W. 1975. <span>“SPICE2: A Computer Program to Simulate Semiconductor Circuits.”</span> PhD thesis, EECS Department, University of California, Berkeley. <a href="http://www2.eecs.berkeley.edu/Pubs/TechRpts/1975/9602.html">http://www2.eecs.berkeley.edu/Pubs/TechRpts/1975/9602.html</a>.
 </div>
-<div id="ref-ticer-sheenan-1999" class="csl-entry" role="listitem">
+<div id="ref-ticer-sheehan-1999" class="csl-entry" role="listitem">
 Sheehan, B. N. 1999. <span>“TICER: Realizable Reduction of Extracted RC Circuits.”</span> In <em>1999 IEEE/ACM International Conference on Computer-Aided Design. Digest of Technical Papers (Cat. No.99CH37051)</em>, 200–203. <a href="https://doi.org/10.1109/ICCAD.1999.810649">https://doi.org/10.1109/ICCAD.1999.810649</a>.
+</div>
+<div id="ref-ticer-sheehan-2007" class="csl-entry" role="listitem">
+Sheehan, Bernard N. 2007. <span>“Realizable Reduction of <span class="math inline">\(RC\)</span> Networks.”</span> <em>IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems</em> 26 (8): 1393–1407. <a href="https://doi.org/10.1109/TCAD.2007.891374">https://doi.org/10.1109/TCAD.2007.891374</a>.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
@@ -2679,6 +3124,8 @@ Sheehan, B. N. 1999. <span>“TICER: Realizable Reduction of Extracted RC Circui
 <li id="fn4"><p>Metal-Oxide-Metal capacitors<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>Metal-Insulator-Metal capacitors<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>A fork of MAGIC which includes debug logging about the different parasitic contributions is hosted here: <a href="https://github.com/martinjankoehler/magic" class="uri">https://github.com/martinjankoehler/magic</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Modified Nodal Analysis<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Modified Nodal Analysis<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
