@@ -65,24 +65,31 @@ bibliography: ../references.bib
 {{< include _sec_intro.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _sec_first_steps.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _sec_pdks.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _sec_engine_fastercap.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _sec_engine_magic.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _sec_engine_2_5D.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _test_patterns_2_5D_vs_magic.qmd >}}
 
 {{< pagebreak >}}
+
 {{< include _ticer_study.qmd >}}
 
 {{< pagebreak >}}
