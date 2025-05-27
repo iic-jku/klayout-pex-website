@@ -16,32 +16,13 @@ limitations under the License.
 
 # Supporting new PDKs
 
-For every supported PDK, a `KPEX` technology definition is required, as well as customized PEX-"LVS" scripts.
-
-## Technology Definition Files {#sec-tech-def}
-
-The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
-
-- formal schema files, defining the structure and data types involved
-   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/tech.proto): main schema / entry point, includes the others
-   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
-   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
-- multiple concrete instantiations, that adhere to this schema (called *messages* in the `protobuf` lingo)
-   - in the form of JSON files
-   - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
-   - IHP SG13G2: `klayout_pex_protobuf/ihp_sg13g2_tech.pb.json`
-
-::: {.callout-note}
-The built-in JSON tech files are programmatically generated during the build process[^tech-gen-script].
-Therefore they not part of the repository source code, but of course part of the deployed Python wheels.
-To review those, look into your Python `site-packages`[^kpex-site-packages]/`klayout_pex_protobuf`.
-:::
+For every supported PDK[^abbrev-pdk], a `KPEX` technology definition is required, as well as customized PEX-"LVS" scripts.
 
 ## Customized PEX-"LVS" scripts
 
 `KLayout` has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API.
 Customized "LVS" scripts are ("ab")used in `KPEX`, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers.
-The resulting net information is stored in a `KLayout LVS Database` ("LVSDB").
+The resulting net information is stored in a `KLayout LVS Database` ("LVSDB") within the run directory.
 
 ![`KPEX` Net Formation](figures/kpex-net-formation.svg)
 
@@ -56,3 +37,174 @@ What's specific about this customization:
 - MOM[^abbrev-mom] capacitors, MIM[^abbrev-mim] capacitors and resistors should be extracted to separate layers, to enable blackboxing / whiteboxing.
 
 The layer names in the script must correspond with the names configured in the tech JSON file.
+
+## Technology Definition Files {#sec-tech-def}
+
+The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
+
+- formal schema files, defining the structure and data types involved
+   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/tech.proto): main schema / entry point, includes the others
+   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
+   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
+- multiple concrete instantiations, that adhere to this schema (called *messages* in the `protobuf` lingo)
+   - in the form of JSON files
+   - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
+   - IHP SG13G2: `klayout_pex_protobuf/ihp_sg13g2_tech.pb.json`
+
+
+### JSON tech files for supported PDKs
+
+:::: {.content-visible when-format="html"}
+
+::: {.panel-tabset}
+
+### `sky130A_tech.pb.json`
+
+```{=html}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
+
+<div>
+  <pre id="json-sky130A-tech"></pre>
+</div>
+
+<script>
+  // Reusable function to fetch and render JSON
+  function renderJson(filePath, elementId) {
+    fetch(filePath)
+      .then(response => response.json())
+      .then(json => {
+        $(`#${elementId}`).jsonViewer(json, { rootCollapsable: false, collapsed: true });
+      })
+      .catch(error => console.error(`Error loading ${filePath}:`, error));
+  }
+
+  renderJson("./data/sky130A_tech.pb.json", "json-sky130A-tech");
+</script>
+```
+
+### `ihp_sg13g2_tech.pb.json`
+
+<div>
+  <pre id="json-ihp_sg13g2-tech"></pre>
+</div>
+
+```{=html}
+<script>
+  renderJson("./data/ihp_sg13g2_tech.pb.json", "json-ihp_sg13g2-tech");
+</script>
+```
+:::
+:::
+
+::: {.callout-note}
+The built-in JSON tech files are programmatically generated during the build process[^tech-gen-script].
+Therefore they not part of the repository source code, but of course part of the deployed Python wheels.
+To review those, look into your Python `site-packages`[^kpex-site-packages]/`klayout_pex_protobuf`.
+:::
+
+### Process Stackup Definition
+
+For 3D solvers, like the `KPEX/FasterCap` engine, 3D information about the dimensions (e.g. z-offset and thickness) of metal layers is required, as well as the dielectrics in-between.
+
+The Skywater `sky130A` process includes more intricate types of dielectrics (e.g., compared to IHP `sg13g2`), therefore I'll use this PDK as an example here.
+
+
+![Skywater `sky130A` Process Stackup (Source: [@skywater-sky130-pdk])](figures/skywater-sky130-metal_stack.svg){#fig-skywater-sky130-metal-stack}
+
+We can derive the following data from @fig-skywater-sky130-metal-stack:
+
+- Metal layers $= \{\text{poly}, \text{li}, \text{metal1}, \text{metal2}, \text{metal3}, \text{metal4}, \text{metal5}, \text{capm}, \text{cap2m} \}$
+   - thickness
+   - z-offset (relative to substrate)
+- Contact layers $= \{\text{licon}\}$
+- Via layers $= \{\text{mcon}, \text{via1}, \text{via2}, \text{via3}, \text{via4}\}$
+- Dielectrics
+   - dielectric constant $k$, the relative permittivity of the dielectric material
+   - Different types:
+      - Sidewall dielectrics $= \{\text{IOX}, \text{SPNIT}, \text{NILD3\_C}, \text{NILD4\_C}\}$
+         - width of the sidewall around metals
+         - height above metal
+      - Conformal dielectrics $= \{\text{LINT}, \text{TOPNIT}, \text{capild}\}$
+         - thickness above metal
+         - thickness where no metal
+         - thickness of the sidewall
+      - Simple dielectrics $= \{\text{PSG}, \text{NILD2}, \text{NILD3}, \text{NILD4}, \text{NILD5}, \text{NILD6}\}$
+         - embracing everything between 2 layers, including the sidewall and conformal dielectrics
+
+An except of the `process_stack.proto` schema is shown in the code listing below, note:
+
+- Line 3: `ProcessStackInfo.LayerType` is an enumeration type for the possible types of layers in the process stack
+- Line 57: `ProcessStackInfo.layers` is a list of `LayerInfo`
+   - the order of this list defines the orders of layers
+- Line 40: `MetalLayer` describes a metal layer
+- Line 43: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
+- Line 30, 37: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
+   - these refer to a dielectric or metal layer that they wrap around
+   - `ConformalDielectricLayer` and `ConformalDielectricLayer` can be wrapped, e.g. `SPNIT` wraps `IOX`, which wraps `poly`
+
+---
+code-line-numbers: true
+---
+```{.protobuf #lst-tech-def-process-stack caption="Excerpt from process_stack.proto"}
+message ProcessStackInfo {
+
+    enum LayerType { …
+        LAYER_TYPE_SIMPLE_DIELECTRIC = 50;
+        LAYER_TYPE_CONFORMAL_DIELECTRIC = 60;
+        LAYER_TYPE_SIDEWALL_DIELECTRIC = 70;
+        LAYER_TYPE_METAL = 80;
+    }
+
+    message Contact { // Contact/Via
+        string name = 1;
+        string metal_above = 10;
+        double thickness = 20;
+
+        double width = 30;
+        double spacing = 31;
+        double border = 32;
+    } 
+    …
+    message SimpleDielectricLayer { // Simple dielectric
+        double dielectric_k = 10;
+        string reference = 30;
+    }
+
+    message ConformalDielectricLayer { // Conformal dielectric
+        double dielectric_k = 10;
+        double thickness_over_metal = 20;
+        double thickness_where_no_metal = 21;
+        double thickness_sidewall = 22;
+        string reference = 30;
+    }
+
+    message SidewallDielectricLayer { // Sidewall dielectric
+        double dielectric_k = 10;
+        double height_above_metal = 20; // might be 0 if none
+        double width_outside_sidewall = 21;
+        string reference = 30;
+    }
+
+    message MetalLayer { // Metal
+        double z = 1;          // z-offset in µm (of layer bottom), above substrate
+        double thickness = 2;  // thickness in µm
+        Contact contact_above = 40;
+    }
+
+    message LayerInfo {
+        string name = 1;
+        LayerType layer_type = 2;
+        oneof parameters { …
+            SimpleDielectricLayer simple_dielectric_layer = 12;
+            ConformalDielectricLayer conformal_dielectric_layer = 13;
+            SidewallDielectricLayer sidewall_dielectric_layer = 14;
+            MetalLayer metal_layer = 15;
+        }
+    }
+
+    repeated LayerInfo layers = 100;
+}
+```
+
