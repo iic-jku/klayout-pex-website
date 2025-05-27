@@ -51,6 +51,53 @@ The `KPEX` technology definition format uses [Google Protocol Buffers](https://p
    - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
    - IHP SG13G2: `klayout_pex_protobuf/ihp_sg13g2_tech.pb.json`
 
+
+### JSON tech files for supported PDKs
+
+:::: {.content-visible when-format="html"}
+
+::: {.panel-tabset}
+
+### `sky130A_tech.pb.json`
+
+```{=html}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
+
+<div>
+  <pre id="json-sky130A-tech"></pre>
+</div>
+
+<script>
+  // Reusable function to fetch and render JSON
+  function renderJson(filePath, elementId) {
+    fetch(filePath)
+      .then(response => response.json())
+      .then(json => {
+        $(`#${elementId}`).jsonViewer(json, { rootCollapsable: false, collapsed: true });
+      })
+      .catch(error => console.error(`Error loading ${filePath}:`, error));
+  }
+
+  renderJson("./data/sky130A_tech.pb.json", "json-sky130A-tech");
+</script>
+```
+
+### `ihp_sg13g2_tech.pb.json`
+
+<div>
+  <pre id="json-ihp_sg13g2-tech"></pre>
+</div>
+
+```{=html}
+<script>
+  renderJson("./data/ihp_sg13g2_tech.pb.json", "json-ihp_sg13g2-tech");
+</script>
+```
+:::
+:::
+
 ::: {.callout-note}
 The built-in JSON tech files are programmatically generated during the build process[^tech-gen-script].
 Therefore they not part of the repository source code, but of course part of the deployed Python wheels.
@@ -66,7 +113,7 @@ The Skywater `sky130A` process includes more intricate types of dielectrics (e.g
 
 ![Skywater `sky130A` Process Stackup (Source: [@skywater-sky130-pdk])](figures/skywater-sky130-metal_stack.svg){#fig-skywater-sky130-metal-stack}
 
-@fig-skywater-sky130-metal-stack contains the following data:
+We can derive the following data from @fig-skywater-sky130-metal-stack:
 
 - Metal layers $= \{\text{poly}, \text{li}, \text{metal1}, \text{metal2}, \text{metal3}, \text{metal4}, \text{metal5}, \text{capm}, \text{cap2m} \}$
    - thickness
@@ -85,4 +132,79 @@ The Skywater `sky130A` process includes more intricate types of dielectrics (e.g
          - thickness of the sidewall
       - Simple dielectrics $= \{\text{PSG}, \text{NILD2}, \text{NILD3}, \text{NILD4}, \text{NILD5}, \text{NILD6}\}$
          - embracing everything between 2 layers, including the sidewall and conformal dielectrics
+
+An except of the `process_stack.proto` schema is shown in the code listing below, note:
+
+- Line 3: `ProcessStackInfo.LayerType` is an enumeration type for the possible types of layers in the process stack
+- Line 57: `ProcessStackInfo.layers` is a list of `LayerInfo`
+   - the order of this list defines the orders of layers
+- Line 40: `MetalLayer` describes a metal layer
+- Line 43: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
+- Line 30, 37: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
+   - these refer to a dielectric or metal layer that they wrap around
+   - `ConformalDielectricLayer` and `ConformalDielectricLayer` can be wrapped, e.g. `SPNIT` wraps `IOX`, which wraps `poly`
+
+---
+code-line-numbers: true
+---
+```{.protobuf #lst-tech-def-process-stack caption="Excerpt from process_stack.proto"}
+message ProcessStackInfo {
+
+    enum LayerType { …
+        LAYER_TYPE_SIMPLE_DIELECTRIC = 50;
+        LAYER_TYPE_CONFORMAL_DIELECTRIC = 60;
+        LAYER_TYPE_SIDEWALL_DIELECTRIC = 70;
+        LAYER_TYPE_METAL = 80;
+    }
+
+    message Contact { // Contact/Via
+        string name = 1;
+        string metal_above = 10;
+        double thickness = 20;
+
+        double width = 30;
+        double spacing = 31;
+        double border = 32;
+    } 
+    …
+    message SimpleDielectricLayer { // Simple dielectric
+        double dielectric_k = 10;
+        string reference = 30;
+    }
+
+    message ConformalDielectricLayer { // Conformal dielectric
+        double dielectric_k = 10;
+        double thickness_over_metal = 20;
+        double thickness_where_no_metal = 21;
+        double thickness_sidewall = 22;
+        string reference = 30;
+    }
+
+    message SidewallDielectricLayer { // Sidewall dielectric
+        double dielectric_k = 10;
+        double height_above_metal = 20; // might be 0 if none
+        double width_outside_sidewall = 21;
+        string reference = 30;
+    }
+
+    message MetalLayer { // Metal
+        double z = 1;          // z-offset in µm (of layer bottom), above substrate
+        double thickness = 2;  // thickness in µm
+        Contact contact_above = 40;
+    }
+
+    message LayerInfo {
+        string name = 1;
+        LayerType layer_type = 2;
+        oneof parameters { …
+            SimpleDielectricLayer simple_dielectric_layer = 12;
+            ConformalDielectricLayer conformal_dielectric_layer = 13;
+            SidewallDielectricLayer sidewall_dielectric_layer = 14;
+            MetalLayer metal_layer = 15;
+        }
+    }
+
+    repeated LayerInfo layers = 100;
+}
+```
 
