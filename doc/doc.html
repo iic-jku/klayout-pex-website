@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-05-21">
+<meta name="dcterms.date" content="2025-05-27">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -407,8 +407,12 @@ window.Quarto = {
   </ul></li>
   <li><a href="#supporting-new-pdks" id="toc-supporting-new-pdks" class="nav-link" data-scroll-target="#supporting-new-pdks"><span class="header-section-number">3</span> Supporting new PDKs</a>
   <ul class="collapse">
-  <li><a href="#sec-tech-def" id="toc-sec-tech-def" class="nav-link" data-scroll-target="#sec-tech-def"><span class="header-section-number">3.1</span> Technology Definition Files</a></li>
-  <li><a href="#customized-pex-lvs-scripts" id="toc-customized-pex-lvs-scripts" class="nav-link" data-scroll-target="#customized-pex-lvs-scripts"><span class="header-section-number">3.2</span> Customized PEX-“LVS” scripts</a></li>
+  <li><a href="#customized-pex-lvs-scripts" id="toc-customized-pex-lvs-scripts" class="nav-link" data-scroll-target="#customized-pex-lvs-scripts"><span class="header-section-number">3.1</span> Customized PEX-“LVS” scripts</a></li>
+  <li><a href="#sec-tech-def" id="toc-sec-tech-def" class="nav-link" data-scroll-target="#sec-tech-def"><span class="header-section-number">3.2</span> Technology Definition Files</a>
+  <ul class="collapse">
+  <li><a href="#json-tech-files-for-supported-pdks" id="toc-json-tech-files-for-supported-pdks" class="nav-link" data-scroll-target="#json-tech-files-for-supported-pdks"><span class="header-section-number">3.2.1</span> JSON tech files for supported PDKs</a></li>
+  <li><a href="#process-stackup-definition" id="toc-process-stackup-definition" class="nav-link" data-scroll-target="#process-stackup-definition"><span class="header-section-number">3.2.2</span> Process Stackup Definition</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#kpexfastercap-engine" id="toc-kpexfastercap-engine" class="nav-link" data-scroll-target="#kpexfastercap-engine"><span class="header-section-number">4</span> <code>KPEX/FasterCap</code> Engine</a>
   <ul class="collapse">
@@ -500,7 +504,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 21, 2025</p>
+      <p class="date">May 27, 2025</p>
     </div>
   </div>
   
@@ -836,9 +840,30 @@ g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08</code></pre>
 </section>
 <section id="supporting-new-pdks" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Supporting new PDKs</h1>
-<p>For every supported PDK, a <code>KPEX</code> technology definition is required, as well as customized PEX-“LVS” scripts.</p>
-<section id="sec-tech-def" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sec-tech-def"><span class="header-section-number">3.1</span> Technology Definition Files</h2>
+<p>For every supported PDK<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, a <code>KPEX</code> technology definition is required, as well as customized PEX-“LVS” scripts.</p>
+<section id="customized-pex-lvs-scripts" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="customized-pex-lvs-scripts"><span class="header-section-number">3.1</span> Customized PEX-“LVS” scripts</h2>
+<p><code>KLayout</code> has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API. Customized “LVS” scripts are (“ab”)used in <code>KPEX</code>, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers. The resulting net information is stored in a <code>KLayout LVS Database</code> (“LVSDB”) within the run directory.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/kpex-net-formation.svg" class="img-fluid figure-img"></p>
+<figcaption><code>KPEX</code> Net Formation</figcaption>
+</figure>
+</div>
+<p>These customized “LVS” scripts are stored in:</p>
+<ul>
+<li>Skywater sky130A: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs"><code>pdk/sky130A/libs.tech/kpex/sky130.lvs</code></a></li>
+<li>IHP SG13G2: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs"><code>pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs</code></a></li>
+</ul>
+<p>What’s specific about this customization:</p>
+<ul>
+<li>Layers names must be assigned, using <a href="https://www.klayout.de/doc-qt5/about/drc_ref_netter.html#name">KLayout’s <code>(name(layer, name))</code> function</a></li>
+<li>MOM<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> capacitors, MIM<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> capacitors and resistors should be extracted to separate layers, to enable blackboxing / whiteboxing.</li>
+</ul>
+<p>The layer names in the script must correspond with the names configured in the tech JSON file.</p>
+</section>
+<section id="sec-tech-def" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-tech-def"><span class="header-section-number">3.2</span> Technology Definition Files</h2>
 <p>The <code>KPEX</code> technology definition format uses <a href="https://protobuf.net">Google Protocol Buffers</a>, so there is:</p>
 <ul>
 <li>formal schema files, defining the structure and data types involved
@@ -854,6 +879,44 @@ g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08</code></pre>
 <li>IHP SG13G2: <code>klayout_pex_protobuf/ihp_sg13g2_tech.pb.json</code></li>
 </ul></li>
 </ul>
+<section id="json-tech-files-for-supported-pdks" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="json-tech-files-for-supported-pdks"><span class="header-section-number">3.2.1</span> JSON tech files for supported PDKs</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><code>sky130A_tech.pb.json</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false"><code>ihp_sg13g2_tech.pb.json</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
+
+<div>
+  <pre id="json-sky130A-tech"></pre>
+</div>
+
+<script>
+  // Reusable function to fetch and render JSON
+  function renderJson(filePath, elementId) {
+    fetch(filePath)
+      .then(response => response.json())
+      .then(json => {
+        $(`#${elementId}`).jsonViewer(json, { rootCollapsable: false, collapsed: true });
+      })
+      .catch(error => console.error(`Error loading ${filePath}:`, error));
+  }
+
+  renderJson("./data/sky130A_tech.pb.json", "json-sky130A-tech");
+</script>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div>
+<pre id="json-ihp_sg13g2-tech"></pre>
+</div>
+<script>
+  renderJson("./data/ihp_sg13g2_tech.pb.json", "json-ihp_sg13g2-tech");
+</script>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -864,37 +927,137 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The built-in JSON tech files are programmatically generated during the build process<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Therefore they not part of the repository source code, but of course part of the deployed Python wheels. To review those, look into your Python <code>site-packages</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>/<code>klayout_pex_protobuf</code>.</p>
+<p>The built-in JSON tech files are programmatically generated during the build process<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. Therefore they not part of the repository source code, but of course part of the deployed Python wheels. To review those, look into your Python <code>site-packages</code><a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>/<code>klayout_pex_protobuf</code>.</p>
 </div>
 </div>
 </section>
-<section id="customized-pex-lvs-scripts" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="customized-pex-lvs-scripts"><span class="header-section-number">3.2</span> Customized PEX-“LVS” scripts</h2>
-<p><code>KLayout</code> has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API. Customized “LVS” scripts are (“ab”)used in <code>KPEX</code>, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers. The resulting net information is stored in a <code>KLayout LVS Database</code> (“LVSDB”).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/kpex-net-formation.svg" class="img-fluid figure-img"></p>
-<figcaption><code>KPEX</code> Net Formation</figcaption>
+<section id="process-stackup-definition" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="process-stackup-definition"><span class="header-section-number">3.2.2</span> Process Stackup Definition</h3>
+<p>For 3D solvers, like the <code>KPEX/FasterCap</code> engine, 3D information about the dimensions (e.g.&nbsp;z-offset and thickness) of metal layers is required, as well as the dielectrics in-between.</p>
+<p>The Skywater <code>sky130A</code> process includes more intricate types of dielectrics (e.g., compared to IHP <code>sg13g2</code>), therefore I’ll use this PDK as an example here.</p>
+<div id="fig-skywater-sky130-metal-stack" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-skywater-sky130-metal-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/skywater-sky130-metal_stack.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-skywater-sky130-metal-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Skywater <code>sky130A</code> Process Stackup (Source: <span class="citation" data-cites="skywater-sky130-pdk">(<a href="#ref-skywater-sky130-pdk" role="doc-biblioref">Authors 2020</a>)</span>)
+</figcaption>
 </figure>
 </div>
-<p>These customized “LVS” scripts are stored in:</p>
+<p>We can derive the following data from <a href="#fig-skywater-sky130-metal-stack" class="quarto-xref">Figure&nbsp;1</a>:</p>
 <ul>
-<li>Skywater sky130A: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs"><code>pdk/sky130A/libs.tech/kpex/sky130.lvs</code></a></li>
-<li>IHP SG13G2: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs"><code>pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs</code></a></li>
-</ul>
-<p>What’s specific about this customization:</p>
+<li>Metal layers <span class="math inline">\(= \{\text{poly}, \text{li}, \text{metal1}, \text{metal2}, \text{metal3}, \text{metal4}, \text{metal5}, \text{capm}, \text{cap2m} \}\)</span>
 <ul>
-<li>Layers names must be assigned, using <a href="https://www.klayout.de/doc-qt5/about/drc_ref_netter.html#name">KLayout’s <code>(name(layer, name))</code> function</a></li>
-<li>MOM<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> capacitors, MIM<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> capacitors and resistors should be extracted to separate layers, to enable blackboxing / whiteboxing.</li>
+<li>thickness</li>
+<li>z-offset (relative to substrate)</li>
+</ul></li>
+<li>Contact layers <span class="math inline">\(= \{\text{licon}\}\)</span></li>
+<li>Via layers <span class="math inline">\(= \{\text{mcon}, \text{via1}, \text{via2}, \text{via3}, \text{via4}\}\)</span></li>
+<li>Dielectrics
+<ul>
+<li>dielectric constant <span class="math inline">\(k\)</span>, the relative permittivity of the dielectric material</li>
+<li>Different types:
+<ul>
+<li>Sidewall dielectrics <span class="math inline">\(= \{\text{IOX}, \text{SPNIT}, \text{NILD3\_C}, \text{NILD4\_C}\}\)</span>
+<ul>
+<li>width of the sidewall around metals</li>
+<li>height above metal</li>
+</ul></li>
+<li>Conformal dielectrics <span class="math inline">\(= \{\text{LINT}, \text{TOPNIT}, \text{capild}\}\)</span>
+<ul>
+<li>thickness above metal</li>
+<li>thickness where no metal</li>
+<li>thickness of the sidewall</li>
+</ul></li>
+<li>Simple dielectrics <span class="math inline">\(= \{\text{PSG}, \text{NILD2}, \text{NILD3}, \text{NILD4}, \text{NILD5}, \text{NILD6}\}\)</span>
+<ul>
+<li>embracing everything between 2 layers, including the sidewall and conformal dielectrics</li>
+</ul></li>
+</ul></li>
+</ul></li>
 </ul>
-<p>The layer names in the script must correspond with the names configured in the tech JSON file.</p>
+<p>An except of the <code>process_stack.proto</code> schema is shown in the code listing below, note:</p>
+<ul>
+<li>Line 3: <code>ProcessStackInfo.LayerType</code> is an enumeration type for the possible types of layers in the process stack</li>
+<li>Line 57: <code>ProcessStackInfo.layers</code> is a list of <code>LayerInfo</code>
+<ul>
+<li>the order of this list defines the orders of layers</li>
+</ul></li>
+<li>Line 40: <code>MetalLayer</code> describes a metal layer</li>
+<li>Line 43: <code>MetalLayer.contact_above</code> points to the via connecting to the metal layer above (omitted for the top metal layer)</li>
+<li>Line 30, 37: <code>ConformalDielectricLayer.reference</code> and <code>SidewallDielectricLayer.reference</code>
+<ul>
+<li>these refer to a dielectric or metal layer that they wrap around</li>
+<li><code>ConformalDielectricLayer</code> and <code>ConformalDielectricLayer</code> can be wrapped, e.g.&nbsp;<code>SPNIT</code> wraps <code>IOX</code>, which wraps <code>poly</code></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="lst-tech-def-process-stack" data-caption="Excerpt from process_stack.proto"><pre class="sourceCode numberSource protobuf number-lines code-with-copy"><code class="sourceCode protobuf"><span id="lst-tech-def-process-stack-1"><a href="#lst-tech-def-process-stack-1"></a><span class="kw">message</span> ProcessStackInfo {</span>
+<span id="lst-tech-def-process-stack-2"><a href="#lst-tech-def-process-stack-2"></a></span>
+<span id="lst-tech-def-process-stack-3"><a href="#lst-tech-def-process-stack-3"></a>    <span class="kw">enum</span> LayerType { …</span>
+<span id="lst-tech-def-process-stack-4"><a href="#lst-tech-def-process-stack-4"></a>        LAYER_TYPE_SIMPLE_DIELECTRIC = <span class="dv">50</span>;</span>
+<span id="lst-tech-def-process-stack-5"><a href="#lst-tech-def-process-stack-5"></a>        LAYER_TYPE_CONFORMAL_DIELECTRIC = <span class="dv">60</span>;</span>
+<span id="lst-tech-def-process-stack-6"><a href="#lst-tech-def-process-stack-6"></a>        LAYER_TYPE_SIDEWALL_DIELECTRIC = <span class="dv">70</span>;</span>
+<span id="lst-tech-def-process-stack-7"><a href="#lst-tech-def-process-stack-7"></a>        LAYER_TYPE_METAL = <span class="dv">80</span>;</span>
+<span id="lst-tech-def-process-stack-8"><a href="#lst-tech-def-process-stack-8"></a>    }</span>
+<span id="lst-tech-def-process-stack-9"><a href="#lst-tech-def-process-stack-9"></a></span>
+<span id="lst-tech-def-process-stack-10"><a href="#lst-tech-def-process-stack-10"></a>    <span class="kw">message</span> Contact { <span class="co">// Contact/Via</span></span>
+<span id="lst-tech-def-process-stack-11"><a href="#lst-tech-def-process-stack-11"></a>        <span class="dt">string</span> name = <span class="dv">1</span>;</span>
+<span id="lst-tech-def-process-stack-12"><a href="#lst-tech-def-process-stack-12"></a>        <span class="dt">string</span> metal_above = <span class="dv">10</span>;</span>
+<span id="lst-tech-def-process-stack-13"><a href="#lst-tech-def-process-stack-13"></a>        <span class="dt">double</span> thickness = <span class="dv">20</span>;</span>
+<span id="lst-tech-def-process-stack-14"><a href="#lst-tech-def-process-stack-14"></a></span>
+<span id="lst-tech-def-process-stack-15"><a href="#lst-tech-def-process-stack-15"></a>        <span class="dt">double</span> width = <span class="dv">30</span>;</span>
+<span id="lst-tech-def-process-stack-16"><a href="#lst-tech-def-process-stack-16"></a>        <span class="dt">double</span> spacing = <span class="dv">31</span>;</span>
+<span id="lst-tech-def-process-stack-17"><a href="#lst-tech-def-process-stack-17"></a>        <span class="dt">double</span> border = <span class="dv">32</span>;</span>
+<span id="lst-tech-def-process-stack-18"><a href="#lst-tech-def-process-stack-18"></a>    } </span>
+<span id="lst-tech-def-process-stack-19"><a href="#lst-tech-def-process-stack-19"></a>    …</span>
+<span id="lst-tech-def-process-stack-20"><a href="#lst-tech-def-process-stack-20"></a>    <span class="kw">message</span> SimpleDielectricLayer { <span class="co">// Simple dielectric</span></span>
+<span id="lst-tech-def-process-stack-21"><a href="#lst-tech-def-process-stack-21"></a>        <span class="dt">double</span> dielectric_k = <span class="dv">10</span>;</span>
+<span id="lst-tech-def-process-stack-22"><a href="#lst-tech-def-process-stack-22"></a>        <span class="dt">string</span> reference = <span class="dv">30</span>;</span>
+<span id="lst-tech-def-process-stack-23"><a href="#lst-tech-def-process-stack-23"></a>    }</span>
+<span id="lst-tech-def-process-stack-24"><a href="#lst-tech-def-process-stack-24"></a></span>
+<span id="lst-tech-def-process-stack-25"><a href="#lst-tech-def-process-stack-25"></a>    <span class="kw">message</span> ConformalDielectricLayer { <span class="co">// Conformal dielectric</span></span>
+<span id="lst-tech-def-process-stack-26"><a href="#lst-tech-def-process-stack-26"></a>        <span class="dt">double</span> dielectric_k = <span class="dv">10</span>;</span>
+<span id="lst-tech-def-process-stack-27"><a href="#lst-tech-def-process-stack-27"></a>        <span class="dt">double</span> thickness_over_metal = <span class="dv">20</span>;</span>
+<span id="lst-tech-def-process-stack-28"><a href="#lst-tech-def-process-stack-28"></a>        <span class="dt">double</span> thickness_where_no_metal = <span class="dv">21</span>;</span>
+<span id="lst-tech-def-process-stack-29"><a href="#lst-tech-def-process-stack-29"></a>        <span class="dt">double</span> thickness_sidewall = <span class="dv">22</span>;</span>
+<span id="lst-tech-def-process-stack-30"><a href="#lst-tech-def-process-stack-30"></a>        <span class="dt">string</span> reference = <span class="dv">30</span>;</span>
+<span id="lst-tech-def-process-stack-31"><a href="#lst-tech-def-process-stack-31"></a>    }</span>
+<span id="lst-tech-def-process-stack-32"><a href="#lst-tech-def-process-stack-32"></a></span>
+<span id="lst-tech-def-process-stack-33"><a href="#lst-tech-def-process-stack-33"></a>    <span class="kw">message</span> SidewallDielectricLayer { <span class="co">// Sidewall dielectric</span></span>
+<span id="lst-tech-def-process-stack-34"><a href="#lst-tech-def-process-stack-34"></a>        <span class="dt">double</span> dielectric_k = <span class="dv">10</span>;</span>
+<span id="lst-tech-def-process-stack-35"><a href="#lst-tech-def-process-stack-35"></a>        <span class="dt">double</span> height_above_metal = <span class="dv">20</span>; <span class="co">// might be 0 if none</span></span>
+<span id="lst-tech-def-process-stack-36"><a href="#lst-tech-def-process-stack-36"></a>        <span class="dt">double</span> width_outside_sidewall = <span class="dv">21</span>;</span>
+<span id="lst-tech-def-process-stack-37"><a href="#lst-tech-def-process-stack-37"></a>        <span class="dt">string</span> reference = <span class="dv">30</span>;</span>
+<span id="lst-tech-def-process-stack-38"><a href="#lst-tech-def-process-stack-38"></a>    }</span>
+<span id="lst-tech-def-process-stack-39"><a href="#lst-tech-def-process-stack-39"></a></span>
+<span id="lst-tech-def-process-stack-40"><a href="#lst-tech-def-process-stack-40"></a>    <span class="kw">message</span> MetalLayer { <span class="co">// Metal</span></span>
+<span id="lst-tech-def-process-stack-41"><a href="#lst-tech-def-process-stack-41"></a>        <span class="dt">double</span> z = <span class="dv">1</span>;          <span class="co">// z-offset in µm (of layer bottom), above substrate</span></span>
+<span id="lst-tech-def-process-stack-42"><a href="#lst-tech-def-process-stack-42"></a>        <span class="dt">double</span> thickness = <span class="dv">2</span>;  <span class="co">// thickness in µm</span></span>
+<span id="lst-tech-def-process-stack-43"><a href="#lst-tech-def-process-stack-43"></a>        Contact contact_above = <span class="dv">40</span>;</span>
+<span id="lst-tech-def-process-stack-44"><a href="#lst-tech-def-process-stack-44"></a>    }</span>
+<span id="lst-tech-def-process-stack-45"><a href="#lst-tech-def-process-stack-45"></a></span>
+<span id="lst-tech-def-process-stack-46"><a href="#lst-tech-def-process-stack-46"></a>    <span class="kw">message</span> LayerInfo {</span>
+<span id="lst-tech-def-process-stack-47"><a href="#lst-tech-def-process-stack-47"></a>        <span class="dt">string</span> name = <span class="dv">1</span>;</span>
+<span id="lst-tech-def-process-stack-48"><a href="#lst-tech-def-process-stack-48"></a>        LayerType layer_type = <span class="dv">2</span>;</span>
+<span id="lst-tech-def-process-stack-49"><a href="#lst-tech-def-process-stack-49"></a>        oneof parameters { …</span>
+<span id="lst-tech-def-process-stack-50"><a href="#lst-tech-def-process-stack-50"></a>            SimpleDielectricLayer simple_dielectric_layer = <span class="dv">12</span>;</span>
+<span id="lst-tech-def-process-stack-51"><a href="#lst-tech-def-process-stack-51"></a>            ConformalDielectricLayer conformal_dielectric_layer = <span class="dv">13</span>;</span>
+<span id="lst-tech-def-process-stack-52"><a href="#lst-tech-def-process-stack-52"></a>            SidewallDielectricLayer sidewall_dielectric_layer = <span class="dv">14</span>;</span>
+<span id="lst-tech-def-process-stack-53"><a href="#lst-tech-def-process-stack-53"></a>            MetalLayer metal_layer = <span class="dv">15</span>;</span>
+<span id="lst-tech-def-process-stack-54"><a href="#lst-tech-def-process-stack-54"></a>        }</span>
+<span id="lst-tech-def-process-stack-55"><a href="#lst-tech-def-process-stack-55"></a>    }</span>
+<span id="lst-tech-def-process-stack-56"><a href="#lst-tech-def-process-stack-56"></a></span>
+<span id="lst-tech-def-process-stack-57"><a href="#lst-tech-def-process-stack-57"></a>    <span class="kw">repeated</span> LayerInfo layers = <span class="dv">100</span>;</span>
+<span id="lst-tech-def-process-stack-58"><a href="#lst-tech-def-process-stack-58"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div style="page-break-after: always;"></div>
+</section>
 </section>
 </section>
 <section id="kpexfastercap-engine" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> <code>KPEX/FasterCap</code> Engine</h1>
 <p><code>FasterCap</code> is a 3D and 2D parallel capacitance field solver, inspired by <code>FastCap2</code>. <a href="https://www.fastfieldsolvers.com/fastercap.htm" class="uri">https://www.fastfieldsolvers.com/fastercap.htm</a></p>
-<p>Starting from an input layout (e.g.&nbsp;GDS file) and a process stack-up (part of the <a href="#sec-tech-def" class="quarto-xref">Section&nbsp;3.1</a>), <code>KPEX</code> creates input geometries for <code>FasterCap</code>. After running <code>FasterCap</code>, the Maxwell capacitance matrix is parsed and interpreted to obtain the parasitic capacitances.</p>
+<p>Starting from an input layout (e.g.&nbsp;GDS file) and a process stack-up (part of the <a href="#sec-tech-def" class="quarto-xref">Section&nbsp;3.2</a>), <code>KPEX</code> creates input geometries for <code>FasterCap</code>. After running <code>FasterCap</code>, the Maxwell capacitance matrix is parsed and interpreted to obtain the parasitic capacitances.</p>
 <p>See <a href="#sec-first-steps-run-fastercap-engine" class="quarto-xref">Section&nbsp;2.2</a> to get started with a first extraction example.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -959,12 +1122,12 @@ Note
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fastercap-mom-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: MOM Capacitor
+Figure&nbsp;2: MOM Capacitor
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-fastercap-mom-example" class="quarto-xref">Figure&nbsp;1</a> depicts the MOM capacitor example of a from <a href="#sec-first-steps-run-fastercap-engine" class="quarto-xref">Section&nbsp;2.2</a>).</p>
-<p>The corresponding schematic representation of <a href="#fig-fastercap-maxwell-capacitance-matrix-schematic" class="quarto-xref">Figure&nbsp;2</a> contains 3 conductors (<span class="math inline">\(N_1\)</span>, <span class="math inline">\(N_2\)</span> and <span class="math inline">\(N_3\)</span>), and coupling capacitances:</p>
+<p><a href="#fig-fastercap-mom-example" class="quarto-xref">Figure&nbsp;2</a> depicts the MOM capacitor example of a from <a href="#sec-first-steps-run-fastercap-engine" class="quarto-xref">Section&nbsp;2.2</a>).</p>
+<p>The corresponding schematic representation of <a href="#fig-fastercap-maxwell-capacitance-matrix-schematic" class="quarto-xref">Figure&nbsp;3</a> contains 3 conductors (<span class="math inline">\(N_1\)</span>, <span class="math inline">\(N_2\)</span> and <span class="math inline">\(N_3\)</span>), and coupling capacitances:</p>
 <ul>
 <li>Capacitances between conductors: <span class="math inline">\(C_{ij} \text{ where } i \ne j\)</span>
 <ul>
@@ -980,7 +1143,7 @@ Figure&nbsp;1: MOM Capacitor
 <img src="doc_files/figure-html/fig-fastercap-maxwell-capacitance-matrix-schematic-output-1.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fastercap-maxwell-capacitance-matrix-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Schematic representation of the MOM capacitor.
+Figure&nbsp;3: Schematic representation of the MOM capacitor.
 </figcaption>
 </figure>
 </div>
@@ -1269,7 +1432,7 @@ Table&nbsp;1: Shielding effects
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-magic-cap-shielding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Shielding Effects
+Figure&nbsp;4: Shielding Effects
 </figcaption>
 </figure>
 </div>
@@ -1281,7 +1444,7 @@ Figure&nbsp;3: Shielding Effects
 <li>by other polygons (same net)</li>
 <li>by other polygons (different net) — this is what we also look at when analyzing sidewall coupling</li>
 </ul></li>
-<li>will shield the fringing to the lower layers, i.e.&nbsp;in <a href="#fig-lateral-fringe-shielding-2" class="quarto-xref">Figure&nbsp;4</a> the coupling between the two shapes is the same in the above and below cases</li>
+<li>will shield the fringing to the lower layers, i.e.&nbsp;in <a href="#fig-lateral-fringe-shielding-2" class="quarto-xref">Figure&nbsp;5</a> the coupling between the two shapes is the same in the above and below cases</li>
 </ul>
 <div id="fig-lateral-fringe-shielding-2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1289,7 +1452,7 @@ Figure&nbsp;3: Shielding Effects
 <img src="figures/magic_cap_type_-_lateral_fringe_shielding2.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lateral-fringe-shielding-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Lateral fringe shielding (2/2)
+Figure&nbsp;5: Lateral fringe shielding (2/2)
 </figcaption>
 </figure>
 </div>
@@ -1324,7 +1487,7 @@ R_{wire} = \frac{l}{h} * R_{coeff}  \,\,\,\,\,\,\, \left[ \frac{\mu m}{\mu m} * 
 <img src="figures/magic_via_-_dimensions.svg" class="img-fluid figure-img" style="width:40.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-magic-via-dimensions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Via dimensions)
+Figure&nbsp;6: Via dimensions)
 </figcaption>
 </figure>
 </div>
@@ -1413,7 +1576,7 @@ Note
 <div class="callout-body-container callout-body">
 <p>Notes about this comparison:</p>
 <ul>
-<li>Version <code>Magic 8.3 rev 486</code> is used, but augmented with debug logging<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>, which will be shown and discussed for each example.</li>
+<li>Version <code>Magic 8.3 rev 486</code> is used, but augmented with debug logging<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, which will be shown and discussed for each example.</li>
 <li><code>KPEX/MAGIC</code> halo is set to <code>--magic_halo=100000</code>
 <ul>
 <li>NOTE: the screenshots however were created with <code>--magic_halo=8</code> to give better illustrations</li>
@@ -2348,7 +2511,7 @@ R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
 <p>Given <span class="math inline">\(N\)</span>-terminal star network:</p>
 <ul>
 <li>node <span class="math inline">\(N\)</span> is the center</li>
-<li>terminals labeled from <span class="math inline">\(0\)</span> to <span class="math inline">\(N\!-\!1\)</span> (in <a href="#fig-n-terminal-star-network" class="quarto-xref">Figure&nbsp;6</a>, <span class="math inline">\(m\)</span> is used instead of <span class="math inline">\(N\!-\!1\)</span>)</li>
+<li>terminals labeled from <span class="math inline">\(0\)</span> to <span class="math inline">\(N\!-\!1\)</span> (in <a href="#fig-n-terminal-star-network" class="quarto-xref">Figure&nbsp;7</a>, <span class="math inline">\(m\)</span> is used instead of <span class="math inline">\(N\!-\!1\)</span>)</li>
 <li>each branch, going from the terminal <span class="math inline">\(T_i\)</span> to <span class="math inline">\(N\)</span>, contains a resistor and a capacitor in parallel</li>
 <li>resistor values are given as conductance (easier parallel summation): <span class="math inline">\(g_{ij}\,\,[\mho]\)</span><br>
 </li>
@@ -2360,7 +2523,7 @@ R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
 <img src="figures/ticer_n-terminal_star_network.svg" class="img-fluid figure-img" style="width:40.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-n-terminal-star-network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: N-terminal star network
+Figure&nbsp;7: N-terminal star network
 </figcaption>
 </figure>
 </div>
@@ -2733,7 +2896,7 @@ Note
 </section>
 <section id="example-from-ticer-2007-paper" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="example-from-ticer-2007-paper"><span class="header-section-number">8.3</span> Example from TICER 2007 paper</h2>
-<p>Let’s reduce the example presented by Sheehan in the from the 2007 paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>, as shown in <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>. The goal is to eliminate the quick node <span class="math inline">\(v_3\)</span>.</p>
+<p>Let’s reduce the example presented by Sheehan in the from the 2007 paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>, as shown in <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;8</a>. The goal is to eliminate the quick node <span class="math inline">\(v_3\)</span>.</p>
 <div id="cell-fig-ticer-example-schematic" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <div id="fig-ticer-example-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -2742,7 +2905,7 @@ Note
 <img src="doc_files/figure-html/fig-ticer-example-schematic-output-1.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ticer-example-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Passive RC circuit shown in <span class="citation" data-cites="ticer-sheehan-2007">Bernard N. Sheehan (<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">2007</a>)</span>.
+Figure&nbsp;8: Passive RC circuit shown in <span class="citation" data-cites="ticer-sheehan-2007">Bernard N. Sheehan (<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">2007</a>)</span>.
 </figcaption>
 </figure>
 </div>
@@ -2779,7 +2942,7 @@ Figure&nbsp;7: Passive RC circuit shown in <span class="citation" data-cites="ti
 <img src="doc_files/figure-html/fig-ticer-example-schematic-reduced-output-1.svg" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ticer-example-schematic-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Passive RC circuit after the elimination of <span class="math inline">\(v_3\)</span>.
+Figure&nbsp;9: Passive RC circuit after the elimination of <span class="math inline">\(v_3\)</span>.
 </figcaption>
 </figure>
 </div>
@@ -2806,7 +2969,7 @@ H(s) = \frac{\text{adj}(s \mathbf{C} + \mathbf{G})_{21}}{det(s \mathbf{C} + \mat
 </section>
 <section id="analysis-of-the-original-circuit" class="level3" data-number="8.3.2">
 <h3 data-number="8.3.2" class="anchored" data-anchor-id="analysis-of-the-original-circuit"><span class="header-section-number">8.3.2</span> Analysis of the original circuit</h3>
-<p>So for the original circuit of <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;7</a>, we have 3 nodes, in addition to GND (<span class="math inline">\(v_0\)</span>).</p>
+<p>So for the original circuit of <a href="#fig-ticer-example-schematic" class="quarto-xref">Figure&nbsp;8</a>, we have 3 nodes, in addition to GND (<span class="math inline">\(v_0\)</span>).</p>
 <p><strong>So we have 3 nodal equations:</strong></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2815,7 +2978,7 @@ c_2 \dot{v_2} + g_{23} (v_2 - v_3)                        &amp;= 0      \\
 c_3 \dot{v_3} + g_{13} (v_3 - v_1) + g_{23} * (v_3 - v_2) &amp;= 0
 \end{aligned}
 \]</span></p>
-<p><strong>Laplace domain (MNA<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> form):</strong></p>
+<p><strong>Laplace domain (MNA<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> form):</strong></p>
 <p><span class="math display">\[
 \left(
 s
@@ -2887,7 +3050,7 @@ H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
 </section>
 <section id="analysis-of-the-reduced-circuit" class="level3" data-number="8.3.3">
 <h3 data-number="8.3.3" class="anchored" data-anchor-id="analysis-of-the-reduced-circuit"><span class="header-section-number">8.3.3</span> Analysis of the reduced circuit</h3>
-<p>The reduced circuit in <a href="#fig-ticer-example-schematic-reduced" class="quarto-xref">Figure&nbsp;8</a> only has 2 remaining nodes (besides GND).</p>
+<p>The reduced circuit in <a href="#fig-ticer-example-schematic-reduced" class="quarto-xref">Figure&nbsp;9</a> only has 2 remaining nodes (besides GND).</p>
 <p><strong>So we have 2 nodal equations:</strong></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -2895,7 +3058,7 @@ H(s) = \frac{1}{0.01s^3 + 2.03s^2 + 4.02s + 1}
 (c_2 + c_{20}) \dot{v_2} + g_{12} (v_2 - v_1)             &amp;= 0
 \end{aligned}
 \]</span></p>
-<p><strong>Laplace domain (MNA<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> form):</strong></p>
+<p><strong>Laplace domain (MNA<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> form):</strong></p>
 <p><span class="math display">\[
 \left(
 s
@@ -2972,7 +3135,7 @@ H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9
+Figure&nbsp;10
 </figcaption>
 </figure>
 </div>
@@ -2992,7 +3155,7 @@ Figure&nbsp;9
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10
+Figure&nbsp;11
 </figcaption>
 </figure>
 </div>
@@ -3013,7 +3176,7 @@ Figure&nbsp;10
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11
+Figure&nbsp;12
 </figcaption>
 </figure>
 </div>
@@ -3034,7 +3197,7 @@ Figure&nbsp;11
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;12
+Figure&nbsp;13
 </figcaption>
 </figure>
 </div>
@@ -3055,7 +3218,7 @@ Figure&nbsp;12
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13
+Figure&nbsp;14
 </figcaption>
 </figure>
 </div>
@@ -3077,6 +3240,9 @@ Figure&nbsp;13
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">9.1 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-skywater-sky130-pdk" class="csl-entry" role="listitem">
+Authors, SkyWater PDK. 2020. <span>“SkyWater Open Source PDK.”</span> May 2020. <a href="https://skywater-pdk.readthedocs.io">https://skywater-pdk.readthedocs.io</a>.
+</div>
 <div id="ref-fastfieldsolvers-fastercap-manual-chm" class="csl-entry" role="listitem">
 Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help.”</span> 2019. <a href="https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm">https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm</a>.
 </div>
@@ -3108,13 +3274,14 @@ Sheehan, Bernard N. 2007. <span>“Realizable Reduction of <span class="math inl
 
 <ol>
 <li id="fn1"><p>Metal-Oxide-Metal capacitors<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>C++ generator scripts the built-in tech files are located in <code>cxx/gen_tech_pb/pdk/*.cpp</code>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>To find the <code>site-packages</code> directory for the <code>klayout-pex</code> package, call <code>pip3 show klayout-pex</code>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Metal-Oxide-Metal capacitors<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Metal-Insulator-Metal capacitors<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>A fork of MAGIC which includes debug logging about the different parasitic contributions is hosted here: <a href="https://github.com/martinjankoehler/magic" class="uri">https://github.com/martinjankoehler/magic</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>Modified Nodal Analysis<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Process Design Kit<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Metal-Oxide-Metal capacitors<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Metal-Insulator-Metal capacitors<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>C++ generator scripts the built-in tech files are located in <code>cxx/gen_tech_pb/pdk/*.cpp</code>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>To find the <code>site-packages</code> directory for the <code>klayout-pex</code> package, call <code>pip3 show klayout-pex</code>.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>A fork of MAGIC which includes debug logging about the different parasitic contributions is hosted here: <a href="https://github.com/martinjankoehler/magic" class="uri">https://github.com/martinjankoehler/magic</a><a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>Modified Nodal Analysis<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Modified Nodal Analysis<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
