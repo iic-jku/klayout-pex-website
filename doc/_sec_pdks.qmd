@@ -1,3 +1,7 @@
+---
+filters: ["inline-file-filter.lua"]
+---
+
 ::: {.content-hidden}
 Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
 
@@ -60,29 +64,25 @@ The `KPEX` technology definition format uses [Google Protocol Buffers](https://p
 
 ### `sky130A_tech.pb.json`
 
-```{=html}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
+<script> // Reusable function to fetch and render JSON  
+  function renderJson(jsonData, elementId) {
+      $(`#${elementId}`).jsonViewer(jsonData, { rootCollapsable: false, collapsed: true });
+  }
+</script>
 
 <div>
   <pre id="json-sky130A-tech"></pre>
 </div>
 
 <script>
-  // Reusable function to fetch and render JSON
-  function renderJson(filePath, elementId) {
-    fetch(filePath)
-      .then(response => response.json())
-      .then(json => {
-        $(`#${elementId}`).jsonViewer(json, { rootCollapsable: false, collapsed: true });
-      })
-      .catch(error => console.error(`Error loading ${filePath}:`, error));
-  }
-
-  renderJson("./data/sky130A_tech.pb.json", "json-sky130A-tech");
+  renderJson(JSON.parse(`
+{{file:data/sky130A_tech.pb.json}}
+   `), "json-sky130A-tech");
 </script>
-```
+
 
 ### `ihp_sg13g2_tech.pb.json`
 
@@ -90,11 +90,12 @@ The `KPEX` technology definition format uses [Google Protocol Buffers](https://p
   <pre id="json-ihp_sg13g2-tech"></pre>
 </div>
 
-```{=html}
 <script>
-  renderJson("./data/ihp_sg13g2_tech.pb.json", "json-ihp_sg13g2-tech");
+  renderJson(JSON.parse(`
+{{file:data/ihp_sg13g2_tech.pb.json}}
+   `), "json-ihp_sg13g2-tech");
 </script>
-```
+
 :::
 :::
 
