@@ -15,6 +15,7 @@ license: "Apache-2.0 license"
 copyright:
   holder: "Martin Köhler, Harald Pretl and co-authors, Johannes Kepler University."
   year: 2024-205
+filters: ["inline-file-filter.lua"]
 format:
   html:
     number-sections: true
