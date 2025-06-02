@@ -6616,109 +6616,136 @@ H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
 </section>
 <section id="comparison-of-original-and-reduced-circuits" class="level3" data-number="8.3.4">
 <h3 data-number="8.3.4" class="anchored" data-anchor-id="comparison-of-original-and-reduced-circuits"><span class="header-section-number">8.3.4</span> Comparison of original and reduced circuits</h3>
-<p>Bode plots:</p>
-<div class="quarto-embed-nb-cell">
-<div class="cell" data-execution_count="196">
-<div id="fig-bode-plot-ft-vs-mag" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="196">
+<p>In the Bode plots, <a href="#fig-bode-plot-ft-vs-mag" class="quarto-xref">Figure&nbsp;10 (a)</a> and <a href="#fig-bode-plot-ft-vs-phase" class="quarto-xref">Figure&nbsp;10 (b)</a>, we see that magnitude and phase responses stays the same up to a certain frequency.</p>
+<div id="fig-ticer-bode-plots" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ticer-bode-plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-embed-nb-cell quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ticer-bode-plots" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="cell quarto-layout-cell-subref" data-execution_count="196" data-ref-parent="fig-ticer-bode-plots">
+<div id="fig-bode-plot-ft-vs-mag" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="196">
+<figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-5-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-5-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-ticer-bode-plots"></p>
 </figure>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
 </figcaption>
 </figure>
 </div>
 </div>
 <a class="quarto-notebook-link" id="nblink-1" href="notebooks/ticer_example_bode_plots-preview.html#fig-bode-plot-ft-vs-mag">Source: TICER Example: Bode Plots</a></div>
-<div class="quarto-embed-nb-cell">
-<div class="cell" data-execution_count="197">
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-embed-nb-cell quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ticer-bode-plots" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="cell quarto-layout-cell-subref" data-execution_count="197" data-ref-parent="fig-ticer-bode-plots">
 <div id="fig-bode-plot-ft-vs-phase" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="197">
-<figure class="quarto-float quarto-float-fig figure">
+<figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-6-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-ticer-bode-plots"></p>
 </figure>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>In the original circuit we have an additional pole at <span class="math inline">\(s = 201\)</span>, which is expendable.</p>
-<div class="quarto-embed-nb-cell">
-<div class="cell" data-execution_count="199">
-<div id="fig-pole-zero-plot-original" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="199">
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ticer-bode-plots-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Bode Plots
+</figcaption>
+</figure>
+</div>
+<p>In the original circuit we have an additional pole at <span class="math inline">\(s = 201\)</span>, which is expendable (<a href="#fig-pole-zero-plot-original" class="quarto-xref">Figure&nbsp;11 (a)</a>).</p>
+<p>In <a href="#fig-pole-zero-plot-original-without-201" class="quarto-xref">Figure&nbsp;11 (b)</a> we remove this pole, for better comparison with the reduced circuit (<a href="#fig-pole-zero-plot-reduced" class="quarto-xref">Figure&nbsp;11 (c)</a>), where that pole is no longer present, but the others still are.</p>
+<div id="fig-ticer-pole-zero" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ticer-pole-zero-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-embed-nb-cell quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ticer-pole-zero" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="cell quarto-layout-cell-subref" data-execution_count="199" data-ref-parent="fig-ticer-pole-zero">
+<div id="fig-pole-zero-plot-original" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="199">
+<figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-8-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-ticer-pole-zero"></p>
 </figure>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;12
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a)
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>If we remove this pole (for better comparison), we have:</p>
-<div class="quarto-embed-nb-cell">
-<div class="cell" data-execution_count="204">
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-embed-nb-cell quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ticer-pole-zero" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="cell quarto-layout-cell-subref" data-execution_count="204" data-ref-parent="fig-ticer-pole-zero">
 <div id="fig-pole-zero-plot-original-without-201" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="204">
-<figure class="quarto-float quarto-float-fig figure">
+<figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-9-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-ticer-pole-zero"></p>
 </figure>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b)
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>So in the reduced circuit, that pole is no longer present, but the others are.</p>
-<div class="quarto-embed-nb-cell">
-<div class="cell" data-execution_count="200">
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-embed-nb-cell quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-ticer-pole-zero" style="flex-basis: 100.0%;justify-content: flex-start;">
+<div class="cell quarto-layout-cell-subref" data-execution_count="200" data-ref-parent="fig-ticer-pole-zero">
 <div id="fig-pole-zero-plot-reduced" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="200">
-<figure class="quarto-float quarto-float-fig figure">
+<figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="doc_files/figure-html/.-notebooks-ticer_example_bode_plots-cell-10-output-1.png" class="img-fluid figure-img" data-ref-parent="fig-ticer-pole-zero"></p>
 </figure>
 </div>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;14
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c)
 </figcaption>
 </figure>
 </div>
 </div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ticer-pole-zero-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: Pole-Zero Plots
+</figcaption>
+</figure>
 </div>
 <div style="page-break-after: always;"></div>
 </section>
