@@ -660,23 +660,29 @@ $$
 
 ### Comparison of original and reduced circuits
 
-Bode plots:
+In the Bode plots, @fig-bode-plot-ft-vs-mag and @fig-bode-plot-ft-vs-phase, we see that magnitude and phase responses stays the same up to a certain frequency.
 
+::: {#fig-ticer-bode-plots layout-nrow=2}
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-bode-plot-ft-vs-mag >}}
 
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-bode-plot-ft-vs-phase >}}
 
-In the original circuit we have an additional pole at $s = 201$, which is expendable.
+Bode Plots
+:::
 
+In the original circuit we have an additional pole at $s = 201$, which is expendable (@fig-pole-zero-plot-original).
+
+In @fig-pole-zero-plot-original-without-201 we remove this pole, for better comparison with the reduced circuit (@fig-pole-zero-plot-reduced), where that pole is no longer present, but the others still are.
+
+::: {#fig-ticer-pole-zero layout-nrow=3}
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original >}}
-
-If we remove this pole (for better comparison), we have:
 
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original-without-201 >}}
 
-So in the reduced circuit, that pole is no longer present, but the others are.
-
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-reduced >}}
+
+Pole-Zero Plots
+:::
 
 
 
