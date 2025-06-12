@@ -50,6 +50,8 @@ Please feel free to create issues and/or submit pull requests on GitHub to fix e
 The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `MAGIC`, `protobuf`, `Quarto`, `Python`, `ngspice`, `Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`…
 :::
 
+## Status  {#sec-into-klayout-pex-prototype-status}
+
 ::: {.callout-caution}
 Currently, `KPEX` is developed as a Python prototype, using the [KLayout Python API](https://www.klayout.de/doc-qt5/code/).
 This allows for a faster development cycle during the current prototyping phase.
@@ -57,8 +59,6 @@ This allows for a faster development cycle during the current prototyping phase.
 Eventually, critical parts will be re-implemented (in C++, and parallelized), to improve performance.
 As we're already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.
 :::
-
-## Status
 
 {{< include _status.qmd >}}
 

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-# `KPEX/FasterCap` Engine
+# `KPEX/FasterCap` Engine  {#sec-kpex-fastercap}
 
 `FasterCap` is a 3D and 2D parallel capacitance field solver, inspired by `FastCap2`.
 <https://www.fastfieldsolvers.com/fastercap.htm>

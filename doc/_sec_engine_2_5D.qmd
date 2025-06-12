@@ -18,11 +18,29 @@ limitations under the License.
 
 Field solvers are precise, yet slow, they are useful to obtain a golden reference.
 
-For most use cases, a faster engine is desirable-.
+For most use cases, a faster engine is desirable.
 `KPEX/MAGIC` is such an engine, but the `MAGIC` code is tightly coupled with the database, layer/via design choices, and user interface of `MAGIC`. For example, it runs single-threaded.
 
 Therefore, the `KPEX` 2.5D Engine intends to implement the concepts and formulas of `MAGIC` (see @sec-magic-cap-types), but in a way that is best suited to the `KLayout` API.
 
-![`KPEX` 2.5D Engine](figures/kpex-engine-2.5D-overview.svg)
+![`KPEX` 2.5D Engine](figures/kpex-engine-2.5D-overview.svg){#fig-kpex-engine-2.5D-overview}
+
+In @fig-kpex-engine-2.5D-overview, we see that as in the `KPEX/FasterCap` engine (see @sec-kpex-fastercap), a "LVS" script is used to extract the connectivity information and create an LVS report database.
+
+As mentioned in @sec-into-klayout-pex-prototype-status, `KPEX` uses the KLayout API.
+During the coarse of this project, in cooperation with Matthias Köfferlein, the `KLayout` API was extended, in order to simplify parasitic extraction.
+
+The engine uses those new API classes to extract parasitic capacitances:
+
+- `klayout.db.PolygonNeighborhoodVisitor` (since `0.30.1`): used during the extraction of overlap capacitances (see @sec-magic-cap-types-overlap-capacitance)
+- `klayout.db.EdgeNeighborhoodVisitor` (since `0.30.1`): used during the extraction of sidewall capacitances (see @sec-magic-cap-types-sidewall-capacitance) and fringe capacitances  (see @sec-magic-cap-types-fringe-capacitance)
+- `klayout.db.PolygonWithProperties` / `klayout.db.EdgeWithProperties` / `klayout.db.EdgePairWithProperties` / `klayout.db.BoxWithProperties` (since `0.30.1`): used to store the net information directly within geometry objects
+
+The engine uses those new API classes to extract parasitic resistances:
+
+- `klayout.pex` module (since KLayout `0.30.2`)
+   - `klayout.pex.RNetExtractor`: used to extract resistance networks
+   - `klayout.pex.RExtractorTech`: minimal process stack description for conductor and via layers
 
 {{< include _under_construction.qmd >}}
+

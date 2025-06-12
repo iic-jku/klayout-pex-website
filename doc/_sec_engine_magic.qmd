@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-# `KPEX/MAGIC` Engine
+# `KPEX/MAGIC` Engine  {#sec-kpex-magic}
 
 This engine is merely just a wrapper around `magic`, which prepares a TCL script that opens the layout file and starts MAGIC's PEX flow.
 See @sec-first-steps-run-magic-engine to get started with a first extraction example.
@@ -53,7 +53,7 @@ $$
 
 - Coefficients like $C_{perim}$ are part of the tech files (Parasitic Tables)
 
-## Sidewall Capacitance
+## Sidewall Capacitance   {#sec-magic-cap-types-sidewall-capacitance}
 
 ![](figures/magic_cap_type_-_sidewall.svg){width=65%}
 
@@ -74,7 +74,7 @@ $$
 :::
 
 
-## Overlap Capacitance
+## Overlap Capacitance   {#sec-magic-cap-types-overlap-capacitance}
 
 - Overlapping area:
 $$
@@ -83,7 +83,7 @@ $$
 
 ![Overlap Capacitance](figures/magic_cap_type_-_overlap.svg){width=30%}
 
-## Fringe Capacitance
+## Fringe Capacitance   {#sec-magic-cap-types-fringe-capacitance}
 
 ![Fringe Capacitance: Overlapping (1)](figures/magic_cap_type_-_fringe_3D.svg){width=50%}
 
