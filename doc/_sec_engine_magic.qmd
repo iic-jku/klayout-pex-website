@@ -176,7 +176,12 @@ Magic constructs a graph of resistors between nodes
 
 - device terminals
 - pins
-- junctions
+- junctions (vias or branching on the same metal layer)
+
+![](figures/resistance_extraction_example1.svg)
+
+![](figures/resistance_extraction_example2.svg)
+
 
 ### Wire resistance {#sec-magic-resistance-wire}
 
