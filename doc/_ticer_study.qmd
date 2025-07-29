@@ -300,18 +300,21 @@ $$
 \tag{4.1}
 $$
 
+::: {.content-hidden}
 $$
 \textcolor{red}{\text{TODO: why not }\frac{g_{iN} g_{jN}}{s\chi_N} \text{?}}
 $$
-
+:::
 
 - Rules:
    - If nodes $i$ and $j$ had been connected to $N$ through conductances $g_{iN}$ and $g_{jN}$, insert conductance $\frac{g_{iN} g_{jN}}{\gamma_N}$ from $i$ to $j$
    - If node $i$ had a capacitor $c_{iN}$ to $N$, and node $j$ had a capacitor $c_{jN}$ to $N$, insert a capacitor $\frac{c_{iN} c_{jN}}{\gamma_N}$ from $i$ to $j$
 
+::: {.content-hidden}
 $$
 \textcolor{red}{\text{TODO: why not }\frac{c_{iN} c_{jN}}{\chi_N} \text{?}}
 $$
+:::
 
 
 ## TICER 2007 paper: Pseudocode
