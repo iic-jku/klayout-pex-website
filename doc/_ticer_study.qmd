@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-# Netlist reduction: Feasibility study
+# Netlist reduction: Feasibility study  {#sec-netlist-reduction-feasibility-study}
 
 ## TICER algorithm: TIme-Constant Equilibration Reduction
 
@@ -316,8 +316,7 @@ $$
 $$
 :::
 
-
-## TICER 2007 paper: Pseudocode
+## TICER 2007 paper: Pseudocode  {#sec-ticer-pseudo-code}
 
 This section reviews some aspects of the 2007 TICER paper [@ticer-sheehan-2007].
 
