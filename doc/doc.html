@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-06-27">
+<meta name="dcterms.date" content="2025-07-29">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -98,9 +98,9 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e5be4814725dea48736acb40950f1f11.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-4e25e081efccdd80291a63f8da4c21ab.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-e5be4814725dea48736acb40950f1f11.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-4c655423fa628e8db4e72bbd8cc85dd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-30e136824c92c3357f4818064204e119.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4c655423fa628e8db4e72bbd8cc85dd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -445,7 +445,7 @@ window.Quarto = {
   <li><a href="#test-pattern-r_contact_1x1_minsize_mcon" id="toc-test-pattern-r_contact_1x1_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></a></li>
   <li><a href="#test-pattern-r_contact_2x2_minsize_mcon" id="toc-test-pattern-r_contact_2x2_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_2x2_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_2x2_minsize_mcon</code></a></li>
   </ul></li>
-  <li><a href="#netlist-reduction-feasibility-study" id="toc-netlist-reduction-feasibility-study" class="nav-link" data-scroll-target="#netlist-reduction-feasibility-study"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</a>
+  <li><a href="#sec-netlist-reduction-feasibility-study" id="toc-sec-netlist-reduction-feasibility-study" class="nav-link" data-scroll-target="#sec-netlist-reduction-feasibility-study"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</a>
   <ul class="collapse">
   <li><a href="#ticer-algorithm-time-constant-equilibration-reduction" id="toc-ticer-algorithm-time-constant-equilibration-reduction" class="nav-link" data-scroll-target="#ticer-algorithm-time-constant-equilibration-reduction"><span class="header-section-number">8.1</span> TICER algorithm: TIme-Constant Equilibration Reduction</a>
   <ul class="collapse">
@@ -453,7 +453,7 @@ window.Quarto = {
   <li><a href="#quick-nodes" id="toc-quick-nodes" class="nav-link" data-scroll-target="#quick-nodes"><span class="header-section-number">8.1.2</span> Quick Nodes</a></li>
   <li><a href="#slow-nodes" id="toc-slow-nodes" class="nav-link" data-scroll-target="#slow-nodes"><span class="header-section-number">8.1.3</span> Slow Nodes</a></li>
   </ul></li>
-  <li><a href="#ticer-2007-paper-pseudocode" id="toc-ticer-2007-paper-pseudocode" class="nav-link" data-scroll-target="#ticer-2007-paper-pseudocode"><span class="header-section-number">8.2</span> TICER 2007 paper: Pseudocode</a>
+  <li><a href="#sec-ticer-pseudo-code" id="toc-sec-ticer-pseudo-code" class="nav-link" data-scroll-target="#sec-ticer-pseudo-code"><span class="header-section-number">8.2</span> TICER 2007 paper: Pseudocode</a>
   <ul class="collapse">
   <li><a href="#pseudocode-for-slow-node-elimination" id="toc-pseudocode-for-slow-node-elimination" class="nav-link" data-scroll-target="#pseudocode-for-slow-node-elimination"><span class="header-section-number">8.2.1</span> Pseudocode for slow node elimination</a></li>
   </ul></li>
@@ -504,7 +504,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 27, 2025</p>
+      <p class="date">July 29, 2025</p>
     </div>
   </div>
   
@@ -6021,7 +6021,7 @@ R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
 <div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="netlist-reduction-feasibility-study" class="level1" data-number="8">
+<section id="sec-netlist-reduction-feasibility-study" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</h1>
 <section id="ticer-algorithm-time-constant-equilibration-reduction" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="ticer-algorithm-time-constant-equilibration-reduction"><span class="header-section-number">8.1</span> TICER algorithm: TIme-Constant Equilibration Reduction</h2>
@@ -6287,9 +6287,6 @@ Note
 \mathbf{E}_{ij} \approx \frac{g_{iN}g_{jN}}{\gamma_N} + s\frac{c_{iN} c_{jN}}{\chi_N}
 \tag{4.1}
 \]</span></p>
-<p><span class="math display">\[
-\textcolor{red}{\text{TODO: why not }\frac{g_{iN} g_{jN}}{s\chi_N} \text{?}}
-\]</span></p>
 <ul>
 <li>Rules:
 <ul>
@@ -6297,13 +6294,10 @@ Note
 <li>If node <span class="math inline">\(i\)</span> had a capacitor <span class="math inline">\(c_{iN}\)</span> to <span class="math inline">\(N\)</span>, and node <span class="math inline">\(j\)</span> had a capacitor <span class="math inline">\(c_{jN}\)</span> to <span class="math inline">\(N\)</span>, insert a capacitor <span class="math inline">\(\frac{c_{iN} c_{jN}}{\gamma_N}\)</span> from <span class="math inline">\(i\)</span> to <span class="math inline">\(j\)</span></li>
 </ul></li>
 </ul>
-<p><span class="math display">\[
-\textcolor{red}{\text{TODO: why not }\frac{c_{iN} c_{jN}}{\chi_N} \text{?}}
-\]</span></p>
 </section>
 </section>
-<section id="ticer-2007-paper-pseudocode" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="ticer-2007-paper-pseudocode"><span class="header-section-number">8.2</span> TICER 2007 paper: Pseudocode</h2>
+<section id="sec-ticer-pseudo-code" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="sec-ticer-pseudo-code"><span class="header-section-number">8.2</span> TICER 2007 paper: Pseudocode</h2>
 <p>This section reviews some aspects of the 2007 TICER paper <span class="citation" data-cites="ticer-sheehan-2007">(<a href="#ref-ticer-sheehan-2007" role="doc-biblioref">Bernard N. Sheehan 2007</a>)</span>.</p>
 <p>User-supplied algorithm parameters:</p>
 <ul>
