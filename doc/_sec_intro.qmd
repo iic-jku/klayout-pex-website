@@ -104,15 +104,19 @@ A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheats
 
 - [Skywater sky130A PDK](https://skywater-pdk.readthedocs.io):
   - optional, for now, KPEX technology specific files are deployed within the `klayout-pex` Python package
-  - `pip3 install --upgrade volare`  (install PDK package manager)
-  - `volare ls-remote` (retrieve available PDK releases
+  - `pip3 install --upgrade ciel`  (install PDK package manager)
+  - `ciel ls-remote --pdk sky130A` (retrieve available PDK releases
     - for example `PRE-RELEASE 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32 (2024.12.11)`)
-  - `volare enable 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32`  (install a PDK version)
+  - `ciel enable --pdk sky130A 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32`  (install a PDK version)
   - PDK files now have been installed under `$HOME/.volare/sky130A`
 
 - [IHP SG13G2 PDK](https://github.com/IHP-GmbH/IHP-Open-PDK):
   - optional, for now, KPEX technology specific files are deployed within the `klayout-pex` Python package
-  - `git clone https://github.com/IHP-GmbH/IHP-Open-PDK`  (install PDK package manager)
+  - `pip3 install --upgrade ciel`  (install PDK package manager)
+  - `ciel ls-remote --pdk ihp-sg13g2` (retrieve available PDK releases
+    - for example `PRE-RELEASE cb7daaa8901016cf7c5d272dfa322c41f024931f (2025.07.18)`)
+  - `ciel enable --pdk ihp-sg13g2 cb7daaa8901016cf7c5d272dfa322c41f024931f`  (install a PDK version)
+  - PDK files now have been installed under `$HOME/.volare/ihp-sg13g2`
 
 ### Useful tools: `meshlab` {#sec-intro-meshlab}
 
