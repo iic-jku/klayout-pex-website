@@ -27,3 +27,5 @@ index_files
 index.tex
 
 notebooks/*_files
+
+/.luarc.json

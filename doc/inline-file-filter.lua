@@ -1,5 +1,5 @@
 --[[
-Copyright (C) 2024 Martin Köhler and co-authors (martin.koehler@jku.at)
+Copyright (C) 2024-2025 Martin Köhler and co-authors (martin.koehler@jku.at)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
