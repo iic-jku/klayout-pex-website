@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-07-29">
+<meta name="dcterms.date" content="2025-08-14">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -93,14 +93,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4c655423fa628e8db4e72bbd8cc85dd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-30e136824c92c3357f4818064204e119.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-4c655423fa628e8db4e72bbd8cc85dd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-18fa3abbf1c5ae3a8a22ddce1a7e52a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-47e542ebd0a9366a00a6ecf85106c601.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-18fa3abbf1c5ae3a8a22ddce1a7e52a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -504,7 +504,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 29, 2025</p>
+      <p class="date">August 14, 2025</p>
     </div>
   </div>
   
@@ -683,18 +683,24 @@ Linux
 <li><a href="https://skywater-pdk.readthedocs.io">Skywater sky130A PDK</a>:
 <ul>
 <li>optional, for now, KPEX technology specific files are deployed within the <code>klayout-pex</code> Python package</li>
-<li><code>pip3 install --upgrade volare</code> (install PDK package manager)</li>
-<li><code>volare ls-remote</code> (retrieve available PDK releases
+<li><code>pip3 install --upgrade ciel</code> (install PDK package manager)</li>
+<li><code>ciel ls-remote --pdk sky130A</code> (retrieve available PDK releases
 <ul>
 <li>for example <code>PRE-RELEASE 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32 (2024.12.11)</code>)</li>
 </ul></li>
-<li><code>volare enable 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32</code> (install a PDK version)</li>
+<li><code>ciel enable --pdk sky130A 0c1df35fd535299ea1ef74d1e9e15dedaeb34c32</code> (install a PDK version)</li>
 <li>PDK files now have been installed under <code>$HOME/.volare/sky130A</code></li>
 </ul></li>
 <li><a href="https://github.com/IHP-GmbH/IHP-Open-PDK">IHP SG13G2 PDK</a>:
 <ul>
 <li>optional, for now, KPEX technology specific files are deployed within the <code>klayout-pex</code> Python package</li>
-<li><code>git clone https://github.com/IHP-GmbH/IHP-Open-PDK</code> (install PDK package manager)</li>
+<li><code>pip3 install --upgrade ciel</code> (install PDK package manager)</li>
+<li><code>ciel ls-remote --pdk ihp-sg13g2</code> (retrieve available PDK releases
+<ul>
+<li>for example <code>PRE-RELEASE cb7daaa8901016cf7c5d272dfa322c41f024931f (2025.07.18)</code>)</li>
+</ul></li>
+<li><code>ciel enable --pdk ihp-sg13g2 cb7daaa8901016cf7c5d272dfa322c41f024931f</code> (install a PDK version)</li>
+<li>PDK files now have been installed under <code>$HOME/.volare/ihp-sg13g2</code></li>
 </ul></li>
 </ul>
 </section>
