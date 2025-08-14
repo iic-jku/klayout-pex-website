@@ -23,6 +23,7 @@ Please keep in mind that this software is early stage, and not yet intended for 
 | `KPEX/MAGIC`       | `CC`, `RC` | Usable                 | Wrapper engine, using installed `magic` tool                               |
 | `KPEX/FasterCap`   | `CC`       | Usable, **pending QA** | Field solver engine using `FasterCap`                                      |
 | `KPEX/FastHenry2`  | `R`, `L`   | Planned                | Field solver engine using `FastHenry2`                                     |
-| `KPEX/2.5D`        | `CC`       | **Under construction** | Prototype engine implementing MAGIC concepts/formulas with `KLayout` means |
-| `KPEX/2.5D`        | `R`, `RC`  | Planned                | Prototype engine implementing MAGIC concepts/formulas with `KLayout` means |
+| `KPEX/2.5D`        | `CC`       | Usable, **pending QA** | Prototype engine implementing MAGIC concepts/formulas with `KLayout` means |
+| `KPEX/2.5D`        | `R`        | Usable, **pending QA** | Prototype engine implementing resistance extraction with `KLayout` means   |
+| `KPEX/2.5D`        | `RC`,`RCC` | Planned                |                                                                            |
 
