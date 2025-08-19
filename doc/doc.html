@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-08-14">
+<meta name="dcterms.date" content="2025-08-19">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -443,7 +443,7 @@ window.Quarto = {
   <li><a href="#test-pattern-sideoverlap_simple_plates_li1_m1" id="toc-test-pattern-sideoverlap_simple_plates_li1_m1" class="nav-link" data-scroll-target="#test-pattern-sideoverlap_simple_plates_li1_m1"><span class="header-section-number">7.3</span> Test Pattern <code>sideoverlap_simple_plates_li1_m1</code></a></li>
   <li><a href="#test-pattern-r_single_wire_li1" id="toc-test-pattern-r_single_wire_li1" class="nav-link" data-scroll-target="#test-pattern-r_single_wire_li1"><span class="header-section-number">7.4</span> Test Pattern <code>r_single_wire_li1</code></a></li>
   <li><a href="#test-pattern-r_contact_1x1_minsize_mcon" id="toc-test-pattern-r_contact_1x1_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></a></li>
-  <li><a href="#test-pattern-r_contact_2x2_minsize_mcon" id="toc-test-pattern-r_contact_2x2_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_2x2_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_2x2_minsize_mcon</code></a></li>
+  <li><a href="#test-pattern-r_wire_voltage_divider_li1" id="toc-test-pattern-r_wire_voltage_divider_li1" class="nav-link" data-scroll-target="#test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.6</span> Test Pattern <code>r_wire_voltage_divider_li1</code></a></li>
   </ul></li>
   <li><a href="#sec-netlist-reduction-feasibility-study" id="toc-sec-netlist-reduction-feasibility-study" class="nav-link" data-scroll-target="#sec-netlist-reduction-feasibility-study"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</a>
   <ul class="collapse">
@@ -504,7 +504,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 14, 2025</p>
+      <p class="date">August 19, 2025</p>
     </div>
   </div>
   
@@ -5044,7 +5044,7 @@ n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\rig
 <h1 data-number="6"><span class="header-section-number">6</span> <code>KPEX/2.5D</code> Engine</h1>
 <p>Field solvers are precise, yet slow, they are useful to obtain a golden reference.</p>
 <p>For most use cases, a faster engine is desirable. <code>KPEX/MAGIC</code> is such an engine, but the <code>MAGIC</code> code is tightly coupled with the database, layer/via design choices, and user interface of <code>MAGIC</code>. For example, it runs single-threaded.</p>
-<p>Therefore, the <code>KPEX</code> 2.5D Engine intends to implement the concepts and formulas of <code>MAGIC</code> (see <a href="#sec-magic-cap-types" class="quarto-xref">Section&nbsp;5.2</a>), but in a way that is best suited to the <code>KLayout</code> API.</p>
+<p>Therefore, the <code>KPEX</code> 2.5D Engine intends to implement the concepts and formulas of <code>MAGIC</code> (see <a href="#sec-magic-cap-types" class="quarto-xref">Section&nbsp;5.2</a>), but in a way that is best suited to the <code>KLayout</code> API, and is modular and open for parallel execution.</p>
 <div id="fig-kpex-engine-2.5D-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-kpex-engine-2.5D-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -5969,67 +5969,63 @@ R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
 <span id="cb13-10"><a href="#cb13-10"></a>    exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm</span>
 <span id="cb13-11"><a href="#cb13-11"></a>    squaresx=1, squaresy=1, resistor-&gt;rr_value = 9300 mΩ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="test-pattern-r_contact_2x2_minsize_mcon" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="test-pattern-r_contact_2x2_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_2x2_minsize_mcon</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz</a></p>
-<div id="cell-r_contact_2x2_minsize_mcon" class="cell" data-execution_count="14">
-<div class="cell-output cell-output-display" data-execution_count="14">
-<div id="r_contact_2x2_minsize_mcon" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="doc_files/figure-html/r_contact_2x2_minsize_mcon-output-1.svg" class="img-fluid figure-img"></p>
-<figcaption>Resistance of a minimum sized 2x2 via on mcon.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Layers:
-<ul>
-<li>Top Layer: <code>met1</code></li>
-<li>Via: <code>mcon</code></li>
-<li>Bottom Layer: <code>li1</code></li>
-</ul></li>
-<li>Design rules:
-<ul>
-<li>Via width: <span class="math inline">\(viawidth = 0.17\,\mu m\)</span></li>
-<li>Via spacing: <span class="math inline">\(spacing = 0.19\,\mu m\)</span></li>
-<li>Via border: <span class="math inline">\(border = 0.0\,\mu m\)</span></li>
-</ul></li>
-<li>Parasitic Table Coefficient <span class="math inline">\(R_{coeff}(mcon) = 9300\,mΩ\)</span></li>
-<li>Drawn via:
-<ul>
-<li><span class="math inline">\(w = 0.53\,\mu m\)</span></li>
-<li><span class="math inline">\(h = 0.53\,\mu m\)</span></li>
-</ul></li>
-</ul>
-<p>If we apply the formula illustrated in <a href="#sec-magic-resistance-via" class="quarto-xref">Section&nbsp;5.8.2</a>, we get</p>
-<p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{w - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
-\]</span></p>
-<p><span class="math display">\[
-n_x = 1 + \left\lfloor\frac{0.53\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
-\]</span></p>
-<p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{h - (viawidth + 2 * border)}{viawidth + spacing}\right\rfloor
-\]</span></p>
-<p><span class="math display">\[
-n_y = 1 + \left\lfloor\frac{0.53\,\mu m - (0.17 + 2 * 0.0)\,\mu m}{0.17\,\mu m + 0.19\,\mu m}\right\rfloor = 1 + \left\lfloor 1.0\right\rfloor = 2
-\]</span></p>
-<p><span class="math display">\[
-R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{via count}}\right]
-\]</span></p>
-<p><span class="math display">\[
-R_{via} = \frac{9300\,mΩ}{2 * 2} = 2325\,mΩ = 2.325\,Ω
-\]</span></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
-<span id="cb14-2"><a href="#cb14-2"></a>----------------------------------------------------</span>
-<span id="cb14-3"><a href="#cb14-3"></a>...</span>
-<span id="cb14-4"><a href="#cb14-4"></a>Warning:  Ports "TOP" and "BOT" are electrically shorted.</span>
-<span id="cb14-5"><a href="#cb14-5"></a>...</span>
-<span id="cb14-6"><a href="#cb14-6"></a>ResDoContacts: (null) (0.265, 0.265) &lt;-&gt; (null) (0.265, 0.265) @ v0</span>
-<span id="cb14-7"><a href="#cb14-7"></a>    W = 0.53 µm, H = 0.53 µm</span>
-<span id="cb14-8"><a href="#cb14-8"></a>    exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm</span>
-<span id="cb14-9"><a href="#cb14-9"></a>    squaresx=2, squaresy=2, resistor-&gt;rr_value = 2325 mΩ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="test-pattern-r_wire_voltage_divider_li1" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.6</span> Test Pattern <code>r_wire_voltage_divider_li1</code></h2>
+<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz</a></p>
+<p><img src="../figures/test_patterns/r_wire_voltage_divider_li1.png" class="img-fluid" alt="Crossection through the via stack"></p>
+<p>With MAGIC, we get (again, R3-R8 are redundant):</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource spice number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a>.subckt r_wire_voltage_divider_li1 B A C</span>
+<span id="cb14-2"><a href="#cb14-2"></a>R0 A C.n0 426.668</span>
+<span id="cb14-3"><a href="#cb14-3"></a>R1 C.n0 B 413.868</span>
+<span id="cb14-4"><a href="#cb14-4"></a>R2 C.n0 C 72.5338</span>
+<span id="cb14-5"><a href="#cb14-5"></a>.ends</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Resistances between pins</caption>
+<colgroup>
+<col style="width: 17%">
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 19%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Description</th>
+<th style="text-align: left;">Layer</th>
+<th style="text-align: right;">Node1</th>
+<th style="text-align: right;">Node2</th>
+<th style="text-align: right;">MAGIC [Ω]</th>
+<th style="text-align: left;">KPEX/2.5D [Ω]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">A</td>
+<td style="text-align: right;">internal N1</td>
+<td style="text-align: right;">426.668</td>
+<td style="text-align: left;">426.667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">B</td>
+<td style="text-align: right;">internal N1</td>
+<td style="text-align: right;">413.868</td>
+<td style="text-align: left;">413.867</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">C</td>
+<td style="text-align: right;">internal N1</td>
+<td style="text-align: right;">72.5338</td>
+<td style="text-align: left;">72.533</td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
