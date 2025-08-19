@@ -348,6 +348,8 @@ ResDoContacts: (null) (0.085, 0.085) <-> (null) (0.085, 0.085) @ v0
 	squaresx=1, squaresy=1, resistor->rr_value = 9300 mΩ
 ```
 
+::: {.content-hidden}
+
 ## Test Pattern `r_contact_2x2_minsize_mcon` 
 
 GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz>
@@ -407,3 +409,6 @@ ResDoContacts: (null) (0.265, 0.265) <-> (null) (0.265, 0.265) @ v0
 	exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm
 	squaresx=2, squaresy=2, resistor->rr_value = 2325 mΩ
 ```
+
+:::
+
