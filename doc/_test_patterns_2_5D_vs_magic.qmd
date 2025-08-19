@@ -412,3 +412,31 @@ ResDoContacts: (null) (0.265, 0.265) <-> (null) (0.265, 0.265) @ v0
 
 :::
 
+
+## Test Pattern `r_wire_voltage_divider_li1` 
+
+GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz>
+
+![](/figures/test_patterns/r_wire_voltage_divider_li1.png){fig-alt="Crossection through the via stack"}
+
+With MAGIC, we get (again, R3-R8 are redundant):
+
+---
+code-line-numbers: true
+---
+```spice
+.subckt r_wire_voltage_divider_li1 B A C
+R0 A C.n0 426.668
+R1 C.n0 B 413.868
+R2 C.n0 C 72.5338
+.ends
+```
+
+
+| Description | Layer   | Node1     | Node2        | MAGIC [Ω] | KPEX/2.5D [Ω] |
+|------------:|:--------|----------:|-------------:|----------:|:--------------|
+| Wire        |     li1 | A         | internal N1  |   426.668 |       426.667 |
+| Wire        |     li1 | B         | internal N1  |   413.868 |       413.867 |
+| Wire        |     li1 | C         | internal N1  |   72.5338 |        72.533 |
+: Extracted Parasitic Resistances between pins
+
