@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-09-01">
+<meta name="dcterms.date" content="2025-09-04">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -365,7 +365,7 @@ window.Quarto = {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/martinjankoehler/klayout-pex-website" target="_blank"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/iic-jku/klayout-pex-website" target="_blank"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -504,7 +504,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 1, 2025</p>
+      <p class="date">September 4, 2025</p>
     </div>
   </div>
   
@@ -548,8 +548,8 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>KPEX <em>tool</em> source code itself is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex">follow this link</a>) and shared under the GPL-3.0 license.</p>
-<p>KPEX <em>documentation</em> source code is made publicly available on GitHub (<a href="https://github.com/martinjankoehler/klayout-pex-website">follow this link</a>) and shared under the Apache-2.0 license.</p>
+<p>KPEX <em>tool</em> source code itself is made publicly available on GitHub (<a href="https://github.com/iic-jku/klayout-pex">follow this link</a>) and shared under the GPL-3.0 license.</p>
+<p>KPEX <em>documentation</em> source code is made publicly available on GitHub (<a href="https://github.com/iic-jku/klayout-pex-website">follow this link</a>) and shared under the Apache-2.0 license.</p>
 <p>Please feel free to create issues and/or submit pull requests on GitHub to fix errors and omissions!</p>
 <p>The production of the tool and this document would be impossible without these (and many more) great open-source software products: <code>KLayout</code>, <code>FasterCap</code>, <code>MAGIC</code>, <code>protobuf</code>, <code>Quarto</code>, <code>Python</code>, <code>ngspice</code>, <code>Numpy</code>, <code>Scipy</code>, <code>Matplotlib</code>, <code>Git</code>, <code>Docker</code>, <code>Ubuntu</code>, <code>Linux</code>…</p>
 </div>
@@ -726,7 +726,7 @@ Linux
 <section id="example-layouts" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="example-layouts"><span class="header-section-number">2.1</span> Example Layouts</h2>
 <p>Example layouts are included in the <code>testdata/designs</code> subdirectory of the KLayout-PEX source code:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">git</span> clone https://github.com/martinjankoehler/klayout-pex.git </span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">git</span> clone https://github.com/iic-jku/klayout-pex.git </span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co"># for sky130A</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="fu">find</span> testdata/designs/sky130A <span class="at">-name</span> <span class="st">"*.gds.gz"</span></span>
@@ -864,8 +864,8 @@ g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08</code></pre>
 </div>
 <p>These customized “LVS” scripts are stored in:</p>
 <ul>
-<li>Skywater sky130A: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs"><code>pdk/sky130A/libs.tech/kpex/sky130.lvs</code></a></li>
-<li>IHP SG13G2: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs"><code>pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs</code></a></li>
+<li>Skywater sky130A: <a href="https://github.com/iic-jku/klayout-pex/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs"><code>pdk/sky130A/libs.tech/kpex/sky130.lvs</code></a></li>
+<li>IHP SG13G2: <a href="https://github.com/iic-jku/klayout-pex/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs"><code>pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs</code></a></li>
 </ul>
 <p>What’s specific about this customization:</p>
 <ul>
@@ -880,9 +880,9 @@ g3_C0  -1.69838e-09 -1.48846e-08 1.64502e-08</code></pre>
 <ul>
 <li>formal schema files, defining the structure and data types involved
 <ul>
-<li><a href="https://github.com/martinjankoehler/klayout-pex/blob/main/protos/tech.proto"><code>protos/tech.proto</code></a>: main schema / entry point, includes the others</li>
-<li><a href="https://github.com/martinjankoehler/klayout-pex/blob/main/protos/process_stack.proto"><code>protos/process_stack.proto</code></a>: describes details of the process stack, such as dielectrics and heights of layers</li>
-<li><a href="https://github.com/martinjankoehler/klayout-pex/blob/main/protos/process_parasitics.proto"><code>protos/process_parasitics.proto</code></a>: parasitic tables, used to parametrize the 2.5D engine</li>
+<li><a href="https://github.com/iic-jku/klayout-pex/blob/main/protos/tech.proto"><code>protos/tech.proto</code></a>: main schema / entry point, includes the others</li>
+<li><a href="https://github.com/iic-jku/klayout-pex/blob/main/protos/process_stack.proto"><code>protos/process_stack.proto</code></a>: describes details of the process stack, such as dielectrics and heights of layers</li>
+<li><a href="https://github.com/iic-jku/klayout-pex/blob/main/protos/process_parasitics.proto"><code>protos/process_parasitics.proto</code></a>: parasitic tables, used to parametrize the 2.5D engine</li>
 </ul></li>
 <li>multiple concrete instantiations, that adhere to this schema (called <em>messages</em> in the <code>protobuf</code> lingo)
 <ul>
@@ -5117,7 +5117,7 @@ Note
 </div>
 <section id="test-pattern-single_plate_100um_x_100um_li1_over_substrate" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="test-pattern-single_plate_100um_x_100um_li1_over_substrate"><span class="header-section-number">7.1</span> Test Pattern <code>single_plate_100um_x_100um_li1_over_substrate</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz</a></p>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz</a></p>
 <div id="cell-single_plate_100um_x_100um_li1_over_substrate_-_overlap" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div id="single_plate_100um_x_100um_li1_over_substrate_-_overlap" class="quarto-figure quarto-figure-center anchored">
@@ -5254,7 +5254,7 @@ Note
 </section>
 <section id="test-pattern-sidewall_20um_length_distance_200nm_li1" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="test-pattern-sidewall_20um_length_distance_200nm_li1"><span class="header-section-number">7.2</span> Test Pattern <code>sidewall_20um_length_distance_200nm_li1</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz</a></p>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz</a></p>
 <div id="cell-sidewall_20um_length_distance_200nm_li1_-_overlap" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div id="sidewall_20um_length_distance_200nm_li1_-_overlap" class="quarto-figure quarto-figure-center anchored">
@@ -5529,7 +5529,7 @@ Note
 </section>
 <section id="test-pattern-sideoverlap_simple_plates_li1_m1" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="test-pattern-sideoverlap_simple_plates_li1_m1"><span class="header-section-number">7.3</span> Test Pattern <code>sideoverlap_simple_plates_li1_m1</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz</a></p>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz</a></p>
 <div id="cell-sideoverlap_simple_plates_li1_m1_-_overlap" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div id="sideoverlap_simple_plates_li1_m1_-_overlap" class="quarto-figure quarto-figure-center anchored">
@@ -5856,7 +5856,7 @@ Note
 </section>
 <section id="test-pattern-r_single_wire_li1" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="test-pattern-r_single_wire_li1"><span class="header-section-number">7.4</span> Test Pattern <code>r_single_wire_li1</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz</a></p>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz</a></p>
 <div id="cell-r_single_wire_li1" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div id="r_single_wire_li1" class="quarto-figure quarto-figure-center anchored">
@@ -5907,7 +5907,7 @@ Note
 </section>
 <section id="test-pattern-r_contact_1x1_minsize_mcon" class="level2" data-number="7.5">
 <h2 data-number="7.5" class="anchored" data-anchor-id="test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz</a></p>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz</a></p>
 <div id="cell-r_contact_1x1_minsize_mcon" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div id="r_contact_1x1_minsize_mcon" class="quarto-figure quarto-figure-center anchored">
@@ -5971,7 +5971,7 @@ R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
 </section>
 <section id="test-pattern-r_wire_voltage_divider_li1" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.6</span> Test Pattern <code>r_wire_voltage_divider_li1</code></h2>
-<p>GDS: <a href="https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz" class="uri">https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz</a></p>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz</a></p>
 <p><img src="../figures/test_patterns/r_wire_voltage_divider_li1.png" class="img-fluid" alt="Crossection through the via stack"></p>
 <p>With MAGIC, we get (again, R3-R8 are redundant):</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode numberSource spice number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a>.subckt r_wire_voltage_divider_li1 B A C</span>
@@ -6916,7 +6916,7 @@ Sheehan, Bernard N. 2007. <span>“Realizable Reduction of <span class="math inl
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/martinjankoehler\.github\.io\/klayout-pex-website\/");
+        var filterRegex = new RegExp("https:\/\/iic-jku\.github\.io\/klayout-pex-website\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -7253,7 +7253,7 @@ Sheehan, Bernard N. 2007. <span>“Realizable Reduction of <span class="math inl
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>Website built with <a href="https://quarto.org/" class="external" target="_blank">Quarto</a> <br> <a href="https://github.com/martinjankoehler/klayout-pex-website" class="external" target="_blank">Code source</a></p>
+<p>Website built with <a href="https://quarto.org/" class="external" target="_blank">Quarto</a> <br> <a href="https://github.com/iic-jku/klayout-pex-website" class="external" target="_blank">Code source</a></p>
 </div>
   </div>
 </footer>
