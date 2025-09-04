@@ -41,9 +41,9 @@ There are multiple PEX engines supported, currently:
 * Analytical 2.5D engine (parasitic concepts and formulas of MAGIC, implemented using KLayout methods)
 
 ::: {.callout-tip}
-KPEX *tool* source code itself is made publicly available on GitHub ([follow this link](https://github.com/martinjankoehler/klayout-pex)) and shared under the GPL-3.0 license.
+KPEX *tool* source code itself is made publicly available on GitHub ([follow this link](https://github.com/iic-jku/klayout-pex)) and shared under the GPL-3.0 license.
 
-KPEX *documentation* source code is made publicly available on GitHub ([follow this link](https://github.com/martinjankoehler/klayout-pex-website)) and shared under the Apache-2.0 license.
+KPEX *documentation* source code is made publicly available on GitHub ([follow this link](https://github.com/iic-jku/klayout-pex-website)) and shared under the Apache-2.0 license.
 
 Please feel free to create issues and/or submit pull requests on GitHub to fix errors and omissions!
 

@@ -3,7 +3,7 @@ pagetitle: "About"
 ---
 
 [![PyPi](https://img.shields.io/pypi/v/klayout-pex)](https://pypi.org/project/klayout-pex/)
-[![GitHub issues](https://img.shields.io/badge/issue_tracking-github-blue.svg)](https://github.com/martinjankoehler/klayout-pex/issues)
+[![GitHub issues](https://img.shields.io/badge/issue_tracking-github-blue.svg)](https://github.com/iic-jku/klayout-pex/issues)
 
 # KLayout-PEX
 

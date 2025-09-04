@@ -5,7 +5,7 @@
 ## Johannes Kepler University, Institute for Integrated Circuits.
 ##
 ## This file is part of KPEX Documentation 
-## (see https://github.com/martinjankoehler/klayout-pex-website).
+## (see https://github.com/iic-jku/klayout-pex-website).
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -27,4 +27,4 @@ python3 -m licenseheaders \
 	--years "2024" \
 	--owner "Martin Jan Köhler and Harald Pretl" \
 	--projname "KPEX Documentation" \
-	--projurl "https://github.com/martinjankoehler/klayout-pex-website" $*
+	--projurl "https://github.com/iic-jku/klayout-pex-website" $*
