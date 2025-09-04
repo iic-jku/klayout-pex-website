@@ -30,7 +30,7 @@ Notes about this comparison:
 
 ## Test Pattern `single_plate_100um_x_100um_li1_over_substrate`
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/single_plate_100um_x_100um_li1_over_substrate.gds.gz>
 
 {{< include /figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_overlap.qmd >}}
 
@@ -69,7 +69,7 @@ CapDebug ---
 
 ## Test Pattern `sidewall_20um_length_distance_200nm_li1`
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sidewall_20um_length_distance_200nm_li1.gds.gz>
 
 {{< include /figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_overlap.qmd >}}
 
@@ -137,7 +137,7 @@ exttospice finished.
 
 ## Test Pattern `sideoverlap_simple_plates_li1_m1` 
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/sideoverlap_simple_plates_li1_m1.gds.gz>
 
 {{< include /figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_overlap.qmd >}}
 
@@ -241,7 +241,7 @@ CapDebug (sideoverlaphalo): met1-li1 += 0.065426 fF …	now met1-li1 == 0.125232
 
 ## Test Pattern `r_single_wire_li1` 
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_single_wire_li1.gds.gz>
 
 {{< include /figures/test_patterns/r_single_wire_li1.qmd >}}
 
@@ -286,7 +286,7 @@ They are not realistic examples, so it appears to be a bug in that corner case, 
 
 ## Test Pattern `r_contact_1x1_minsize_mcon` 
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz>
 
 {{< include /figures/test_patterns/r_contact_1x1_minsize_mcon.qmd >}}
 
@@ -352,7 +352,7 @@ ResDoContacts: (null) (0.085, 0.085) <-> (null) (0.085, 0.085) @ v0
 
 ## Test Pattern `r_contact_2x2_minsize_mcon` 
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_2x2_minsize_mcon.gds.gz>
 
 {{< include /figures/test_patterns/r_contact_2x2_minsize_mcon.qmd >}}
 
@@ -415,7 +415,7 @@ ResDoContacts: (null) (0.265, 0.265) <-> (null) (0.265, 0.265) @ v0
 
 ## Test Pattern `r_wire_voltage_divider_li1` 
 
-GDS: <https://github.com/martinjankoehler/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz>
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz>
 
 ![](/figures/test_patterns/r_wire_voltage_divider_li1.png){fig-alt="Crossection through the via stack"}
 

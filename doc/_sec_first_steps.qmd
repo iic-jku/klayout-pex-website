@@ -23,7 +23,7 @@ limitations under the License.
 
 Example layouts are included in the `testdata/designs` subdirectory of the KLayout-PEX source code:
 ```bash
-git clone https://github.com/martinjankoehler/klayout-pex.git 
+git clone https://github.com/iic-jku/klayout-pex.git 
 
 # for sky130A
 find testdata/designs/sky130A -name "*.gds.gz"

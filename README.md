@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2024 Martin Jan Köhler and Harald Pretl
 Johannes Kepler University, Institute for Integrated Circuits.
 
 This file is part of KPEX Documentation 
-(see https://github.com/martinjankoehler/klayout-pex-website).
+(see https://github.com/iic-jku/klayout-pex-website).
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
 
 ###
 
-Online at https://martinjankoehler.github.io/klayout-pex-website/
+Online at https://iic-jku.github.io/klayout-pex-website/
 
 ### Prerequisites
 
