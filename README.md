@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
 
 ###
 
-Online at https://martinjankoehler.github.io/klayout-pex-website/
+Online at https://iic-jku.github.io/klayout-pex-website/
 
 ### Prerequisites
 
