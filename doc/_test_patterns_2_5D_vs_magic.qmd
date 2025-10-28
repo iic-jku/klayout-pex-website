@@ -533,3 +533,90 @@ R10 li1.n0 met4 0.00687288
 ; removed the redundant devices (5.3.540)
 .ends
 ```
+
+## Test Pattern `nfet_li1` 
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/nfet_li1.gds.gz>
+
+![](figures/test_patterns/r_nfet_li1.png){fig-alt="nfet example"}
+
+| Device  | Description | Layer   | Node1             | Node2             | MAGIC [Ω] | KPEX/2.5D [Ω] |
+|---------|------------:|:--------|------------------:|------------------:|----------:|:--------------|
+| R18     |     Wire    |    li1  | internal `$1.18`  | pin `S`           |           |        43.294 |
+| R2      |     Wire    |    poly | internal `$0.17`  | pin `poly`        |           |           0.0 |
+| R1      |      Via    |   licon | internal `$0.17`  | internal `$1.18`  |           |         152.0 |
+: Extracted Parasitic Resistances
+
+KPEX/2.5D extraction results are shown below.
+
+---
+code-line-numbers: true
+---
+```csv
+Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
+R8;$1.18;S;;43.294
+R1;$0.13;$1.18;;370.0
+R4;$0.17;$1.18;;152.0
+R6;$1.18;$3.18;;51.2
+R7;$1.18;G;;6.4
+R2;$0.13;D;;0.0
+R3;$0.13;S;;0.0
+R5;$0.17;G;;234.381
+R9;$2.13;$3.18;;370.0
+R10;$2.13;D;;0.0
+R11;$2.13;S;;0.0
+R12;$3.18;D;;30.494
+```
+
+MAGIC extraction results are shown below.
+
+---
+code-line-numbers: true
+---
+```spice
+.subckt nfet_li1 VNB G S D
+X0 D G S VNB sky130_fd_pr__nfet_01v8 ad=0.169 pd=1.82 as=0.169 ps=1.82 w=0.65 l=0.15
+R0 G G.n0 373.693
+.ends
+```
+
+## Test Pattern `nfet_li1_redux` 
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/nfet_li1_redux.gds.gz>
+
+![](figures/test_patterns/r_nfet_li1_redux.png){fig-alt="nfet example"}
+
+| Device  | Description | Layer   | Node1             | Node2             | MAGIC [Ω] | KPEX/2.5D [Ω] |
+|---------|------------:|:--------|------------------:|------------------:|----------:|:--------------|
+| R3     |     Wire    |    li1  | internal `$1.18`  | pin `S`           |           |        43.294 |
+| R2      |     Wire    |    poly | internal `$0.17`  | pin `poly`        |           |           0.0 |
+| R1      |      Via    |   licon | internal `$0.17`  | internal `$1.18`  |           |         152.0 |
+: Extracted Parasitic Resistances
+
+KPEX/2.5D extraction results are shown below.
+
+---
+code-line-numbers: true
+---
+```csv
+Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
+R1;$0.13;$1.18;;419.333
+R2;$0.13;D;;0.0
+R3;$0.13;S;;0.0
+R4;$0.17;$1.18;;152.0
+R5;$1.18;D;;47.059
+R6;$1.18;G;;2.418
+R7;$1.18;S;;68.894
+```
+
+MAGIC extraction results are shown below.
+
+---
+code-line-numbers: true
+---
+```spice
+.subckt nfet_li1 VNB G S D
+X0 D G S VNB sky130_fd_pr__nfet_01v8 ad=0.042 pd=0.86 as=0.042 ps=0.86 w=0.15 l=0.15
+R0 G G.n0 455.149
+.ends
+```
