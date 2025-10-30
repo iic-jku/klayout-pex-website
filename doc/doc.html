@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2025-10-28">
+<meta name="dcterms.date" content="2025-10-30">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -445,8 +445,9 @@ window.Quarto = {
   <li><a href="#test-pattern-sidewall_20um_length_distance_200nm_li1" id="toc-test-pattern-sidewall_20um_length_distance_200nm_li1" class="nav-link" data-scroll-target="#test-pattern-sidewall_20um_length_distance_200nm_li1"><span class="header-section-number">7.2</span> Test Pattern <code>sidewall_20um_length_distance_200nm_li1</code></a></li>
   <li><a href="#test-pattern-sideoverlap_simple_plates_li1_m1" id="toc-test-pattern-sideoverlap_simple_plates_li1_m1" class="nav-link" data-scroll-target="#test-pattern-sideoverlap_simple_plates_li1_m1"><span class="header-section-number">7.3</span> Test Pattern <code>sideoverlap_simple_plates_li1_m1</code></a></li>
   <li><a href="#test-pattern-r_single_wire_li1" id="toc-test-pattern-r_single_wire_li1" class="nav-link" data-scroll-target="#test-pattern-r_single_wire_li1"><span class="header-section-number">7.4</span> Test Pattern <code>r_single_wire_li1</code></a></li>
-  <li><a href="#test-pattern-r_contact_1x1_minsize_mcon" id="toc-test-pattern-r_contact_1x1_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></a></li>
-  <li><a href="#test-pattern-r_wire_voltage_divider_li1" id="toc-test-pattern-r_wire_voltage_divider_li1" class="nav-link" data-scroll-target="#test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.6</span> Test Pattern <code>r_wire_voltage_divider_li1</code></a></li>
+  <li><a href="#test-pattern-r_wire_voltage_divider_li1" id="toc-test-pattern-r_wire_voltage_divider_li1" class="nav-link" data-scroll-target="#test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.5</span> Test Pattern <code>r_wire_voltage_divider_li1</code></a></li>
+  <li><a href="#test-pattern-r_contact_1x1_minsize_mcon" id="toc-test-pattern-r_contact_1x1_minsize_mcon" class="nav-link" data-scroll-target="#test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></a></li>
+  <li><a href="#test-pattern-r_via_stack_1x1_minsize_poly_to_met5" id="toc-test-pattern-r_via_stack_1x1_minsize_poly_to_met5" class="nav-link" data-scroll-target="#test-pattern-r_via_stack_1x1_minsize_poly_to_met5"><span class="header-section-number">7.7</span> Test Pattern <code>r_via_stack_1x1_minsize_poly_to_met5</code></a></li>
   </ul></li>
   <li><a href="#sec-netlist-reduction-feasibility-study" id="toc-sec-netlist-reduction-feasibility-study" class="nav-link" data-scroll-target="#sec-netlist-reduction-feasibility-study"><span class="header-section-number">8</span> Netlist reduction: Feasibility study</a>
   <ul class="collapse">
@@ -507,7 +508,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 28, 2025</p>
+      <p class="date">October 30, 2025</p>
     </div>
   </div>
   
@@ -5908,8 +5909,66 @@ Note
 </div>
 </div>
 </section>
-<section id="test-pattern-r_contact_1x1_minsize_mcon" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.5</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></h2>
+<section id="test-pattern-r_wire_voltage_divider_li1" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.5</span> Test Pattern <code>r_wire_voltage_divider_li1</code></h2>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz</a></p>
+<p><img src="../figures/test_patterns/r_wire_voltage_divider_li1.png" class="img-fluid" alt="Crossection through the via stack"></p>
+<p>With MAGIC, we get (again, R3-R8 are redundant):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource spice number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href="#cb13-1"></a>.subckt r_wire_voltage_divider_li1 B A C</span>
+<span id="cb13-2"><a href="#cb13-2"></a>R0 A C.n0 426.668</span>
+<span id="cb13-3"><a href="#cb13-3"></a>R1 C.n0 B 413.868</span>
+<span id="cb13-4"><a href="#cb13-4"></a>R2 C.n0 C 72.5338</span>
+<span id="cb13-5"><a href="#cb13-5"></a>.ends</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<caption>Extracted Parasitic Resistances between pins</caption>
+<colgroup>
+<col style="width: 17%">
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 19%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Description</th>
+<th style="text-align: left;">Layer</th>
+<th style="text-align: right;">Node1</th>
+<th style="text-align: right;">Node2</th>
+<th style="text-align: right;">MAGIC [Ω]</th>
+<th style="text-align: left;">KPEX/2.5D [Ω]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">A</td>
+<td style="text-align: right;">internal N1</td>
+<td style="text-align: right;">426.668</td>
+<td style="text-align: left;">426.667</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">B</td>
+<td style="text-align: right;">internal N1</td>
+<td style="text-align: right;">413.868</td>
+<td style="text-align: left;">413.867</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">C</td>
+<td style="text-align: right;">internal N1</td>
+<td style="text-align: right;">72.5338</td>
+<td style="text-align: left;">72.533</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="test-pattern-r_contact_1x1_minsize_mcon" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="test-pattern-r_contact_1x1_minsize_mcon"><span class="header-section-number">7.6</span> Test Pattern <code>r_contact_1x1_minsize_mcon</code></h2>
 <p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_contact_1x1_minsize_mcon.gds.gz</a></p>
 <div id="cell-r_contact_1x1_minsize_mcon" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
@@ -5960,40 +6019,20 @@ R_{via} = \frac{R_{coeff}}{n_x * n_y}   \,\,\,\,\,\,\, \left[\frac{mΩ}{\text{vi
 <p><span class="math display">\[
 R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
 \]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href="#cb13-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
-<span id="cb13-2"><a href="#cb13-2"></a>----------------------------------------------------</span>
-<span id="cb13-3"><a href="#cb13-3"></a>...</span>
-<span id="cb13-4"><a href="#cb13-4"></a>Warning:  Ports "TOP" and "BOT" are electrically shorted.</span>
-<span id="cb13-5"><a href="#cb13-5"></a>Location is (0, 0); drivepoint (0, 0)</span>
-<span id="cb13-6"><a href="#cb13-6"></a>Location is (0, 0); drivepoint (0, 0)</span>
-<span id="cb13-7"><a href="#cb13-7"></a></span>
-<span id="cb13-8"><a href="#cb13-8"></a>ResDoContacts: (null) (0.085, 0.085) &lt;-&gt; (null) (0.085, 0.085) @ v0</span>
-<span id="cb13-9"><a href="#cb13-9"></a>    W = 0.17 µm, H = 0.17 µm</span>
-<span id="cb13-10"><a href="#cb13-10"></a>    exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm</span>
-<span id="cb13-11"><a href="#cb13-11"></a>    squaresx=1, squaresy=1, resistor-&gt;rr_value = 9300 mΩ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="test-pattern-r_wire_voltage_divider_li1" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="test-pattern-r_wire_voltage_divider_li1"><span class="header-section-number">7.6</span> Test Pattern <code>r_wire_voltage_divider_li1</code></h2>
-<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz</a></p>
-<p><img src="../figures/test_patterns/r_wire_voltage_divider_li1.png" class="img-fluid" alt="Crossection through the via stack"></p>
-<p>With MAGIC, we get (again, R3-R8 are redundant):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource spice number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a>.subckt r_wire_voltage_divider_li1 B A C</span>
-<span id="cb14-2"><a href="#cb14-2"></a>R0 A C.n0 426.668</span>
-<span id="cb14-3"><a href="#cb14-3"></a>R1 C.n0 B 413.868</span>
-<span id="cb14-4"><a href="#cb14-4"></a>R2 C.n0 C 72.5338</span>
-<span id="cb14-5"><a href="#cb14-5"></a>.ends</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top table">
-<caption>Extracted Parasitic Resistances between pins</caption>
+<caption>Extracted Parasitic Resistances</caption>
 <colgroup>
-<col style="width: 17%">
-<col style="width: 12%">
-<col style="width: 15%">
-<col style="width: 19%">
-<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 9%">
 <col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 11%">
+<col style="width: 15%">
 </colgroup>
 <thead>
 <tr class="header">
+<th>Device</th>
 <th style="text-align: right;">Description</th>
 <th style="text-align: left;">Layer</th>
 <th style="text-align: right;">Node1</th>
@@ -6004,31 +6043,273 @@ R_{via} = \frac{9300\,mΩ}{1 * 1} = 9300\,mΩ = 9.3\,Ω
 </thead>
 <tbody>
 <tr class="odd">
+<td>R2</td>
 <td style="text-align: right;">Wire</td>
-<td style="text-align: left;">li1</td>
-<td style="text-align: right;">A</td>
-<td style="text-align: right;">internal N1</td>
-<td style="text-align: right;">426.668</td>
-<td style="text-align: left;">426.667</td>
+<td style="text-align: left;">mcon</td>
+<td style="text-align: right;">internal <code>$0.16</code></td>
+<td style="text-align: right;">pin <code>BOT</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">Wire</td>
+<td>R1</td>
+<td style="text-align: right;">Via</td>
 <td style="text-align: left;">li1</td>
-<td style="text-align: right;">B</td>
-<td style="text-align: right;">internal N1</td>
-<td style="text-align: right;">413.868</td>
-<td style="text-align: left;">413.867</td>
+<td style="text-align: right;">internal <code>$0.16</code></td>
+<td style="text-align: right;">internal <code>$1.23</code></td>
+<td style="text-align: right;">9.3</td>
+<td style="text-align: left;">9.3</td>
 </tr>
 <tr class="odd">
+<td>R3</td>
 <td style="text-align: right;">Wire</td>
-<td style="text-align: left;">li1</td>
-<td style="text-align: right;">C</td>
-<td style="text-align: right;">internal N1</td>
-<td style="text-align: right;">72.5338</td>
-<td style="text-align: left;">72.533</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">internal <code>$1.23</code></td>
+<td style="text-align: right;">pin <code>TOP</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
 </tr>
 </tbody>
 </table>
+<p>MAGIC extraction results are shown below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {csv} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href="#cb14-1"></a>Magic 8.3 revision 486 - Compiled on `date`.</span>
+<span id="cb14-2"><a href="#cb14-2"></a>----------------------------------------------------</span>
+<span id="cb14-3"><a href="#cb14-3"></a>...</span>
+<span id="cb14-4"><a href="#cb14-4"></a>Warning:  Ports "TOP" and "BOT" are electrically shorted.</span>
+<span id="cb14-5"><a href="#cb14-5"></a>Location is (0, 0); drivepoint (0, 0)</span>
+<span id="cb14-6"><a href="#cb14-6"></a>Location is (0, 0); drivepoint (0, 0)</span>
+<span id="cb14-7"><a href="#cb14-7"></a></span>
+<span id="cb14-8"><a href="#cb14-8"></a>ResDoContacts: (null) (0.085, 0.085) &lt;-&gt; (null) (0.085, 0.085) @ v0</span>
+<span id="cb14-9"><a href="#cb14-9"></a>    W = 0.17 µm, H = 0.17 µm</span>
+<span id="cb14-10"><a href="#cb14-10"></a>    exts_viaResist[v0]=9300, viawidth=0.17 µm, spacing=0.19 µm, border=0 µm</span>
+<span id="cb14-11"><a href="#cb14-11"></a>    squaresx=1, squaresy=1, resistor-&gt;rr_value = 9300 mΩ</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="test-pattern-r_via_stack_1x1_minsize_poly_to_met5" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="test-pattern-r_via_stack_1x1_minsize_poly_to_met5"><span class="header-section-number">7.7</span> Test Pattern <code>r_via_stack_1x1_minsize_poly_to_met5</code></h2>
+<p>GDS: <a href="https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_via_stack_1x1_minsize_poly_to_met5.gds.gz" class="uri">https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_via_stack_1x1_minsize_poly_to_met5.gds.gz</a></p>
+<p>On each metal layer, a pin is placed directly in middle of the via. <img src="figures/test_patterns/r_via_stack_1x1_minsize_poly_to_met5.svg" class="img-fluid" alt="Crossection through the via stack"></p>
+<table class="caption-top table">
+<caption>Extracted Parasitic Resistances between pins</caption>
+<colgroup>
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 11%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Device</th>
+<th style="text-align: right;">Description</th>
+<th style="text-align: left;">Layer</th>
+<th style="text-align: right;">Node1</th>
+<th style="text-align: right;">Node2</th>
+<th style="text-align: right;">MAGIC [Ω]</th>
+<th style="text-align: left;">KPEX/2.5D [Ω]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R2</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">poly</td>
+<td style="text-align: right;">internal <code>$0.17</code></td>
+<td style="text-align: right;">pin <code>poly</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td>R1</td>
+<td style="text-align: right;">Via</td>
+<td style="text-align: left;">licon</td>
+<td style="text-align: right;">internal <code>$0.17</code></td>
+<td style="text-align: right;">internal <code>$1.18</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">152.0</td>
+</tr>
+<tr class="odd">
+<td>R4</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">internal <code>$1.18</code></td>
+<td style="text-align: right;">pin <code>li1</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td>R3</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">li1</td>
+<td style="text-align: right;">internal <code>$1.18</code></td>
+<td style="text-align: right;">internal <code>$2.18</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td>R8</td>
+<td style="text-align: right;">Via</td>
+<td style="text-align: left;">mcon</td>
+<td style="text-align: right;">internal <code>$2.18</code></td>
+<td style="text-align: right;">internal <code>$3.25</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">9.3</td>
+</tr>
+<tr class="even">
+<td>R10</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">internal <code>$3.25</code></td>
+<td style="text-align: right;">pin <code>met1</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td>R9</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met1</td>
+<td style="text-align: right;">internal <code>$3.25</code></td>
+<td style="text-align: right;">internal <code>$4.25</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td>R11</td>
+<td style="text-align: right;">Via</td>
+<td style="text-align: left;">via</td>
+<td style="text-align: right;">internal <code>$4.25</code></td>
+<td style="text-align: right;">internal <code>$5.26</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">4.5</td>
+</tr>
+<tr class="odd">
+<td>R13</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met2</td>
+<td style="text-align: right;">internal <code>$5.26</code></td>
+<td style="text-align: right;">pin <code>met2</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td>R12</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met2</td>
+<td style="text-align: right;">internal <code>$5.26</code></td>
+<td style="text-align: right;">internal <code>$6.26</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td>R14</td>
+<td style="text-align: right;">Via</td>
+<td style="text-align: left;">via2</td>
+<td style="text-align: right;">internal <code>$6.26</code></td>
+<td style="text-align: right;">internal <code>$7.43</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">3.41</td>
+</tr>
+<tr class="even">
+<td>R16</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met3</td>
+<td style="text-align: right;">internal <code>$7.43</code></td>
+<td style="text-align: right;">pin <code>met3</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td>R15</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met3</td>
+<td style="text-align: right;">internal <code>$7.43</code></td>
+<td style="text-align: right;">internal <code>$8.43</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td>R17</td>
+<td style="text-align: right;">Via</td>
+<td style="text-align: left;">via3</td>
+<td style="text-align: right;">internal <code>$8.43</code></td>
+<td style="text-align: right;">internal <code>$9.40</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">3.41</td>
+</tr>
+<tr class="odd">
+<td>R18</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met4</td>
+<td style="text-align: right;">internal <code>$9.40</code></td>
+<td style="text-align: right;">pin <code>met4</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="even">
+<td>R6</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met4</td>
+<td style="text-align: right;">internal <code>$10.40</code></td>
+<td style="text-align: right;">internal <code>$9.40</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+<tr class="odd">
+<td>R5</td>
+<td style="text-align: right;">Via</td>
+<td style="text-align: left;">via4</td>
+<td style="text-align: right;">internal <code>$10.40</code></td>
+<td style="text-align: right;">internal <code>$11.27</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.38</td>
+</tr>
+<tr class="even">
+<td>R7</td>
+<td style="text-align: right;">Wire</td>
+<td style="text-align: left;">met5</td>
+<td style="text-align: right;">internal <code>$11.27</code></td>
+<td style="text-align: right;">pin <code>met5</code></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;">0.0</td>
+</tr>
+</tbody>
+</table>
+<p>KPEX/2.5D extraction results are shown below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource spice number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a href="#cb15-1"></a>Device;Net1;Net2;Capacitance [fF];Resistance [Ω]</span>
+<span id="cb15-2"><a href="#cb15-2"></a>R2;$0.17;poly;;0.0</span>
+<span id="cb15-3"><a href="#cb15-3"></a>R1;$0.17;$1.18;;152.0</span>
+<span id="cb15-4"><a href="#cb15-4"></a>R4;$1.18;li1;;0.0</span>
+<span id="cb15-5"><a href="#cb15-5"></a>R3;$1.18;$2.18;;0.0</span>
+<span id="cb15-6"><a href="#cb15-6"></a>R8;$2.18;$3.25;;9.3</span>
+<span id="cb15-7"><a href="#cb15-7"></a>R10;$3.25;met1;;0.0</span>
+<span id="cb15-8"><a href="#cb15-8"></a>R9;$3.25;$4.25;;0.0</span>
+<span id="cb15-9"><a href="#cb15-9"></a>R11;$4.25;$5.26;;4.5</span>
+<span id="cb15-10"><a href="#cb15-10"></a>R13;$5.26;met2;;0.0</span>
+<span id="cb15-11"><a href="#cb15-11"></a>R12;$5.26;$6.26;;0.0</span>
+<span id="cb15-12"><a href="#cb15-12"></a>R14;$6.26;$7.43;;3.41</span>
+<span id="cb15-13"><a href="#cb15-13"></a>R16;$7.43;met3;;0.0</span>
+<span id="cb15-14"><a href="#cb15-14"></a>R15;$7.43;$8.43;;0.0</span>
+<span id="cb15-15"><a href="#cb15-15"></a>R17;$8.43;$9.40;;3.41</span>
+<span id="cb15-16"><a href="#cb15-16"></a>R18;$9.40;met4;;0.0</span>
+<span id="cb15-17"><a href="#cb15-17"></a>R6;$10.40;$9.40;;0.0</span>
+<span id="cb15-18"><a href="#cb15-18"></a>R5;$10.40;$11.27;;0.38</span>
+<span id="cb15-19"><a href="#cb15-19"></a>R7;$11.27;met5;;0.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>MAGIC extraction results are shown below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource spice number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href="#cb16-1"></a>.subckt r_via_stack_1x1_minsize_poly_to_met5 poly li1 met1 met2 met3 met4 met5</span>
+<span id="cb16-2"><a href="#cb16-2"></a>R0 li1.n3 poly 175.37</span>
+<span id="cb16-3"><a href="#cb16-3"></a>R1 li1.n4 li1.n3 9.3005</span>
+<span id="cb16-4"><a href="#cb16-4"></a>R2 li1.n3 li1 6.4005</span>
+<span id="cb16-5"><a href="#cb16-5"></a>R3 li1.n4 li1.n2 4.5005</span>
+<span id="cb16-6"><a href="#cb16-6"></a>R4 li1.n1 li1.n0 3.4105</span>
+<span id="cb16-7"><a href="#cb16-7"></a>R5 li1.n2 li1.n1 3.4105</span>
+<span id="cb16-8"><a href="#cb16-8"></a>R6 li1.n0 met5 0.3834</span>
+<span id="cb16-9"><a href="#cb16-9"></a>R7 met1 li1.n4 0.063</span>
+<span id="cb16-10"><a href="#cb16-10"></a>R8 li1.n2 met2 0.0545541</span>
+<span id="cb16-11"><a href="#cb16-11"></a>R9 li1.n1 met3 0.0232879</span>
+<span id="cb16-12"><a href="#cb16-12"></a>R10 li1.n0 met4 0.00687288</span>
+<span id="cb16-13"><a href="#cb16-13"></a>; removed the redundant devices (5.3.540)</span>
+<span id="cb16-14"><a href="#cb16-14"></a>.ends</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
@@ -6318,70 +6599,24 @@ Note
 <li><span class="math inline">\(\epsilon \in \mathbb{R}_{[0,1]}\)</span>: small number enforcing the requirement that <span class="math inline">\(|s \tau_N| \ll 1\)</span></li>
 </ul>
 <p>In the paper, figure 5 and 6 demonstrate the algorithm for eliminating a quick node (here is a python conversion of those).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">def</span> eliminate_quick_node(N: Node):</span>
-<span id="cb15-2"><a href="#cb15-2"></a>   neighbors <span class="op">=</span> nodes_incident_to(node<span class="op">=</span>N)</span>
-<span id="cb15-3"><a href="#cb15-3"></a>   <span class="cf">for</span> i <span class="kw">in</span> neighbors:</span>
-<span id="cb15-4"><a href="#cb15-4"></a>      g_iN <span class="op">=</span> conductance[i, N]</span>
-<span id="cb15-5"><a href="#cb15-5"></a>      <span class="cf">if</span> g_iN <span class="op">==</span> <span class="dv">0</span>: </span>
-<span id="cb15-6"><a href="#cb15-6"></a>         <span class="cf">continue</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a>      <span class="cf">for</span> j <span class="kw">in</span> neighbors:</span>
-<span id="cb15-8"><a href="#cb15-8"></a>         <span class="cf">if</span> i <span class="op">&lt;=</span> j:</span>
-<span id="cb15-9"><a href="#cb15-9"></a>            <span class="cf">continue</span></span>
-<span id="cb15-10"><a href="#cb15-10"></a>         g_jN <span class="op">=</span> conductance[j, N]</span>
-<span id="cb15-11"><a href="#cb15-11"></a>         c_jN <span class="op">=</span> capacitance[j, N]</span>
-<span id="cb15-12"><a href="#cb15-12"></a>         gamma_N <span class="op">=</span> incident_conductance_sum(node<span class="op">=</span>N)</span>
-<span id="cb15-13"><a href="#cb15-13"></a>         <span class="cf">if</span> g_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb15-14"><a href="#cb15-14"></a>            add_conductance(i, j, g_iN <span class="op">*</span> g_jN <span class="op">/</span> gamma_N)</span>
-<span id="cb15-15"><a href="#cb15-15"></a>         <span class="cf">if</span> c_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb15-16"><a href="#cb15-16"></a>            add_capacitance(i, j, g_iN <span class="op">*</span> c_jN <span class="op">/</span> gamma_N)</span>
-<span id="cb15-17"><a href="#cb15-17"></a>   remove_all_incident_conductances_and_capacitances(i, N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">def</span> ticer(freq_max: <span class="bu">float</span>, epsilon: <span class="bu">float</span>, max_deg: <span class="bu">int</span>):</span>
-<span id="cb16-2"><a href="#cb16-2"></a>   <span class="cf">for</span> deg <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, max_deg):</span>
-<span id="cb16-3"><a href="#cb16-3"></a>      Q <span class="op">=</span> queue.Queue(nodes_not_fixed())</span>
-<span id="cb16-4"><a href="#cb16-4"></a>      <span class="cf">while</span> <span class="kw">not</span> Q.empty():</span>
-<span id="cb16-5"><a href="#cb16-5"></a>         N <span class="op">=</span> Q.get()  <span class="co"># pop</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a>         <span class="cf">if</span> number_of_incident_resistors(N) <span class="op">&gt;</span> deg:</span>
-<span id="cb16-7"><a href="#cb16-7"></a>            <span class="cf">continue</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a>         tau_N <span class="op">=</span> time_constant(N)</span>
-<span id="cb16-9"><a href="#cb16-9"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
-<span id="cb16-10"><a href="#cb16-10"></a>            <span class="co"># ensure the neighbors are in the queue,</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
-<span id="cb16-12"><a href="#cb16-12"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
-<span id="cb16-14"><a href="#cb16-14"></a>            q.push(missing_neighbors)</span>
-<span id="cb16-15"><a href="#cb16-15"></a></span>
-<span id="cb16-16"><a href="#cb16-16"></a>            eliminate_quick_node(N)</span>
-<span id="cb16-17"><a href="#cb16-17"></a></span>
-<span id="cb16-18"><a href="#cb16-18"></a>   <span class="co"># </span><span class="al">NOTE</span><span class="co">: "leaf node" N means, number_of_incident_resistors(N) == 1</span></span>
-<span id="cb16-19"><a href="#cb16-19"></a>   <span class="cf">for</span> N <span class="kw">in</span> leaf_nodes():</span>
-<span id="cb16-20"><a href="#cb16-20"></a>      <span class="cf">if</span> N <span class="kw">in</span> fixed_nodes():  <span class="co"># N is protected</span></span>
-<span id="cb16-21"><a href="#cb16-21"></a>         <span class="cf">continue</span></span>
-<span id="cb16-22"><a href="#cb16-22"></a></span>
-<span id="cb16-23"><a href="#cb16-23"></a>      tau_N <span class="op">=</span> time_constant(N)</span>
-<span id="cb16-24"><a href="#cb16-24"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
-<span id="cb16-25"><a href="#cb16-25"></a>         eliminate_quick_node(N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<section id="pseudocode-for-slow-node-elimination" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="pseudocode-for-slow-node-elimination"><span class="header-section-number">8.2.1</span> Pseudocode for slow node elimination</h3>
-<p>Sheehan mentions that elimination of slow nodes is of reduced importances, and therefore does not explicitly provide pseudocode for this case, instead refers to the original TICER paper <span class="citation" data-cites="ticer-sheehan-1999">(<a href="#ref-ticer-sheehan-1999" role="doc-biblioref">B. N. Sheehan 1999</a>)</span>.</p>
-<p>So if we fill in the gaps we arrive at:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">def</span> eliminate_slow_node(N: Node):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">def</span> eliminate_quick_node(N: Node):</span>
 <span id="cb17-2"><a href="#cb17-2"></a>   neighbors <span class="op">=</span> nodes_incident_to(node<span class="op">=</span>N)</span>
 <span id="cb17-3"><a href="#cb17-3"></a>   <span class="cf">for</span> i <span class="kw">in</span> neighbors:</span>
 <span id="cb17-4"><a href="#cb17-4"></a>      g_iN <span class="op">=</span> conductance[i, N]</span>
-<span id="cb17-5"><a href="#cb17-5"></a>      c_iN <span class="op">=</span> capacitance[i, N]</span>
-<span id="cb17-6"><a href="#cb17-6"></a>      <span class="cf">for</span> j <span class="kw">in</span> neighbors:</span>
-<span id="cb17-7"><a href="#cb17-7"></a>         <span class="cf">if</span> i <span class="op">&lt;=</span> j:</span>
-<span id="cb17-8"><a href="#cb17-8"></a>            <span class="cf">continue</span></span>
-<span id="cb17-9"><a href="#cb17-9"></a>         g_jN <span class="op">=</span> conductance[j, N]</span>
-<span id="cb17-10"><a href="#cb17-10"></a>         c_jN <span class="op">=</span> capacitance[j, N]</span>
-<span id="cb17-11"><a href="#cb17-11"></a>         gamma_N <span class="op">=</span> incident_conductance_sum(node<span class="op">=</span>N)</span>
-<span id="cb17-12"><a href="#cb17-12"></a>         <span class="cf">if</span> g_iN <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> g_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb17-13"><a href="#cb17-13"></a>            add_conductance(i, j, g_iN <span class="op">*</span> g_jN <span class="op">/</span> gamma_N)</span>
-<span id="cb17-14"><a href="#cb17-14"></a>         <span class="cf">if</span> c_iN <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> c_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb17-15"><a href="#cb17-15"></a>            add_capacitance(i, j, c_iN <span class="op">*</span> c_jN <span class="op">/</span> gamma_N)</span>
-<span id="cb17-16"><a href="#cb17-16"></a>   remove_all_incident_conductances_and_capacitances(i, N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To integrate this into the algorithm, we additionally need a minimum frequency <span class="math inline">\(f^{\text{min}}\)</span> parameter supplied by the user.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">def</span> ticer(freq_min: <span class="bu">float</span>, freq_max: <span class="bu">float</span>, epsilon: <span class="bu">float</span>, max_deg: <span class="bu">int</span>):</span>
+<span id="cb17-5"><a href="#cb17-5"></a>      <span class="cf">if</span> g_iN <span class="op">==</span> <span class="dv">0</span>: </span>
+<span id="cb17-6"><a href="#cb17-6"></a>         <span class="cf">continue</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a>      <span class="cf">for</span> j <span class="kw">in</span> neighbors:</span>
+<span id="cb17-8"><a href="#cb17-8"></a>         <span class="cf">if</span> i <span class="op">&lt;=</span> j:</span>
+<span id="cb17-9"><a href="#cb17-9"></a>            <span class="cf">continue</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a>         g_jN <span class="op">=</span> conductance[j, N]</span>
+<span id="cb17-11"><a href="#cb17-11"></a>         c_jN <span class="op">=</span> capacitance[j, N]</span>
+<span id="cb17-12"><a href="#cb17-12"></a>         gamma_N <span class="op">=</span> incident_conductance_sum(node<span class="op">=</span>N)</span>
+<span id="cb17-13"><a href="#cb17-13"></a>         <span class="cf">if</span> g_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb17-14"><a href="#cb17-14"></a>            add_conductance(i, j, g_iN <span class="op">*</span> g_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb17-15"><a href="#cb17-15"></a>         <span class="cf">if</span> c_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb17-16"><a href="#cb17-16"></a>            add_capacitance(i, j, g_iN <span class="op">*</span> c_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb17-17"><a href="#cb17-17"></a>   remove_all_incident_conductances_and_capacitances(i, N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">def</span> ticer(freq_max: <span class="bu">float</span>, epsilon: <span class="bu">float</span>, max_deg: <span class="bu">int</span>):</span>
 <span id="cb18-2"><a href="#cb18-2"></a>   <span class="cf">for</span> deg <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, max_deg):</span>
 <span id="cb18-3"><a href="#cb18-3"></a>      Q <span class="op">=</span> queue.Queue(nodes_not_fixed())</span>
 <span id="cb18-4"><a href="#cb18-4"></a>      <span class="cf">while</span> <span class="kw">not</span> Q.empty():</span>
@@ -6390,7 +6625,7 @@ Note
 <span id="cb18-7"><a href="#cb18-7"></a>            <span class="cf">continue</span></span>
 <span id="cb18-8"><a href="#cb18-8"></a>         tau_N <span class="op">=</span> time_constant(N)</span>
 <span id="cb18-9"><a href="#cb18-9"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
-<span id="cb18-10"><a href="#cb18-10"></a>            <span class="co"># </span><span class="al">NOTE</span><span class="co">: ensure the neighbors are in the queue,</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a>            <span class="co"># ensure the neighbors are in the queue,</span></span>
 <span id="cb18-11"><a href="#cb18-11"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
 <span id="cb18-12"><a href="#cb18-12"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
 <span id="cb18-13"><a href="#cb18-13"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
@@ -6398,23 +6633,69 @@ Note
 <span id="cb18-15"><a href="#cb18-15"></a></span>
 <span id="cb18-16"><a href="#cb18-16"></a>            eliminate_quick_node(N)</span>
 <span id="cb18-17"><a href="#cb18-17"></a></span>
-<span id="cb18-18"><a href="#cb18-18"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_min <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
-<span id="cb18-19"><a href="#cb18-19"></a>            <span class="co"># </span><span class="al">NOTE</span><span class="co">: ensure the neighbors are in the queue,</span></span>
-<span id="cb18-20"><a href="#cb18-20"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
-<span id="cb18-21"><a href="#cb18-21"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
-<span id="cb18-22"><a href="#cb18-22"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
-<span id="cb18-23"><a href="#cb18-23"></a>            q.push(missing_neighbors)</span>
-<span id="cb18-24"><a href="#cb18-24"></a></span>
-<span id="cb18-25"><a href="#cb18-25"></a>            eliminate_slow_node(N)</span>
-<span id="cb18-26"><a href="#cb18-26"></a></span>
-<span id="cb18-27"><a href="#cb18-27"></a>   <span class="co"># </span><span class="al">NOTE</span><span class="co">: "leaf node" N means, number_of_incident_resistors(N) == 1</span></span>
-<span id="cb18-28"><a href="#cb18-28"></a>   <span class="cf">for</span> N <span class="kw">in</span> leaf_nodes():</span>
-<span id="cb18-29"><a href="#cb18-29"></a>      <span class="cf">if</span> N <span class="kw">in</span> fixed_nodes():  <span class="co"># N is protected</span></span>
-<span id="cb18-30"><a href="#cb18-30"></a>         <span class="cf">continue</span></span>
-<span id="cb18-31"><a href="#cb18-31"></a></span>
-<span id="cb18-32"><a href="#cb18-32"></a>      tau_N <span class="op">=</span> time_constant(N)</span>
-<span id="cb18-33"><a href="#cb18-33"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
-<span id="cb18-34"><a href="#cb18-34"></a>         eliminate_quick_node(N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-18"><a href="#cb18-18"></a>   <span class="co"># </span><span class="al">NOTE</span><span class="co">: "leaf node" N means, number_of_incident_resistors(N) == 1</span></span>
+<span id="cb18-19"><a href="#cb18-19"></a>   <span class="cf">for</span> N <span class="kw">in</span> leaf_nodes():</span>
+<span id="cb18-20"><a href="#cb18-20"></a>      <span class="cf">if</span> N <span class="kw">in</span> fixed_nodes():  <span class="co"># N is protected</span></span>
+<span id="cb18-21"><a href="#cb18-21"></a>         <span class="cf">continue</span></span>
+<span id="cb18-22"><a href="#cb18-22"></a></span>
+<span id="cb18-23"><a href="#cb18-23"></a>      tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb18-24"><a href="#cb18-24"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb18-25"><a href="#cb18-25"></a>         eliminate_quick_node(N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="pseudocode-for-slow-node-elimination" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="pseudocode-for-slow-node-elimination"><span class="header-section-number">8.2.1</span> Pseudocode for slow node elimination</h3>
+<p>Sheehan mentions that elimination of slow nodes is of reduced importances, and therefore does not explicitly provide pseudocode for this case, instead refers to the original TICER paper <span class="citation" data-cites="ticer-sheehan-1999">(<a href="#ref-ticer-sheehan-1999" role="doc-biblioref">B. N. Sheehan 1999</a>)</span>.</p>
+<p>So if we fill in the gaps we arrive at:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">def</span> eliminate_slow_node(N: Node):</span>
+<span id="cb19-2"><a href="#cb19-2"></a>   neighbors <span class="op">=</span> nodes_incident_to(node<span class="op">=</span>N)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>   <span class="cf">for</span> i <span class="kw">in</span> neighbors:</span>
+<span id="cb19-4"><a href="#cb19-4"></a>      g_iN <span class="op">=</span> conductance[i, N]</span>
+<span id="cb19-5"><a href="#cb19-5"></a>      c_iN <span class="op">=</span> capacitance[i, N]</span>
+<span id="cb19-6"><a href="#cb19-6"></a>      <span class="cf">for</span> j <span class="kw">in</span> neighbors:</span>
+<span id="cb19-7"><a href="#cb19-7"></a>         <span class="cf">if</span> i <span class="op">&lt;=</span> j:</span>
+<span id="cb19-8"><a href="#cb19-8"></a>            <span class="cf">continue</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a>         g_jN <span class="op">=</span> conductance[j, N]</span>
+<span id="cb19-10"><a href="#cb19-10"></a>         c_jN <span class="op">=</span> capacitance[j, N]</span>
+<span id="cb19-11"><a href="#cb19-11"></a>         gamma_N <span class="op">=</span> incident_conductance_sum(node<span class="op">=</span>N)</span>
+<span id="cb19-12"><a href="#cb19-12"></a>         <span class="cf">if</span> g_iN <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> g_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb19-13"><a href="#cb19-13"></a>            add_conductance(i, j, g_iN <span class="op">*</span> g_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb19-14"><a href="#cb19-14"></a>         <span class="cf">if</span> c_iN <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> c_jN <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb19-15"><a href="#cb19-15"></a>            add_capacitance(i, j, c_iN <span class="op">*</span> c_jN <span class="op">/</span> gamma_N)</span>
+<span id="cb19-16"><a href="#cb19-16"></a>   remove_all_incident_conductances_and_capacitances(i, N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To integrate this into the algorithm, we additionally need a minimum frequency <span class="math inline">\(f^{\text{min}}\)</span> parameter supplied by the user.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">def</span> ticer(freq_min: <span class="bu">float</span>, freq_max: <span class="bu">float</span>, epsilon: <span class="bu">float</span>, max_deg: <span class="bu">int</span>):</span>
+<span id="cb20-2"><a href="#cb20-2"></a>   <span class="cf">for</span> deg <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, max_deg):</span>
+<span id="cb20-3"><a href="#cb20-3"></a>      Q <span class="op">=</span> queue.Queue(nodes_not_fixed())</span>
+<span id="cb20-4"><a href="#cb20-4"></a>      <span class="cf">while</span> <span class="kw">not</span> Q.empty():</span>
+<span id="cb20-5"><a href="#cb20-5"></a>         N <span class="op">=</span> Q.get()  <span class="co"># pop</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a>         <span class="cf">if</span> number_of_incident_resistors(N) <span class="op">&gt;</span> deg:</span>
+<span id="cb20-7"><a href="#cb20-7"></a>            <span class="cf">continue</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a>         tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb20-9"><a href="#cb20-9"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb20-10"><a href="#cb20-10"></a>            <span class="co"># </span><span class="al">NOTE</span><span class="co">: ensure the neighbors are in the queue,</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
+<span id="cb20-12"><a href="#cb20-12"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
+<span id="cb20-13"><a href="#cb20-13"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
+<span id="cb20-14"><a href="#cb20-14"></a>            q.push(missing_neighbors)</span>
+<span id="cb20-15"><a href="#cb20-15"></a></span>
+<span id="cb20-16"><a href="#cb20-16"></a>            eliminate_quick_node(N)</span>
+<span id="cb20-17"><a href="#cb20-17"></a></span>
+<span id="cb20-18"><a href="#cb20-18"></a>         <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_min <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb20-19"><a href="#cb20-19"></a>            <span class="co"># </span><span class="al">NOTE</span><span class="co">: ensure the neighbors are in the queue,</span></span>
+<span id="cb20-20"><a href="#cb20-20"></a>            <span class="co"># because the neighbors' incident resistors and time constants </span></span>
+<span id="cb20-21"><a href="#cb20-21"></a>            <span class="co"># might have been changed, so they should be reconsidered for elimination</span></span>
+<span id="cb20-22"><a href="#cb20-22"></a>            missing_neighbors <span class="op">=</span> [n <span class="kw">in</span> nodes_incident_to(node<span class="op">=</span>N) <span class="cf">if</span> n <span class="kw">not</span> <span class="kw">in</span> Q]</span>
+<span id="cb20-23"><a href="#cb20-23"></a>            q.push(missing_neighbors)</span>
+<span id="cb20-24"><a href="#cb20-24"></a></span>
+<span id="cb20-25"><a href="#cb20-25"></a>            eliminate_slow_node(N)</span>
+<span id="cb20-26"><a href="#cb20-26"></a></span>
+<span id="cb20-27"><a href="#cb20-27"></a>   <span class="co"># </span><span class="al">NOTE</span><span class="co">: "leaf node" N means, number_of_incident_resistors(N) == 1</span></span>
+<span id="cb20-28"><a href="#cb20-28"></a>   <span class="cf">for</span> N <span class="kw">in</span> leaf_nodes():</span>
+<span id="cb20-29"><a href="#cb20-29"></a>      <span class="cf">if</span> N <span class="kw">in</span> fixed_nodes():  <span class="co"># N is protected</span></span>
+<span id="cb20-30"><a href="#cb20-30"></a>         <span class="cf">continue</span></span>
+<span id="cb20-31"><a href="#cb20-31"></a></span>
+<span id="cb20-32"><a href="#cb20-32"></a>      tau_N <span class="op">=</span> time_constant(N)</span>
+<span id="cb20-33"><a href="#cb20-33"></a>      <span class="cf">if</span> <span class="dv">2</span> <span class="op">*</span> math.pi <span class="op">*</span> freq_max <span class="op">*</span> tau_N <span class="op">&lt;=</span> epsilon:</span>
+<span id="cb20-34"><a href="#cb20-34"></a>         eliminate_quick_node(N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="example-from-ticer-2007-paper" class="level2" data-number="8.3">
