@@ -571,17 +571,36 @@ R0 G G.n0 451.651
 .ends
 ```
 
+::: {.callout-note}
+Notes about this comparison:
+
+- We can see that MAGIC did not extract the interconnection resistances
+- Only exception is `G` $\leftrightarrow$ `G.n0`, but node `G.n0` is dangling and not connected
+:::
+
 ## Test Pattern `nfet_li1` 
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/nfet_li1.gds.gz>
 
 ![](figures/test_patterns/r_nfet_li1.png){fig-alt="nfet example"}
 
-| Device  | Description | Layer   | Node1             | Node2             | MAGIC [Ω] | KPEX/2.5D [Ω] |
-|---------|------------:|:--------|------------------:|------------------:|----------:|:--------------|
-| R18     |     Wire    |    li1  | internal `$1.18`  | pin `S`           |           |        43.294 |
-| R2      |     Wire    |    poly | internal `$0.17`  | pin `poly`        |           |           0.0 |
-| R1      |      Via    |   licon | internal `$0.17`  | internal `$1.18`  |           |         152.0 |
+| Device  | Description | Layer   | Net | Node1                     | Node2                           | MAGIC [Ω] | KPEX/2.5D [Ω] |
+|---------|------------:|:--------|-----|--------------------------:|--------------------------------:|----------:|:--------------|
+| R1      |     Wire    |    li1  | `D` | pin `D`                   | internal `D.$3.18`              |           |        30.494 |
+| R4      |     Wire    |    li1  | `D` | internal `D.$1.18`        | internal `D.$3.18`              |           |          25.6 |
+| R2      |      Via    |   licon | `D` | internal `D.$0.13` (nsdm) | internal `D.$1.18` (li1)        |           |         185.0 |
+| R5      |      Via    |   licon | `D` | internal `D.$2.13` (nsdm) | internal `D.$3.18` (li1)        |           |         185.0 |
+| R3      |     Wire    |   nsdm  | `D` | internal `D.$0.13`        | `D.P0.13` (`D` device terminal) |           |           0.0 |
+| R6      |     Wire    |   nsdm  | `D` | internal `D.$2.13`        | `D.P0.13` (`D` device terminal) |           |           0.0 |
+| R7      |     Wire    |   nsdm  | `G` | pin `G`                   | internal `G.$1.18`              |           |           6.4 |
+| R8      |     Via     |   licon | `G` | internal `G.$0.17` (poly) | internal `G.$1.18` (li1)        |           |         152.0 |
+| R9      |     Wire    |   poly  | `G` | internal `G.$0.17`        | `G.P0.17` (`G` device terminal) |           |       234.381 |
+| R10     |     Wire    |   li1   | `S` | pin `S`                   | internal `S.$1.18`              |           |        43.294 |
+| R13     |     Wire    |   nsdm  | `S` | internal `S.$1.18`        | `S.$3.18` (`S` device terminal) |           |           0.0 |
+| R11     |     Via     |   licon | `S` | internal `S.$0.13` (nsdm) | internal `S.$1.18` (li1)        |           |         185.0 |
+| R14     |     Via     |   licon | `S` | internal `S.$2.13` (nsdm) | internal `S.$3.18` (li1)        |           |         185.0 |
+| R12     |     Wire    |   nsdm  | `S` | internal `S.$0.13`        | `S.P0.13` (`S` device terminal) |           |           0.0 |
+| R15     |     Wire    |   nsdm  | `S` | internal `S.$2.13`        | `S.P0.13` (`S` device terminal) |           |           0.0 |
 : Extracted Parasitic Resistances
 
 KPEX/2.5D extraction results are shown below.
@@ -591,18 +610,21 @@ code-line-numbers: true
 ---
 ```csv
 Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
-R8;$1.18;S;;43.294
-R1;$0.13;$1.18;;370.0
-R4;$0.17;$1.18;;152.0
-R6;$1.18;$3.18;;51.2
-R7;$1.18;G;;6.4
-R2;$0.13;D;;0.0
-R3;$0.13;S;;0.0
-R5;$0.17;G;;234.381
-R9;$2.13;$3.18;;370.0
-R10;$2.13;D;;0.0
-R11;$2.13;S;;0.0
-R12;$3.18;D;;30.494
+R1;D;D.$3.18;;30.494
+R4;D.$1.18;D.$3.18;;25.6
+R2;D.$0.13;D.$1.18;;185.0
+R5;D.$2.13;D.$3.18;;185.0
+R3;D.$0.13;D.P0.13;;0.0
+R6;D.$2.13;D.P0.13;;0.0
+R7;G;G.$1.18;;6.4
+R8;G.$0.17;G.$1.18;;152.0
+R9;G.$0.17;G.P0.17;;234.381
+R10;S;S.$1.18;;43.294
+R13;S.$1.18;S.$3.18;;25.6
+R11;S.$0.13;S.$1.18;;185.0
+R14;S.$2.13;S.$3.18;;185.0
+R12;S.$0.13;S.P0.13;;0.0
+R15;S.$2.13;S.P0.13;;0.0
 ```
 
 MAGIC extraction results are shown below.
@@ -616,3 +638,10 @@ X0 D G S VNB sky130_fd_pr__nfet_01v8 ad=0.169 pd=1.82 as=0.169 ps=1.82 w=0.65 l=
 R0 G G.n0 373.693
 .ends
 ```
+
+::: {.callout-note}
+Notes about this comparison:
+
+- We can see that MAGIC did not extract the interconnection resistances
+- Only exception is `G` $\leftrightarrow$ `G.n0`, but node `G.n0` is dangling and not connected
+:::
