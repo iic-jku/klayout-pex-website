@@ -42,5 +42,4 @@ The engine uses those new API classes to extract parasitic resistances:
    - `klayout.pex.RNetExtractor`: used to extract resistance networks
    - `klayout.pex.RExtractorTech`: minimal process stack description for conductor and via layers
 
-{{< include _under_construction.qmd >}}
 
