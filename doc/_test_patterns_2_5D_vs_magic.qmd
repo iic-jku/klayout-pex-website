@@ -582,7 +582,15 @@ Notes about this comparison:
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/nfet_li1.gds.gz>
 
-![](figures/test_patterns/r_nfet_li1.png){fig-alt="nfet example"}
+![nfet example (2D layout view)](figures/test_patterns/r_nfet_li1.png){fig-alt="nfet example"}
+
+![nfet example (3D view[^3D-view-created-by-kpex-fastercap])](figures/test_patterns/r_nfet_li1_3D_overview.png){#fig-resistance-extraction-nfet-overview}
+
+@fig-resistance-extraction-nfet-overview gives an 3D overview over the 3 nets.
+
+
+
+KPEX/2.5D extraction results are shown below.
 
 | Device  | Description | Layer   | Net | Node1                     | Node2                           | MAGIC [Ω] | KPEX/2.5D [Ω] |
 |---------|------------:|:--------|-----|--------------------------:|--------------------------------:|----------:|:--------------|
@@ -603,29 +611,20 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/
 | R15     |     Wire    |   nsdm  | `S` | internal `S.$2.13`        | `S.P0.13` (`S` device terminal) |           |           0.0 |
 : Extracted Parasitic Resistances
 
-KPEX/2.5D extraction results are shown below.
+::: {.callout-warning}
+To improve readability, the illustrations in @fig-resistance-extraction-nfet-net-D and @fig-resistance-extraction-nfet-net-G do not depict all nodes correctly in regard of the the z-axis orientation
 
----
-code-line-numbers: true
----
-```csv
-Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
-R1;D;D.$3.18;;30.494
-R4;D.$1.18;D.$3.18;;25.6
-R2;D.$0.13;D.$1.18;;185.0
-R5;D.$2.13;D.$3.18;;185.0
-R3;D.$0.13;D.P0.13;;0.0
-R6;D.$2.13;D.P0.13;;0.0
-R7;G;G.$1.18;;6.4
-R8;G.$0.17;G.$1.18;;152.0
-R9;G.$0.17;G.P0.17;;234.381
-R10;S;S.$1.18;;43.294
-R13;S.$1.18;S.$3.18;;25.6
-R11;S.$0.13;S.$1.18;;185.0
-R14;S.$2.13;S.$3.18;;185.0
-R12;S.$0.13;S.P0.13;;0.0
-R15;S.$2.13;S.P0.13;;0.0
-```
+   - nodes on metal layers are depicted residing on the top side of the layers and not inside or below the wires / vias
+   - currently, we treat the metal layer z-axis as an equipotential
+   - so in reality, `R1`, `R4`, `R7`, `R9` would be the whole wire section
+:::
+
+![Resistance extraction of nfet example (only net `D`)"](figures/test_patterns/r_nfet_3D_D.svg){#fig-resistance-extraction-nfet-net-D}
+
+@fig-resistance-extraction-nfet-net-D illustrates the parasitic resistance contributions for net `D` (all nets can be seen in @fig-resistance-extraction-nfet-overview). Net `G` is illustrated in @fig-resistance-extraction-nfet-net-G. Net `S` is not worth showing, as it is similar to net `D`.
+
+![Resistance extraction of nfet example (only net `G`)"](figures/test_patterns/r_nfet_3D_G.svg){#fig-resistance-extraction-nfet-net-G}
+
 
 MAGIC extraction results are shown below.
 
