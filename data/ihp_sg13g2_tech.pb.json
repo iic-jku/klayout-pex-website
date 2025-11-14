@@ -2,6 +2,7 @@
  "name": "ihp_sg13g2",
  "layers": [
   {
+   "purpose": "PURPOSE_DIFF",
    "name": "Activ",
    "description": "Active (diffusion) area",
    "drw_gds_pair": {
@@ -13,6 +14,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_NWELL",
    "name": "NWell",
    "description": "N-well region",
    "drw_gds_pair": {
@@ -24,6 +26,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_PWELL",
    "name": "PWell",
    "description": "P-well region",
    "drw_gds_pair": {
@@ -35,6 +38,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_N_IMPLANT",
    "name": "nSD",
    "description": "Defines areas to receive N+ S/D implant",
    "drw_gds_pair": {
@@ -42,6 +46,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_P_IMPLANT",
    "name": "pSD",
    "description": "Defines areas to receive P+ S/D implant",
    "drw_gds_pair": {
@@ -49,6 +54,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "GatPoly",
    "description": "Poly",
    "drw_gds_pair": {
@@ -57,9 +63,14 @@
    "pin_gds_pair": {
     "layer": 5,
     "datatype": 2
+   },
+   "label_gds_pair": {
+    "layer": 5,
+    "datatype": 25
    }
   },
   {
+   "purpose": "PURPOSE_CONTACT",
    "name": "Cont",
    "description": "Defines 1-st metal contacts to Activ, GatPoly",
    "drw_gds_pair": {
@@ -67,6 +78,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "Metal1",
    "description": "Defines 1-st metal interconnect",
    "drw_gds_pair": {
@@ -82,6 +94,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "Via1",
    "description": "Defines 1-st metal to 2-nd metal contact",
    "drw_gds_pair": {
@@ -89,6 +102,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "Metal2",
    "description": "Defines 2-nd metal interconnect",
    "drw_gds_pair": {
@@ -104,6 +118,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "Via2",
    "description": "Defines 2-nd metal to 3-rd metal contact",
    "drw_gds_pair": {
@@ -111,6 +126,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "Metal3",
    "description": "Defines 3-rd metal interconnect",
    "drw_gds_pair": {
@@ -126,6 +142,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "Via3",
    "description": "Defines 3-rd metal to 4-th metal contact",
    "drw_gds_pair": {
@@ -133,6 +150,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "Metal4",
    "description": "Defines 4-th metal interconnect",
    "drw_gds_pair": {
@@ -148,6 +166,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "Via4",
    "description": "Defines 4-th metal to 5-th metal contact",
    "drw_gds_pair": {
@@ -155,6 +174,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "Metal5",
    "description": "Defines 5-th metal interconnect",
    "drw_gds_pair": {
@@ -170,6 +190,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "TopVia1",
    "description": "Defines 3-rd (or 5-th) metal to TopMetal1 contact",
    "drw_gds_pair": {
@@ -177,6 +198,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "TopMetal1",
    "description": "Defines 1-st thick TopMetal layer",
    "drw_gds_pair": {
@@ -192,6 +214,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "TopVia2",
    "description": "Defines via between TopMetal1 and TopMetal2",
    "drw_gds_pair": {
@@ -199,6 +222,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "TopMetal2",
    "description": "Defines 2-nd thick TopMetal layer",
    "drw_gds_pair": {
@@ -218,95 +242,43 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "cont_drw",
-    "description": "Computed layer for contact to Metal1",
+    "purpose": "PURPOSE_PWELL",
+    "name": "pwell",
+    "description": "Computed layer for PWell",
     "drw_gds_pair": {
-     "layer": 6
+     "layer": 46
     }
    },
-   "original_layer_name": "Cont"
+   "original_layer_name": "PWell"
   },
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "metal1_con",
-    "description": "Computed layer for Metal1",
+    "purpose": "PURPOSE_PWELL",
+    "name": "pwell_sub",
+    "description": "Computed layer for PWell",
     "drw_gds_pair": {
-     "layer": 8
+     "layer": 46
     }
    },
-   "original_layer_name": "Metal1"
+   "original_layer_name": "PWell"
   },
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "metal2_con",
-    "description": "Computed layer for Metal2",
+    "purpose": "PURPOSE_NWELL",
+    "name": "nwell_drw",
+    "description": "Computed layer for NWell",
     "drw_gds_pair": {
-     "layer": 10
+     "layer": 31
     }
    },
-   "original_layer_name": "Metal2"
+   "original_layer_name": "NWell"
   },
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "metal3_con",
-    "description": "Computed layer for Metal3",
-    "drw_gds_pair": {
-     "layer": 30
-    }
-   },
-   "original_layer_name": "Metal3"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "metal4_con",
-    "description": "Computed layer for Metal4",
-    "drw_gds_pair": {
-     "layer": 50
-    }
-   },
-   "original_layer_name": "Metal4"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "metal5_n_cap",
-    "description": "Computed layer for Metal5, case where no MiM cap",
-    "drw_gds_pair": {
-     "layer": 67,
-     "datatype": 200
-    }
-   },
-   "original_layer_name": "Metal5"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "topmetal1_con",
-    "description": "Computed layer for TopMetal1",
-    "drw_gds_pair": {
-     "layer": 126
-    }
-   },
-   "original_layer_name": "TopMetal1"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "topmetal2_con",
-    "description": "Computed layer for TopMetal2",
-    "drw_gds_pair": {
-     "layer": 134
-    }
-   },
-   "original_layer_name": "TopMetal2"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
+    "purpose": "PURPOSE_N_IMPLANT",
     "name": "nsd_fet",
     "description": "Computed layer for nSD",
     "drw_gds_pair": {
@@ -318,6 +290,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_P_IMPLANT",
     "name": "psd_fet",
     "description": "Computed layer for pSD",
     "drw_gds_pair": {
@@ -329,6 +302,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_NTAP",
     "name": "ntap",
     "description": "Computed layer for ntap",
     "drw_gds_pair": {
@@ -341,6 +315,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_PTAP",
     "name": "ptap",
     "description": "Computed layer for ptap",
     "drw_gds_pair": {
@@ -353,39 +328,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "pwell",
-    "description": "Computed layer for PWell",
-    "drw_gds_pair": {
-     "layer": 46
-    }
-   },
-   "original_layer_name": "PWell"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "pwell_sub",
-    "description": "Computed layer for PWell",
-    "drw_gds_pair": {
-     "layer": 46
-    }
-   },
-   "original_layer_name": "PWell"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "nwell_drw",
-    "description": "Computed layer for NWell",
-    "drw_gds_pair": {
-     "layer": 31
-    }
-   },
-   "original_layer_name": "NWell"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "poly_con",
     "description": "Computed layer for GatPoly",
     "drw_gds_pair": {
@@ -397,6 +340,130 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal1_con",
+    "description": "Computed layer for Metal1",
+    "drw_gds_pair": {
+     "layer": 8
+    }
+   },
+   "original_layer_name": "Metal1"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal2_con",
+    "description": "Computed layer for Metal2",
+    "drw_gds_pair": {
+     "layer": 10
+    }
+   },
+   "original_layer_name": "Metal2"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal3_con",
+    "description": "Computed layer for Metal3",
+    "drw_gds_pair": {
+     "layer": 30
+    }
+   },
+   "original_layer_name": "Metal3"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal4_con",
+    "description": "Computed layer for Metal4",
+    "drw_gds_pair": {
+     "layer": 50
+    }
+   },
+   "original_layer_name": "Metal4"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal5_n_cap",
+    "description": "Computed layer for Metal5 (case where no MiM cap)",
+    "drw_gds_pair": {
+     "layer": 67
+    }
+   },
+   "original_layer_name": "Metal5"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "topmetal1_con",
+    "description": "Computed layer for TopMetal1",
+    "drw_gds_pair": {
+     "layer": 126
+    }
+   },
+   "original_layer_name": "TopMetal1"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "topmetal2_con",
+    "description": "Computed layer for TopMetal2",
+    "drw_gds_pair": {
+     "layer": 134
+    }
+   },
+   "original_layer_name": "TopMetal2"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_CONTACT",
+    "name": "cont_nsd_con",
+    "description": "Computed layer for contact from nSD to Metal1",
+    "drw_gds_pair": {
+     "layer": 6,
+     "datatype": 4401
+    }
+   },
+   "original_layer_name": "Cont"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_CONTACT",
+    "name": "cont_psd_con",
+    "description": "Computed layer for contact from pSD to Metal1",
+    "drw_gds_pair": {
+     "layer": 6,
+     "datatype": 4402
+    }
+   },
+   "original_layer_name": "Cont"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_CONTACT",
+    "name": "cont_poly_con",
+    "description": "Computed layer for contact from GatPoly to Metal1",
+    "drw_gds_pair": {
+     "layer": 6,
+     "datatype": 4403
+    }
+   },
+   "original_layer_name": "Cont"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "via1_drw",
     "description": "Computed layer for Via1",
     "drw_gds_pair": {
@@ -408,6 +475,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "via2_drw",
     "description": "Computed layer for Via2",
     "drw_gds_pair": {
@@ -419,6 +487,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "via3_drw",
     "description": "Computed layer for Via3",
     "drw_gds_pair": {
@@ -430,6 +499,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "via4_drw",
     "description": "Computed layer for Via4",
     "drw_gds_pair": {
@@ -441,11 +511,11 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "topvia1_n_cap",
-    "description": "Original TopVia1 is 125/0, case where no MiM cap",
+    "description": "Original TopVia1 is 125/0 (case where no MiM cap)",
     "drw_gds_pair": {
-     "layer": 125,
-     "datatype": 200
+     "layer": 125
     }
    },
    "original_layer_name": "TopVia1"
@@ -453,6 +523,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "topvia2_drw",
     "description": "Computed layer for TopVia2",
     "drw_gds_pair": {
@@ -464,6 +535,7 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
     "name": "mim_via",
     "description": "Original TopVia1 is 125/0, case MiM cap",
     "drw_gds_pair": {
@@ -476,11 +548,11 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_MIM_CAP",
     "name": "metal5_cap",
     "description": "Computed layer for Metal5, case MiM cap",
     "drw_gds_pair": {
-     "layer": 67,
-     "datatype": 100
+     "layer": 67
     }
    },
    "original_layer_name": "Metal5"
@@ -488,6 +560,7 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_MIM_CAP",
     "name": "cmim_top",
     "description": "Computed layer for MiM cap above Metal5",
     "drw_gds_pair": {
@@ -495,6 +568,214 @@
     }
    },
    "original_layer_name": "\u003cTODO\u003e"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "poly_pin_con",
+    "description": "Poly pin",
+    "drw_gds_pair": {
+     "layer": 5,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "GatPoly.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal1_pin_con",
+    "description": "Metal1 pin",
+    "drw_gds_pair": {
+     "layer": 8,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "Metal1.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal2_pin_con",
+    "description": "Metal2 pin",
+    "drw_gds_pair": {
+     "layer": 10,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "Metal2.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal3_pin_con",
+    "description": "Metal3 pin",
+    "drw_gds_pair": {
+     "layer": 30,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "Metal3.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal4_pin_con",
+    "description": "Metal4 pin",
+    "drw_gds_pair": {
+     "layer": 50,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "Metal4.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal5_pin_con",
+    "description": "Metal5 pin",
+    "drw_gds_pair": {
+     "layer": 67,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "Metal5.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "topmetal1_pin_con",
+    "description": "TopMetal1 pin",
+    "drw_gds_pair": {
+     "layer": 126,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "TopMetal1.pin"
+  },
+  {
+   "kind": "KIND_PIN",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "topmetal2_pin_con",
+    "description": "TopMetal2 pin",
+    "drw_gds_pair": {
+     "layer": 134,
+     "datatype": 2
+    }
+   },
+   "original_layer_name": "TopMetal2.pin"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "poly_text",
+    "description": "Poly label",
+    "drw_gds_pair": {
+     "layer": 5,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "GatPoly.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal1_text",
+    "description": "Metal1 label",
+    "drw_gds_pair": {
+     "layer": 8,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "Metal1.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal2_text",
+    "description": "Metal2 label",
+    "drw_gds_pair": {
+     "layer": 10,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "Metal2.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal3_text",
+    "description": "Metal3 label",
+    "drw_gds_pair": {
+     "layer": 30,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "Metal3.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal4_text",
+    "description": "Metal4 label",
+    "drw_gds_pair": {
+     "layer": 50,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "Metal4.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "metal5_text",
+    "description": "Metal5 label",
+    "drw_gds_pair": {
+     "layer": 67,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "Metal5.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "topmetal1_text",
+    "description": "TopMetal1 label",
+    "drw_gds_pair": {
+     "layer": 126,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "TopMetal1.text"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "topmetal2_text",
+    "description": "TopMetal2 label",
+    "drw_gds_pair": {
+     "layer": 134,
+     "datatype": 25
+    }
+   },
+   "original_layer_name": "TopMetal2.text"
   }
  ],
  "process_stack": {
@@ -511,10 +792,18 @@
     "name": "ntap",
     "layer_type": "LAYER_TYPE_NWELL",
     "nwell_layer": {
+     "reference": "fox"
+    }
+   },
+   {
+    "name": "nSD",
+    "layer_type": "LAYER_TYPE_DIFFUSION",
+    "diffusion_layer": {
      "reference": "fox",
      "contact_above": {
-      "name": "Cont",
-      "metal_above": "Metal1",
+      "name": "cont_nsd_con",
+      "layer_below": "nsd_fet",
+      "metal_above": "metal1_con",
       "thickness": 1.04,
       "width": 0.16,
       "spacing": 0.18
@@ -522,13 +811,14 @@
     }
    },
    {
-    "name": "ptap",
+    "name": "pSD",
     "layer_type": "LAYER_TYPE_DIFFUSION",
     "diffusion_layer": {
      "reference": "fox",
      "contact_above": {
-      "name": "Cont",
-      "metal_above": "Metal1",
+      "name": "cont_psd_con",
+      "layer_below": "psd_fet",
+      "metal_above": "metal1_con",
       "thickness": 1.04,
       "width": 0.16,
       "spacing": 0.18
@@ -549,11 +839,12 @@
      "z": 0.4,
      "thickness": 0.16,
      "contact_above": {
-      "name": "Cont",
-      "metal_above": "Metal1",
+      "name": "cont_poly_con",
+      "layer_below": "poly_con",
+      "metal_above": "metal1_con",
       "thickness": 0.48,
-      "width": 0.19,
-      "spacing": 0.22
+      "width": 0.16,
+      "spacing": 0.18
      }
     }
    },
@@ -583,8 +874,9 @@
      "z": 1.04,
      "thickness": 0.42,
      "contact_above": {
-      "name": "Via1",
-      "metal_above": "Metal2",
+      "name": "via1_drw",
+      "layer_below": "metal1_con",
+      "metal_above": "metal2_con",
       "thickness": 0.54,
       "width": 0.19,
       "spacing": 0.22
@@ -606,8 +898,9 @@
      "z": 2,
      "thickness": 0.36,
      "contact_above": {
-      "name": "Via2",
-      "metal_above": "Metal3",
+      "name": "via2_drw",
+      "layer_below": "metal2_con",
+      "metal_above": "metal3_con",
       "thickness": 0.54,
       "width": 0.19,
       "spacing": 0.22
@@ -629,8 +922,9 @@
      "z": 2.9,
      "thickness": 0.49,
      "contact_above": {
-      "name": "Via3",
-      "metal_above": "Metal4",
+      "name": "via3_drw",
+      "layer_below": "metal3_con",
+      "metal_above": "metal4_con",
       "thickness": 0.54,
       "width": 0.19,
       "spacing": 0.22
@@ -652,8 +946,9 @@
      "z": 3.9299999999999997,
      "thickness": 0.49,
      "contact_above": {
-      "name": "Via4",
-      "metal_above": "Metal5",
+      "name": "via4_drw",
+      "layer_below": "metal4_con",
+      "metal_above": "metal5_n_cap",
       "thickness": 0.54,
       "width": 0.19,
       "spacing": 0.22
@@ -676,7 +971,8 @@
      "thickness": 0.49,
      "contact_above": {
       "name": "topvia1_n_cap",
-      "metal_above": "TopMetal1",
+      "layer_below": "metal5_n_cap",
+      "metal_above": "topmetal1_con",
       "thickness": 0.85,
       "width": 0.42,
       "spacing": 0.42,
@@ -725,7 +1021,8 @@
      "thickness": 0.15,
      "contact_above": {
       "name": "mim_via",
-      "metal_above": "TopMetal1",
+      "layer_below": "cmim_top",
+      "metal_above": "topmetal1_con",
       "thickness": 0.65999999999999992,
       "width": 0.42,
       "spacing": 0.42,
@@ -748,8 +1045,9 @@
      "z": 6.3,
      "thickness": 2,
      "contact_above": {
-      "name": "TopVia2",
-      "metal_above": "TopMetal2",
+      "name": "topvia2_drw",
+      "layer_below": "topmetal1_con",
+      "metal_above": "topmetal2_con",
       "thickness": 2.8,
       "width": 0.9,
       "spacing": 1.06,
@@ -810,6 +1108,10 @@
   "resistance": {
    "layers": [
     {
+     "layer_name": "GatPoly",
+     "resistance": 7000
+    },
+    {
      "layer_name": "Metal1",
      "resistance": 110
     },
@@ -838,11 +1140,27 @@
      "resistance": 11
     }
    ],
-   "vias": [
+   "contacts": [
     {
-     "via_name": "Cont",
+     "contact_name": "cont_nsd_con",
+     "device_layer_name": "nsd_fet",
+     "layer_above": "metal1_con",
      "resistance": 17000
     },
+    {
+     "contact_name": "cont_psd_con",
+     "device_layer_name": "psd_fet",
+     "layer_above": "metal1_con",
+     "resistance": 17000
+    },
+    {
+     "contact_name": "cont_poly_con",
+     "device_layer_name": "poly_con",
+     "layer_above": "metal1_con",
+     "resistance": 15000
+    }
+   ],
+   "vias": [
     {
      "via_name": "Via1",
      "resistance": 9000

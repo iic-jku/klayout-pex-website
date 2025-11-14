@@ -47,9 +47,9 @@ The layer names in the script must correspond with the names configured in the t
 The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
 
 - formal schema files, defining the structure and data types involved
-   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/tech.proto): main schema / entry point, includes the others
-   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
-   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
+   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/tech.proto): main schema / entry point, includes the others
+   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
+   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
 - multiple concrete instantiations, that adhere to this schema (called *messages* in the `protobuf` lingo)
    - in the form of JSON files
    - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
@@ -137,11 +137,11 @@ We can derive the following data from @fig-skywater-sky130-metal-stack:
 An except of the `process_stack.proto` schema is shown in the code listing below, note:
 
 - Line 3: `ProcessStackInfo.LayerType` is an enumeration type for the possible types of layers in the process stack
-- Line 57: `ProcessStackInfo.layers` is a list of `LayerInfo`
+- Line 58: `ProcessStackInfo.layers` is a list of `LayerInfo`
    - the order of this list defines the orders of layers
-- Line 40: `MetalLayer` describes a metal layer
-- Line 43: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
-- Line 30, 37: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
+- Line 41: `MetalLayer` describes a metal layer
+- Line 44: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
+- Line 31, 38: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
    - these refer to a dielectric or metal layer that they wrap around
    - `ConformalDielectricLayer` and `ConformalDielectricLayer` can be wrapped, e.g. `SPNIT` wraps `IOX`, which wraps `poly`
 
@@ -160,6 +160,7 @@ message ProcessStackInfo {
 
     message Contact { // Contact/Via
         string name = 1;
+        string layer_below = 9;
         string metal_above = 10;
         double thickness = 20;
 
