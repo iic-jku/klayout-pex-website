@@ -2,6 +2,7 @@
  "name": "sky130A",
  "layers": [
   {
+   "purpose": "PURPOSE_DNWELL",
    "name": "dnwell",
    "description": "Deep N-well",
    "drw_gds_pair": {
@@ -10,6 +11,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_NWELL",
    "name": "nwell",
    "description": "N-well region",
    "drw_gds_pair": {
@@ -26,6 +28,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_DIFF",
    "name": "diff",
    "description": "Active (diffusion) area",
    "drw_gds_pair": {
@@ -42,6 +45,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_NTAP_OR_PTAP",
    "name": "tap",
    "description": "Active (diffusion) area (type equal to the well/substrate underneath) (i.e., N+ and P+)",
    "drw_gds_pair": {
@@ -50,6 +54,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_P_IMPLANT",
    "name": "psdm",
    "description": "P+ source/drain implant",
    "drw_gds_pair": {
@@ -58,6 +63,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_N_IMPLANT",
    "name": "nsdm",
    "description": "N+ source/drain implant",
    "drw_gds_pair": {
@@ -66,6 +72,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "poly",
    "description": "Polysilicon",
    "drw_gds_pair": {
@@ -82,6 +89,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_CONTACT",
    "name": "licon1",
    "description": "Contact to local interconnect",
    "drw_gds_pair": {
@@ -90,6 +98,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "li1",
    "description": "Local interconnect",
    "drw_gds_pair": {
@@ -106,6 +115,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "mcon",
    "description": "Contact from local interconnect to met1",
    "drw_gds_pair": {
@@ -114,6 +124,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "met1",
    "description": "Metal 1",
    "drw_gds_pair": {
@@ -130,6 +141,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "via",
    "description": "Contact from met1 to met2",
    "drw_gds_pair": {
@@ -138,6 +150,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "met2",
    "description": "Metal 2",
    "drw_gds_pair": {
@@ -154,6 +167,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "via2",
    "description": "Contact from met2 to met3",
    "drw_gds_pair": {
@@ -162,6 +176,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "met3",
    "description": "Metal 3",
    "drw_gds_pair": {
@@ -178,6 +193,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "via3",
    "description": "Contact from cap above met3 to met4",
    "drw_gds_pair": {
@@ -186,6 +202,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_MIM_CAP",
    "name": "capm",
    "description": "MiM capacitor plate over metal 3",
    "drw_gds_pair": {
@@ -194,6 +211,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "met4",
    "description": "Metal 4",
    "drw_gds_pair": {
@@ -210,6 +228,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_MIM_CAP",
    "name": "capm2",
    "description": "MiM capacitor plate over metal 4",
    "drw_gds_pair": {
@@ -218,6 +237,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_VIA",
    "name": "via4",
    "description": "Contact from met4 to met5 (no MiM cap)",
    "drw_gds_pair": {
@@ -226,6 +246,7 @@
    }
   },
   {
+   "purpose": "PURPOSE_METAL",
    "name": "met5",
    "description": "Metal 5",
    "drw_gds_pair": {
@@ -246,6 +267,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_DNWELL",
     "name": "dnwell",
     "description": "Deep NWell",
     "drw_gds_pair": {
@@ -258,96 +280,20 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "li_con",
-    "description": "Computed layer for li",
+    "purpose": "PURPOSE_NWELL",
+    "name": "nwell",
+    "description": "NWell",
     "drw_gds_pair": {
-     "layer": 67,
+     "layer": 64,
      "datatype": 20
     }
    },
-   "original_layer_name": "li1"
+   "original_layer_name": "nwell"
   },
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "licon",
-    "description": "Computed layer for contact to li",
-    "drw_gds_pair": {
-     "layer": 66,
-     "datatype": 44
-    }
-   },
-   "original_layer_name": "licon1"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "mcon_con",
-    "drw_gds_pair": {
-     "layer": 67,
-     "datatype": 44
-    }
-   },
-   "original_layer_name": "mcon"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "met1_con",
-    "drw_gds_pair": {
-     "layer": 68,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "met1"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "met2_con",
-    "drw_gds_pair": {
-     "layer": 69,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "met2"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "met3_ncap",
-    "drw_gds_pair": {
-     "layer": 70,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "met3"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "met4_ncap",
-    "drw_gds_pair": {
-     "layer": 71,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "met4"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "met5_con",
-    "drw_gds_pair": {
-     "layer": 72,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "met5"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
+    "purpose": "PURPOSE_N_IMPLANT",
     "name": "nsd",
     "description": "borrow from nsdm",
     "drw_gds_pair": {
@@ -360,40 +306,7 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "ntap_conn",
-    "description": "Separate ntap, original tap is 65,44, we need seperate ntap/ptap",
-    "drw_gds_pair": {
-     "layer": 65,
-     "datatype": 144
-    }
-   },
-   "original_layer_name": "tap"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "nwell",
-    "drw_gds_pair": {
-     "layer": 64,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "nwell"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "poly_con",
-    "drw_gds_pair": {
-     "layer": 66,
-     "datatype": 20
-    }
-   },
-   "original_layer_name": "poly"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
+    "purpose": "PURPOSE_P_IMPLANT",
     "name": "psd",
     "description": "borrow from psdm",
     "drw_gds_pair": {
@@ -406,6 +319,20 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
+    "purpose": "PURPOSE_NTAP",
+    "name": "ntap_conn",
+    "description": "Separate ntap, original tap is 65,44, we need seperate ntap/ptap",
+    "drw_gds_pair": {
+     "layer": 65,
+     "datatype": 144
+    }
+   },
+   "original_layer_name": "tap"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_PTAP",
     "name": "ptap_conn",
     "description": "Separate ptap, original tap is 65,44, we need seperate ntap/ptap",
     "drw_gds_pair": {
@@ -418,78 +345,9 @@
   {
    "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "via1_con",
-    "drw_gds_pair": {
-     "layer": 68,
-     "datatype": 44
-    }
-   },
-   "original_layer_name": "via1"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "via2_con",
-    "drw_gds_pair": {
-     "layer": 69,
-     "datatype": 44
-    }
-   },
-   "original_layer_name": "via2"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "via3_ncap",
-    "description": "Original via3 is 70,44, case where no MiM cap",
-    "drw_gds_pair": {
-     "layer": 70,
-     "datatype": 144
-    }
-   },
-   "original_layer_name": "via3"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "via4_ncap",
-    "description": "Original via4 is 71,44, case where no MiM cap",
-    "drw_gds_pair": {
-     "layer": 71,
-     "datatype": 144
-    }
-   },
-   "original_layer_name": "via4"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "via3_cap",
-    "description": "Original via3 is 70,44, via above metal 3 MIM cap",
-    "drw_gds_pair": {
-     "layer": 70,
-     "datatype": 244
-    }
-   },
-   "original_layer_name": "via3"
-  },
-  {
-   "kind": "KIND_REGULAR",
-   "layer_info": {
-    "name": "via4_cap",
-    "description": "Original via3 is 71,44, via above metal 4 MIM cap",
-    "drw_gds_pair": {
-     "layer": 71,
-     "datatype": 244
-    }
-   },
-   "original_layer_name": "via4"
-  },
-  {
-   "kind": "KIND_DEVICE_CAPACITOR",
-   "layer_info": {
-    "name": "poly_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "poly_con",
+    "description": "Computed layer for poly",
     "drw_gds_pair": {
      "layer": 66,
      "datatype": 20
@@ -498,10 +356,11 @@
    "original_layer_name": "poly"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "li_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "li_con",
+    "description": "Computed layer for li1",
     "drw_gds_pair": {
      "layer": 67,
      "datatype": 20
@@ -510,10 +369,11 @@
    "original_layer_name": "li1"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "met1_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "met1_con",
+    "description": "Computed layer for met1",
     "drw_gds_pair": {
      "layer": 68,
      "datatype": 20
@@ -522,10 +382,11 @@
    "original_layer_name": "met1"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "met2_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "met2_con",
+    "description": "Computed layer for met2",
     "drw_gds_pair": {
      "layer": 69,
      "datatype": 20
@@ -534,10 +395,11 @@
    "original_layer_name": "met2"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "met3_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "met3_ncap",
+    "description": "Computed layer for met3 (no cap)",
     "drw_gds_pair": {
      "layer": 70,
      "datatype": 20
@@ -546,10 +408,11 @@
    "original_layer_name": "met3"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "met4_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "met4_ncap",
+    "description": "Computed layer for met4 (no cap)",
     "drw_gds_pair": {
      "layer": 71,
      "datatype": 20
@@ -558,10 +421,11 @@
    "original_layer_name": "met4"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "met5_vpp",
-    "description": "Capacitor device metal",
+    "purpose": "PURPOSE_METAL",
+    "name": "met5_con",
+    "description": "Computed layer for met5",
     "drw_gds_pair": {
      "layer": 72,
      "datatype": 20
@@ -570,22 +434,50 @@
    "original_layer_name": "met5"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "licon_vpp",
-    "description": "Capacitor device contact",
+    "purpose": "PURPOSE_CONTACT",
+    "name": "licon_nsd_con",
+    "description": "Computed layer for contact from nsdm to li1",
     "drw_gds_pair": {
      "layer": 66,
-     "datatype": 44
+     "datatype": 4401
     }
    },
    "original_layer_name": "licon1"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "mcon_vpp",
-    "description": "Capacitor device contact",
+    "purpose": "PURPOSE_CONTACT",
+    "name": "licon_psd_con",
+    "description": "Computed layer for contact from psdm to li1",
+    "drw_gds_pair": {
+     "layer": 66,
+     "datatype": 4402
+    }
+   },
+   "original_layer_name": "licon1"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_CONTACT",
+    "name": "licon_poly_con",
+    "description": "Computed layer for contact from poly to li1",
+    "drw_gds_pair": {
+     "layer": 66,
+     "datatype": 4403
+    }
+   },
+   "original_layer_name": "licon1"
+  },
+  {
+   "kind": "KIND_REGULAR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "mcon_con",
+    "description": "Computed layer for contact between li1 and met1",
     "drw_gds_pair": {
      "layer": 67,
      "datatype": 44
@@ -594,22 +486,24 @@
    "original_layer_name": "mcon"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "via1_vpp",
-    "description": "Capacitor device contact",
+    "purpose": "PURPOSE_VIA",
+    "name": "via1_con",
+    "description": "Computed layer for contact between met1 and met2",
     "drw_gds_pair": {
      "layer": 68,
      "datatype": 44
     }
    },
-   "original_layer_name": "via1"
+   "original_layer_name": "via"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "via2_vpp",
-    "description": "Capacitor device contact",
+    "purpose": "PURPOSE_VIA",
+    "name": "via2_con",
+    "description": "Computed layer for contact between met2 and met3",
     "drw_gds_pair": {
      "layer": 69,
      "datatype": 44
@@ -618,25 +512,27 @@
    "original_layer_name": "via2"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "via3_vpp",
-    "description": "Capacitor device contact",
+    "purpose": "PURPOSE_VIA",
+    "name": "via3_ncap",
+    "description": "Computed layer for via3 (no MIM cap)",
     "drw_gds_pair": {
      "layer": 70,
-     "datatype": 44
+     "datatype": 144
     }
    },
    "original_layer_name": "via3"
   },
   {
-   "kind": "KIND_DEVICE_CAPACITOR",
+   "kind": "KIND_REGULAR",
    "layer_info": {
-    "name": "via4_vpp",
-    "description": "Capacitor device contact",
+    "purpose": "PURPOSE_VIA",
+    "name": "via4_ncap",
+    "description": "Computed layer for via4 (no MIM cap)",
     "drw_gds_pair": {
      "layer": 71,
-     "datatype": 44
+     "datatype": 144
     }
    },
    "original_layer_name": "via4"
@@ -644,11 +540,38 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "via3_cap",
+    "description": "Computed layer for via3 (with MIM cap)",
+    "drw_gds_pair": {
+     "layer": 70,
+     "datatype": 244
+    }
+   },
+   "original_layer_name": "via3"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "via4_cap",
+    "description": "Computed layer for via4 (with MIM cap)",
+    "drw_gds_pair": {
+     "layer": 71,
+     "datatype": 244
+    }
+   },
+   "original_layer_name": "via4"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met3_cap",
     "description": "metal3 part of MiM cap",
     "drw_gds_pair": {
      "layer": 70,
-     "datatype": 220
+     "datatype": 20
     }
    },
    "original_layer_name": "met3"
@@ -656,11 +579,12 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met4_cap",
     "description": "metal4 part of MiM cap",
     "drw_gds_pair": {
      "layer": 71,
-     "datatype": 220
+     "datatype": 20
     }
    },
    "original_layer_name": "met4"
@@ -668,6 +592,7 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_MIM_CAP",
     "name": "capm",
     "description": "MiM cap above metal3",
     "drw_gds_pair": {
@@ -680,6 +605,7 @@
   {
    "kind": "KIND_DEVICE_CAPACITOR",
    "layer_info": {
+    "purpose": "PURPOSE_MIM_CAP",
     "name": "capm2",
     "description": "MiM cap above metal4",
     "drw_gds_pair": {
@@ -690,8 +616,178 @@
    "original_layer_name": "capm2"
   },
   {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "poly_vpp",
+    "description": "Computed layer for poly (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 66,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "poly"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "li_vpp",
+    "description": "Capacitor device metal (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 67,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "li1"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met1_vpp",
+    "description": "Capacitor device metal (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 68,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "met1"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met2_vpp",
+    "description": "Capacitor device metal (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 69,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "met2"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met3_vpp",
+    "description": "Capacitor device metal (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 70,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "met3"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met4_vpp",
+    "description": "Capacitor device metal (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 71,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "met4"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met5_vpp",
+    "description": "Capacitor device metal (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 72,
+     "datatype": 20
+    }
+   },
+   "original_layer_name": "met5"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_CONTACT",
+    "name": "licon_vpp",
+    "description": "Capacitor device contact (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 66,
+     "datatype": 44
+    }
+   },
+   "original_layer_name": "licon1"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "mcon_vpp",
+    "description": "Capacitor device contact (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 67,
+     "datatype": 44
+    }
+   },
+   "original_layer_name": "mcon"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "via1_vpp",
+    "description": "Capacitor device contact (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 68,
+     "datatype": 44
+    }
+   },
+   "original_layer_name": "via"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "via2_vpp",
+    "description": "Capacitor device contact (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 69,
+     "datatype": 44
+    }
+   },
+   "original_layer_name": "via2"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "via3_vpp",
+    "description": "Capacitor device contact (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 70,
+     "datatype": 44
+    }
+   },
+   "original_layer_name": "via3"
+  },
+  {
+   "kind": "KIND_DEVICE_CAPACITOR",
+   "layer_info": {
+    "purpose": "PURPOSE_VIA",
+    "name": "via4_vpp",
+    "description": "Capacitor device contact (MOM cap)",
+    "drw_gds_pair": {
+     "layer": 71,
+     "datatype": 44
+    }
+   },
+   "original_layer_name": "via4"
+  },
+  {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "poly_pin_con",
     "description": "Poly pin",
     "drw_gds_pair": {
@@ -704,6 +800,7 @@
   {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "li_pin_con",
     "description": "li1 pin",
     "drw_gds_pair": {
@@ -716,6 +813,7 @@
   {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met1_pin_con",
     "description": "met1 pin",
     "drw_gds_pair": {
@@ -728,6 +826,7 @@
   {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met2_pin_con",
     "description": "met2 pin",
     "drw_gds_pair": {
@@ -740,6 +839,7 @@
   {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met3_pin_con",
     "description": "met3 pin",
     "drw_gds_pair": {
@@ -752,6 +852,7 @@
   {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met4_pin_con",
     "description": "met4 pin",
     "drw_gds_pair": {
@@ -764,6 +865,7 @@
   {
    "kind": "KIND_PIN",
    "layer_info": {
+    "purpose": "PURPOSE_METAL",
     "name": "met5_pin_con",
     "description": "met5 pin",
     "drw_gds_pair": {
@@ -772,6 +874,97 @@
     }
    },
    "original_layer_name": "met5.pin"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "poly_label",
+    "description": "Poly label",
+    "drw_gds_pair": {
+     "layer": 66,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "poly.label"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "li_label",
+    "description": "li1 label",
+    "drw_gds_pair": {
+     "layer": 67,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "li1.label"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met1_label",
+    "description": "met1 label",
+    "drw_gds_pair": {
+     "layer": 68,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "met1.label"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met2_label",
+    "description": "met2 label",
+    "drw_gds_pair": {
+     "layer": 69,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "met2.label"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met3_label",
+    "description": "met3 label",
+    "drw_gds_pair": {
+     "layer": 70,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "met3.label"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met4_label",
+    "description": "met4 label",
+    "drw_gds_pair": {
+     "layer": 71,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "met4.label"
+  },
+  {
+   "kind": "KIND_LABEL",
+   "layer_info": {
+    "purpose": "PURPOSE_METAL",
+    "name": "met5_label",
+    "description": "met5 label",
+    "drw_gds_pair": {
+     "layer": 72,
+     "datatype": 5
+    }
+   },
+   "original_layer_name": "met5.label"
   }
  ],
  "process_stack": {
@@ -791,8 +984,18 @@
     "nwell_layer": {
      "z": 0.1,
      "reference": "fox",
+     "contact_above": {}
+    }
+   },
+   {
+    "name": "nsd",
+    "layer_type": "LAYER_TYPE_DIFFUSION",
+    "diffusion_layer": {
+     "z": 0.323,
+     "reference": "fox",
      "contact_above": {
-      "name": "licon1",
+      "name": "licon_nsd_con",
+      "layer_below": "nsdm",
       "metal_above": "li1",
       "thickness": 0.9361,
       "width": 0.17,
@@ -801,13 +1004,14 @@
     }
    },
    {
-    "name": "diff",
+    "name": "psd",
     "layer_type": "LAYER_TYPE_DIFFUSION",
     "diffusion_layer": {
      "z": 0.323,
      "reference": "fox",
      "contact_above": {
-      "name": "licon1",
+      "name": "licon_psd_con",
+      "layer_below": "psdm",
       "metal_above": "li1",
       "thickness": 0.9361,
       "width": 0.17,
@@ -829,7 +1033,8 @@
      "z": 0.3262,
      "thickness": 0.18,
      "contact_above": {
-      "name": "licon1",
+      "name": "licon_poly_con",
+      "layer_below": "poly",
       "metal_above": "li1",
       "thickness": 0.4299,
       "width": 0.17,
@@ -872,7 +1077,8 @@
      "z": 0.9361,
      "thickness": 0.1,
      "contact_above": {
-      "name": "mcon",
+      "name": "mcon_con",
+      "layer_below": "li1",
       "metal_above": "met1",
       "thickness": 0.34000000000000008,
       "width": 0.17,
@@ -906,7 +1112,8 @@
      "z": 1.3761,
      "thickness": 0.36,
      "contact_above": {
-      "name": "via",
+      "name": "via1_con",
+      "layer_below": "met1",
       "metal_above": "met2",
       "thickness": 0.27,
       "width": 0.15,
@@ -939,7 +1146,8 @@
      "z": 2.0061,
      "thickness": 0.36,
      "contact_above": {
-      "name": "via2",
+      "name": "via2_con",
+      "layer_below": "met2",
       "metal_above": "met3",
       "thickness": 0.42,
       "width": 0.2,
@@ -973,6 +1181,7 @@
      "thickness": 0.845,
      "contact_above": {
       "name": "via3_ncap",
+      "layer_below": "met3",
       "metal_above": "met4",
       "thickness": 0.39,
       "width": 0.2,
@@ -1014,6 +1223,7 @@
      "thickness": 0.1,
      "contact_above": {
       "name": "via3_cap",
+      "layer_below": "met3",
       "metal_above": "met4",
       "thickness": 0.29,
       "width": 0.2,
@@ -1038,6 +1248,7 @@
      "thickness": 0.845,
      "contact_above": {
       "name": "via4_ncap",
+      "layer_below": "met4",
       "metal_above": "met5",
       "thickness": 0.505,
       "width": 0.8,
@@ -1079,6 +1290,7 @@
      "thickness": 0.1,
      "contact_above": {
       "name": "via4_cap",
+      "layer_below": "met4",
       "metal_above": "met5",
       "thickness": 0.405,
       "width": 0.8,
@@ -1169,15 +1381,21 @@
    ],
    "contacts": [
     {
+     "contact_name": "licon_nsd_con",
      "device_layer_name": "nsdm",
+     "layer_above": "li1",
      "resistance": 185000
     },
     {
+     "contact_name": "licon_psd_con",
      "device_layer_name": "psdm",
+     "layer_above": "li1",
      "resistance": 585000
     },
     {
+     "contact_name": "licon_poly_con",
      "device_layer_name": "poly",
+     "layer_above": "li1",
      "resistance": 152000
     }
    ],
