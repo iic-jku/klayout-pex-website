@@ -47,9 +47,9 @@ The layer names in the script must correspond with the names configured in the t
 The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
 
 - formal schema files, defining the structure and data types involved
-   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/tech.proto): main schema / entry point, includes the others
-   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
-   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
+   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/tech.proto): main schema / entry point, includes the others
+   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
+   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
 - multiple concrete instantiations, that adhere to this schema (called *messages* in the `protobuf` lingo)
    - in the form of JSON files
    - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
