@@ -137,11 +137,11 @@ We can derive the following data from @fig-skywater-sky130-metal-stack:
 An except of the `process_stack.proto` schema is shown in the code listing below, note:
 
 - Line 3: `ProcessStackInfo.LayerType` is an enumeration type for the possible types of layers in the process stack
-- Line 57: `ProcessStackInfo.layers` is a list of `LayerInfo`
+- Line 58: `ProcessStackInfo.layers` is a list of `LayerInfo`
    - the order of this list defines the orders of layers
-- Line 40: `MetalLayer` describes a metal layer
-- Line 43: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
-- Line 30, 37: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
+- Line 41: `MetalLayer` describes a metal layer
+- Line 44: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
+- Line 31, 38: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
    - these refer to a dielectric or metal layer that they wrap around
    - `ConformalDielectricLayer` and `ConformalDielectricLayer` can be wrapped, e.g. `SPNIT` wraps `IOX`, which wraps `poly`
 
@@ -160,6 +160,7 @@ message ProcessStackInfo {
 
     message Contact { // Contact/Via
         string name = 1;
+        string layer_below = 9;
         string metal_above = 10;
         double thickness = 20;
 
