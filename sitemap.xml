@@ -2,90 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/notebooks/fringe_magic_substrate_issue.html</loc>
-    <lastmod>2025-11-14T14:22:43.169Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.862Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/ticer-example-schematic.html</loc>
-    <lastmod>2025-11-14T14:22:43.168Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.861Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/fastercap-maxwell-capacitance-matrix-schematic.html</loc>
-    <lastmod>2025-11-14T14:22:43.054Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.747Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_overlap.html</loc>
-    <lastmod>2025-11-14T14:22:43.168Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.860Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_overlap.html</loc>
-    <lastmod>2025-11-14T14:22:43.167Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.860Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_m1_substrate.html</loc>
-    <lastmod>2025-11-14T14:22:43.166Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.859Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/r_contact_2x2_minsize_mcon.html</loc>
-    <lastmod>2025-11-14T14:22:43.161Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.854Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_overlap.html</loc>
-    <lastmod>2025-11-14T14:22:43.168Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.861Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_li1_m1.html</loc>
-    <lastmod>2025-11-14T14:22:43.165Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.858Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/index.html</loc>
-    <lastmod>2025-11-14T14:22:43.169Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.862Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/doc/python-coverage.html</loc>
-    <lastmod>2025-11-14T14:22:43.043Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.736Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/doc/doc.html</loc>
-    <lastmod>2025-11-14T14:22:43.043Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.736Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/doc/test-reports.html</loc>
-    <lastmod>2025-11-14T14:22:43.043Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.736Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_m1_li1.html</loc>
-    <lastmod>2025-11-14T14:22:43.165Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.858Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sideoverlap_simple_plates_li1_m1_-_fringe_li1_substrate.html</loc>
-    <lastmod>2025-11-14T14:22:43.165Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.858Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/r_single_wire_li1.html</loc>
-    <lastmod>2025-11-14T14:22:43.164Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.857Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/single_plate_100um_x_100um_li1_over_substrate_-_perimeter.html</loc>
-    <lastmod>2025-11-14T14:22:43.168Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.861Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_sidewall.html</loc>
-    <lastmod>2025-11-14T14:22:43.168Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.861Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/sidewall_20um_length_distance_200nm_li1_-_fringe_A.html</loc>
-    <lastmod>2025-11-14T14:22:43.167Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.860Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/test_patterns/r_contact_1x1_minsize_mcon.html</loc>
-    <lastmod>2025-11-14T14:22:43.160Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.853Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/figures/ticer-example-schematic-reduced.html</loc>
-    <lastmod>2025-11-14T14:22:43.168Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.861Z</lastmod>
   </url>
   <url>
     <loc>https://iic-jku.github.io/klayout-pex-website/notebooks/ticer_example_bode_plots.html</loc>
-    <lastmod>2025-11-14T14:22:43.171Z</lastmod>
+    <lastmod>2025-11-28T15:23:56.863Z</lastmod>
   </url>
 </urlset>
