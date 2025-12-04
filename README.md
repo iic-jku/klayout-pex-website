@@ -22,6 +22,9 @@ SPDX-License-Identifier: Apache-2.0
 -->
 ## KPEX Extractor Documentation
 
+[![Quarto Publish](https://github.com/iic-jku/klayout-pex-website/actions/workflows/publish-quarto-github-pages.yml/badge.svg?branch=main)](https://github.com/iic-jku/klayout-pex-website/actions/workflows/publish-quarto-github-pages.yml)
+
+
 ###
 
 Online at https://iic-jku.github.io/klayout-pex-website/
