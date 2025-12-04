@@ -4,6 +4,7 @@ pagetitle: "About"
 
 [![PyPi](https://img.shields.io/pypi/v/klayout-pex)](https://pypi.org/project/klayout-pex/)
 [![GitHub issues](https://img.shields.io/badge/issue_tracking-github-blue.svg)](https://github.com/iic-jku/klayout-pex/issues)
+[![Quarto Publish](https://github.com/iic-jku/klayout-pex-website/actions/workflows/publish-quarto-github-pages.yml/badge.svg?branch=main)](https://github.com/iic-jku/klayout-pex-website/actions/workflows/publish-quarto-github-pages.yml)
 
 # KLayout-PEX
 
