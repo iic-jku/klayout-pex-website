@@ -2,6 +2,7 @@
 title: KLayout-PEX Documentation
 author:
     - name: Martin Köhler
+      orcid: 0009-0002-1780-6169
       email: martin.koehler@jku.at
       corresponding: true
       roles: "Lead author"
@@ -15,6 +16,9 @@ license: "Apache-2.0 license"
 copyright:
   holder: "Martin Köhler, Harald Pretl and co-authors, Johannes Kepler University."
   year: 2024-2025
+citation:
+  doi: "10.5281/zenodo.17822519"
+  url: https://iic-jku.github.io/klayout-pex-website
 filters: ["inline-file-filter.lua"]
 format:
   html:
