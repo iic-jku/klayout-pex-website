@@ -74,7 +74,7 @@
     "href": "index.html#install",
     "title": "KLayout-PEX",
     "section": "Install",
-    "text": "Install\npip install klayout-pex\nAfter that, you should be able to run kpex --help."
+    "text": "Install\npip install klayout-pex\nAfter that, you should be able to run kpex --help.\n\n\n\n\n\n\nCaution\n\n\n\nThe klayout-pex PyPi package contains neither FasterCap nor MAGIC. To be able to run these engines, the binaries for these tools must be installed separately beforehand. Check out the installation documentation for more information."
   },
   {
     "objectID": "index.html#status",
