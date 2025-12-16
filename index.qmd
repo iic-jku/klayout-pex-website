@@ -24,6 +24,13 @@ Check out the [documentation](doc/doc.qmd) for more information.
 
 After that, you should be able to run `kpex --help`.
 
+::: {.callout-caution}
+The `klayout-pex` PyPi package contains neither [FasterCap](https://github.com/martinjankoehler/FasterCap) nor [MAGIC](https://github.com/RTimothyEdwards/magic).
+To be able to run these engines, the binaries for these tools must be installed separately beforehand.
+Check out the [installation documentation](doc/doc.qmd#sec-intro-installation) for more information.
+:::
+
+
 ## Status
 
 {{< include doc/_status.qmd >}}
