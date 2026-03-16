@@ -44,7 +44,7 @@ The layer names in the script must correspond with the names configured in the t
 
 ## Technology Definition Files {#sec-tech-def}
 
-The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.net), so there is:
+The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.dev), so there is:
 
 - formal schema files, defining the structure and data types involved
    - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/tech.proto): main schema / entry point, includes the others
