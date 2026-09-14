@@ -59,6 +59,12 @@ format:
         \usepackage{arydshln}
         %---
         \usepackage{cancel}
+        \newcommand{\pexheadingroom}{%
+          \par\ifdim\dimexpr\pagegoal-\pagetotal\relax<6\baselineskip
+            \newpage
+          \fi}
+        \AddToHook{cmd/paragraph/before}{\pexheadingroom}
+        \AddToHook{cmd/subparagraph/before}{\pexheadingroom}
         %---
     include-before-body:
       text: |
@@ -101,7 +107,10 @@ bibliography: ../references.bib
 
 # Appendix
 
+{{< include _sec_pex25d.qmd >}}
+
+{{< pagebreak >}}
+
 ## References
 
 {{< include _footnotes.qmd >}}
-

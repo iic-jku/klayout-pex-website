@@ -16,6 +16,8 @@ limitations under the License.
 
 # `KPEX/2.5D` Engine   {#sec-engine-kpex-2_5D}
 
+This analytical extraction engine is separate from the **PEX25D interchange format** described in @sec-pex25d. `kpex extract --2.5D` selects the engine; `kpex pex25d` generates a geometry and material description without running an engine.
+
 Field solvers are precise, yet slow, they are useful to obtain a golden reference.
 
 For most use cases, a faster engine is desirable.
@@ -41,5 +43,4 @@ The engine uses those new API classes to extract parasitic resistances:
 - `klayout.pex` module (since KLayout `0.30.2`)
    - `klayout.pex.RNetExtractor`: used to extract resistance networks
    - `klayout.pex.RExtractorTech`: minimal process stack description for conductor and via layers
-
 
