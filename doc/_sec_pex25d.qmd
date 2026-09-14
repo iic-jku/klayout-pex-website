@@ -1,0 +1,477 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{=latex}
+\fvset{samepage=true}
+```
+
+## PEX25D File Format: Represent Interconnect Geometry and Materials {#sec-pex25d}
+
+The **PEX25D format** (Parasitic Extraction 2.5D) describes interconnect geometry and materials for exchange between tools. It combines two-dimensional (XY) conductor shapes with a vertical process stack, so a solver adapter can reconstruct the three-dimensional structure without the original layout or PDK files. The same structure can describe an electrostatic capacitance problem and, with resistance parameters and terminals, a DC resistance problem.
+
+This appendix specifies the PEX25D format and explains its protobuf API and command-line tools. The reference implementation writes **`PEX25D 1.0-rc1`**. The format version is independent of the KLayout-PEX package version.
+
+::: {.callout-note title="The PEX25D format and the KPEX/2.5D engine"}
+The **PEX25D format** defines an interchange description. `kpex pex25d` generates files in this format; `pex25d` inspects and processes them.
+
+**KPEX/2.5D** is the analytical extraction engine described in @sec-engine-kpex-2_5D, selected with `kpex extract --2.5D`. It uses calibrated technology coefficients and shielding rules. Generating or resolving PEX25D files does not run that engine, and the format does not contain its calibrated capacitance tables.
+:::
+
+### Why use PEX25D? {#sec-pex25d-benefits}
+
+- **Exchange a physical problem between tools.** A layout producer and a solver adapter can agree on conductor identities, geometry, materials, and terminals through one documented interface. The adapter does not need to repeat LVS or understand the producer's PDK representation.
+- **Compare different solvers on the same structure.** Export one PEX25D description through different solver adapters to compare extracted results using the same conductor geometry, material properties, and net identities. This helps distinguish solver differences from differences in input preparation. For a meaningful comparison, also account for each adapter's meshing, boundary treatment, and supported format features.
+- **Inspect and reproduce solver input.** Save a readable text file for review, a compact protobuf scene for repeated runs, or a small hand-written example for a bug report. Validation can run before meshing or starting an expensive field solve.
+- **Change process corners consistently.** Only the ground plane and metal profiles declare absolute heights. Via endpoints, dielectric bands, and film growth refer to those profiles, so a change to a metal height propagates through the stack. `INCLUDE` can separate a technology stack from reusable geometry.
+- **Share one resolver across consumers.** The protobuf API separates what the author wrote from the resolved scene. Adapters consume the latter and share the interpretation of `CONNECTS`, `BETWEEN`, `WRAPS`, and terminal intersections.
+- **Pass prepared input directly to C++ engines.** Python can prepare and resolve the structure, then forward a binary `PEX25DScene` to a C++ consumer using generated protobuf bindings. The C++ engine needs neither a PEX25D text parser nor a second implementation of stack resolution. This supports keeping preparation in Python while moving computation-intensive work to C++.
+- **Preserve exact dimensions.** Coordinates are integer grid units internally. Coincident vertical faces remain equal after relative heights are computed, without accumulating floating-point discrepancies.
+
+The PEX25D format describes the physical interconnect structure. An analytical consumer still needs its own technology data, potentially matched through `META technology` and the layer names; this does not imply that the current KPEX/2.5D engine reads PEX25D files.
+
+The following are outside the scope of version 1.x:
+
+- Extracted results and fitted parasitic models, including calibrated capacitance tables.
+- Inductance.
+- Frequency-dependent effects, such as skin effect or dispersive permittivity.
+- Self-heating.
+- Electromigration.
+- Substrate resistance; the ground plane is an ideal 0 V reference.
+
+### From layout to solver input {#sec-pex25d-workflow}
+
+The workflow has four distinct operations:
+
+| Operation | Tool or API | Result |
+|:--|:--|:--|
+| Generate from layout connectivity and PDK stack | `kpex pex25d` | `PEX25DFile`, optionally also `PEX25DScene` |
+| Read or re-encode a description | Text reader; `pex25d convert` | The same artifact kind in another encoding |
+| Resolve relative geometry | Resolver; `pex25d resolve` | `PEX25DScene` |
+| Mesh and export for a solver | Adapter; `pex25d export` | Native solver input files |
+
+The intended project architecture keeps layout and technology preparation in **Python** and moves computation-intensive portions into **C++** engines. The resolved binary scene is the interface between those stages: Python produces it, and C++ reads the same protobuf message through generated bindings. This is the direction for moving computation to C++; it does not mean all current engines have already been ported.
+
+`PEX25DFile` is the literal, unresolved model: it retains profile references and relative descriptions. The text reader flattens `INCLUDE` files and groups records by type. Comments, whitespace, and original record order are not preserved, so conversion is not a byte-for-byte text round trip.
+
+`PEX25DScene` carries absolute Z extents, dielectric roots and wrap depths, conductor geometry grouped by layer, and terminal intersections. When a domain was requested, it contains the resulting box. Without a domain record, the resolver retains finite geometry bounds and leaves boundary selection to the adapter. The scene still describes 2.5D geometry; it is not a triangulated solver mesh.
+
+Resolution is one-way. A scene has no representation in the PEX25D text syntax, and `convert` cannot reconstruct the original file from it. Keep the file when you want to edit relative stack definitions later.
+
+### Artifact filenames and encodings {#sec-pex25d-filenames}
+
+The filename identifies both the artifact kind (unresolved file or resolved scene) and its encoding. The tools infer these from the following suffixes:
+
+| Conventional filename | Protobuf message | Encoding |
+|:--|:--|:--|
+| `name.pex25d` | – | [PEX25D textual format](#sec-pex25d-syntax) |
+| `name.pex25d.pb` | `PEX25DFile` | Binary protobuf |
+| `name.pex25d.textpb` | `PEX25DFile` | Protobuf text |
+| `name.pex25d.scene.pb` | `PEX25DScene` | Binary protobuf |
+| `name.pex25d.scene.textpb` | `PEX25DScene` | Protobuf text |
+
+Reading the PEX25D textual format produces a `PEX25DFile` message in memory.
+
+A trailing `.gz` enables gzip for any of these filenames. Protobuf text (`textpb`) uses protobuf field names and braces; it is a different syntax from the PEX25D textual format.
+
+{{< pagebreak >}}
+
+### A complete example {#sec-pex25d-example}
+
+Download [two_nets.pex25d](../data/pex25d/two_nets.pex25d) to try the commands below without a layout or an LVS run. This small, illustrative stack is not calibrated PDK data. Conductor `A` crosses from `met1` to `met2` through one explicit via cut and has two terminals. Conductor `B` is a nearby metal polygon.
+
+```text
+{{< include ../data/pex25d/two_nets.pex25d >}}
+```
+
+The via spans **1.4–2.0 µm**: the top of `met1` to the bottom of `met2`. The `lint` film reaches 0.1 µm above `met1` and 0.08 µm beside it. `ild` fills the band from the **bottom** of `met1` at 1.0 µm to the bottom of `met2` at 2.0 µm. Where both dielectrics are present, `lint` wins because it has wrap depth 1 and `ild` has depth 2.
+
+For capacitance, `A` is equipotential despite its two terminals. For resistance, those terminals define the two nodes between which its distributed interconnect is reduced. `B` has no terminals, so it participates in capacitance but contributes no resistance network.
+
+### PEX25D textual format reference {#sec-pex25d-syntax}
+
+In the syntax templates below, angle brackets identify values to supply; square brackets mark optional clauses. Neither is written literally into a file.
+
+#### Records, versions, and grid units {#sec-pex25d-units}
+
+Files are UTF-8 and line-oriented. Keywords are case-sensitive. Whitespace separates tokens, `#` starts a comment outside a quoted value, and a trailing backslash continues a record on the next line. Quote metadata values or paths containing whitespace. Clauses **within** a record must follow the documented order.
+
+```text
+PEX25D <major>.<minor>[-<suffix>]
+UNITS LENGTH <um|nm|m> GRID <grid>
+```
+
+`PEX25D` must be the first record of the top-level file. `UNITS` must precede numeric records, including numbers brought in by `INCLUDE`. After these, records can appear in any order and may reference profiles declared later.
+
+A reader accepts minor versions with the same supported major version. It skips an unknown top-level record with a warning; it rejects an unsupported major version. An unknown clause in a known record is an error. A clause keyword such as `WRAPS` or `THICKNESS_ON_FIELD` at the beginning of a record is also an error, since it may indicate a missing continuation backslash. An optional version suffix consists of letters, digits, dots, or hyphens and does not affect compatibility; writers should preserve it.
+
+Coordinates, Z offsets, thicknesses, and margins use the declared length unit and must be multiples of `GRID`. Decimal and scientific notation are accepted, including `.5`, `5.`, and `1e-3`. There are no per-value unit overrides or thousands separators. To check a length, divide by `GRID`, round to the nearest integer, and require the quotient to be within $10^{-6}$ of that integer. A value outside that tolerance is an error, not permission to snap the input geometry.
+
+For `UNITS LENGTH um GRID 0.0001`, a coordinate of `0.3262` is stored as **3262 grid units**. Protobuf represents the grid itself as an exact rational. It stores coordinates in signed 64-bit integers, not floating-point micrometres. Derived vertical positions therefore remain exact. Lateral offsets of non-Manhattan edges can fall off-grid; the specification requires rounding those *derived offsets* to the nearest grid point.
+
+Permittivity and resistance parameters are material values and are **not** grid-quantized. The PEX25D grid and the source layout database unit (DBU) are distinct: `GRID 0.0001` and a layout DBU of `0.001` µm differ by a factor of ten.
+
+#### Metadata and includes {#sec-pex25d-metadata}
+
+```text
+META <key> <value>
+INCLUDE <path>
+```
+
+Metadata records describe provenance and do not change geometry or material interpretation. A key may occur only once across the entire include tree. Unknown metadata keys are silently accepted. Defined keys are `technology`, `process_corner`, `source_cell`, `source_layout_hash` (for example, `sha256:<digest>`), `source_dbu`, and `generator`. Prefix private keys with a vendor tag such as `x-kpex-`. If `source_dbu` is supplied, the grid must divide it exactly.
+
+An included file contains records without its own `PEX25D` or `UNITS` header. Relative paths are resolved against the including file's directory; nested includes are allowed, cycles are errors. For input from stdin, relative includes resolve against the current working directory.
+
+For example, keep the header in `design.pex25d`, put profiles and material values in `stack-typical.inc`, and put conductor shapes in `geometry.inc`:
+
+```text
+PEX25D 1.0-rc1
+UNITS LENGTH um GRID 0.0001
+META technology example
+META process_corner typical
+INCLUDE stack-typical.inc
+INCLUDE geometry.inc
+```
+
+Both included files use the top-level length unit and grid. Changing the stack include selects another physical corner; it does not supply a new calibration table to an analytical engine.
+
+#### Ground plane, metals, and vias {#sec-pex25d-layers}
+
+```text
+GROUND_PLANE <name> Z_OFFSETS <zlow> <zhigh>
+METAL <name> Z_OFFSETS <zlow> <zhigh>
+VIA <name> CONNECTS <below> <above>
+```
+
+There must be exactly one ground plane. It occupies an infinite XY slab at 0 V. Ground-plane and metal Z ranges are absolute, with `zlow < zhigh`. Metals become solids only where conductor shapes are drawn.
+
+A via fills the vertical gap between its ordered endpoints:
+
+$$
+z_{\mathrm{low,via}} = z_{\mathrm{high,below}}, \qquad
+z_{\mathrm{high,via}} = z_{\mathrm{low,above}}.
+$$
+
+Endpoints may name profiles with Z extents, including the ground plane for substrate or well taps. Contacts landing on different layers need distinct via profiles; contacts with equal heights but different resistances may also need distinct profiles.
+
+Ground-plane, metal, via, dielectric, and background names share a unique **profile namespace**. Conductor shortnames have a separate namespace, and terminal names another. Shape and terminal `LAYER` references must select a metal or via, never the ground plane or a dielectric.
+
+A metal profile without shapes is legal. Such an **anchor** can locate the bottom of a contact at an excluded device layer without introducing that layer's solid. It has no resistance requirement and does not enlarge the computational domain or overlap the ground plane merely because its Z range lies inside it.
+
+#### Dielectrics and material precedence {#sec-pex25d-dielectrics}
+
+```text
+DIELECTRIC_SIMPLE <name> WRAPS <profile> PERMITTIVITY <k> \
+    BETWEEN <below> <above>
+DIELECTRIC_CONFORMAL <name> WRAPS <profile> PERMITTIVITY <k> \
+    THICKNESS_OVER_WRAPPED <top> \
+    THICKNESS_BESIDE_WRAPPED <side> \
+    THICKNESS_ON_FIELD <field>
+DIELECTRIC_BACKGROUND <name> PERMITTIVITY <k>
+```
+
+`PERMITTIVITY` is relative, isotropic, and frequency-independent; vacuum has a value of 1.0. Exactly one background is required. It fills whatever no conductor, ground plane, or dielectric occupies.
+
+`DIELECTRIC_SIMPLE` occupies a band across the whole XY plane, from the **bottom face of `below` to the bottom face of `above`**. This differs from `VIA CONNECTS`, which starts at the lower profile's *top*. `BETWEEN` determines the band's geometry; `WRAPS` determines its precedence. A simple fill must wrap the outermost film anchored on its lower object, or the lower object itself if it has no film.
+
+`DIELECTRIC_CONFORMAL` grows from the surface of the profile it wraps:
+
+| Thickness | Meaning |
+|:--|:--|
+| `THICKNESS_OVER_WRAPPED` | Growth above its top face; zero is flush with that face |
+| `THICKNESS_BESIDE_WRAPPED` | Growth beside its side faces |
+| `THICKNESS_ON_FIELD` | Film where the wrapped object is absent, measured upward from its bottom face; zero leaves no field film |
+
+Thicknesses are incremental along a `WRAPS` chain. If one film extends 0.006 µm beside a metal and the next extends 0.0431 µm beside that film, the outer extent is 0.0491 µm beyond the metal. A sidewall film is expressed by a conformal record with zero field thickness; there is no separate `DIELECTRIC_SIDEWALL` record.
+
+Profiles describe grown solids containing the wrapped object, rather than pre-subtracted shells. Material occupancy determines the visible material:
+
+1. Conductors and the ground plane take precedence over dielectrics.
+2. Among dielectrics claiming a point, the smallest `WRAPS` depth wins. A film on a metal, via, or ground plane has depth 1; wrapping another dielectric adds one.
+3. The background fills unclaimed space.
+
+`WRAPS` references must be acyclic. Overlapping dielectrics at equal depth are ambiguous and invalid; changing record order cannot fix them. Re-anchor the fill or film to express the intended precedence. These rules make stack order in the file a matter of readability rather than material interpretation.
+
+#### Conductors and XY shapes {#sec-pex25d-shapes}
+
+```text
+CONDUCTOR <shortname> <net>
+BOX CONDUCTOR <shortname> LAYER <profile> LL <x> <y> UR <x> <y>
+POLYGON CONDUCTOR <shortname> LAYER <profile> \
+    OUTER <x1> <y1> <x2> <y2> ... [HOLE <x1> <y1> <x2> <y2> ...]
+```
+
+Each shape is extruded over its layer's Z extent. A conductor's shapes are unioned and may be disconnected. Different conductor bodies must not overlap in volume. The meaning of a shared net depends on the analysis:
+
+| Analysis | Meaning of conductors sharing a net |
+|:--|:--|
+| Capacitance | All are constrained to one potential; results are combined per net |
+| Resistance | Each conductor forms a separate network between its own terminals; external connections belong to the enclosing flow |
+
+The exact, case-sensitive net name `FLOATING` is reserved for unconnected shielding bodies such as dummy fill. Each floating conductor has its own unknown potential, is reported under its shortname, and must not have terminals. Floating bodies are not shorted together just because they all use that reserved net name.
+
+Boxes use lower-left and upper-right corners. Polygon rings are implicitly closed, so do not repeat the first vertex. An outer ring may be concave; outer and hole rings must be simple. Holes must lie strictly inside their outer ring and may not touch or intersect another ring. Winding direction is immaterial. Use separate polygon records for disconnected regions or an island inside a hole.
+
+**Every via cut is an explicit shape.** There is no via-array record, and readers do not infer cuts from spacing or enclosure rules. This preserves dielectric gaps between cuts and makes `PER_CUT` resistance unambiguous.
+
+#### Resistance parameters {#sec-pex25d-resistance}
+
+```text
+RESISTANCE TEMPERATURE <celsius>
+RESISTANCE METAL <profile> SHEET <ohm_per_square> [TC1 <value>] [TC2 <value>]
+RESISTANCE VIA <profile> PER_CUT <ohm> [TC1 <value>] [TC2 <value>]
+```
+
+Resistance records are optional. There may be at most one reference temperature, one sheet resistance per metal profile, and one per-cut resistance per via profile. `SHEET` is in ohms per square, and `PER_CUT` in ohms per cut, independently of the length unit. KPEX technology data stores resistance in milliohms; a producer converting that data divides by 1000.
+
+Missing resistance means **unspecified**, not zero. A resistance consumer must reject a profile carrying geometry if it has no resistance value. Unused anchor profiles are exempt. A capacitance consumer can ignore resistance parameters.
+
+Sheet resistance is a calibrated electrical property. Do not reconstruct it from the drawn metal thickness or invert it to infer bulk resistivity. Two geometrically equal contacts can likewise have different per-cut resistances, for example when they land on different diffusion types.
+
+The optional temperature coefficients have units of K$^{-1}$ and K$^{-2}$:
+
+$$
+R(T) = R_{\mathrm{ref}}\left[1 + TC1\,(T-T_{\mathrm{ref}})
+                         + TC2\,(T-T_{\mathrm{ref}})^2\right].
+$$
+
+The reader and resolver carry these values through; the consumer applies them at its operating temperature. An absent reference temperature does not imply 25 °C. The enclosing flow must supply it if needed.
+
+#### Terminals and compact-device boundaries {#sec-pex25d-terminals}
+
+```text
+TERMINAL <name> CONDUCTOR <shortname> LAYER <profile> [KIND <kind>] \
+    LL <x> <y> UR <x> <y>
+```
+
+A terminal is the intersection of its rectangular region with the selected conductor's geometry on one metal or via profile. It must select a non-empty region. Several disjoint pieces may form **one electrical node**, but a terminal may not partially select a via cut: each selected cut must be covered completely.
+
+`KIND PIN` denotes a port or probe point. `KIND DEVICE_TERMINAL` marks the boundary to a compact device model. Omitting `KIND` leaves the role unspecified. Names are unique among terminals and become network node names.
+
+A metal terminal makes its selected region equipotential over the layer's thickness; a 3D resistance adapter may choose a drive face. A via terminal is a node at the **lower face** of the selected cuts. It does not short through the via, so the contact resistance above that node remains part of the extracted network. A conductor with fewer than two terminals contributes no resistance elements.
+
+::: {.callout-important title="Terminal size changes the resistance problem"}
+Everything selected by a terminal is shorted together. A marker covering an entire wire or gate can therefore remove the resistance you intend to extract. Size the region to the pin or device boundary it represents, rather than copying a large enclosing shape.
+:::
+
+Geometry owned by a compact model is excluded from the interconnect description to avoid counting its parasitics twice. The specification places the device/interconnect boundary below the contact: diffusion and the device's internal spreading resistance belong to the device, while the contact and routing above it belong to interconnect extraction. An anchor profile can locate that contact without drawing diffusion geometry.
+
+The lower face selected by `DEVICE_TERMINAL` is an **open boundary of the extracted region**, for both capacitance and resistance. This prevents a device contact coincident with the ground-plane surface from becoming a short to 0 V or adding device junction capacitance. Only the marked portion is opened. A substrate tap without a device terminal retains ordinary electrical contact with the ground plane. These are specification requirements for consumers; the current FasterCap adapter does not yet implement device-terminal open faces.
+
+##### KLayout-generated terminals {#sec-pex25d-generated-terminals}
+
+Terminal generation is under development. The current development implementation derives `PIN` records from labels inside layout pin markers. Each pin region extends one layout DBU from the label in every direction, preserving wire resistance even when the pin marker itself covers a long wire.
+
+Device terminals use LVS terminal geometry on existing conductive profiles. Several disjoint pieces can share one node when their bounding box selects exactly those pieces; an abutting boundary selects a strip one DBU wide inside the interconnect. Generation rejects a box that would select additional interconnect or a node that spans multiple profiles. Names use `pin:<label>` and `device:<instance>:<terminal>`, with percent encoding for syntax-sensitive characters and numeric suffixes for uniqueness.
+
+This work also adds exact clipping of Manhattan polygons, including holes and disconnected intersections. Partial clipping of non-Manhattan polygons remains unsupported. Earlier resolver implementations support clipped boxes and whole polygons only. **Diffusion/contact terminal generation is still pending**; the presence of pin and gate terminals must not be taken as a complete device boundary model.
+
+#### Computational domain {#sec-pex25d-domain}
+
+```text
+DOMAIN_MARGIN X <xmargin> Y <ymargin> Z <zmargin>
+DOMAIN_BOX LL <x> <y> <z> UR <x> <y> <z>
+```
+
+These optional records help adapters select a finite computational region; they do not prescribe boundary conditions. `DOMAIN_MARGIN` expands the finite geometry bounds in both X and Y directions and only upward in Z. The ground-plane top forms the lower boundary. An adapter may increase the requested clearance but must not reduce it.
+
+Finite geometry includes conductor shapes and laterally bounded conformal films, including their lateral growth. The ground plane, background, simple dielectric bands, field-covering films, and unused anchor profiles do not enlarge those bounds.
+
+`DOMAIN_BOX` specifies the box directly and takes precedence over `DOMAIN_MARGIN` if both occur, with a warning. Finite non-ground-plane geometry must fit inside; touching a box face is allowed. The lower Z face normally coincides with the ground-plane top. Without either record, domain choice belongs to the adapter. The current FasterCap/FastCap2 exporter uses the resolved box's XY extent to bound laterally infinite materials; it does not turn the box into a prescribed six-face boundary condition.
+
+### Command-line tools {#sec-pex25d-cli}
+
+The `klayout-pex` package supplies `kpex` and the separate `pex25d` entry point. Check command availability with `--help`; older installed releases may not have these commands. In a source checkout, build the generated protobuf modules as described in [DEVELOPMENT.md](https://github.com/iic-jku/klayout-pex/blob/main/DEVELOPMENT.md). The source wrappers are `./kpex.sh` and `bash ./pex25d.sh`; the standalone module can also be run as `python -m klayout_pex.pex25d`.
+
+```bash
+kpex pex25d --help
+pex25d --help
+pex25d validate --help
+pex25d export --help
+```
+
+Reading, validating, converting, resolving, and summarizing an existing artifact do not require a layout, LVS, or a running solver, and their implementation does not import KLayout. Generating from a layout and exporting through the current meshing backend do require KLayout. This is a runtime distinction; the distributed `klayout-pex` package still declares KLayout as a dependency.
+
+#### Generate from a layout: `kpex pex25d` {#sec-pex25d-generate}
+
+This subcommand runs layout connectivity extraction through LVS, combines it with the selected PDK's stack and resistance data, and writes artifacts in the PEX25D format before solver execution. The layout example in @sec-first-steps-pex25d shows both outputs. At least one output must be requested, and the two paths must differ.
+
+| Option | Use |
+|:--|:--|
+| `--output_file PATH` | Write an unresolved file; `.pex25d`, `.pex25d.pb`, or `.pex25d.textpb` selects its encoding |
+| `--output_scene PATH` | Write a resolved scene; use `.pex25d.scene.pb` or `.pex25d.scene.textpb` |
+| `--format FORMAT` | Select `auto`, `text`, `pb`, or `textpb`; one setting applies to both requested outputs |
+| `--grid UM` | Grid in µm; default `0.0001`, must represent stack dimensions and divide the layout DBU |
+| `--domain_margin UM` | Emit equal X, Y, and upper-Z margins; default is no domain record |
+| `--validate BOOL` | Run reference validation; `y` (default) or `n` |
+| `--comments BOOL` | Add syntax hints to text output; `y` or `n` (default) |
+| `--with_source_refs BOOL` | Retain per-record provenance in protobuf output; `y` or `n` (default) |
+
+Layout, PDK, top-cell, blackboxing, and material selection options are listed by `kpex pex25d --help`. The artifact's kind is selected by the output option, so requesting `--format text` together with `--output_scene` is invalid. Filenames ending in `.gz` produce compressed output.
+
+`--strict`, `--werror`, `--diagnostics`, and `--diagnostics_out` are also available, with the meanings described in @sec-pex25d-validate.
+
+Generation can leave artifacts on disk even when validation reports errors. Always inspect the exit status and diagnostics before using them as solver input. In the current Sky130 stack, the `nild6`/`capild` anchoring can trigger `PEX25D-E0260`. For an isolated terminal smoke test, `--diel all,-nild6` avoids that conflict, but removes a dielectric from the physical problem and is not a substitute for correcting the stack for capacitance extraction.
+
+#### Validate and inspect {#sec-pex25d-validate}
+
+Run these commands in the directory containing the downloaded example:
+
+```bash
+pex25d validate two_nets.pex25d
+pex25d validate two_nets.pex25d --strict
+pex25d show two_nets.pex25d
+pex25d show two_nets.pex25d --section layers --section terminals
+```
+
+Normal validation checks syntax, units, references, wrap anchoring and depth conflicts, resistance records, and terminal selection. `--strict` adds geometric checks for boxes and rings, hole containment, and conductor volume overlap. `show` summarizes the artifact as supplied; resolve it first when you want to inspect derived layer heights.
+
+`--section` is repeatable and accepts `header`, `meta`, `layers`, `dielectrics`, `conductors`, `terminals`, `resistance`, `domain`, and `all`. Human-readable summaries and diagnostic wording are not stable APIs.
+
+For automated checks of a custom PEX25D writer, save a structured report and use the exit status:
+
+```bash
+pex25d validate two_nets.pex25d --strict --werror \
+  --diagnostics json --diagnostics_out validation.json
+pex25d validate two_nets.pex25d --strict \
+  --diagnostics pb --diagnostics_out validation.pb
+```
+
+JSON and binary protobuf reports carry stable `PEX25D-Ennnn` codes, severity, validation tier, and source positions where available. Use an explicit report path to keep the report separate from console logging. `--werror` makes warnings fail the run; without it, warnings alone do not fail validation.
+
+| Exit status | Meaning |
+|:--|:--|
+| `0` | Success |
+| `1` | Validation or resolution errors, or warnings with `--werror` |
+| `2` | Invalid command line, I/O failure, missing dependency, or export failure |
+| `3` | An operation reports that it is not implemented |
+
+The validator is a reference check, not a guarantee that every adapter implements every specification rule. For example, the current depth-tie check detects competing profiles on the same wrap root; it is not a complete geometric intersection check for films on different roots. Terminal-boundary support must also be checked at the adapter level.
+
+{{< pagebreak >}}
+
+#### Convert encodings and resolve a scene {#sec-pex25d-convert}
+
+```bash
+pex25d convert two_nets.pex25d -o two_nets.pex25d.pb
+pex25d convert two_nets.pex25d.pb -o two_nets.pex25d.textpb
+pex25d convert two_nets.pex25d.pb -o two_nets-copy.pex25d --comments
+pex25d convert two_nets.pex25d -o two_nets.pex25d.pb.gz
+
+pex25d resolve two_nets.pex25d -o two_nets.pex25d.scene.pb --strict
+pex25d convert two_nets.pex25d.scene.pb -o two_nets.pex25d.scene.textpb
+pex25d validate two_nets.pex25d.scene.pb --strict
+pex25d show two_nets.pex25d.scene.pb --section layers --section domain
+```
+
+`convert` changes encoding within one kind; it does not validate the complete physical problem. `resolve` computes the scene and accepts `--strict`, `--werror`, and the diagnostics options. Validate before passing a resolved scene to an exporter as well: the current export path resolves file input, but does not automatically run the reference validator on an already-resolved scene.
+
+Use `--with_source_refs` on text conversion or resolution when you want the protobuf artifact to retain locations in an include tree. Diagnostics produced while reading text have source positions even without that flag. `--comments` adds syntax hints when writing PEX25D text; unlike the `kpex` option, it is a flag and takes no `y` argument.
+
+#### Export native solver input {#sec-pex25d-export}
+
+```bash
+pex25d export two_nets.pex25d.scene.pb \
+  --to fastercap --out_dir solver/fastercap --prefix two_nets
+pex25d export two_nets.pex25d \
+  --to fastcap2 --out_dir solver/fastcap2 --prefix two_nets
+```
+
+Both targets use the shared FasterCap/FastCap2 list-file exporter. The output directory contains a `.lst` entry file and its referenced surface files; keep them together. File input is resolved automatically. Export generates meshes and input files, **without running the solver or producing a capacitance matrix**. The solver executable is needed when those files are subsequently solved. `kpex extract` is the separate integrated flow for running engines from a layout.
+
+The backend also supports STL output and mesh controls through `ExporterOptions`. The current `pex25d export --help` lists `--stl`, `--field_margin`, `--delaunay_amax`, `--delaunay_b`, and `--geo_check`, but the CLI does not forward them to the backend. They therefore have no effect through the current CLI. Use the API shown below for these controls. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.
+
+The current exporter is for capacitance input. It does not extract a resistance network from `SHEET`, `PER_CUT`, or terminal records, and there is no `elmer` or analytical `2.5d` target in this CLI.
+
+#### Pipelines and explicit encodings {#sec-pex25d-pipes}
+
+A path of `-` means stdin for input and stdout for output. Artifact output reserves stdout and redirects logging and diagnostics to stderr. Use explicit kinds and encodings in a binary pipeline:
+
+```bash
+pex25d resolve two_nets.pex25d -o - --out_kind scene --out_format pb \
+  | pex25d show - --in_kind scene --in_format pb --section layers
+```
+
+For filenames without conventional suffixes, supply **both** `--in_kind file|scene` and `--in_format text|pb|textpb`, or the corresponding `--out_kind` and `--out_format`. These are options of the standalone tool; `kpex pex25d` uses its output options and `--format` instead. Stdin defaults to unresolved text, while `resolve` defaults to binary scene output on stdout. Gzip is inferred from filenames; use a shell gzip tool when compressing a stream.
+
+### Protobuf API: Python Preparation and C++ Consumers {#sec-pex25d-api}
+
+The [PEX25D schemas](https://github.com/iic-jku/klayout-pex/tree/main/protos/kpex/pex25d) define the file and scene messages, exact units, geometry, dielectric and resistance records, terminals, domain, diagnostics, and source references. Generated bindings let another language read binary artifacts without implementing the text parser. An adapter should consume `PEX25DScene` and use the shared resolver for file input.
+
+For direct text I/O, `reader.read_pex25d_text()` produces a `PEX25DFile` and `writer.write_pex25d_text()` returns UTF-8 bytes. `codec.load_artifact()` and `codec.save_artifact()` handle all supported encodings and filename conventions. `validator.validate()` fills a diagnostics report; `resolver.resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed.
+
+This Python example loads and resolves the downloadable file, then requests native FasterCap input and STL solids through the exporter API:
+
+```python
+from klayout_pex.pex25d.artifact import infer_artifact_spec
+from klayout_pex.pex25d.codec import load_artifact, save_artifact
+from klayout_pex.pex25d.diagnostics import DiagnosticsReport
+from klayout_pex.pex25d.exporters import export, ExporterOptions, SolverTarget
+from klayout_pex.pex25d.resolver import resolve
+from klayout_pex.pex25d.validator import validate
+
+report = DiagnosticsReport(warnings_are_errors=True)
+description = load_artifact(
+    infer_artifact_spec("two_nets.pex25d"),
+    report=report,
+    with_source_refs=True,
+)
+scene = resolve(description, report=report)
+validate(description, report=report, strict=True, scene=scene)
+if report.exit_code:
+    raise RuntimeError("PEX25D validation failed")
+
+save_artifact(scene, infer_artifact_spec("two_nets.pex25d.scene.pb"))
+paths = export(
+    scene,
+    target=SolverTarget.FASTERCAP,
+    output_dir_path="solver/api",
+    prefix="two_nets",
+    options=ExporterOptions(write_stl=True),
+)
+print(paths[0])
+```
+
+A C++ consumer can read the uncompressed binary scene written above using the bindings generated from `pex25d_scene.proto` and its imports. For example, this complete program loads a scene and reports its size; the extraction engine would then operate on that message:
+
+```cpp
+#include <fstream>
+#include <iostream>
+#include "kpex/pex25d/pex25d_scene.pb.h"
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        std::cerr << "Usage: read_scene FILE.pex25d.scene.pb\n";
+        return 2;
+    }
+    std::ifstream input(argv[1], std::ios::binary);
+    kpex::pex25d::PEX25DScene scene;
+    if (!input || !scene.ParseFromIstream(&input)) {
+        std::cerr << "Cannot read PEX25DScene\n";
+        return 1;
+    }
+    std::cout << scene.layers_size() << " layers, "
+              << scene.conductors_size() << " conductors\n";
+    return 0;
+}
+```
+
+Compile consumers with the generated `.pb.cc` files and the protobuf C++ runtime. A successful protobuf parse establishes that the binary message can be decoded; reference validation still belongs in the preparation flow, and an engine must check the format version and the features it supports. Keep the `.scene` kind explicit when exchanging files, since both unresolved files and resolved scenes can use binary protobuf encoding.
+
+When consuming the scene directly, convert grid coordinates using `grid_numerator / grid_denominator` in the declared length unit. Check `scene.domain.origin` before using `scene.domain.box`: the domain message may exist only to carry geometry bounds. Preserve conductor net identities, floating-body independence, resistance units, and terminal boundary semantics when mapping the scene to a solver.
+
+```{=latex}
+\fvset{samepage=false}
+```

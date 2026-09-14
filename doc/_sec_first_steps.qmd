@@ -32,6 +32,34 @@ find testdata/designs/sky130A -name "*.gds.gz"
 find testdata/designs/ihp_sg13g2 -name "*.gds.gz"
 ```
 
+## Generating PEX25D {#sec-first-steps-pex25d}
+
+`kpex pex25d` generates a PEX25D geometry and material description without running a solver. It is separate from the analytical KPEX/2.5D engine. See @sec-pex25d for the format specification, benefits, and standalone tools.
+
+From the KLayout-PEX source directory:
+
+```bash
+kpex pex25d --pdk sky130A --blackbox y \
+  --gds testdata/designs/sky130A/nmos_diode2/nmos_diode2.gds.gz \
+  --output_file nmos_diode2.pex25d \
+  --output_scene nmos_diode2.pex25d.scene.pb
+```
+
+The `.pex25d` file contains the text representation. The `.pex25d.scene.pb` file contains the resolved protobuf scene, including absolute layer heights and terminal intersections. Generation runs the reference validator by default; diagnostics determine the exit code even when output files have been written.
+
+Use the standalone tool to inspect or validate an artifact:
+
+```bash
+pex25d show nmos_diode2.pex25d
+pex25d validate nmos_diode2.pex25d --strict
+```
+
+For a complete, hand-written file that can be validated and exported without layout generation, use the downloadable example in @sec-pex25d-example. Terminal semantics and the current state of KLayout-generated terminals are explained in @sec-pex25d-terminals.
+
+::: {.callout-note title="Current Sky130 stack validation"}
+The current default Sky130 dielectric stack can report `PEX25D-E0260` for `nild6`/`capild` anchoring, including with the layout above. Generated files should not be treated as validated solver input when the command fails. See @sec-pex25d-generate for the diagnostic and a limited terminal-testing workaround.
+:::
+
 ## Running the `KPEX/FasterCap` engine {#sec-first-steps-run-fastercap-engine}
 
 Preconditions:
