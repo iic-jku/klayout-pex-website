@@ -544,7 +544,7 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/
 |---------|------------:|:--------|-----------------------------------:|--------------------------:|:--------------|
 | R1      | Wire        |    li1  | internal `G.$1.17`                 | pin `G`                   |         2.418 |
 | R2      | Via         |   licon | internal `G.$0.16` (poly)          | internal `G.$1.17` (li1)  |         152.0 |
-| R3      | Wire        |    poly | `G.P0.16` (`G` device terminal)    | internal `G.$0.16`        |      316.3421 |
+| R3      | Wire        |    poly | `G.P0.16` (`G` device terminal)    | internal `G.$0.16`        |      316.321 |
 : Extracted Parasitic Resistances
 
 KPEX/2.5D extraction results are shown below.
