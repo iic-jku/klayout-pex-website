@@ -293,7 +293,7 @@ Finite geometry includes conductor shapes and laterally bounded conformal films,
 
 ### Command-line tools {#sec-pex25d-cli}
 
-The `klayout-pex` package supplies `kpex` and the separate `pex25d` entry point. Check command availability with `--help`; older installed releases may not have these commands. In a source checkout, build the generated protobuf modules as described in [DEVELOPMENT.md](https://github.com/iic-jku/klayout-pex/blob/main/DEVELOPMENT.md). The source wrappers are `./kpex.sh` and `bash ./pex25d.sh`; the standalone module can also be run as `python -m klayout_pex.pex25d`.
+The `klayout-pex` package supplies `kpex` and the separate `pex25d` entry point. Check command availability with `--help`; older installed releases may not have these commands. 
 
 ```bash
 kpex pex25d --help
