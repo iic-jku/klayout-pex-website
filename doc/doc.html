@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2026-09-16">
+<meta name="dcterms.date" content="2026-09-17">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -523,7 +523,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 16, 2026</p>
+      <p class="date">September 17, 2026</p>
     </div>
   </div>
   
@@ -547,7 +547,7 @@ window.Quarto = {
 <h2 data-number="1.2" class="anchored" data-anchor-id="acknowledgements"><span class="header-section-number">1.2</span> Acknowledgements</h2>
 <p>This project is funded by the JKU/SAL <a href="https://research.jku.at/de/projects/jku-lit-sal-intelligent-wireless-systems-lab-iws-lab/">IWS Lab</a>, a collaboration of <a href="https://jku.at">Johannes Kepler University</a> and <a href="https://silicon-austria-labs.com">Silicon Austria Labs</a>.</p>
 <p>This project is further funded by the German project <a href="https://www.elektronikforschung.de/projekte/fmd-qnc">FMD-QNC (16ME0831)</a>.</p>
-<div class="quarto-layout-panel" data-layout-ncol="2" data-layout-nrow="2">
+<div class="quarto-layout-panel" data-layout-nrow="2" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
@@ -734,6 +734,7 @@ Warning
 <li><a href="https://opencircuitdesign.com/magic/">MAGIC</a>-wrapper engine:
 <ul>
 <li>optional, required to run the MAGIC-wrapper engine</li>
+<li><code>MAGIC 8.3.679</code> or newer is required: older revisions report twice the sidewall capacitance (see <a href="#sec-magic-cap-types-sidewall-capacitance" class="quarto-xref">Section&nbsp;5.4</a> and <a href="https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429" class="uri">https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429</a>)</li>
 <li>Follow the <a href="https://github.com/RTimothyEdwards/magic/blob/master/INSTALL">installation instructions</a> at the <a href="https://github.com/RTimothyEdwards/magic/">GitHub repository</a></li>
 </ul></li>
 <li><a href="https://skywater-pdk.readthedocs.io">Skywater sky130A PDK</a>:
@@ -5356,12 +5357,30 @@ C_{sidewall} = \frac{\epsilon_{si} * K}{s} * \text{sidewall area}  \,\,\,\,\,\,\
 \]</span> <span class="math display">\[
 C_{sidewall} = \frac{C_{sidewall\,coeff}}{s} * l \,\,\,\,\,\,\, \left[ \frac{F}{\mu m} * \mu m\right]
 \]</span></p>
+<p>The coefficient describes the coupling between the two facing sidewalls, but <code>MAGIC</code> walks every edge, so each of the two edges contributes half of it:</p>
+<p><span class="math display">\[
+C_{sidewall\,per\,edge} = \frac{1}{2} * \frac{C_{sidewall\,coeff}}{s} * l
+\]</span></p>
 <div class="{{.callout-note}}">
 <ul>
 <li>Coefficients are part of the tech files (Parasitic Tables)</li>
 <li>Layer thickness <span class="math inline">\(t\)</span> is normally multiplied into the coefficient</li>
 <li>Foundry tables give constant coefficient referenced to <span class="math inline">\(s = 1\)</span></li>
 </ul>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="`defaultsidewall` counts once per pair, since MAGIC 8.3.679">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span><code>defaultsidewall</code> counts once per pair, since MAGIC 8.3.679
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Up to <code>MAGIC 8.3.678</code>, each edge was evaluated against the <em>full</em> <code>defaultsidewall</code> value of the tech file, so the sidewall capacitance came out twice as large as intended. Since those values had been distributed with the open PDKs for years, <code>MAGIC 8.3.679</code> redefined the meaning of the tech file value instead of changing every PDK — the PDKs stay as they are, and <code>MAGIC</code> applies half of the value per edge.</p>
+<p><code>KPEX/2.5D</code> follows that definition, so <code>MAGIC 8.3.679</code> or newer is required for the two to agree. See <a href="https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429" class="uri">https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429</a>.</p>
+</div>
 </div>
 </section>
 <section id="sec-magic-cap-types-overlap-capacitance" class="level2" data-number="5.5">
@@ -5703,7 +5722,10 @@ Note
 <div class="callout-body-container callout-body">
 <p>Notes about this comparison:</p>
 <ul>
-<li>Version <code>Magic 8.3 rev 486</code> is used, but augmented with debug logging<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, which will be shown and discussed for each example.</li>
+<li>Version <code>Magic 8.3 rev 486</code> is used, but augmented with debug logging<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>, which will be shown and discussed for each example.
+<ul>
+<li>NOTE: that revision still counted each sidewall edge against the full <code>defaultsidewall</code> value of the tech file, which <code>MAGIC 8.3.679</code> corrected (see <a href="#sec-magic-cap-types-sidewall-capacitance" class="quarto-xref">Section&nbsp;5.4</a>). Sidewall capacitances are given below under the corrected definition, which is half of what the <code>CapDebug</code> output of rev 486 reports.</li>
+</ul></li>
 <li><code>KPEX/MAGIC</code> halo is set to <code>--magic_halo=100000</code>
 <ul>
 <li>NOTE: the screenshots however were created with <code>--magic_halo=8</code> to give better illustrations</li>
@@ -5947,8 +5969,8 @@ Note
 <td style="text-align: right;">li1</td>
 <td style="text-align: center;">A</td>
 <td style="text-align: right;">B</td>
-<td style="text-align: right;">0.75</td>
-<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.375</td>
+<td style="text-align: right;">0.375</td>
 <td style="text-align: right;">18</td>
 </tr>
 <tr class="even">
@@ -5956,12 +5978,13 @@ Note
 <td style="text-align: right;">li1</td>
 <td style="text-align: center;">B</td>
 <td style="text-align: right;">A</td>
-<td style="text-align: right;">0.75</td>
-<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.375</td>
+<td style="text-align: right;">0.375</td>
 <td style="text-align: right;">21</td>
 </tr>
 </tbody>
 </table>
+<p>Both edges together therefore couple <code>A</code> and <code>B</code> with <span class="math inline">\(0.75\,fF\)</span>. Lines 18 and 21 of the <code>CapDebug</code> output below still report <span class="math inline">\(0.75\,fF\)</span> per edge, adding up to <span class="math inline">\(1.5\,fF\)</span>, because they were recorded with rev 486 — the <code>MAGIC</code> column above states that output under the definition of <code>MAGIC 8.3.679</code>.</p>
 <div id="cell-sidewall_20um_length_distance_200nm_li1_-_fringe_A" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div id="sidewall_20um_length_distance_200nm_li1_-_fringe_a" class="quarto-figure quarto-figure-center anchored">
@@ -8599,14 +8622,14 @@ Sheehan, Bernard N. 2007. <span>“Realizable Reduction of <span class="math inl
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{köhler2026,
   author = {Köhler, Martin},
   title = {KLayout-PEX {Documentation}},
-  date = {2026-09-16},
+  date = {2026-09-17},
   url = {https://iic-jku.github.io/klayout-pex-website},
   doi = {10.5281/zenodo.17822519},
   langid = {en-US}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-köhler2026" class="csl-entry quarto-appendix-citeas" role="listitem">
 Köhler, Martin. 2026. <span>“KLayout-PEX Documentation.”</span>
-September 16. <a href="https://doi.org/10.5281/zenodo.17822519">https://doi.org/10.5281/zenodo.17822519</a>.
+September 17. <a href="https://doi.org/10.5281/zenodo.17822519">https://doi.org/10.5281/zenodo.17822519</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
