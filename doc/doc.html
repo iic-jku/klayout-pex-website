@@ -547,7 +547,7 @@ window.Quarto = {
 <h2 data-number="1.2" class="anchored" data-anchor-id="acknowledgements"><span class="header-section-number">1.2</span> Acknowledgements</h2>
 <p>This project is funded by the JKU/SAL <a href="https://research.jku.at/de/projects/jku-lit-sal-intelligent-wireless-systems-lab-iws-lab/">IWS Lab</a>, a collaboration of <a href="https://jku.at">Johannes Kepler University</a> and <a href="https://silicon-austria-labs.com">Silicon Austria Labs</a>.</p>
 <p>This project is further funded by the German project <a href="https://www.elektronikforschung.de/projekte/fmd-qnc">FMD-QNC (16ME0831)</a>.</p>
-<div class="quarto-layout-panel" data-layout-nrow="2" data-layout-ncol="2">
+<div class="quarto-layout-panel" data-layout-ncol="2" data-layout-nrow="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
@@ -8511,35 +8511,27 @@ R(T) = R_{\mathrm{ref}}\left[1 + TC1\,(T-T_{\mathrm{ref}})
 <section id="sec-pex25d-api" class="level3" data-number="9.1.7">
 <h3 data-number="9.1.7" class="anchored" data-anchor-id="sec-pex25d-api"><span class="header-section-number">9.1.7</span> Protobuf API: Python Preparation and C++ Consumers</h3>
 <p>The <a href="https://github.com/iic-jku/klayout-pex/tree/main/protos/kpex/pex25d">PEX25D schemas</a> define the file and scene messages, exact units, geometry, dielectric and resistance records, terminals, domain, diagnostics, and source references. Generated bindings let another language read binary artifacts without implementing the text parser. An adapter should consume <code>PEX25DScene</code> and use the shared resolver for file input.</p>
-<p>For direct text I/O, <code>reader.read_pex25d_text()</code> produces a <code>PEX25DFile</code> and <code>writer.write_pex25d_text()</code> returns UTF-8 bytes. <code>codec.load_artifact()</code> and <code>codec.save_artifact()</code> handle all supported encodings and filename conventions. <code>validator.validate()</code> fills a diagnostics report; <code>resolver.resolve()</code> computes the scene and raises <code>ResolveError</code> when resolution cannot proceed.</p>
+<p>One import is enough: <code>from klayout_pex import pex25d</code> provides the verbs <code>read</code>, <code>write</code>, <code>resolve</code>, <code>validate</code>, <code>export</code> and <code>show</code>, the artifact and diagnostics types, every error the pipeline raises, and <code>pex25d.proto</code> for the generated messages (<code>pex25d.proto.PEX25DFile()</code>, or a module such as <code>pex25d.proto.dielectric</code> for its enums). Names listed in <code>pex25d.__all__</code> are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g.&nbsp;<code>resolver.Resolver</code> and <code>validator.Validator</code>.</p>
+<p><code>read()</code> and <code>write()</code> take a path in any supported encoding and derive kind and encoding from the conventional suffixes (<a href="#sec-pex25d-filenames" class="quarto-xref">Section&nbsp;9.1.3</a>); <code>read_text()</code> and <code>write_text()</code> work on the bytes of the text format. <code>validate()</code> fills a diagnostics report and never raises for an invalid message; <code>resolve()</code> computes the scene and raises <code>ResolveError</code> when resolution cannot proceed. The package depends on <code>protobuf</code> alone, so it can be installed as a reference reader and validator without <code>klayout</code>.</p>
 <p>This Python example loads and resolves the downloadable file, then requests native FasterCap input and STL solids through the exporter API:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="im">from</span> klayout_pex.pex25d.artifact <span class="im">import</span> infer_artifact_spec</span>
-<span id="cb42-2"><a href="#cb42-2" aria-label="2"></a><span class="im">from</span> klayout_pex.pex25d.codec <span class="im">import</span> load_artifact, save_artifact</span>
-<span id="cb42-3"><a href="#cb42-3" aria-label="3"></a><span class="im">from</span> klayout_pex.pex25d.diagnostics <span class="im">import</span> DiagnosticsReport</span>
-<span id="cb42-4"><a href="#cb42-4" aria-label="4"></a><span class="im">from</span> klayout_pex.pex25d.exporters <span class="im">import</span> export, ExporterOptions, SolverTarget</span>
-<span id="cb42-5"><a href="#cb42-5" aria-label="5"></a><span class="im">from</span> klayout_pex.pex25d.resolver <span class="im">import</span> resolve</span>
-<span id="cb42-6"><a href="#cb42-6" aria-label="6"></a><span class="im">from</span> klayout_pex.pex25d.validator <span class="im">import</span> validate</span>
-<span id="cb42-7"><a href="#cb42-7" aria-label="7"></a></span>
-<span id="cb42-8"><a href="#cb42-8" aria-label="8"></a>report <span class="op">=</span> DiagnosticsReport(warnings_are_errors<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb42-9"><a href="#cb42-9" aria-label="9"></a>description <span class="op">=</span> load_artifact(</span>
-<span id="cb42-10"><a href="#cb42-10" aria-label="10"></a>    infer_artifact_spec(<span class="st">"two_nets.pex25d"</span>),</span>
-<span id="cb42-11"><a href="#cb42-11" aria-label="11"></a>    report<span class="op">=</span>report,</span>
-<span id="cb42-12"><a href="#cb42-12" aria-label="12"></a>    with_source_refs<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb42-13"><a href="#cb42-13" aria-label="13"></a>)</span>
-<span id="cb42-14"><a href="#cb42-14" aria-label="14"></a>scene <span class="op">=</span> resolve(description, report<span class="op">=</span>report)</span>
-<span id="cb42-15"><a href="#cb42-15" aria-label="15"></a>validate(description, report<span class="op">=</span>report, strict<span class="op">=</span><span class="va">True</span>, scene<span class="op">=</span>scene)</span>
-<span id="cb42-16"><a href="#cb42-16" aria-label="16"></a><span class="cf">if</span> report.exit_code:</span>
-<span id="cb42-17"><a href="#cb42-17" aria-label="17"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"PEX25D validation failed"</span>)</span>
-<span id="cb42-18"><a href="#cb42-18" aria-label="18"></a></span>
-<span id="cb42-19"><a href="#cb42-19" aria-label="19"></a>save_artifact(scene, infer_artifact_spec(<span class="st">"two_nets.pex25d.scene.pb"</span>))</span>
-<span id="cb42-20"><a href="#cb42-20" aria-label="20"></a>paths <span class="op">=</span> export(</span>
-<span id="cb42-21"><a href="#cb42-21" aria-label="21"></a>    scene,</span>
-<span id="cb42-22"><a href="#cb42-22" aria-label="22"></a>    target<span class="op">=</span>SolverTarget.FASTERCAP,</span>
-<span id="cb42-23"><a href="#cb42-23" aria-label="23"></a>    output_dir_path<span class="op">=</span><span class="st">"solver/api"</span>,</span>
-<span id="cb42-24"><a href="#cb42-24" aria-label="24"></a>    prefix<span class="op">=</span><span class="st">"two_nets"</span>,</span>
-<span id="cb42-25"><a href="#cb42-25" aria-label="25"></a>    options<span class="op">=</span>ExporterOptions(write_stl<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb42-26"><a href="#cb42-26" aria-label="26"></a>)</span>
-<span id="cb42-27"><a href="#cb42-27" aria-label="27"></a><span class="bu">print</span>(paths[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="im">from</span> klayout_pex <span class="im">import</span> pex25d</span>
+<span id="cb42-2"><a href="#cb42-2" aria-label="2"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-label="3"></a>report <span class="op">=</span> pex25d.DiagnosticsReport(warnings_are_errors<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-label="4"></a>description <span class="op">=</span> pex25d.read(<span class="st">"two_nets.pex25d"</span>, report<span class="op">=</span>report, with_source_refs<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-label="5"></a>scene <span class="op">=</span> pex25d.resolve(description, report<span class="op">=</span>report)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-label="6"></a>pex25d.validate(description, report<span class="op">=</span>report, strict<span class="op">=</span><span class="va">True</span>, scene<span class="op">=</span>scene)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-label="7"></a><span class="cf">if</span> report.exit_code:</span>
+<span id="cb42-8"><a href="#cb42-8" aria-label="8"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"PEX25D validation failed"</span>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-label="9"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-label="10"></a>pex25d.write(scene, <span class="st">"two_nets.pex25d.scene.pb"</span>)</span>
+<span id="cb42-11"><a href="#cb42-11" aria-label="11"></a>paths <span class="op">=</span> pex25d.export(</span>
+<span id="cb42-12"><a href="#cb42-12" aria-label="12"></a>    scene,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-label="13"></a>    target<span class="op">=</span>pex25d.SolverTarget.FASTERCAP,</span>
+<span id="cb42-14"><a href="#cb42-14" aria-label="14"></a>    output_dir_path<span class="op">=</span><span class="st">"solver/api"</span>,</span>
+<span id="cb42-15"><a href="#cb42-15" aria-label="15"></a>    prefix<span class="op">=</span><span class="st">"two_nets"</span>,</span>
+<span id="cb42-16"><a href="#cb42-16" aria-label="16"></a>    options<span class="op">=</span>pex25d.ExporterOptions(write_stl<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb42-17"><a href="#cb42-17" aria-label="17"></a>)</span>
+<span id="cb42-18"><a href="#cb42-18" aria-label="18"></a><span class="bu">print</span>(paths[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A C++ consumer can read the uncompressed binary scene written above using the bindings generated from <code>pex25d_scene.proto</code> and its imports. For example, this complete program loads a scene and reports its size; the extraction engine would then operate on that message:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href="#cb43-1" aria-label="1"></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-label="2"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
