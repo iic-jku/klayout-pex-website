@@ -29,3 +29,6 @@ index.tex
 notebooks/*_files
 
 /.luarc.json
+
+**/*.quarto_ipynb
+*.quarto_ipynb_*
