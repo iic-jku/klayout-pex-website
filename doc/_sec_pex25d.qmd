@@ -410,36 +410,29 @@ For filenames without conventional suffixes, supply **both** `--in_kind file|sce
 
 The [PEX25D schemas](https://github.com/iic-jku/klayout-pex/tree/main/protos/kpex/pex25d) define the file and scene messages, exact units, geometry, dielectric and resistance records, terminals, domain, diagnostics, and source references. Generated bindings let another language read binary artifacts without implementing the text parser. An adapter should consume `PEX25DScene` and use the shared resolver for file input.
 
-For direct text I/O, `reader.read_pex25d_text()` produces a `PEX25DFile` and `writer.write_pex25d_text()` returns UTF-8 bytes. `codec.load_artifact()` and `codec.save_artifact()` handle all supported encodings and filename conventions. `validator.validate()` fills a diagnostics report; `resolver.resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed.
+One import is enough: `from klayout_pex import pex25d` provides the verbs `read`, `write`, `resolve`, `validate`, `export` and `show`, the artifact and diagnostics types, every error the pipeline raises, and `pex25d.proto` for the generated messages (`pex25d.proto.PEX25DFile()`, or a module such as `pex25d.proto.dielectric` for its enums). Names listed in `pex25d.__all__` are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g. `resolver.Resolver` and `validator.Validator`.
+
+`read()` and `write()` take a path in any supported encoding and derive kind and encoding from the conventional suffixes (@sec-pex25d-filenames); `read_text()` and `write_text()` work on the bytes of the text format. `validate()` fills a diagnostics report and never raises for an invalid message; `resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed. The package depends on `protobuf` alone, so it can be installed as a reference reader and validator without `klayout`.
 
 This Python example loads and resolves the downloadable file, then requests native FasterCap input and STL solids through the exporter API:
 
 ```python
-from klayout_pex.pex25d.artifact import infer_artifact_spec
-from klayout_pex.pex25d.codec import load_artifact, save_artifact
-from klayout_pex.pex25d.diagnostics import DiagnosticsReport
-from klayout_pex.pex25d.exporters import export, ExporterOptions, SolverTarget
-from klayout_pex.pex25d.resolver import resolve
-from klayout_pex.pex25d.validator import validate
+from klayout_pex import pex25d
 
-report = DiagnosticsReport(warnings_are_errors=True)
-description = load_artifact(
-    infer_artifact_spec("two_nets.pex25d"),
-    report=report,
-    with_source_refs=True,
-)
-scene = resolve(description, report=report)
-validate(description, report=report, strict=True, scene=scene)
+report = pex25d.DiagnosticsReport(warnings_are_errors=True)
+description = pex25d.read("two_nets.pex25d", report=report, with_source_refs=True)
+scene = pex25d.resolve(description, report=report)
+pex25d.validate(description, report=report, strict=True, scene=scene)
 if report.exit_code:
     raise RuntimeError("PEX25D validation failed")
 
-save_artifact(scene, infer_artifact_spec("two_nets.pex25d.scene.pb"))
-paths = export(
+pex25d.write(scene, "two_nets.pex25d.scene.pb")
+paths = pex25d.export(
     scene,
-    target=SolverTarget.FASTERCAP,
+    target=pex25d.SolverTarget.FASTERCAP,
     output_dir_path="solver/api",
     prefix="two_nets",
-    options=ExporterOptions(write_stl=True),
+    options=pex25d.ExporterOptions(write_stl=True),
 )
 print(paths[0])
 ```
