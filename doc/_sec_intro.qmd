@@ -100,6 +100,7 @@ A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheats
 
 - [MAGIC](https://opencircuitdesign.com/magic/)-wrapper engine:
   - optional, required to run the MAGIC-wrapper engine
+  - `MAGIC 8.3.679` or newer is required: older revisions report twice the sidewall capacitance (see @sec-magic-cap-types-sidewall-capacitance and <https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429>)
   - Follow the [installation instructions](https://github.com/RTimothyEdwards/magic/blob/master/INSTALL) at the [GitHub repository](https://github.com/RTimothyEdwards/magic/)
 
 - [Skywater sky130A PDK](https://skywater-pdk.readthedocs.io):

@@ -35,7 +35,7 @@ img_path = image_path('sidewall_20um_length_distance_200nm_li1_-_sidewall.png')
 
 d = dw.Drawing(w, h)
 d.append(dw.Image(0, 0, w, h, img_path, embed=True))
-d.append(dw.Text('Sidewall A → B: 0.75 fF', x=60,  y=83, fill='white', font_size=16))
-d.append(dw.Text('Sidewall B → A: 0.75 fF',  x=60, y=116, fill='white', font_size=16))
+d.append(dw.Text('Sidewall A → B: 0.375 fF', x=60,  y=83, fill='white', font_size=16))
+d.append(dw.Text('Sidewall B → A: 0.375 fF',  x=60, y=116, fill='white', font_size=16))
 d
 ```

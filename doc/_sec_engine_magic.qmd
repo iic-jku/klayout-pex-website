@@ -67,10 +67,29 @@ $$
 C_{sidewall} = \frac{C_{sidewall\,coeff}}{s} * l \,\,\,\,\,\,\, \left[ \frac{F}{\mu m} * \mu m\right]
 $$
 
+The coefficient describes the coupling between the two facing sidewalls, but
+`MAGIC` walks every edge, so each of the two edges contributes half of it:
+
+$$
+C_{sidewall\,per\,edge} = \frac{1}{2} * \frac{C_{sidewall\,coeff}}{s} * l
+$$
+
 ::: {{.callout-note}}
 - Coefficients are part of the tech files (Parasitic Tables)
 - Layer thickness $t$ is normally multiplied into the coefficient
 - Foundry tables give constant coefficient referenced to $s = 1$
+:::
+
+::: {.callout-warning title="`defaultsidewall` counts once per pair, since MAGIC 8.3.679"}
+Up to `MAGIC 8.3.678`, each edge was evaluated against the *full*
+`defaultsidewall` value of the tech file, so the sidewall capacitance came out
+twice as large as intended. Since those values had been distributed with the
+open PDKs for years, `MAGIC 8.3.679` redefined the meaning of the tech file
+value instead of changing every PDK --- the PDKs stay as they are, and `MAGIC`
+applies half of the value per edge.
+
+`KPEX/2.5D` follows that definition, so `MAGIC 8.3.679` or newer is required
+for the two to agree. See <https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429>.
 :::
 
 
