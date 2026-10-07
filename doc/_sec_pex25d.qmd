@@ -53,14 +53,17 @@ The following are outside the scope of version 1.x:
 
 ### From layout to solver input {#sec-pex25d-workflow}
 
-The workflow has four distinct operations:
+The workflow has five distinct operations:
 
 | Operation | Tool or API | Result |
 |:--|:--|:--|
 | Generate from layout connectivity and PDK stack | `kpex pex25d` | `PEX25DFile`, optionally also `PEX25DScene` |
+| Translate another tool's scene description | Importer; `pex25d import` | `PEX25DFile` |
 | Read or re-encode a description | Text reader; `pex25d convert` | The same artifact kind in another encoding |
 | Resolve relative geometry | Resolver; `pex25d resolve` | `PEX25DScene` |
-| Mesh and export for a solver | Adapter; `pex25d export` | Native solver input files |
+| Mesh and export for a solver | Exporter; `pex25d export` | Native solver input files |
+
+Importers and exporters are plugins: `klayout-pex` ships some of them, further ones are installed as separate Python packages.
 
 The intended project architecture keeps layout and technology preparation in **Python** and moves computation-intensive portions into **C++** engines. The resolved binary scene is the interface between those stages: Python produces it, and C++ reads the same protobuf message through generated bindings. This is the direction for moving computation to C++; it does not mean all current engines have already been ported.
 
@@ -357,6 +360,7 @@ JSON and binary protobuf reports carry stable `PEX25D-Ennnn` codes, severity, va
 | `1` | Validation or resolution errors, or warnings with `--werror` |
 | `2` | Invalid command line, I/O failure, missing dependency, or export failure |
 | `3` | An operation reports that it is not implemented |
+| `4` | An importer or exporter plugin failed unexpectedly (traceback with `--log_level debug`) |
 
 The validator is a reference check, not a guarantee that every adapter implements every specification rule. For example, the current depth-tie check detects competing profiles on the same wrap root; it is not a complete geometric intersection check for films on different roots. Terminal-boundary support must also be checked at the adapter level.
 
@@ -380,20 +384,36 @@ pex25d show two_nets.pex25d.scene.pb --section layers --section domain
 
 Use `--with_source_refs` on text conversion or resolution when you want the protobuf artifact to retain locations in an include tree. Diagnostics produced while reading text have source positions even without that flag. `--comments` adds syntax hints when writing PEX25D text; unlike the `kpex` option, it is a flag and takes no `y` argument.
 
+#### Import from another tool {#sec-pex25d-import}
+
+```bash
+pex25d importers
+pex25d import design.uf --from openrcx-uf -o design.pex25d
+```
+
+An importer translates another tool's scene description into an unresolved `PEX25DFile`. `pex25d import` validates the result and writes it even when it is invalid, so that it can be reviewed; the exit status tells whether it is valid. `--supporting NAME=PATH` passes further inputs the importer asks for, e.g. a process stack, and `--option NAME=VALUE` passes importer options. The built-in `openrcx-uf` importer (OpenRCX Universal Pattern Format) is a stub for now and exits with status `3`.
+
 #### Export native solver input {#sec-pex25d-export}
 
 ```bash
+pex25d exporters
 pex25d export two_nets.pex25d.scene.pb \
   --to fastercap --out_dir solver/fastercap --prefix two_nets
 pex25d export two_nets.pex25d \
   --to fastcap2 --out_dir solver/fastcap2 --prefix two_nets
+pex25d export two_nets.pex25d --to stl --out_dir solver/stl
 ```
 
-Both targets use the shared FasterCap/FastCap2 list-file exporter. The output directory contains a `.lst` entry file and its referenced surface files; keep them together. File input is resolved automatically. Export generates meshes and input files, **without running the solver or producing a capacitance matrix**. The solver executable is needed when those files are subsequently solved. `kpex extract` is the separate integrated flow for running engines from a layout.
+`--to` selects an exporter by its name, or by `package:name` when two installed packages provide the same name. `pex25d exporters` lists the installed ones. `klayout-pex` ships three exporters:
 
-The backend also supports STL output and mesh controls through `ExporterOptions`. The current `pex25d export --help` lists `--stl`, `--field_margin`, `--delaunay_amax`, `--delaunay_b`, and `--geo_check`, but the CLI does not forward them to the backend. They therefore have no effect through the current CLI. Use the API shown below for these controls. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.
+- `fastercap` and `fastcap2` write a `.lst` entry file and its referenced surface files; keep them together.
+- `stl` writes the solids of the scene as STL files, one per dielectric and net, for viewing (e.g. in `MeshLab`).
 
-The current exporter is for capacitance input. It does not extract a resistance network from `SHEET`, `PER_CUT`, or terminal records, and there is no `elmer` or analytical `2.5d` target in this CLI.
+File input is resolved automatically. Export generates meshes and input files, **without running the solver or producing a capacitance matrix**. The solver executable is needed when those files are subsequently solved. `kpex extract` is the separate integrated flow for running engines from a layout.
+
+Exporter options are passed with `--option NAME=VALUE`, which can be repeated (since `klayout-pex` 0.6.3). VALUE is read as JSON where it parses (`10`, `1e-9`, `true`), otherwise as text. For FasterCap and FastCap2, `--stl`, `--field_margin`, `--delaunay_amax`, `--delaunay_b`, and `--geo_check` are shorthands for their options. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.
+
+The built-in exporters write capacitance input. They do not extract a resistance network from `SHEET`, `PER_CUT`, or terminal records. Exporters for the FEM solvers Elmer and Palace are available as separate packages, [klayout-pex-plugin-elmer](https://github.com/iic-jku/klayout-pex-plugin-elmer) and [klayout-pex-plugin-palace](https://github.com/iic-jku/klayout-pex-plugin-palace).
 
 #### Pipelines and explicit encodings {#sec-pex25d-pipes}
 
@@ -410,7 +430,7 @@ For filenames without conventional suffixes, supply **both** `--in_kind file|sce
 
 The [PEX25D schemas](https://github.com/iic-jku/klayout-pex/tree/main/protos/kpex/pex25d) define the file and scene messages, exact units, geometry, dielectric and resistance records, terminals, domain, diagnostics, and source references. Generated bindings let another language read binary artifacts without implementing the text parser. An adapter should consume `PEX25DScene` and use the shared resolver for file input.
 
-One import is enough: `from klayout_pex import pex25d` provides the verbs `read`, `write`, `resolve`, `validate`, `export` and `show`, the artifact and diagnostics types, every error the pipeline raises, and `pex25d.proto` for the generated messages (`pex25d.proto.PEX25DFile()`, or a module such as `pex25d.proto.dielectric` for its enums). Names listed in `pex25d.__all__` are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g. `resolver.Resolver` and `validator.Validator`.
+One import is enough: `from klayout_pex import pex25d` provides the verbs `read`, `write`, `resolve`, `validate`, `import_file`, `export` and `show`, the artifact and diagnostics types, every error the pipeline raises, and `pex25d.proto` for the generated messages (`pex25d.proto.PEX25DFile()`, or a module such as `pex25d.proto.dielectric` for its enums). Names listed in `pex25d.__all__` are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g. `resolver.Resolver` and `validator.Validator`.
 
 `read()` and `write()` take a path in any supported encoding and derive kind and encoding from the conventional suffixes (@sec-pex25d-filenames); `read_text()` and `write_text()` work on the bytes of the text format. `validate()` fills a diagnostics report and never raises for an invalid message; `resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed. The package depends on `protobuf` alone, so it can be installed as a reference reader and validator without `klayout`.
 
@@ -429,10 +449,10 @@ if report.exit_code:
 pex25d.write(scene, "two_nets.pex25d.scene.pb")
 paths = pex25d.export(
     scene,
-    target=pex25d.SolverTarget.FASTERCAP,
+    target="fastercap",
     output_dir_path="solver/api",
     prefix="two_nets",
-    options=pex25d.ExporterOptions(write_stl=True),
+    options={"write_stl": True},
 )
 print(paths[0])
 ```
