@@ -111,6 +111,10 @@ bibliography: ../references.bib
 
 {{< pagebreak >}}
 
+{{< include _sec_plugin_api.qmd >}}
+
+{{< pagebreak >}}
+
 ## References
 
 {{< include _footnotes.qmd >}}
