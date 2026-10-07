@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Martin Köhler">
-<meta name="dcterms.date" content="2026-10-01">
+<meta name="dcterms.date" content="2026-10-07">
 
 <title>KLayout-PEX Documentation – KLayout-PEX</title>
 <style>
@@ -98,9 +98,9 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-e7b4535bb9f81c5a0a19056beabb1668.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -486,7 +486,14 @@ window.Quarto = {
   <li><a href="#sec-pex25d-cli" id="toc-sec-pex25d-cli" class="nav-link" data-scroll-target="#sec-pex25d-cli"><span class="header-section-number">9.1.6</span> Command-line tools</a></li>
   <li><a href="#sec-pex25d-api" id="toc-sec-pex25d-api" class="nav-link" data-scroll-target="#sec-pex25d-api"><span class="header-section-number">9.1.7</span> Protobuf API: Python Preparation and C++ Consumers</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.2</span> References</a></li>
+  <li><a href="#sec-plugin-api" id="toc-sec-plugin-api" class="nav-link" data-scroll-target="#sec-plugin-api"><span class="header-section-number">9.2</span> Plugin API</a>
+  <ul class="collapse">
+  <li><a href="#sec-plugin-api-importers-exporters" id="toc-sec-plugin-api-importers-exporters" class="nav-link" data-scroll-target="#sec-plugin-api-importers-exporters"><span class="header-section-number">9.2.1</span> PEX25D Importers and Exporters</a></li>
+  <li><a href="#sec-plugin-api-using" id="toc-sec-plugin-api-using" class="nav-link" data-scroll-target="#sec-plugin-api-using"><span class="header-section-number">9.2.2</span> Using Plugins</a></li>
+  <li><a href="#sec-plugin-api-writing" id="toc-sec-plugin-api-writing" class="nav-link" data-scroll-target="#sec-plugin-api-writing"><span class="header-section-number">9.2.3</span> Writing a Plugin</a></li>
+  <li><a href="#sec-plugin-api-exporters" id="toc-sec-plugin-api-exporters" class="nav-link" data-scroll-target="#sec-plugin-api-exporters"><span class="header-section-number">9.2.4</span> PEX25D Exporters</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.3</span> References</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="doc.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div><div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/ticer_example_bode_plots-preview.html"><i class="bi bi-journal-code"></i>TICER Example: Bode Plots</a></li></ul></div></nav>
@@ -523,7 +530,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 1, 2026</p>
+      <p class="date">October 7, 2026</p>
     </div>
   </div>
   
@@ -8058,7 +8065,7 @@ Figure&nbsp;15: Pole-Zero Plots
 </section>
 <section id="sec-pex25d-workflow" class="level3" data-number="9.1.2">
 <h3 data-number="9.1.2" class="anchored" data-anchor-id="sec-pex25d-workflow"><span class="header-section-number">9.1.2</span> From layout to solver input</h3>
-<p>The workflow has four distinct operations:</p>
+<p>The workflow has five distinct operations:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -8079,22 +8086,28 @@ Figure&nbsp;15: Pole-Zero Plots
 <td style="text-align: left;"><code>PEX25DFile</code>, optionally also <code>PEX25DScene</code></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Translate another tool’s scene description</td>
+<td style="text-align: left;">Importer; <code>pex25d import</code></td>
+<td style="text-align: left;"><code>PEX25DFile</code></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Read or re-encode a description</td>
 <td style="text-align: left;">Text reader; <code>pex25d convert</code></td>
 <td style="text-align: left;">The same artifact kind in another encoding</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Resolve relative geometry</td>
 <td style="text-align: left;">Resolver; <code>pex25d resolve</code></td>
 <td style="text-align: left;"><code>PEX25DScene</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Mesh and export for a solver</td>
-<td style="text-align: left;">Adapter; <code>pex25d export</code></td>
+<td style="text-align: left;">Exporter; <code>pex25d export</code></td>
 <td style="text-align: left;">Native solver input files</td>
 </tr>
 </tbody>
 </table>
+<p>Importers and exporters are plugins: <code>klayout-pex</code> ships some of them, further ones are installed as separate Python packages.</p>
 <p>The intended project architecture keeps layout and technology preparation in <strong>Python</strong> and moves computation-intensive portions into <strong>C++</strong> engines. The resolved binary scene is the interface between those stages: Python produces it, and C++ reads the same protobuf message through generated bindings. This is the direction for moving computation to C++; it does not mean all current engines have already been ported.</p>
 <p><code>PEX25DFile</code> is the literal, unresolved model: it retains profile references and relative descriptions. The text reader flattens <code>INCLUDE</code> files and groups records by type. Comments, whitespace, and original record order are not preserved, so conversion is not a byte-for-byte text round trip.</p>
 <p><code>PEX25DScene</code> carries absolute Z extents, dielectric roots and wrap depths, conductor geometry grouped by layer, and terminal intersections. When a domain was requested, it contains the resulting box. Without a domain record, the resolver retains finite geometry bounds and leaves boundary selection to the adapter. The scene still describes 2.5D geometry; it is not a triangulated solver mesh.</p>
@@ -8471,6 +8484,10 @@ R(T) = R_{\mathrm{ref}}\left[1 + TC1\,(T-T_{\mathrm{ref}})
 <td style="text-align: left;"><code>3</code></td>
 <td style="text-align: left;">An operation reports that it is not implemented</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">An importer or exporter plugin failed unexpectedly (traceback with <code>--log_level debug</code>)</td>
+</tr>
 </tbody>
 </table>
 <p>The validator is a reference check, not a guarantee that every adapter implements every specification rule. For example, the current depth-tie check detects competing profiles on the same wrap root; it is not a complete geometric intersection check for films on different roots. Terminal-boundary support must also be checked at the adapter level.</p>
@@ -8490,74 +8507,384 @@ R(T) = R_{\mathrm{ref}}\left[1 + TC1\,(T-T_{\mathrm{ref}})
 <p><code>convert</code> changes encoding within one kind; it does not validate the complete physical problem. <code>resolve</code> computes the scene and accepts <code>--strict</code>, <code>--werror</code>, and the diagnostics options. Validate before passing a resolved scene to an exporter as well: the current export path resolves file input, but does not automatically run the reference validator on an already-resolved scene.</p>
 <p>Use <code>--with_source_refs</code> on text conversion or resolution when you want the protobuf artifact to retain locations in an include tree. Diagnostics produced while reading text have source positions even without that flag. <code>--comments</code> adds syntax hints when writing PEX25D text; unlike the <code>kpex</code> option, it is a flag and takes no <code>y</code> argument.</p>
 </section>
-<section id="sec-pex25d-export" class="level4" data-number="9.1.6.4">
-<h4 data-number="9.1.6.4" class="anchored" data-anchor-id="sec-pex25d-export"><span class="header-section-number">9.1.6.4</span> Export native solver input</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-label="1"></a><span class="ex">pex25d</span> export two_nets.pex25d.scene.pb <span class="dt">\</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-label="2"></a>  <span class="at">--to</span> fastercap <span class="at">--out_dir</span> solver/fastercap <span class="at">--prefix</span> two_nets</span>
-<span id="cb40-3"><a href="#cb40-3" aria-label="3"></a><span class="ex">pex25d</span> export two_nets.pex25d <span class="dt">\</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-label="4"></a>  <span class="at">--to</span> fastcap2 <span class="at">--out_dir</span> solver/fastcap2 <span class="at">--prefix</span> two_nets</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Both targets use the shared FasterCap/FastCap2 list-file exporter. The output directory contains a <code>.lst</code> entry file and its referenced surface files; keep them together. File input is resolved automatically. Export generates meshes and input files, <strong>without running the solver or producing a capacitance matrix</strong>. The solver executable is needed when those files are subsequently solved. <code>kpex extract</code> is the separate integrated flow for running engines from a layout.</p>
-<p>The backend also supports STL output and mesh controls through <code>ExporterOptions</code>. The current <code>pex25d export --help</code> lists <code>--stl</code>, <code>--field_margin</code>, <code>--delaunay_amax</code>, <code>--delaunay_b</code>, and <code>--geo_check</code>, but the CLI does not forward them to the backend. They therefore have no effect through the current CLI. Use the API shown below for these controls. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.</p>
-<p>The current exporter is for capacitance input. It does not extract a resistance network from <code>SHEET</code>, <code>PER_CUT</code>, or terminal records, and there is no <code>elmer</code> or analytical <code>2.5d</code> target in this CLI.</p>
+<section id="sec-pex25d-import" class="level4" data-number="9.1.6.4">
+<h4 data-number="9.1.6.4" class="anchored" data-anchor-id="sec-pex25d-import"><span class="header-section-number">9.1.6.4</span> Import from another tool</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-label="1"></a><span class="ex">pex25d</span> importers</span>
+<span id="cb40-2"><a href="#cb40-2" aria-label="2"></a><span class="ex">pex25d</span> import design.uf <span class="at">--from</span> openrcx-uf <span class="at">-o</span> design.pex25d</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>An importer translates another tool’s scene description into an unresolved <code>PEX25DFile</code>. <code>pex25d import</code> validates the result and writes it even when it is invalid, so that it can be reviewed; the exit status tells whether it is valid. <code>--supporting NAME=PATH</code> passes further inputs the importer asks for, e.g.&nbsp;a process stack, and <code>--option NAME=VALUE</code> passes importer options. The built-in <code>openrcx-uf</code> importer (OpenRCX Universal Pattern Format) is a stub for now and exits with status <code>3</code>.</p>
 </section>
-<section id="sec-pex25d-pipes" class="level4" data-number="9.1.6.5">
-<h4 data-number="9.1.6.5" class="anchored" data-anchor-id="sec-pex25d-pipes"><span class="header-section-number">9.1.6.5</span> Pipelines and explicit encodings</h4>
+<section id="sec-pex25d-export" class="level4" data-number="9.1.6.5">
+<h4 data-number="9.1.6.5" class="anchored" data-anchor-id="sec-pex25d-export"><span class="header-section-number">9.1.6.5</span> Export native solver input</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-label="1"></a><span class="ex">pex25d</span> exporters</span>
+<span id="cb41-2"><a href="#cb41-2" aria-label="2"></a><span class="ex">pex25d</span> export two_nets.pex25d.scene.pb <span class="dt">\</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-label="3"></a>  <span class="at">--to</span> fastercap <span class="at">--out_dir</span> solver/fastercap <span class="at">--prefix</span> two_nets</span>
+<span id="cb41-4"><a href="#cb41-4" aria-label="4"></a><span class="ex">pex25d</span> export two_nets.pex25d <span class="dt">\</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-label="5"></a>  <span class="at">--to</span> fastcap2 <span class="at">--out_dir</span> solver/fastcap2 <span class="at">--prefix</span> two_nets</span>
+<span id="cb41-6"><a href="#cb41-6" aria-label="6"></a><span class="ex">pex25d</span> export two_nets.pex25d <span class="at">--to</span> stl <span class="at">--out_dir</span> solver/stl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>--to</code> selects an exporter by its name, or by <code>package:name</code> when two installed packages provide the same name. <code>pex25d exporters</code> lists the installed ones. <code>klayout-pex</code> ships three exporters:</p>
+<ul>
+<li><code>fastercap</code> and <code>fastcap2</code> write a <code>.lst</code> entry file and its referenced surface files; keep them together.</li>
+<li><code>stl</code> writes the solids of the scene as STL files, one per dielectric and net, for viewing (e.g.&nbsp;in <code>MeshLab</code>).</li>
+</ul>
+<p>File input is resolved automatically. Export generates meshes and input files, <strong>without running the solver or producing a capacitance matrix</strong>. The solver executable is needed when those files are subsequently solved. <code>kpex extract</code> is the separate integrated flow for running engines from a layout.</p>
+<p>Exporter options are passed with <code>--option NAME=VALUE</code>, which can be repeated (since <code>klayout-pex</code> 0.6.3). VALUE is read as JSON where it parses (<code>10</code>, <code>1e-9</code>, <code>true</code>), otherwise as text. For FasterCap and FastCap2, <code>--stl</code>, <code>--field_margin</code>, <code>--delaunay_amax</code>, <code>--delaunay_b</code>, and <code>--geo_check</code> are shorthands for their options. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.</p>
+<p>The built-in exporters write capacitance input. They do not extract a resistance network from <code>SHEET</code>, <code>PER_CUT</code>, or terminal records. Exporters for the FEM solvers Elmer and Palace are available as separate packages, <a href="https://github.com/iic-jku/klayout-pex-plugin-elmer">klayout-pex-plugin-elmer</a> and <a href="https://github.com/iic-jku/klayout-pex-plugin-palace">klayout-pex-plugin-palace</a>.</p>
+</section>
+<section id="sec-pex25d-pipes" class="level4" data-number="9.1.6.6">
+<h4 data-number="9.1.6.6" class="anchored" data-anchor-id="sec-pex25d-pipes"><span class="header-section-number">9.1.6.6</span> Pipelines and explicit encodings</h4>
 <p>A path of <code>-</code> means stdin for input and stdout for output. Artifact output reserves stdout and redirects logging and diagnostics to stderr. Use explicit kinds and encodings in a binary pipeline:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-label="1"></a><span class="ex">pex25d</span> resolve two_nets.pex25d <span class="at">-o</span> <span class="at">-</span> <span class="at">--out_kind</span> scene <span class="at">--out_format</span> pb <span class="dt">\</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-label="2"></a>  <span class="kw">|</span> <span class="ex">pex25d</span> show <span class="at">-</span> <span class="at">--in_kind</span> scene <span class="at">--in_format</span> pb <span class="at">--section</span> layers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="ex">pex25d</span> resolve two_nets.pex25d <span class="at">-o</span> <span class="at">-</span> <span class="at">--out_kind</span> scene <span class="at">--out_format</span> pb <span class="dt">\</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-label="2"></a>  <span class="kw">|</span> <span class="ex">pex25d</span> show <span class="at">-</span> <span class="at">--in_kind</span> scene <span class="at">--in_format</span> pb <span class="at">--section</span> layers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For filenames without conventional suffixes, supply <strong>both</strong> <code>--in_kind file|scene</code> and <code>--in_format text|pb|textpb</code>, or the corresponding <code>--out_kind</code> and <code>--out_format</code>. These are options of the standalone tool; <code>kpex pex25d</code> uses its output options and <code>--format</code> instead. Stdin defaults to unresolved text, while <code>resolve</code> defaults to binary scene output on stdout. Gzip is inferred from filenames; use a shell gzip tool when compressing a stream.</p>
 </section>
 </section>
 <section id="sec-pex25d-api" class="level3" data-number="9.1.7">
 <h3 data-number="9.1.7" class="anchored" data-anchor-id="sec-pex25d-api"><span class="header-section-number">9.1.7</span> Protobuf API: Python Preparation and C++ Consumers</h3>
 <p>The <a href="https://github.com/iic-jku/klayout-pex/tree/main/protos/kpex/pex25d">PEX25D schemas</a> define the file and scene messages, exact units, geometry, dielectric and resistance records, terminals, domain, diagnostics, and source references. Generated bindings let another language read binary artifacts without implementing the text parser. An adapter should consume <code>PEX25DScene</code> and use the shared resolver for file input.</p>
-<p>One import is enough: <code>from klayout_pex import pex25d</code> provides the verbs <code>read</code>, <code>write</code>, <code>resolve</code>, <code>validate</code>, <code>export</code> and <code>show</code>, the artifact and diagnostics types, every error the pipeline raises, and <code>pex25d.proto</code> for the generated messages (<code>pex25d.proto.PEX25DFile()</code>, or a module such as <code>pex25d.proto.dielectric</code> for its enums). Names listed in <code>pex25d.__all__</code> are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g.&nbsp;<code>resolver.Resolver</code> and <code>validator.Validator</code>.</p>
+<p>One import is enough: <code>from klayout_pex import pex25d</code> provides the verbs <code>read</code>, <code>write</code>, <code>resolve</code>, <code>validate</code>, <code>import_file</code>, <code>export</code> and <code>show</code>, the artifact and diagnostics types, every error the pipeline raises, and <code>pex25d.proto</code> for the generated messages (<code>pex25d.proto.PEX25DFile()</code>, or a module such as <code>pex25d.proto.dielectric</code> for its enums). Names listed in <code>pex25d.__all__</code> are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g.&nbsp;<code>resolver.Resolver</code> and <code>validator.Validator</code>.</p>
 <p><code>read()</code> and <code>write()</code> take a path in any supported encoding and derive kind and encoding from the conventional suffixes (<a href="#sec-pex25d-filenames" class="quarto-xref">Section&nbsp;9.1.3</a>); <code>read_text()</code> and <code>write_text()</code> work on the bytes of the text format. <code>validate()</code> fills a diagnostics report and never raises for an invalid message; <code>resolve()</code> computes the scene and raises <code>ResolveError</code> when resolution cannot proceed. The package depends on <code>protobuf</code> alone, so it can be installed as a reference reader and validator without <code>klayout</code>.</p>
 <p>This Python example loads and resolves the downloadable file, then requests native FasterCap input and STL solids through the exporter API:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-label="1"></a><span class="im">from</span> klayout_pex <span class="im">import</span> pex25d</span>
-<span id="cb42-2"><a href="#cb42-2" aria-label="2"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-label="3"></a>report <span class="op">=</span> pex25d.DiagnosticsReport(warnings_are_errors<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb42-4"><a href="#cb42-4" aria-label="4"></a>description <span class="op">=</span> pex25d.read(<span class="st">"two_nets.pex25d"</span>, report<span class="op">=</span>report, with_source_refs<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-label="5"></a>scene <span class="op">=</span> pex25d.resolve(description, report<span class="op">=</span>report)</span>
-<span id="cb42-6"><a href="#cb42-6" aria-label="6"></a>pex25d.validate(description, report<span class="op">=</span>report, strict<span class="op">=</span><span class="va">True</span>, scene<span class="op">=</span>scene)</span>
-<span id="cb42-7"><a href="#cb42-7" aria-label="7"></a><span class="cf">if</span> report.exit_code:</span>
-<span id="cb42-8"><a href="#cb42-8" aria-label="8"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"PEX25D validation failed"</span>)</span>
-<span id="cb42-9"><a href="#cb42-9" aria-label="9"></a></span>
-<span id="cb42-10"><a href="#cb42-10" aria-label="10"></a>pex25d.write(scene, <span class="st">"two_nets.pex25d.scene.pb"</span>)</span>
-<span id="cb42-11"><a href="#cb42-11" aria-label="11"></a>paths <span class="op">=</span> pex25d.export(</span>
-<span id="cb42-12"><a href="#cb42-12" aria-label="12"></a>    scene,</span>
-<span id="cb42-13"><a href="#cb42-13" aria-label="13"></a>    target<span class="op">=</span>pex25d.SolverTarget.FASTERCAP,</span>
-<span id="cb42-14"><a href="#cb42-14" aria-label="14"></a>    output_dir_path<span class="op">=</span><span class="st">"solver/api"</span>,</span>
-<span id="cb42-15"><a href="#cb42-15" aria-label="15"></a>    prefix<span class="op">=</span><span class="st">"two_nets"</span>,</span>
-<span id="cb42-16"><a href="#cb42-16" aria-label="16"></a>    options<span class="op">=</span>pex25d.ExporterOptions(write_stl<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb42-17"><a href="#cb42-17" aria-label="17"></a>)</span>
-<span id="cb42-18"><a href="#cb42-18" aria-label="18"></a><span class="bu">print</span>(paths[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-label="1"></a><span class="im">from</span> klayout_pex <span class="im">import</span> pex25d</span>
+<span id="cb43-2"><a href="#cb43-2" aria-label="2"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-label="3"></a>report <span class="op">=</span> pex25d.DiagnosticsReport(warnings_are_errors<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-label="4"></a>description <span class="op">=</span> pex25d.read(<span class="st">"two_nets.pex25d"</span>, report<span class="op">=</span>report, with_source_refs<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-label="5"></a>scene <span class="op">=</span> pex25d.resolve(description, report<span class="op">=</span>report)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-label="6"></a>pex25d.validate(description, report<span class="op">=</span>report, strict<span class="op">=</span><span class="va">True</span>, scene<span class="op">=</span>scene)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-label="7"></a><span class="cf">if</span> report.exit_code:</span>
+<span id="cb43-8"><a href="#cb43-8" aria-label="8"></a>    <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="st">"PEX25D validation failed"</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-label="9"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-label="10"></a>pex25d.write(scene, <span class="st">"two_nets.pex25d.scene.pb"</span>)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-label="11"></a>paths <span class="op">=</span> pex25d.export(</span>
+<span id="cb43-12"><a href="#cb43-12" aria-label="12"></a>    scene,</span>
+<span id="cb43-13"><a href="#cb43-13" aria-label="13"></a>    target<span class="op">=</span><span class="st">"fastercap"</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-label="14"></a>    output_dir_path<span class="op">=</span><span class="st">"solver/api"</span>,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-label="15"></a>    prefix<span class="op">=</span><span class="st">"two_nets"</span>,</span>
+<span id="cb43-16"><a href="#cb43-16" aria-label="16"></a>    options<span class="op">=</span>{<span class="st">"write_stl"</span>: <span class="va">True</span>},</span>
+<span id="cb43-17"><a href="#cb43-17" aria-label="17"></a>)</span>
+<span id="cb43-18"><a href="#cb43-18" aria-label="18"></a><span class="bu">print</span>(paths[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A C++ consumer can read the uncompressed binary scene written above using the bindings generated from <code>pex25d_scene.proto</code> and its imports. For example, this complete program loads a scene and reports its size; the extraction engine would then operate on that message:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb43-1"><a href="#cb43-1" aria-label="1"></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-label="2"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-label="3"></a><span class="pp">#include </span><span class="im">"kpex/pex25d/pex25d_scene.pb.h"</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-label="4"></a></span>
-<span id="cb43-5"><a href="#cb43-5" aria-label="5"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-label="6"></a>    <span class="cf">if</span> <span class="op">(</span>argc <span class="op">!=</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-label="7"></a>        <span class="bu">std::</span>cerr <span class="op">&lt;&lt;</span> <span class="st">"Usage: read_scene FILE.pex25d.scene.pb</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-label="8"></a>        <span class="cf">return</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-label="9"></a>    <span class="op">}</span></span>
-<span id="cb43-10"><a href="#cb43-10" aria-label="10"></a>    <span class="bu">std::</span>ifstream input<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">],</span> <span class="bu">std::</span>ios::binary<span class="op">);</span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-label="11"></a>    kpex<span class="op">::</span>pex25d<span class="op">::</span>PEX25DScene scene<span class="op">;</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-label="12"></a>    <span class="cf">if</span> <span class="op">(!</span>input <span class="op">||</span> <span class="op">!</span>scene<span class="op">.</span>ParseFromIstream<span class="op">(&amp;</span>input<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-label="13"></a>        <span class="bu">std::</span>cerr <span class="op">&lt;&lt;</span> <span class="st">"Cannot read PEX25DScene</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-label="14"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-label="15"></a>    <span class="op">}</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-label="16"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> scene<span class="op">.</span>layers_size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" layers, "</span></span>
-<span id="cb43-17"><a href="#cb43-17" aria-label="17"></a>              <span class="op">&lt;&lt;</span> scene<span class="op">.</span>conductors_size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" conductors</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb43-18"><a href="#cb43-18" aria-label="18"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb43-19"><a href="#cb43-19" aria-label="19"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource cpp number-lines code-with-copy"><code class="sourceCode cpp"><span id="cb44-1"><a href="#cb44-1" aria-label="1"></a><span class="pp">#include </span><span class="im">&lt;fstream&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-label="2"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-label="3"></a><span class="pp">#include </span><span class="im">"kpex/pex25d/pex25d_scene.pb.h"</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-label="4"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-label="5"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-label="6"></a>    <span class="cf">if</span> <span class="op">(</span>argc <span class="op">!=</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-label="7"></a>        <span class="bu">std::</span>cerr <span class="op">&lt;&lt;</span> <span class="st">"Usage: read_scene FILE.pex25d.scene.pb</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-label="8"></a>        <span class="cf">return</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-label="9"></a>    <span class="op">}</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-label="10"></a>    <span class="bu">std::</span>ifstream input<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">],</span> <span class="bu">std::</span>ios::binary<span class="op">);</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-label="11"></a>    kpex<span class="op">::</span>pex25d<span class="op">::</span>PEX25DScene scene<span class="op">;</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-label="12"></a>    <span class="cf">if</span> <span class="op">(!</span>input <span class="op">||</span> <span class="op">!</span>scene<span class="op">.</span>ParseFromIstream<span class="op">(&amp;</span>input<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-label="13"></a>        <span class="bu">std::</span>cerr <span class="op">&lt;&lt;</span> <span class="st">"Cannot read PEX25DScene</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-label="14"></a>        <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-label="15"></a>    <span class="op">}</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-label="16"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> scene<span class="op">.</span>layers_size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" layers, "</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-label="17"></a>              <span class="op">&lt;&lt;</span> scene<span class="op">.</span>conductors_size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">" conductors</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-label="18"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-label="19"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compile consumers with the generated <code>.pb.cc</code> files and the protobuf C++ runtime. A successful protobuf parse establishes that the binary message can be decoded; reference validation still belongs in the preparation flow, and an engine must check the format version and the features it supports. Keep the <code>.scene</code> kind explicit when exchanging files, since both unresolved files and resolved scenes can use binary protobuf encoding.</p>
 <p>When consuming the scene directly, convert grid coordinates using <code>grid_numerator / grid_denominator</code> in the declared length unit. Check <code>scene.domain.origin</code> before using <code>scene.domain.box</code>: the domain message may exist only to carry geometry bounds. Preserve conductor net identities, floating-body independence, resistance units, and terminal boundary semantics when mapping the scene to a solver.</p>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
-<section id="references" class="level2" data-number="9.2">
+<section id="sec-plugin-api" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="sec-plugin-api"><span class="header-section-number">9.2</span> Plugin API</h2>
+<p><code>KPEX</code> can be extended by plugins, which are separate Python packages. Once a plugin is installed (e.g.&nbsp;via <code>pip3</code>), <code>KPEX</code> finds it automatically, there is no need to change or re-install <code>KPEX</code> itself.</p>
+<div id="fig-kpex-plugin-api-overview" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-kpex-plugin-api-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/kpex-plugin-api-overview.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kpex-plugin-api-overview-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16: <code>KPEX</code> Plugin API: Extension Points
+</figcaption>
+</figure>
+</div>
+<section id="sec-plugin-api-importers-exporters" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="sec-plugin-api-importers-exporters"><span class="header-section-number">9.2.1</span> PEX25D Importers and Exporters</h3>
+<p>Currently, there are two extension points, both built around the PEX25D format (see <a href="#sec-pex25d" class="quarto-xref">Section&nbsp;9.1</a>):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 37%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Extension Point</th>
+<th style="text-align: left;">PEX25D Importer</th>
+<th style="text-align: left;">PEX25D Exporter</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Description</td>
+<td style="text-align: left;">Translate the scene description of another tool into a <code>PEX25DFile</code></td>
+<td style="text-align: left;">Write the input files of a solver from a resolved <code>PEX25DScene</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Input</td>
+<td style="text-align: left;">Files of another tool, e.g.&nbsp;OpenRCX Universal Pattern Format</td>
+<td style="text-align: left;"><code>PEX25DScene</code> protobuf</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Entry Point Group</td>
+<td style="text-align: left;"><code>klayout_pex.importers.v1</code></td>
+<td style="text-align: left;"><code>klayout_pex.exporters.v1</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Protocol</td>
+<td style="text-align: left;"><code>PEX25DImporter</code></td>
+<td style="text-align: left;"><code>PEX25DSceneExporter</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CLI Invocation</td>
+<td style="text-align: left;"><code>pex25d import --from NAME</code></td>
+<td style="text-align: left;"><code>pex25d export --to NAME</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Built-In Plugins</td>
+<td style="text-align: left;"><code>openrcx-uf</code> (stub)</td>
+<td style="text-align: left;"><code>fastercap</code>, <code>fastcap2</code>, <code>stl</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Maintained External Plugins</td>
+<td style="text-align: left;">none yet</td>
+<td style="text-align: left;"><code>elmer</code>, <code>palace</code>, <code>gmsh</code> (see <a href="#sec-plugin-api-fem" class="quarto-xref">Section&nbsp;9.2.4.1</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>Running the solver and reading its results back into <code>kpex extract</code> is not part of the plugin API yet, this is planned for a future version.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The plugin API <code>v1</code> is provisional: it is currently tested together with colleagues, and may still change until it is declared stable. Afterwards, breaking changes will get a new version <code>v2</code>, with their own entry point groups.</p>
+<p>Plugins should therefore pin <code>klayout-pex</code> to one minor release, e.g.&nbsp;<code>&gt;=0.6.3,&lt;0.7</code>.</p>
+</div>
+</div>
+</section>
+<section id="sec-plugin-api-using" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="sec-plugin-api-using"><span class="header-section-number">9.2.2</span> Using Plugins</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-label="1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex-plugin-palace</span>
+<span id="cb45-2"><a href="#cb45-2" aria-label="2"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-label="3"></a><span class="ex">pex25d</span> plugins     <span class="co"># overview: selector, package, version, description</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-label="4"></a><span class="ex">pex25d</span> exporters   <span class="co"># selectors only, one per line (for scripts)</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-label="5"></a><span class="ex">pex25d</span> importers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>pex25d plugins</code> only reads the package metadata, a plugin itself is loaded when it is used. A plugin that fails to load (e.g.&nbsp;because of a missing dependency) therefore does not affect the other ones.</p>
+<p>Selecting a plugin:</p>
+<ul>
+<li>by its name, e.g.&nbsp;<code>--to palace</code></li>
+<li>by <code>package:name</code>, if two packages provide the same name, e.g.&nbsp;<code>--to klayout-pex:stl</code></li>
+<li>built-in plugins take precedence for plain names</li>
+</ul>
+<p>Plugin specific options are passed with <code>--option NAME=VALUE</code> (since <code>klayout-pex</code> 0.6.3). The value is read as JSON if possible (<code>10</code>, <code>1e-9</code>, <code>true</code>), otherwise as text:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-label="1"></a><span class="ex">pex25d</span> export cell.pex25d <span class="at">--to</span> palace <span class="at">--out_dir</span> deck <span class="dt">\</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-label="2"></a>  <span class="at">--option</span> mesh_size_edge_um=0.2 <span class="at">--option</span> order=2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Exit status</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>2</code></td>
+<td style="text-align: left;">Unknown plugin, invalid option, or the plugin rejected its input</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>3</code></td>
+<td style="text-align: left;">The plugin does not implement the requested feature yet</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">Unexpected plugin failure (<code>--log_level debug</code> shows the traceback)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sec-plugin-api-writing" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="sec-plugin-api-writing"><span class="header-section-number">9.2.3</span> Writing a Plugin</h3>
+<p>A plugin is a Python package, which registers a factory function under one of the entry point groups. The factory is called without arguments and returns an object implementing the protocol. The protocols are defined in <code>klayout_pex.plugin_api.v1</code>, deriving from them is optional.</p>
+<p>For the plugins maintained by us, we use these conventions:</p>
+<ul>
+<li>GitHub repository and PyPI package: <code>klayout-pex-plugin-&lt;name&gt;</code></li>
+<li>Python package: <code>klayout_pex_plugins.&lt;name&gt;</code>
+<ul>
+<li><code>site-packages/klayout_pex_plugins</code> is a namespace package shared by all plugins</li>
+<li>it must not contain an <code>__init__.py</code>, otherwise all other plugins become invisible</li>
+</ul></li>
+</ul>
+<p>The registration in <code>pyproject.toml</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource toml number-lines code-with-copy"><code class="sourceCode toml"><span id="cb47-1"><a href="#cb47-1" aria-label="1"></a><span class="kw">[project]</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-label="2"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"klayout-pex-plugin-example"</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-label="3"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span><span class="st">"klayout-pex&gt;=0.6.3,&lt;0.7"</span><span class="op">]</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-label="4"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-label="5"></a><span class="kw">[project.entry-points."</span><span class="dt">klayout_pex.exporters.v1"</span><span class="kw">]</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-label="6"></a><span class="dt">nets</span> <span class="op">=</span> <span class="st">"klayout_pex_plugins.example:create_exporter"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>General rules for plugins:</p>
+<ul>
+<li>import heavy dependencies (e.g.&nbsp;a mesh generator) only when the plugin is used, not when its module is imported</li>
+<li>check the names and values of the options, raise <code>ExportError</code> / <code>ImporterError</code> for invalid options or unsupported input</li>
+<li>raise <code>ExporterUnavailable</code> / <code>ImporterUnavailable</code> when a dependency is missing, e.g.&nbsp;native binaries or libraries</li>
+<li>raise <code>NotImplementedError</code> for features that are not implemented yet</li>
+<li>do not modify the scene or the options passed in</li>
+</ul>
+</section>
+<section id="sec-plugin-api-exporters" class="level3" data-number="9.2.4">
+<h3 data-number="9.2.4" class="anchored" data-anchor-id="sec-plugin-api-exporters"><span class="header-section-number">9.2.4</span> PEX25D Exporters</h3>
+<p>An exporter writes the input files of a solver from a resolved <code>PEX25DScene</code> (see <a href="#sec-pex25d-workflow" class="quarto-xref">Section&nbsp;9.1.2</a>), it does not run the solver:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-label="1"></a><span class="kw">class</span> PEX25DSceneExporter(Protocol):</span>
+<span id="cb48-2"><a href="#cb48-2" aria-label="2"></a>    <span class="kw">def</span> export(<span class="va">self</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-label="3"></a>               scene: PEX25DScene,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-label="4"></a>               <span class="op">*</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-label="5"></a>               output_dir_path: <span class="bu">str</span>,</span>
+<span id="cb48-6"><a href="#cb48-6" aria-label="6"></a>               prefix: <span class="bu">str</span> <span class="op">=</span> <span class="st">''</span>,</span>
+<span id="cb48-7"><a href="#cb48-7" aria-label="7"></a>               options: Optional[Mapping[<span class="bu">str</span>, Any]] <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb48-8"><a href="#cb48-8" aria-label="8"></a>        ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>scene</code>: the resolved scene (<code>pex25d export</code> resolves a <code>PEX25DFile</code> first)</li>
+<li><code>output_dir_path</code>: the directory for the files, the exporter creates it if necessary</li>
+<li><code>prefix</code>: prefix for the file names, an empty prefix means the exporter’s own default</li>
+<li><code>options</code>: exporter specific options, e.g.&nbsp;from <code>--option</code></li>
+<li>returns the paths of the files written, the main input file first</li>
+</ul>
+<p>A minimal exporter, which writes the net of each conductor into a text file:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-label="1"></a><span class="im">import</span> os</span>
+<span id="cb49-2"><a href="#cb49-2" aria-label="2"></a><span class="im">from</span> typing <span class="im">import</span> Any, List, Mapping, Optional</span>
+<span id="cb49-3"><a href="#cb49-3" aria-label="3"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-label="4"></a><span class="im">from</span> klayout_pex.plugin_api.v1 <span class="im">import</span> ExportError, PEX25DSceneExporter</span>
+<span id="cb49-5"><a href="#cb49-5" aria-label="5"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-label="6"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-label="7"></a><span class="kw">class</span> NetsExporter(PEX25DSceneExporter):</span>
+<span id="cb49-8"><a href="#cb49-8" aria-label="8"></a>    <span class="kw">def</span> export(<span class="va">self</span>, scene, <span class="op">*</span>, output_dir_path: <span class="bu">str</span>, prefix: <span class="bu">str</span> <span class="op">=</span> <span class="st">''</span>,</span>
+<span id="cb49-9"><a href="#cb49-9" aria-label="9"></a>               options: Optional[Mapping[<span class="bu">str</span>, Any]] <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> List[<span class="bu">str</span>]:</span>
+<span id="cb49-10"><a href="#cb49-10" aria-label="10"></a>        <span class="cf">if</span> options:</span>
+<span id="cb49-11"><a href="#cb49-11" aria-label="11"></a>            <span class="cf">raise</span> ExportError(<span class="ss">f"unknown options: </span><span class="sc">{</span><span class="st">', '</span><span class="sc">.</span>join(options)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb49-12"><a href="#cb49-12" aria-label="12"></a>        os.makedirs(output_dir_path, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-label="13"></a>        path <span class="op">=</span> os.path.join(output_dir_path, <span class="ss">f"</span><span class="sc">{</span>prefix<span class="sc">}</span><span class="ss">nets.txt"</span>)</span>
+<span id="cb49-14"><a href="#cb49-14" aria-label="14"></a>        <span class="cf">with</span> <span class="bu">open</span>(path, <span class="st">'w'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb49-15"><a href="#cb49-15" aria-label="15"></a>            <span class="cf">for</span> conductor <span class="kw">in</span> scene.conductors:</span>
+<span id="cb49-16"><a href="#cb49-16" aria-label="16"></a>                <span class="bu">file</span>.write(<span class="ss">f"</span><span class="sc">{</span>conductor<span class="sc">.</span>name<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>conductor<span class="sc">.</span>net<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb49-17"><a href="#cb49-17" aria-label="17"></a>        <span class="cf">return</span> [path]</span>
+<span id="cb49-18"><a href="#cb49-18" aria-label="18"></a></span>
+<span id="cb49-19"><a href="#cb49-19" aria-label="19"></a></span>
+<span id="cb49-20"><a href="#cb49-20" aria-label="20"></a><span class="kw">def</span> create_exporter() <span class="op">-&gt;</span> NetsExporter:</span>
+<span id="cb49-21"><a href="#cb49-21" aria-label="21"></a>    <span class="cf">return</span> NetsExporter()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="sec-plugin-api-fem" class="level4" data-number="9.2.4.1">
+<h4 data-number="9.2.4.1" class="anchored" data-anchor-id="sec-plugin-api-fem"><span class="header-section-number">9.2.4.1</span> Example: FEM Solvers Elmer and Palace</h4>
+<p>As examples for external exporters, we provide plugins for two open source FEM field solvers, both used for capacitance extraction (electrostatics):</p>
+<ul>
+<li><a href="https://github.com/iic-jku/klayout-pex-plugin-elmer">klayout-pex-plugin-elmer</a>: exporter <code>elmer</code> for <a href="https://www.elmerfem.org">Elmer FEM</a> (<code>StatElecSolver</code>)</li>
+<li><a href="https://github.com/iic-jku/klayout-pex-plugin-palace">klayout-pex-plugin-palace</a>: exporter <code>palace</code> for <a href="https://awslabs.github.io/palace/">Palace</a> (<code>Electrostatic</code> problem)</li>
+<li>both use the volume mesh of <a href="https://github.com/iic-jku/klayout-pex-plugin-gmsh">klayout-pex-plugin-gmsh</a>, which is also available as exporter <code>gmsh</code></li>
+</ul>
+<div id="fig-kpex-plugin-fem-exporters" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-kpex-plugin-fem-exporters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/kpex-plugin-fem-exporters.svg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kpex-plugin-fem-exporters-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17: PEX25D Exporters for FEM Solvers
+</figcaption>
+</figure>
+</div>
+<p>The mesh is built in these steps:</p>
+<ul>
+<li>2.5D prisms: the domain is sliced at every z where a solid starts or ends
+<ul>
+<li>within each slab, conductors and the ground plane come first, then the dielectrics by wrap depth (see <a href="#sec-pex25d-dielectrics" class="quarto-xref">Section&nbsp;9.1.5.4</a>), and the background fills the rest</li>
+<li>so the prisms fill the domain exactly once</li>
+</ul></li>
+<li>the prisms are extruded and fragmented using <code>OpenCASCADE</code>, so touching solids share their faces</li>
+<li>the conductors are removed, only their surfaces remain, as one physical group per net</li>
+<li>the elements are refined at the conductor edges, where the field concentrates
+<ul>
+<li>by default, down to the thickness of the thinnest conductor layer</li>
+</ul></li>
+</ul>
+<p>Elmer FEM:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-label="1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex-plugin-elmer</span>
+<span id="cb50-2"><a href="#cb50-2" aria-label="2"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-label="3"></a><span class="ex">pex25d</span> export cell.pex25d <span class="at">--to</span> elmer <span class="at">--out_dir</span> elmer</span>
+<span id="cb50-4"><a href="#cb50-4" aria-label="4"></a><span class="bu">cd</span> elmer</span>
+<span id="cb50-5"><a href="#cb50-5" aria-label="5"></a><span class="ex">ElmerGrid</span> 14 2 mesh.msh <span class="at">-autoclean</span>   <span class="co"># gmsh mesh -&gt; Elmer mesh</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-label="6"></a><span class="ex">ElmerSolver</span> case.sif                 <span class="co"># writes cmatrix.dat</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Palace:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-label="1"></a><span class="ex">pip3</span> install <span class="at">--upgrade</span> klayout-pex-plugin-palace</span>
+<span id="cb51-2"><a href="#cb51-2" aria-label="2"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-label="3"></a><span class="ex">pex25d</span> export cell.pex25d <span class="at">--to</span> palace <span class="at">--out_dir</span> palace</span>
+<span id="cb51-4"><a href="#cb51-4" aria-label="4"></a><span class="bu">cd</span> palace</span>
+<span id="cb51-5"><a href="#cb51-5" aria-label="5"></a><span class="ex">palace</span> <span class="at">-np</span> 4 config.json             <span class="co"># writes postpro/terminal-Cm.csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Both solvers write the capacitance matrix in mutual form:</p>
+<ul>
+<li>off-diagonal cells contain the coupling capacitance between two terminals</li>
+<li>diagonal cells contain the capacitance to ground (zero, unless the outer boundary is grounded)</li>
+<li>row/column <span class="math inline">\(i\)</span> belongs to the terminal group with tag <span class="math inline">\(i\)</span> in <code>mesh.json</code> (nets, floating conductors, ground plane)</li>
+</ul>
+<p>The options of the plugins (mesh sizes, element order, outer boundary condition, …) are listed in the <code>README</code> files of the repositories.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="IIC-OSIC-TOOLS">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>IIC-OSIC-TOOLS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>IIC-OSIC-TOOLS</code> Docker image (see <a href="#sec-intro-installation" class="quarto-xref">Section&nbsp;1.5</a>) contains Palace, Elmer FEM is not included yet. When running as <code>root</code>, call <code>palace -serial config.json</code>, as <code>mpirun</code> refuses to run as <code>root</code>.</p>
+</div>
+</div>
+<p>For the test design <code>overlap_plates_100um_x_100um_m1_m2</code> (<code>ihp-sg13g2</code>, two plates of 100 µm × 100 µm in <code>Metal1</code> and <code>Metal2</code>, overlapping by 50 µm × 50 µm), the coupling capacitance between the plates is:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Solver</th>
+<th style="text-align: left;">Mesh</th>
+<th style="text-align: right;"><span class="math inline">\(C_{LOWER,UPPER}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Elmer FEM</td>
+<td style="text-align: left;">default (94k tetrahedra)</td>
+<td style="text-align: right;">181.3 fF</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Palace, order 1</td>
+<td style="text-align: left;">same mesh</td>
+<td style="text-align: right;">181.3 fF</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Palace, order 2</td>
+<td style="text-align: left;">same mesh</td>
+<td style="text-align: right;">179.4 fF</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Elmer FEM</td>
+<td style="text-align: left;">edges refined to 0.21 µm (~180k tetrahedra)</td>
+<td style="text-align: right;">180.7 fF</td>
+</tr>
+</tbody>
+</table>
+<p>A parallel plate estimate of the overlap alone gives 168 fF, the difference being the fringe capacitance.</p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+</section>
+<section id="references" class="level2" data-number="9.3">
 
 
 
@@ -8566,7 +8893,7 @@ R(T) = R_{\mathrm{ref}}\left[1 + TC1\,(T-T_{\mathrm{ref}})
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">9.2 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">9.3 References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-skywater-sky130-pdk" class="csl-entry" role="listitem">
 Authors, SkyWater PDK. 2020. <span>“SkyWater Open Source PDK.”</span> May. <a href="https://skywater-pdk.readthedocs.io">https://skywater-pdk.readthedocs.io</a>.
 </div>
@@ -8614,14 +8941,14 @@ Sheehan, Bernard N. 2007. <span>“Realizable Reduction of <span class="math inl
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>Apache-2.0 license</div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{köhler2026,
   author = {Köhler, Martin},
   title = {KLayout-PEX {Documentation}},
-  date = {2026-10-01},
+  date = {2026-10-07},
   url = {https://iic-jku.github.io/klayout-pex-website},
   doi = {10.5281/zenodo.17822519},
   langid = {en-US}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-köhler2026" class="csl-entry quarto-appendix-citeas" role="listitem">
 Köhler, Martin. 2026. <span>“KLayout-PEX Documentation.”</span> October
-1. <a href="https://doi.org/10.5281/zenodo.17822519">https://doi.org/10.5281/zenodo.17822519</a>.
+7. <a href="https://doi.org/10.5281/zenodo.17822519">https://doi.org/10.5281/zenodo.17822519</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
