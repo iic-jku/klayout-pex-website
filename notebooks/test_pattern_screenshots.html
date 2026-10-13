@@ -367,73 +367,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="cell-3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> klayout.db <span class="im">as</span> kdb</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> klayout.lay <span class="im">as</span> klay</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: the klayout-pex checkout, next to this repository by default</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>KPEX_DIR <span class="op">=</span> os.path.abspath(os.environ.get(<span class="st">'KPEX_DIR'</span>, os.path.join(<span class="st">'..'</span>, <span class="st">'..'</span>, <span class="st">'klayout-pex'</span>)))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>OUTPUT_DIR <span class="op">=</span> os.path.abspath(os.path.join(<span class="st">'..'</span>, <span class="st">'figures'</span>, <span class="st">'test_patterns'</span>))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_technology(pdk: <span class="bu">str</span>):</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    The KLayout technology of KPEX for the PDK, whose layer properties give the colors</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    (the layout view takes the only technology there is)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    kdb.Technology.clear_technologies()</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    tech <span class="op">=</span> kdb.Technology.create_technology(pdk)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    tech.load(os.path.join(KPEX_DIR, <span class="st">'pdk'</span>, pdk, <span class="st">'libs.tech'</span>, <span class="st">'kpex'</span>, <span class="ss">f"</span><span class="sc">{</span>pdk<span class="sc">}</span><span class="ss">.lyt"</span>))</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> screenshot(pdk: <span class="bu">str</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>               pattern: <span class="bu">str</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>               aspect: <span class="bu">str</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>               view_box: kdb.DBox,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>               marked_boxes: List[kdb.DBox],</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>               width: <span class="bu">int</span> <span class="op">=</span> <span class="dv">1600</span>,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>               height: <span class="bu">int</span> <span class="op">=</span> <span class="dv">1600</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves the screenshot &lt;pattern&gt;_-_&lt;aspect&gt;.png of the test pattern, with the marked boxes (in µm)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xml.etree.ElementTree <span class="im">as</span> ET</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> klayout.db <span class="im">as</span> kdb</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> klayout.lay <span class="im">as</span> klay</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: the klayout-pex checkout, next to this repository by default</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>KPEX_DIR <span class="op">=</span> os.path.abspath(os.environ.get(<span class="st">'KPEX_DIR'</span>, os.path.join(<span class="st">'..'</span>, <span class="st">'..'</span>, <span class="st">'klayout-pex'</span>)))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>OUTPUT_DIR <span class="op">=</span> os.path.abspath(os.path.join(<span class="st">'..'</span>, <span class="st">'figures'</span>, <span class="st">'test_patterns'</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: the display settings of the KLayout GUI the other test pattern figures were made with</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>KLAYOUTRC <span class="op">=</span> os.path.abspath(<span class="st">'test_pattern_screenshots.klayoutrc'</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_technology(pdk: <span class="bu">str</span>):</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    The KLayout technology of KPEX for the PDK, whose layer properties give the colors</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">    (the layout view takes the only technology there is)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    kdb.Technology.clear_technologies()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    tech <span class="op">=</span> kdb.Technology.create_technology(pdk)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    tech.load(os.path.join(KPEX_DIR, <span class="st">'pdk'</span>, pdk, <span class="st">'libs.tech'</span>, <span class="st">'kpex'</span>, <span class="ss">f"</span><span class="sc">{</span>pdk<span class="sc">}</span><span class="ss">.lyt"</span>))</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> apply_klayoutrc(lv: klay.LayoutView, path: <span class="bu">str</span>):</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">    Applies the settings of a klayoutrc (&lt;config&gt;&lt;key&gt;value&lt;/key&gt;…&lt;/config&gt;) to the layout view</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> setting <span class="kw">in</span> ET.parse(path).getroot():</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        lv.set_config(setting.tag, (setting.text <span class="kw">or</span> <span class="st">''</span>).strip())</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">    :return: the path of the screenshot</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    load_technology(pdk)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    lv <span class="op">=</span> klay.LayoutView()</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    lv.load_layout(os.path.join(KPEX_DIR, <span class="st">'testdata'</span>, <span class="st">'designs'</span>, pdk, <span class="st">'test_patterns'</span>, <span class="ss">f"</span><span class="sc">{</span>pattern<span class="sc">}</span><span class="ss">.gds.gz"</span>))</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    lv.max_hier()</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    lv.set_config(<span class="st">'background-color'</span>, <span class="st">'#000000'</span>)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    lv.set_config(<span class="st">'grid-visible'</span>, <span class="st">'true'</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    lv.set_config(<span class="st">'grid-show-ruler'</span>, <span class="st">'true'</span>)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    lv.set_config(<span class="st">'text-font'</span>, <span class="st">'1'</span>)            <span class="co"># a stick font, which scales with the text size</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    lv.set_config(<span class="st">'default-text-size'</span>, <span class="st">'4'</span>)    <span class="co"># µm</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    lv.zoom_box(view_box)</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    markers <span class="op">=</span> []  <span class="co"># </span><span class="al">NOTE</span><span class="co">: the markers are shown as long as they exist</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> box <span class="kw">in</span> marked_boxes:</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> klay.Marker(lv)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        m.<span class="bu">set</span>(box)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        m.color <span class="op">=</span> <span class="bn">0xff0000</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        m.frame_color <span class="op">=</span> <span class="bn">0xff0000</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        m.dither_pattern <span class="op">=</span> <span class="dv">9</span>  <span class="co"># lightly right-hatched</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        m.line_width <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        markers.append(m)</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> os.path.join(OUTPUT_DIR, <span class="ss">f"</span><span class="sc">{</span>pattern<span class="sc">}</span><span class="ss">_-_</span><span class="sc">{</span>aspect<span class="sc">}</span><span class="ss">.png"</span>)</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    lv.save_image_with_options(path, width<span class="op">=</span>width, height<span class="op">=</span>height, resolution<span class="op">=</span><span class="fl">0.4</span>)  <span class="co"># </span><span class="al">NOTE</span><span class="co">: 2.5x as large fonts</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> screenshot(pdk: <span class="bu">str</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>               pattern: <span class="bu">str</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>               aspect: <span class="bu">str</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>               view_box: kdb.DBox,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>               marked_boxes: List[kdb.DBox],</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>               pixels_per_um: <span class="bu">float</span> <span class="op">=</span> <span class="fl">17.6</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">    Saves the screenshot &lt;pattern&gt;_-_&lt;aspect&gt;.png of the test pattern, with the marked boxes (in µm)</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">    :return: the path of the screenshot</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    load_technology(pdk)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    lv <span class="op">=</span> klay.LayoutView()</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    lv.load_layout(os.path.join(KPEX_DIR, <span class="st">'testdata'</span>, <span class="st">'designs'</span>, pdk, <span class="st">'test_patterns'</span>, <span class="ss">f"</span><span class="sc">{</span>pattern<span class="sc">}</span><span class="ss">.gds.gz"</span>))</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    lv.max_hier()</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    apply_klayoutrc(lv, KLAYOUTRC)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    lv.zoom_box(view_box)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    markers <span class="op">=</span> []  <span class="co"># </span><span class="al">NOTE</span><span class="co">: the markers are shown as long as they exist</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> box <span class="kw">in</span> marked_boxes:</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> klay.Marker(lv)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>        m.<span class="bu">set</span>(box)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        m.color <span class="op">=</span> <span class="bn">0xff0000</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        m.frame_color <span class="op">=</span> <span class="bn">0xff0000</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        m.dither_pattern <span class="op">=</span> <span class="dv">9</span>  <span class="co"># lightly right-hatched</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>        m.line_width <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        markers.append(m)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">NOTE</span><span class="co">: like the screenshots of the GUI on a HiDPI display: 2x pixels (fonts, lines),</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="co">#       about as many pixels per µm as the other test pattern figures</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> os.path.join(OUTPUT_DIR, <span class="ss">f"</span><span class="sc">{</span>pattern<span class="sc">}</span><span class="ss">_-_</span><span class="sc">{</span>aspect<span class="sc">}</span><span class="ss">.png"</span>)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    lv.save_image_with_options(path,</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                               width<span class="op">=</span><span class="bu">round</span>(view_box.width() <span class="op">*</span> pixels_per_um),</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>                               height<span class="op">=</span><span class="bu">round</span>(view_box.height() <span class="op">*</span> pixels_per_um),</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>                               resolution<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="example-overlap_shield_same_net_" class="level2">
 <h2 class="anchored" data-anchor-id="example-overlap_shield_same_net_">Example: overlap_shield_same_net_*</h2>
-<p>Plates of 100 µm x 100 µm, <code>li1</code> and <code>met1</code> of net <code>A</code> under <code>met2</code> of net <code>B</code>, <code>met1</code> covering all or the left half of <code>li1</code>. The marked areas are the overlaps of <code>met2</code> with <code>met1</code> and <code>li1</code>.</p>
+<p>Plates of 100 µm x 100 µm, <code>li1</code> and <code>met1</code> of net <code>A</code> under <code>met2</code> of net <code>B</code>, <code>met1</code> covering all or the left half of <code>li1</code>. The marked areas are the overlaps of <code>met2</code> with <code>met1</code> and <code>li1</code>. The view has 20 µm below the plates, for the scale bar and its text in the XXXLarge font, and 10 µm at the other sides.</p>
 <div id="cell-5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>screenshot(<span class="st">'sky130A'</span>, <span class="st">'overlap_shield_same_net_100um_x_100um_li1_m1_m2'</span>, <span class="st">'overlap'</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">10</span>, <span class="op">-</span><span class="dv">10</span>, <span class="dv">110</span>, <span class="dv">110</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">10</span>, <span class="op">-</span><span class="dv">20</span>, <span class="dv">110</span>, <span class="dv">110</span>),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           marked_boxes<span class="op">=</span>[kdb.DBox(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">100</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>screenshot(<span class="st">'sky130A'</span>, <span class="st">'overlap_shield_same_net_half_100um_x_100um_li1_m1_m2'</span>, <span class="st">'overlap'</span>,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">10</span>, <span class="op">-</span><span class="dv">10</span>, <span class="dv">110</span>, <span class="dv">110</span>),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">10</span>, <span class="op">-</span><span class="dv">20</span>, <span class="dv">110</span>, <span class="dv">110</span>),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           marked_boxes<span class="op">=</span>[kdb.DBox(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>), kdb.DBox(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">100</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
