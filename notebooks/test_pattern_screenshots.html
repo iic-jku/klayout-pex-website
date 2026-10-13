@@ -447,6 +447,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">10</span>, <span class="op">-</span><span class="dv">20</span>, <span class="dv">110</span>, <span class="dv">110</span>),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           marked_boxes<span class="op">=</span>[kdb.DBox(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>), kdb.DBox(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">100</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="example-plate_20um_x_20um_li1_over_" class="level2">
+<h2 class="anchored" data-anchor-id="example-plate_20um_x_20um_li1_over_">Example: plate_20um_x_20um_li1_over_*</h2>
+<p>A <code>li1</code> plate of 20 µm x 20 µm of net <code>A</code> over the middle of a tap of 40 µm x 40 µm, an n-tap in an nwell <code>W</code> or a p-tap tied to <code>VSS</code>. The marked area is the overlap of <code>li1</code> with the tap. The view is smaller than the one of the plates above, so more pixels per µm keep the screenshots as wide (2112 px), as the figures show them at the same width.</p>
+<div id="cell-8" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>screenshot(<span class="st">'sky130A'</span>, <span class="st">'plate_20um_x_20um_li1_over_ntap'</span>, <span class="st">'overlap'</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">12</span>, <span class="dv">45</span>, <span class="dv">45</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>           marked_boxes<span class="op">=</span>[kdb.DBox(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">30</span>)],</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>           pixels_per_um<span class="op">=</span><span class="fl">42.24</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>screenshot(<span class="st">'sky130A'</span>, <span class="st">'plate_20um_x_20um_li1_over_ptap'</span>, <span class="st">'overlap'</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">12</span>, <span class="dv">45</span>, <span class="dv">45</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           marked_boxes<span class="op">=</span>[kdb.DBox(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">30</span>)],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           pixels_per_um<span class="op">=</span><span class="fl">42.24</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
 </section>
