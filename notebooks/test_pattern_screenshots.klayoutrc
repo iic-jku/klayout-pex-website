@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The display settings of the KLayout GUI the other test pattern figures were made with,
+  for the screenshots of test_pattern_screenshots.ipynb, with the largest default font (XXXLarge)
+-->
+<config>
+ <apply-text-trans>true</apply-text-trans>
+ <background-color>#000000</background-color>
+ <bitmap-oversampling>1</bitmap-oversampling>
+ <default-font-size>5</default-font-size>
+ <default-text-size>0.1</default-text-size>
+ <grid-axis-color>auto</grid-axis-color>
+ <grid-color>auto</grid-color>
+ <grid-density>4</grid-density>
+ <grid-grid-color>auto</grid-grid-color>
+ <grid-micron>1</grid-micron>
+ <grid-ruler-color>auto</grid-ruler-color>
+ <grid-show-ruler>true</grid-show-ruler>
+ <grid-style0>invisible</grid-style0>
+ <grid-style1>dots</grid-style1>
+ <grid-style2>tenths-dotted-lines</grid-style2>
+ <grid-visible>true</grid-visible>
+ <markers-visible>true</markers-visible>
+ <no-stipple>false</no-stipple>
+ <text-color>auto</text-color>
+ <text-font>0</text-font>
+ <text-visible>true</text-visible>
+</config>

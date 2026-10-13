@@ -29,7 +29,7 @@ def image_path(file_name: str) -> str:
         return os.path.join(quarto_dir, 'figures', 'test_patterns', file_name)
 
 w = 600
-h = 600
+h = 650
 
 img_path = image_path('overlap_shield_same_net_half_100um_x_100um_li1_m1_m2_-_overlap.png')
 
