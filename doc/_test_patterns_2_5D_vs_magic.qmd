@@ -26,6 +26,7 @@ Notes about this comparison:
 - `KPEX/MAGIC` halo is set to `--magic_halo=100000`
    - NOTE: the screenshots however were created with `--magic_halo=8` to give better illustrations
 - `KPEX/2.5D` halo is set to `--halo=100000`
+- The test patterns `overlap_shield_same_net_*` were compared with `MAGIC 8.3.681` without debug logging, so their `MAGIC` capacitances are given per net pair.
 :::
 
 
@@ -244,6 +245,79 @@ CapDebug (extSideOverlapHalo/obsolete_perimcap) layer m1(97), net met1,
 CapDebug (obsolete_perimcap): met1 -= 0.157966 fF …	now met1 == 248.901423 fF
 CapDebug (sideoverlaphalo): met1-li1 += 0.065426 fF …	now met1-li1 == 0.125232 fF
 ```
+
+## Test Pattern `overlap_shield_same_net_100um_x_100um_li1_m1_m2`
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/overlap_shield_same_net_100um_x_100um_li1_m1_m2.gds.gz>
+
+Plates of $100\,µm \times 100\,µm$: `li1` and `met1` of net `A`, joined by an `mcon` in a corner, under `met2` of net `B`.
+`met1` shields `li1` from `met2`, although both are of net `A`.
+
+{{< include /figures/test_patterns/overlap_shield_same_net_100um_x_100um_li1_m1_m2_-_overlap.qmd >}}
+
+| Description | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|-------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Overlap     |      met2 | B       |          met1 | A          |        1338.6 |
+| Overlap     |      met2 | B       |           li1 | A          |           --- |
+| Overlap     |       li1 | A       |     substrate | VSUBS      |         369.9 |
+: Extracted Parasitic Overlap Capacitances
+
+| Description        | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|--------------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Fringe (all sides) |       li1 | A       |     substrate | VSUBS      |         16.28 |
+| Fringe (all sides) |      met1 | A       |     substrate | VSUBS      |        16.228 |
+| Fringe (all sides) |      met2 | B       |     substrate | VSUBS      |        15.104 |
+: Extracted Parasitic Fringe Capacitances
+
+| Net 1 | Net 2 | MAGIC [fF]| KPEX/2.5D [fF]|
+|:------|:------|----------:|--------------:|
+| A     | B     |    1338.6 |        1338.6 |
+| A     | VSUBS |    402.41 |       402.408 |
+| B     | VSUBS |    15.104 |        15.104 |
+: Extracted Parasitic Capacitances per Net Pair
+
+::: {.callout-note}
+Up to [#299](https://github.com/iic-jku/klayout-pex/issues/299), only shapes of other nets shielded in `KPEX/2.5D`,
+so `A` ↔ `B` also got the overlap of `met2` and `li1` below `met1`: $1338.6 + 375.6 = 1714.2\,fF$.
+:::
+
+
+## Test Pattern `overlap_shield_same_net_half_100um_x_100um_li1_m1_m2`
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/overlap_shield_same_net_half_100um_x_100um_li1_m1_m2.gds.gz>
+
+The same plates, but `met1` covers only the left half of `li1`:
+`met2` overlaps `met1` on the left half and `li1` on the right half.
+
+{{< include /figures/test_patterns/overlap_shield_same_net_half_100um_x_100um_li1_m1_m2_-_overlap.qmd >}}
+
+| Description | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|-------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Overlap     |      met2 | B       |          met1 | A          |         669.3 |
+| Overlap     |      met2 | B       |           li1 | A          |         187.8 |
+| Overlap     |       li1 | A       |     substrate | VSUBS      |         369.9 |
+: Extracted Parasitic Overlap Capacitances
+
+| Description        | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|--------------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Fringe (all sides) |       li1 | A       |     substrate | VSUBS      |         16.28 |
+| Fringe (all sides) |      met1 | A       |     substrate | VSUBS      |         8.214 |
+| Fringe (right)     |      met1 | A       |          met2 | B          |         4.796 |
+| Fringe (all sides) |      met2 | B       |     substrate | VSUBS      |        15.104 |
+: Extracted Parasitic Fringe Capacitances
+
+| Net 1 | Net 2 | MAGIC [fF]| KPEX/2.5D [fF]|
+|:------|:------|----------:|--------------:|
+| A     | B     |     861.9 |       861.896 |
+| A     | VSUBS |    394.39 |       394.394 |
+| B     | VSUBS |    15.104 |        15.104 |
+: Extracted Parasitic Capacitances per Net Pair
+
+::: {.callout-note}
+Up to [#299](https://github.com/iic-jku/klayout-pex/issues/299), `KPEX/2.5D` also counted the overlap of `met2` and `li1`
+below `met1` (the left half), so `A` ↔ `B` was $861.896 + 187.8 = 1049.696\,fF$.
+:::
+
 
 ## Test Pattern `r_single_wire_li1` 
 
