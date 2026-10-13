@@ -26,7 +26,7 @@ Notes about this comparison:
 - `KPEX/MAGIC` halo is set to `--magic_halo=100000`
    - NOTE: the screenshots however were created with `--magic_halo=8` to give better illustrations
 - `KPEX/2.5D` halo is set to `--halo=100000`
-- The test patterns `overlap_shield_same_net_*` were compared with `MAGIC 8.3.681` without debug logging, so their `MAGIC` capacitances are given per net pair.
+- The test patterns `overlap_shield_same_net_*` and `plate_20um_x_20um_li1_over_*` were compared with `MAGIC 8.3.681` without debug logging, so their `MAGIC` capacitances are given per net pair.
 :::
 
 
@@ -316,6 +316,80 @@ The same plates, but `met1` covers only the left half of `li1`:
 ::: {.callout-note}
 Up to [#299](https://github.com/iic-jku/klayout-pex/issues/299), `KPEX/2.5D` also counted the overlap of `met2` and `li1`
 below `met1` (the left half), so `A` ↔ `B` was $861.896 + 187.8 = 1049.696\,fF$.
+:::
+
+
+## Test Pattern `plate_20um_x_20um_li1_over_ntap`
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/plate_20um_x_20um_li1_over_ntap.gds.gz>
+
+A `li1` plate of $20\,µm \times 20\,µm$ of net `A` over the middle of an n-tap of $40\,µm \times 40\,µm$ in an nwell of net `W`.
+The tap is active area like the source/drain, so `li1` has the capacitance of the diffusion to it.
+
+{{< include /figures/test_patterns/plate_20um_x_20um_li1_over_ntap_-_overlap.qmd >}}
+
+| Description | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|-------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Overlap     |       li1 | A       |    tap (ntap) | W          |         22.12 |
+: Extracted Parasitic Overlap Capacitances
+
+| Description        | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|--------------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Fringe (all sides) |       li1 | A       |    tap (ntap) | W          |         3.338 |
+| Fringe (all sides) |       li1 | A       |         nwell | W          |         0.046 |
+| Fringe (all sides) |       li1 | A       |     substrate | VSUBS      |         0.233 |
+: Extracted Parasitic Fringe Capacitances
+
+| Net 1 | Net 2 | MAGIC [fF]| KPEX/2.5D [fF]|
+|:------|:------|----------:|--------------:|
+| A     | W     |   25.5042 |        25.504 |
+| A     | VSUBS |    0.2326 |         0.232 |
+| W     | VSUBS |    232.32 |           --- |
+: Extracted Parasitic Capacitances per Net Pair
+
+::: {.callout-note}
+- `KPEX/2.5D` has no capacitance between the nwell and the substrate, the PDK models that junction as a diode.
+- Up to [#301](https://github.com/iic-jku/klayout-pex/issues/301), `KPEX/2.5D` didn't know the taps in the capacitance extraction,
+  so `li1` had the capacitance to the nwell below the tap: `A` ↔ `W` $17.82\,fF$.
+:::
+
+
+## Test Pattern `plate_20um_x_20um_li1_over_ptap`
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/plate_20um_x_20um_li1_over_ptap.gds.gz>
+
+The same plate over a p-tap, which a `licon` in its corner ties to the `li1` pad `VSS`
+(like in the standard cells, as in the sky130A LVS deck only the `licon` joins a p-tap to a net).
+
+{{< include /figures/test_patterns/plate_20um_x_20um_li1_over_ptap_-_overlap.qmd >}}
+
+| Description | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|-------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Overlap     |       li1 | A       |    tap (ptap) | VSS        |         22.12 |
+: Extracted Parasitic Overlap Capacitances
+
+| Description        | Layer Top | Net Top | Layer Bottom  | Net Bottom | KPEX/2.5D [fF]|
+|--------------------|----------:|:--------|--------------:|:----------:|--------------:|
+| Fringe (all sides) |       li1 | A       |    tap (ptap) | VSS        |         3.338 |
+| Fringe (all sides) |       li1 | A       |     substrate | VSUBS      |         0.279 |
+| Fringe (all sides) |       li1 | VSS     |     substrate | VSUBS      |         0.130 |
+: Extracted Parasitic Fringe Capacitances
+
+| Net 1 | Net 2 | MAGIC [fF]| KPEX/2.5D [fF]|
+|:------|:------|----------:|--------------:|
+| A     | VSS   |   18.3132 |        25.458 |
+| A     | VSUBS |       --- |         0.278 |
+| VSS   | VSUBS |       --- |          0.13 |
+: Extracted Parasitic Capacitances per Net Pair
+
+::: {.callout-note}
+`MAGIC` and `KPEX/2.5D` differ here on purpose:
+
+- `MAGIC` makes the p-tap part of its substrate node (`substrate *ppdiff,…` of the sky130A tech), whose area gets the field's
+  $36.99\,aF/µm^2$ ($14.80\,fF$), but its fringe the diffusion's: $18.31\,fF$ to the one node `VSS`.
+- `KPEX/2.5D` has the p-tap as diffusion, the same stack as the source/drain, like the n-tap: $55.3\,aF/µm^2$ ($22.12\,fF$).
+- In the sky130A LVS deck, the p-tap (`VSS`) and the substrate (`VSUBS`) are different nets, `MAGIC` joins them.
+- Up to [#301](https://github.com/iic-jku/klayout-pex/issues/301), `KPEX/2.5D` had `li1` over the field: `A` ↔ `VSUBS` $18.05\,fF$.
 :::
 
 
