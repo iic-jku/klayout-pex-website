@@ -32,7 +32,7 @@ There are three ways to select what is left out, which follow the same rule (@se
 | `--exclusion-markers {ignore,tie,ports}` | what is within the marker layers of a PDK, or of the user (@sec-kpex-2_5D-exclusion-variants) | as the value says |
 | `--cut CELL[=PREFIX]` | the shapes and the devices of the instances of a cell, not the routing over them (@sec-kpex-2_5D-exclusion-cut) | ports |
 | `--exclude-net NET` | a net (@sec-kpex-2_5D-exclusion-nets) | the net itself |
-: Ways to select what is left out {#tbl-exclusion-selection}
+: Ways to select what is left out {#tbl-exclusion-selection tbl-colwidths="[27,53,20]"}
 
 By default, nothing is left out, so that a netlist doesn't change without one of these. Markers and cells are read from the GDS, so that these options need `--gds`, also together with `--lvsdb`, as an LVS database only has the shapes of nets.
 
@@ -48,7 +48,7 @@ The options work with `--2.5D`, `--fastercap` and `--fastcap` (@sec-kpex-2_5D-ex
 | `ihp-sg13g2`, `ihp-sg13cmos5l` | `IND` `27/0` | the metal of an inductor, whose pins touch the edge of `IND` | inductors |
 | `sky130A` | none | `inductor.drawing` `82/24` only takes `met2` and `met3` out of the conductors of LVS | RF coils |
 | `gf180mcuD` | none | `IND_MK` `151/5` is only defined | |
-: Markers of the supported PDKs {#tbl-exclusion-markers-of-pdks}
+: Markers of the supported PDKs {#tbl-exclusion-markers-of-pdks tbl-colwidths="[17,20,33,30]"}
 
 The layer rules of the IHP PDKs don't describe the markers beyond one line each. What the pair markers can mean follows from their names, as they name a pair of plates. Of the 533 GDS of the IHP reference layouts and LVS testcases, 25 have a marker, all of them `noqrc` of `rfcmim`.
 
@@ -63,7 +63,7 @@ Tools take one of three approaches, here by the public material of commercial to
 | Remove | are not passed to the solver | loses its load, which the vendor warns about | commercial tool A |
 | Keep, couple to ground | are considered | keeps its load, with no path into the device | commercial tool A, commercial tool B for nets within a cell |
 | Keep, couple to the net | are interconnect with all cross-coupling, a model replaces the RC model | keeps its load, on the net | commercial tool A, commercial tool B for nets with a pin |
-: Approaches of tools {#tbl-exclusion-tool-approaches}
+: Approaches of tools {#tbl-exclusion-tool-approaches tbl-colwidths="[15,27,30,28]"}
 
 Removing the shapes is the simple approach, but it changes what is outside them, as @fig-exclusion-cross-section shows. A 2.5D extraction rests on the shielding by what is in between: neighbors reduce the coupling across a layer from 16.3 % to 1.8 % of the total, and it's only negligible above a metal density threshold [@cong-2-5d-extraction-1997]. The same holds for metal without a function: ignoring dummy fill gives errors above 30 %, and the fill on other layers matters more than the fill on the same layer [@kurokawa-dummy-fills-2004]. Full-chip extractors handle grounded fill, floating fill needs a 3D solver [@kahng-floating-fill-2006; @yu-floating-fills-2006].
 
@@ -81,7 +81,7 @@ Removing the shapes is the simple approach, but it changes what is outside them,
 | `Metal3` wire 0.3 µm beside a `Metal3` plate | total | 5.05 fF | -18 % (-7 %) | -29 % (-38 %) |
 | `Metal5` wire under the coil of an `inductor2` | total | 10.27 fF | -10 % | |
 | 20 µm wire ending at the cut, instead of going on | total | 1.797 fF | +3.5 % | |
-: What removing a shape does to what is around it {#tbl-exclusion-removed-geometry}
+: What removing a shape does to what is around it {#tbl-exclusion-removed-geometry tbl-colwidths="[49,9,10,16,16]"}
 
 So the shapes stay: without them, the wires around them have wrong values, which neither the netlist nor the model can correct.
 
@@ -104,7 +104,7 @@ A conductor is _in_ where it lies within what is left out on its layer, otherwis
 | out and in, where nothing connects the net of the in plate to the netlist | goes to the substrate | it has no node, a model wouldn't know this metal either |
 | in and in, within different blocks | kept | neither model has it |
 | parts of one net that only a model joins, with `--exclusion-markers ports` | kept, like between two nets | they are apart in the netlist, and neither the netlist nor the model has this capacitance otherwise |
-: Which capacitances are left out {#tbl-exclusion-rule}
+: Which capacitances are left out {#tbl-exclusion-rule tbl-colwidths="[33,27,40]"}
 
 A capacitance partly within a marker is split: for an overlap by its area, for a sidewall or fringe along its edge. A fringe goes by the plate next to the edge, also on a well that goes on across a marker.
 
@@ -120,18 +120,20 @@ A marker over routing costs that wire much of its capacitance, so a warning name
 
 ![A wire from `A` to `B` through a marker with `--exclusion-markers ignore`, `tie` and `ports`](figures/exclusion-connection-modes.svg){#fig-exclusion-connection-modes fig-alt="Three resistor chains from A to B: with resistors within the marker, with one ideal node within the marker, and with a port at each edge of the marker, with a model between them"}
 
-Test pattern `exclusion_wire_through`, a `Metal3` wire of 60 µm x 2 µm with a marker over its middle third:
+#### A Wire Through a Marker {#sec-kpex-2_5D-exclusion-wire-through}
+
+Test pattern `exclusion_wire_through`, a `Metal3` wire of 60 µm x 2 µm with a marker over its middle third, is the example of the variants below:
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_wire_through.gds.gz>
 
 ![Test pattern `exclusion_wire_through`, the frame is the marker](figures/test_patterns/exclusion_wire_through_-_layout.png){#fig-exclusion-wire-through fig-alt="A wire from A to B through a marker"}
 
 | `--exclusion-markers` | `--mode CC` | `--mode R` |
-|---------------|---------------------:|:--------------------------|
+|---------------|----------------------|---------------------------|
 | `ignore`      | `A,B`-`VSUBS` 5.327 fF | `A`-`B` 2.596 Ω |
 | `tie`         | `A,B`-`VSUBS` 3.593 fF | `A`-`A,B` 0.858 Ω, `A,B`-`B` 0.858 Ω |
 | `ports`       | `A,B`-`VSUBS` 3.593 fF | `A`-`A_B__m0_0` 0.858 Ω, `A_B__m0_1`-`B` 0.858 Ω |
-: Extracted values of `exclusion_wire_through` {#tbl-exclusion-wire-through}
+: Extracted values of `exclusion_wire_through` {#tbl-exclusion-wire-through tbl-colwidths="[25,25,50]"}
 
 #### `ignore` {#sec-kpex-2_5D-exclusion-ignore}
 
@@ -177,6 +179,8 @@ A port is named after the pin of the net within the marker that is nearest to th
 
 A port is one node, which is right across the current, also on a wide wire. Where the metal goes on beside a marker, along a cut, the whole cut would short that metal, so the port is a piece of 1 µm in the middle of the cut. The metal beside it then carries the current alone: test pattern `cut_strip_along_wire`, a wire of 100 µm x 1 µm with half of its width within a marker along 50 µm, has 8.78 Ω flat and 17.41 Ω with `ports`, as a port can't connect a model in parallel to that metal.
 
+##### Capacitances Between the Parts of a Net {#sec-kpex-2_5D-exclusion-parts-of-a-net}
+
 Metal that only a model joins is one net in LVS, but apart in the netlist with `ports`, so the capacitances between it count, unlike within a net otherwise. In test pattern `exclusion_hairpin` (@fig-exclusion-hairpin), two `Metal3` wires 2 µm apart end within the marker, where a bridge joins them. In `exclusion_hairpin_open`, the bridge has a gap, so they are two nets. With `ports`, both have the same values:
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_hairpin.gds.gz>
@@ -187,9 +191,11 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13
 |-------------|--------------------------------------:|-----------------------------:|----------------------------------:|
 | from the pin of `A` to the pin of `B` | | 0.147 fF | 0.147 fF |
 | between the cuts | | 0.142 fF | 0.142 fF |
-: Capacitance between the wires of `exclusion_hairpin` {#tbl-exclusion-hairpin}
+: Capacitance between the wires of `exclusion_hairpin` {#tbl-exclusion-hairpin tbl-colwidths="[32,22,20,26]"}
 
 With `tie`, the net stays connected, so these wires are a net like without a marker, which has no capacitances within it. In `--mode CC`, a net is one node, so there are no ports and no such capacitances.
+
+##### Checking a Model {#sec-kpex-2_5D-exclusion-checking-a-model}
 
 To check that a model fits, a test extracts the part of the wire within the marker on its own, as a stand-in for a model, connects it between the ports, and compares the port admittance in `ngspice` with the one of the flat extraction. They differ by 2.3 %, by the fringe of that part at the cuts, where the flat wire has no edges.
 
@@ -261,7 +267,7 @@ A pair marker only leaves out the capacitances between its two layers, so it has
 | `A`-`VSUBS` | 5.437 | 5.437 | 5.437 | 5.437 |
 | `B`-`VSUBS` | 1.862 | 1.862 | 1.862 | 1.862 |
 | `P`-`VSUBS` | 6.701 | | 6.701 | |
-: Markers of a layer and of a pair on `exclusion_plate_between_wires` {#tbl-exclusion-layer-markers}
+: Markers of a layer and of a pair on `exclusion_plate_between_wires` {#tbl-exclusion-layer-markers tbl-colwidths="[14,18,24,22,22]"}
 
 The 0.198 fF that stay with `m2m3` are the fringe to the part of `A` beyond the marker.
 
@@ -332,7 +338,7 @@ FasterCap gives the same picture as @tbl-exclusion-plate-neighbor and @tbl-exclu
 | | `VC`-substrate | 7.23 | 7.20 |
 | | `VDD`-substrate | 26.28 | 26.10 |
 | | coil-substrate | 22.00 | 5.48 |
-: With FasterCap, which is no reference here, only a trend {#tbl-exclusion-fastercap}
+: With FasterCap, which is no reference here, only a trend {#tbl-exclusion-fastercap tbl-colwidths="[46,16,15,23]"}
 
 Where a net is two conductors, the values around it differ by up to 2.5 %, as the mesh differs at the ends of the parts.
 
