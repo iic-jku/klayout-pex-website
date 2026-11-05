@@ -95,6 +95,8 @@ bibliography: ../references.bib
 
 {{< include _sec_engine_2_5D.qmd >}}
 
+{{< include _sec_engine_2_5D_exclusion.qmd >}}
+
 {{< pagebreak >}}
 
 {{< include _test_patterns_2_5D_vs_magic.qmd >}}
