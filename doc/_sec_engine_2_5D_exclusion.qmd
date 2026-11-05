@@ -1,0 +1,517 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## Excluding Parts of the Layout {#sec-kpex-2_5D-exclusion}
+
+Some structures are better served by a model than by a 2.5D extraction: an inductor by an EM simulation, which also has its inductance, a hard block by a netlist of its own, or the power grid of a block by the extraction of the top level. FEM co-simulation for example matches measured mm-wave amplifiers better than an RC extraction [@sagouo-minko-em-vs-rc-2019]. The rest of the layout should still be extracted, and connect to the model.
+
+This raises four questions, which this section answers:
+
+- How does a layout say what the extraction should leave out, and for which layers?
+- What happens to the shapes there: can they just be removed, with dielectric in their place?
+- What about the capacitances between what is left out and what is not?
+- How does the rest of the layout connect to the model?
+
+There are three ways to select what is left out, which follow the same rule (@sec-kpex-2_5D-exclusion-rule):
+
+| Option | Selects | Connection to the model |
+|:-------|:--------|:------------------------|
+| `--exclusion-markers {ignore,tie,ports}` | what is within the marker layers of a PDK, or of the user (@sec-kpex-2_5D-exclusion-variants) | as the value says |
+| `--cut CELL[=PREFIX]` | the shapes and the devices of the instances of a cell, not the routing over them (@sec-kpex-2_5D-exclusion-cut) | ports |
+| `--exclude-net NET` | a net (@sec-kpex-2_5D-exclusion-nets) | the net itself |
+: Ways to select what is left out {#tbl-exclusion-selection tbl-colwidths="[27,53,20]"}
+
+By default, nothing is left out, so that a netlist doesn't change without one of these. Markers and cells are read from the GDS, so that these options need `--gds`, also together with `--lvsdb`, as an LVS database only has the shapes of nets.
+
+The options work with `--2.5D`, `--fastercap` and `--fastcap` (@sec-kpex-2_5D-exclusion-field-solvers), not with `--magic`.
+
+### What the PDKs Mark {#sec-kpex-2_5D-exclusion-pdks}
+
+| PDK | Marker | Applies to | Drawn by |
+|:----|:-------|:-----------|:---------|
+| `ihp-sg13*` | `NoRCX.drawing` `148/0` | all layers of the stack | the pcells `inductor2` and `inductor3` (parameter `blockqrc`, on by default), the same polygon as `IND` |
+| `ihp-sg13*` | `<layer>.noqrc` `*/28` | one layer each: `Activ`, `GatPoly`, `Metal1` to `Metal5`, `BackMetal1`, `TopMetal1`, `TopMetal2` | the pcell `rfcmim`, around the device by 5.6 µm, up to `TopMetal1` |
+| `ihp-sg13*` | `NoRCX.<pair>` `148/41` to `55`, `148/123` to `127`, `148/300`, `148/301` | pairs of metals from `m2m3` up, metal to substrate (`m1sub`) | no pcell |
+| `ihp-sg13*` | `IND` `27/0` | the metal of an inductor, whose pins touch the edge of `IND` | inductors |
+| `sky130A` | none | `inductor.drawing` `82/24` only takes `met2` and `met3` out of the conductors of LVS | RF coils |
+| `gf180mcuD` | none | `IND_MK` `151/5` marks inductors: the LVS deck only defines it, the DRC keeps `COMP` and `Poly2` fill 3 µm away | |
+: Markers of the supported PDKs {#tbl-exclusion-markers-of-pdks tbl-colwidths="[13,21,35,31]"}
+
+The layer rules of the IHP PDKs don't describe the markers beyond one line each. What the pair markers can mean follows from their names, as they name a pair of plates. Of the 533 GDS of the IHP reference layouts and LVS testcases, 25 have a marker, all of them `noqrc` of `rfcmim`.
+
+By default, `KPEX` honors `NoRCX.drawing` and the pair markers. `noqrc` only takes effect on request, with `--exclusion-marker-layer` (@sec-kpex-2_5D-exclusion-layers): the extraction of the `rfcmim` already knows the device, in white-box mode it would lose the capacitor, and in a reference layout it would hit 2624 µm² of metal that isn't part of the device.
+
+`sky130A` and `gf180mcuD` have no layer for this, in their layer tables or in the cells and layouts looked at. SkyWater's extraction rules leave parasitics to the models by device recognition (varactors, MIM capacitors, RF ESD diodes, precision poly resistors), and MAGIC by the property `device` of a cell, which zeroes the parasitics of the cell. So these PDKs take markers of the user (@sec-kpex-2_5D-exclusion-layers).
+
+### Why the Geometry Stays {#sec-kpex-2_5D-exclusion-geometry}
+
+Tools take one of three approaches, here by the public material of commercial tools:
+
+| Approach | The shapes | What is around them | Used by |
+|:---------|:-----------|:--------------------|:--------|
+| Remove | are not passed to the solver | loses its load, which the vendor warns about | commercial tool A |
+| Keep, couple to ground | are considered | keeps its load, with no path into the device | commercial tool A, commercial tool B for nets within a cell |
+| Keep, couple to the net | are interconnect with all cross-coupling, a model replaces the RC model | keeps its load, on the net | commercial tool A, commercial tool B for nets with a pin |
+: Approaches of tools {#tbl-exclusion-tool-approaches tbl-colwidths="[15,27,30,28]"}
+
+Removing the shapes is the simple approach, but it changes what is outside them, as @fig-exclusion-cross-section shows. A 2.5D extraction rests on the shielding by what is in between: neighbors reduce the coupling across a layer from 16.3 % to 1.8 % of the total, and it's only negligible above a metal density threshold [@cong-2-5d-extraction-1997]. The same holds for metal without a function: ignoring dummy fill gives errors above 30 %, and the fill on other layers matters more than the fill on the same layer [@kurokawa-dummy-fills-2004]. Full-chip extractors handle grounded fill, floating fill needs a 3D solver [@kahng-floating-fill-2006; @yu-floating-fills-2006].
+
+![The plate `P` is left to a model, the wires `A`, `B` and `N` are not. Removing `P` couples `A` to `B` through the hole, and takes its load from all of them. `KPEX` keeps `P` in the field model, and leaves out only what the model has.](figures/exclusion-cross-section.svg){#fig-exclusion-cross-section fig-alt="Cross sections of a plate between two wires with a neighbor beside it, as drawn, with the plate removed, and with the plate kept and its capacitances filtered"}
+
+@tbl-exclusion-removed-geometry has this for small layouts of `ihp-sg13g2`, in `--mode CC`, with FasterCap in brackets. FasterCap is no reference here, it only shows the same trend. "Coupling dropped" keeps the shape as a shield, but leaves out all of its capacitances, also those to the wires.
+
+| Layout | Value | With the shape | Shape removed | Coupling dropped |
+|:-------|:------|---------------:|--------------:|-----------------:|
+| `Metal3` plate of 20 µm x 20 µm between 2 µm wide `Metal2` wire `A` and `Metal4` wire `B` | `A` ↔ `B` | 1.39 fF | +67 % (+63 %) | unchanged |
+| | `A` total | 11.19 fF | -31 % (-24 %) | -39 % (-41 %) |
+| | `B` total | 8.08 fF | -34 % (-30 %) | -60 % (-57 %) |
+| `TopMetal1` wire over a `Metal5` comb of 50 % density | total | 11.60 fF | -39 % (-42 %) | -56 % (-73 %) |
+| `Metal3` comb between `Metal5` wire `T` and `Metal1` wire `U` | `T` ↔ `U` | 1.16 fF | +38 % | |
+| `Metal3` wire 0.3 µm beside a `Metal3` plate | total | 5.05 fF | -18 % (-7 %) | -29 % (-38 %) |
+| `Metal5` wire under the coil of an `inductor2` | total | 10.27 fF | -10 % | |
+| 20 µm wire ending at the cut, instead of going on | total | 1.797 fF | +3.5 % | |
+: What removing a shape does to what is around it {#tbl-exclusion-removed-geometry tbl-colwidths="[47,9,12,16,16]"}
+
+So the shapes stay: without them, the wires around them have wrong values, which neither the netlist nor the model can correct.
+
+::: {.callout-note}
+With a marker over all layers, the parts of `A` and `B` within it are left out too, so the first rows of @tbl-exclusion-removed-geometry apply to a neighbor like `N`, and to the parts near the edge of the marker. They apply fully where only some shapes are left out at a location: a marker of one layer (@sec-kpex-2_5D-exclusion-layers), a cell with routing over it (@sec-kpex-2_5D-exclusion-cut), or a net (@sec-kpex-2_5D-exclusion-nets).
+:::
+
+The coil of a PDK inductor is an exception that does no harm: the deck of `KPEX` takes the metal within `IND` out of the conductors, so that it is no shield, but it is 30 µm from the edge of its polygon, beyond the halo of 8 µm, so that nothing outside the polygon is affected.
+
+### What Is Left Out {#sec-kpex-2_5D-exclusion-rule}
+
+A conductor is _in_ where it lies within what is left out on its layer, otherwise _out_. Each polygon of the merged markers, and each instance of a cut cell, stands for a model of its own, which is called a _block_ below.
+
+| Capacitance between | What happens | Why |
+|:--------------------|:-------------|:----|
+| in and in, within one block | left out | the model has it |
+| in and substrate | left out | the model has it, also where the fringe ends on the substrate beyond the marker |
+| out and out, out and substrate | unchanged | nothing else has it |
+| out and in | kept, on the net of the in plate, at its nearest node | the model doesn't know the out plate |
+| out and in, where nothing connects the net of the in plate to the netlist | goes to the substrate | it has no node, a model wouldn't know this metal either |
+| in and in, within different blocks | kept | neither model has it |
+| parts of one net that only a model joins, with `--exclusion-markers ports` | kept, like between two nets | they are apart in the netlist, and neither the netlist nor the model has this capacitance otherwise |
+: Which capacitances are left out {#tbl-exclusion-rule tbl-colwidths="[33,27,40]"}
+
+A capacitance partly within a marker is split: for an overlap by its area, for a sidewall or fringe along its edge. A fringe goes by the plate next to the edge, also on a well that goes on across a marker.
+
+The resistance network has no resistance within a block. A via is within a block by its center, on both of its conductors, as vias can stick out past their metal, and the resistance of a part of a via would be made up. Otherwise it keeps its resistance and the metal it lands on.
+
+Devices within a marker stay in the netlist, as the PDK inductors do. In white-box mode (`--blackbox n`), a capacitor within a marker is lost, as the device is removed and its plates are filtered. A warning names these devices. The devices of a cut cell are left out (@sec-kpex-2_5D-exclusion-cut).
+
+A marker over routing costs that wire much of its capacitance, so a warning names the nets partly within markers, with their layers.
+
+### The Variants {#sec-kpex-2_5D-exclusion-variants}
+
+@fig-exclusion-connection-modes shows the three values of `--exclusion-markers` for a wire through a marker. A `--mode CC` netlist has one node per net, so `tie` and `ports` are the same there, and a warning says that it has no ports for a model.
+
+![A wire from `A` to `B` through a marker with `--exclusion-markers ignore`, `tie` and `ports`](figures/exclusion-connection-modes.svg){#fig-exclusion-connection-modes fig-alt="Three resistor chains from A to B: with resistors within the marker, with one ideal node within the marker, and with a port at each edge of the marker, with a model between them"}
+
+#### A Wire Through a Marker {#sec-kpex-2_5D-exclusion-wire-through}
+
+Test pattern `exclusion_wire_through`, a `Metal3` wire of 60 µm x 2 µm with a marker over its middle third, is the example of the variants below:
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_wire_through.gds.gz>
+
+{{< include /figures/test_patterns/exclusion_wire_through_-_layout.qmd >}}
+
+| `--exclusion-markers` | `--mode CC` | `--mode R` |
+|:--------------|:---------------------|:--------------------------|
+| `ignore`      | `A,B` ↔ `VSUBS` 5.327 fF | `A` ↔ `B` 2.596 Ω |
+| `tie`         | `A,B` ↔ `VSUBS` 3.593 fF | `A` ↔ `A,B` 0.858 Ω, `A,B` ↔ `B` 0.858 Ω |
+| `ports`       | `A,B` ↔ `VSUBS` 3.593 fF | `A` ↔ `A_B__m0_0` 0.858 Ω, `A_B__m0_1` ↔ `B` 0.858 Ω |
+: Extracted values of `exclusion_wire_through` {#tbl-exclusion-wire-through tbl-colwidths="[25,25,50]"}
+
+#### `ignore` {#sec-kpex-2_5D-exclusion-ignore}
+
+What is within a marker is extracted like the rest of the layout. This is the default, as @fig-exclusion-wire-through-ignore-schematic shows:
+
+```spice
+.SUBCKT exclusion_wire_through A B sub!
+Cext_1 A sub! 2.66364f
+Cext_2 B sub! 2.66364f
+Rext_1 A A|B 0.001
+Rext_2 A B 2.596
+.ENDS exclusion_wire_through
+```
+
+{{< include /figures/exclusion-wire-through-ignore-schematic.qmd >}}
+
+#### `tie` {#sec-kpex-2_5D-exclusion-tie}
+
+What is within a marker has no parasitics, and each net stays connected across it, so that the netlist simulates without a model. It's useful to see what the rest of a layout adds, or if a model is only needed for some of the analyses (@fig-exclusion-wire-through-tie-schematic):
+
+```spice
+.SUBCKT exclusion_wire_through A B sub!
+Cext_1 A sub! 0.951336f
+Cext_2 A|B sub! 1.69065f
+Cext_3 B sub! 0.951336f
+Rext_1 A A|B 0.857956
+Rext_2 A|B B 0.858
+.ENDS exclusion_wire_through
+```
+
+{{< include /figures/exclusion-wire-through-tie-schematic.qmd >}}
+
+##### Metal Joined Only Outside the Marker {#sec-kpex-2_5D-exclusion-joined-outside}
+
+The metal within a marker stays apart where nothing within the marker joins it. In the test pattern `exclusion_stubs` (@fig-exclusion-stubs), two stubs of a net end within the marker, which only the metal outside it joins. So their pins `S1` and `S2` stay two nodes, with 1.046 Ω to `A` each, as a tie would short the metal outside the marker.
+
+{{< include /figures/test_patterns/exclusion_stubs_-_layout.qmd >}}
+
+#### `ports` {#sec-kpex-2_5D-exclusion-ports}
+
+Each cut of a net at a marker is a port of the netlist, for a model to connect (@fig-exclusion-wire-through-ports-schematic):
+
+```spice
+.SUBCKT exclusion_wire_through A A_B__m0_0 A_B__m0_1 B sub!
+Cext_1 A sub! 0.951336f
+Cext_2 A_B__m0_0 sub! 0.845326f
+Cext_3 A_B__m0_1 sub! 0.845326f
+Cext_4 B sub! 0.951336f
+Rext_1 A A|B 0.001
+Rext_2 A A_B__m0_0 0.857956
+Rext_3 A_B__m0_1 B 0.858
+.ENDS exclusion_wire_through
+```
+
+{{< include /figures/exclusion-wire-through-ports-schematic.qmd >}}
+
+A port is named after the pin of the net within the marker that is nearest to the cut, on its layer before others, otherwise `<net>__m<marker>_<number>`. So labels within a marker name the ports. In `exclusion_stubs`, these are `S1` and `S2`. Such a pin only names a cut of the metal it is joined to within the marker, and not if the net has a pin of that label outside the marker, as a port is one node. A net entirely within a marker has a port at its pin.
+
+`--check` accepts the pieces of a net that only these ports join. These pieces stay apart in the netlist, also where taps or wells would join them ideally otherwise, as that would short the model. And a part of a well beyond a cut keeps its port and its resistance, with the bulks of the devices on it. A bulk within the marker is a port of the model as well.
+
+A port is one node, which is right across the current, also on a wide wire. Where the metal goes on beside a marker, along a cut, the whole cut would short that metal, so the port is a piece of 1 µm in the middle of the cut. The metal beside it then carries the current alone: test pattern `cut_strip_along_wire`, a wire of 100 µm x 1 µm with half of its width within a marker along 50 µm, has 8.78 Ω flat and 17.41 Ω with `ports`, as a port can't connect a model in parallel to that metal.
+
+##### Capacitances Between the Parts of a Net {#sec-kpex-2_5D-exclusion-parts-of-a-net}
+
+Metal that only a model joins is one net in LVS, but apart in the netlist with `ports`, so the capacitances between it count, unlike within a net otherwise. In test pattern `exclusion_hairpin` (@fig-exclusion-hairpin), two `Metal3` wires 2 µm apart end within the marker, where a bridge joins them. In `exclusion_hairpin_open`, the bridge has a gap, so they are two nets. With `ports`, both have the same values:
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_hairpin.gds.gz>
+
+{{< include /figures/test_patterns/exclusion_hairpin_-_layout.qmd >}}
+
+| Capacitance | `exclusion_hairpin`, `ignore` or `tie` | `exclusion_hairpin`, `ports` | `exclusion_hairpin_open`, `ports` |
+|:------------|--------------------------------------:|-----------------------------:|----------------------------------:|
+| from the pin of `A` to the pin of `B` | | 0.147 fF | 0.147 fF |
+| between the cuts | | 0.142 fF | 0.142 fF |
+: Capacitance between the wires of `exclusion_hairpin` {#tbl-exclusion-hairpin tbl-colwidths="[25,23,23,29]"}
+
+With `tie`, the net stays connected, so these wires are a net like without a marker, which has no capacitances within it. In `--mode CC`, a net is one node, so there are no ports and no such capacitances.
+
+##### Checking a Model {#sec-kpex-2_5D-exclusion-checking-a-model}
+
+To check that a model fits, a test extracts the part of the wire within the marker on its own, as a stand-in for a model, connects it between the ports, and compares the port admittance in `ngspice` with the one of the flat extraction. They differ by 2.3 %, by the fringe of that part at the cuts, where the flat wire has no edges.
+
+### Examples {#sec-kpex-2_5D-exclusion-examples}
+
+#### A Neighbor Outside a Marker
+
+Test pattern `exclusion_plate_neighbor` (@fig-exclusion-plate-neighbor), a `Metal3` plate `P` just within a marker, with a `Metal3` wire `N` 0.3 µm beside it. `N` keeps all of its values, as it is out, and `P` keeps only its capacitance to `N`.
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_plate_neighbor.gds.gz>
+
+{{< include /figures/test_patterns/exclusion_plate_neighbor_-_layout.qmd >}}
+
+| Nets | `ignore` [fF] | `tie`, `ports` [fF] | Plates |
+|:-----|-------------:|-------------------:|:-------|
+| `N` ↔ `P` | 1.478 | 1.478 | out and in |
+| `N` ↔ `VSUBS` | 3.568 | 3.568 | out and substrate |
+| `P` ↔ `VSUBS` | 6.720 | | in and substrate |
+: Capacitances of `exclusion_plate_neighbor` {#tbl-exclusion-plate-neighbor}
+
+Without a label on the plate, in `exclusion_floating_plate_neighbor`, nothing connects it to the netlist, so that the capacitance to it goes to the substrate: `N` ↔ `VSUBS` is 5.045 fF.
+
+#### Two Markers
+
+Two such plates `P` and `Q`, 0.5 µm apart. With a marker each (`exclusion_plates_2_markers`), they keep their 0.828 fF to each other, as neither model has it. With one marker over both (`exclusion_plates_1_marker`), the netlist has no capacitances at all.
+
+#### Vias
+
+Test pattern `exclusion_via_stack`, a wire from `A` to `B` on `Metal2`, with a bridge on `Metal3` over a gap in the middle, with a marker around the bridge:
+
+| `--exclusion-markers` | Resistors |
+|:--------------|:----------|
+| `ignore`      | 0.568 Ω, via 2.031 Ω, 0.176 Ω, via 2.031 Ω, 0.532 Ω |
+| `tie`         | `A` ↔ `A,B` 0.418 Ω, `A,B` ↔ `B` 0.418 Ω |
+| `ports`       | `A` ↔ `A_B__m0_0` 0.418 Ω, `A_B__m0_1` ↔ `B` 0.418 Ω |
+: Resistances of `exclusion_via_stack` {#tbl-exclusion-via-stack}
+
+In `exclusion_via_across`, the center of the via is outside the marker, so it keeps its 2.031 Ω, and only the `Metal3` within the marker has no resistance.
+
+#### Devices
+
+Test pattern `exclusion_nmos_diode2` (@fig-exclusion-nmos-diode2), with a marker over a MOS transistor. The metal of its nets leaves the marker on `Metal1` and `Metal2`.
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_nmos_diode2.gds.gz>
+
+{{< include /figures/test_patterns/exclusion_nmos_diode2_-_layout.qmd >}}
+
+With `tie`, its terminals are on the nodes of the metal within the marker. With `ports`, each terminal is a port of its own, as the model connects them:
+
+```spice
+X$1 VSS__m0_2 VDD__m0_4 VDD__m0_5 sub! sg13_lv_nmos w=1.5e-07 l=1.7e-07
+```
+
+The bulk stays on the substrate, which is no conductor of the resistance network.
+
+### Markers of a Layer, of a Pair and of the User {#sec-kpex-2_5D-exclusion-layers}
+
+`--exclusion-marker-layer` selects the markers, instead of those on by default. It takes the name of a marker of the PDK, or any GDS layer, for all layers of the stack (`200/0`) or for some (`200/0:met2,met3`). So a PDK without markers can have them too, such as `sky130A` and `gf180mcuD`, and `--exclusion-markers ignore` stays the default.
+
+A marker of a layer leaves out only what is on that layer. In test pattern `exclusion_plate_noqrc`, a `Metal3` plate `P` is between a `Metal2` wire `A` and a `Metal4` wire `B`, with `Metal3.noqrc` over the plate. So `P` loses its capacitance to the substrate, and the wires keep all of theirs, with the plate as a shield between them. This is the case that @tbl-exclusion-removed-geometry is about.
+
+A pair marker only leaves out the capacitances between its two layers, so it has no effect on the resistances. The same plate with `m2m3` (`exclusion_plate_pair_m2m3`), and with `m3sub` (`exclusion_plate_pair_m3sub`):
+
+| Nets | `ignore` [fF] | `Metal3.noqrc` [fF] | `NoRCX.m2m3` [fF] | `NoRCX.m3sub` [fF] |
+|:-----|-------------:|--------------------:|------------------:|-------------------:|
+| `A` ↔ `B` | 1.387 | 1.387 | 1.387 | 1.387 |
+| `A` ↔ `P` | 4.363 | 4.363 | 0.198 | 4.363 |
+| `B` ↔ `P` | 4.831 | 4.831 | 4.831 | 4.831 |
+| `A` ↔ `VSUBS` | 5.437 | 5.437 | 5.437 | 5.437 |
+| `B` ↔ `VSUBS` | 1.862 | 1.862 | 1.862 | 1.862 |
+| `P` ↔ `VSUBS` | 6.701 | | 6.701 | |
+: Markers of a layer and of a pair on `exclusion_plate_between_wires` {#tbl-exclusion-layer-markers tbl-colwidths="[14,18,24,22,22]"}
+
+The 0.198 fF that stay with `m2m3` are the fringe to the part of `A` beyond the marker.
+
+### Cutting Out a Cell {#sec-kpex-2_5D-exclusion-cut}
+
+`--cut CELL[=PREFIX]` leaves the instances of a cell to a model. `CELL` is a name or a glob pattern, and a cell within a cut cell is part of it. Each `--cut` needs instances of its own: the first one that matches a cell takes them.
+
+What is left out:
+
+- The shapes of the cell, on the layers of the stack, so routing over it stays extracted, unlike with a marker over all layers:
+   - metal and wells by their drawn layers, with the fill that LVS joins to them
+   - what LVS computes from the diffusion (e.g. source and drain) by the diffusion of the cell
+   - not its boundary or the overhang of its wells and implants, which take nothing of the layout under them
+- The devices of the cell, also for `--check`. As the netlist of LVS is flat, they go by what the cell draws at their terminals, on the layers that LVS makes a device of that class from, which the tech info has (the diffusion and the gate of a MOS, the marker of a resistor, a diode, a BJT or a capacitor):
+   - on each layer, the cell has to draw a polygon at all terminals, and more of them than the rest of the layout, as a diffusion can go on beyond a cell, and a tap can overlap the one of a neighbor
+   - so a device stays if it's under the boundary or the fill of a cell, beside it on the same diffusion, or has only wires of the cell on its terminals
+   - and fill, a boundary or a wire of the top cell leaves a device to the cell
+- Diffusion that no layer draws, which LVS fills up for a device of the cell (e.g. the drain of an LDMOS, across the gap to its gate), but not what the rest of the layout draws
+
+`--cut-keep-net NET` takes the shapes of a net out of the cell, also its wells, so that they are extracted like the rest of the layout, e.g. a guard ring.
+
+Where a net enters the cell is a port of the netlist, as with `--exclusion-markers ports`, named:
+
+- `<prefix>__<label>`, by the labels of the cell on the metal it is joined to within the cell, nearest first. Several cuts of that metal share the port, as they are one pin of the model
+- `<prefix>__<terminal>`, for a terminal of a device of the cell on the metal around it, numbered if the block has several such nodes on a net (`X__S_0`, `X__S_1`)
+- `<prefix>__<net>_<number>` otherwise
+
+The prefix:
+
+- is `PREFIX` for a single instance, with a number for several (`x_0`, `x_1`)
+- is by default the name of the cell with a number per cell (`coil_0`)
+- has letters, digits and `_` only, as it names ports
+- has to differ for each instance, so `--cut a=S_0 --cut b=S` is an error if `b` has several instances
+
+Test pattern `cut_block_with_mos` has the MOS of the design `nmos_diode2` in the cell `block`, whose pins `VDD` and `VSS` on `Metal3` the top cell wires on to `A` and `B`, and a `Metal5` wire `R` over the cell (@fig-cut-block-with-mos). With `--cut block=X`:
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/cut_block_with_mos.gds.gz>
+
+{{< include /figures/test_patterns/cut_block_with_mos.qmd >}}
+
+```spice
+.SUBCKT cut_block_with_mos A X__VSS B X__VDD sub! R
+Cext_1 A B 0.397445f
+Cext_2 A R 0.016564f
+Cext_3 A sub! 0.197343f
+Cext_4 A X__VDD 0.07352f
+Cext_5 B R 0.0584666f
+Cext_6 B sub! 0.221065f
+Cext_7 R sub! 1.40824f
+Cext_8 R X__VDD 0.194269f
+Cext_9 R X__VSS 0.0809391f
+Cext_10 sub! X__VDD 0.178802f
+Cext_11 sub! X__VSS 0.178581f
+Cext_12 X__VDD X__VSS 0.4502f
+Rext_1 A X__VSS 2.86
+Rext_2 B X__VDD 2.86
+.ENDS cut_block_with_mos
+```
+
+There is no MOS, the two nets end on the ports for the model, the wire `R` keeps its capacitances, also to the metal of the cell, and the 2.86 Ω are the ones of the wires of the top cell.
+
+### Leaving Out a Net {#sec-kpex-2_5D-exclusion-nets}
+
+`--exclude-net NET`, a name or a glob pattern, is for a net that something else models or drives, such as the power grid of a block:
+
+- it has no resistance, so the netlist has one node for it, which also all of its device terminals are on
+- it has no capacitance to the substrate
+- the capacitances between it and other nets stay, as they are the load of those nets, also between two excluded nets, and to a well of another net
+
+`exclusion_plate_neighbor` with `--exclude-net P` gives the values of `tie` in @tbl-exclusion-plate-neighbor, without needing a marker or a GDS. `exclusion_nmos_diode2` with `--exclude-net 'V*'` in `--mode RC` has no resistor at all, and only 0.492 fF between `VDD` and `VSS`.
+
+The values of the nets around it are as without the option, as the net stays in the field model. Unlike with a block, this goes by the name of the net, so that a large grid doesn't slow down the extraction.
+
+### Field Solvers {#sec-kpex-2_5D-exclusion-field-solvers}
+
+A field solver only tells the capacitances between its conductors, not where they end on them. So with these options, a net is one conductor for its part outside the blocks, and one for each set of blocks it is within, as these can overlap. The substrate is a conductor of its own, also if its net has metal. There are no panels between the conductors of a net, as those would be coincident. The matrix goes through the rule of @tbl-exclusion-rule, and the parts of each net are summed up: with all at the same potential, the charges they induce add up to the charge of the net as one conductor.
+
+The netlist of a field solver has one node per net, so it has no ports, as with `--mode CC`. A warning says so, with `ports` and with `--cut`. It also has no capacitances between the parts of a net that only a model joins.
+
+FasterCap gives the same picture as @tbl-exclusion-plate-neighbor and @tbl-exclusion-coil-guard-ring, with its own values:
+
+| Layout | Nets | as drawn [fF] | what is left out, left out [fF] |
+|:-------|:-----|-------------:|-------------------------------:|
+| `exclusion_plate_neighbor`, `tie` | `N` ↔ `P` | 2.16 | 2.16 |
+| | `N` ↔ substrate | 3.59 | 3.59 |
+| | `P` ↔ substrate | 8.24 | |
+| `exclusion_wire_end`, half of the wire within the marker, `tie` | `W` ↔ substrate | 4.40 | 2.20 |
+| `exclusion_wire_through`, a third of it, `tie` | wire ↔ substrate | 6.38 | 4.37 |
+| `cut_coil`, `--cut coil --cut-keep-net VDD` | coil ↔ `VC` | 3.13 | 3.05 |
+| | coil ↔ `VDD` | 4.92 | 4.93 |
+| | `VC` ↔ `VDD` | 3.22 | 3.20 |
+| | `VC` ↔ substrate | 7.23 | 7.20 |
+| | `VDD` ↔ substrate | 26.28 | 26.10 |
+| | coil ↔ substrate | 22.00 | 5.48 |
+: With FasterCap, which is no reference here, only a trend {#tbl-exclusion-fastercap tbl-colwidths="[40,22,15,23]"}
+
+Where a net is two conductors, the values around it differ by up to 2.5 %, as the mesh differs at the ends of the parts.
+
+### Use Cases {#sec-kpex-2_5D-exclusion-use-cases}
+
+#### Inductor of the PDK, with EM Model
+
+The pcells draw `NoRCX.drawing`, and the LVS deck of `KPEX` recognizes the inductor as a subcircuit with its terminals at its leads, so a model replaces it by its name, without any ports. What `--exclusion-markers` changes is the rest of what is within its polygon, such as a wire under the coil (`exclusion_inductor2_wire_under`, @fig-exclusion-inductor2-wire-under, with `--blackbox y`):
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_inductor2_wire_under.gds.gz>
+
+{{< include /figures/test_patterns/exclusion_inductor2_wire_under_-_layout.qmd >}}
+
+| | `ignore` | `tie` | `ports` |
+|:-----------------|---------:|------:|--------:|
+| `Y1` ↔ `Y2`        | 4.356 Ω | 0.858 Ω | 0.429 Ω to each port |
+| `Y` to substrate | 7.044 fF | 1.532 fF | 1.532 fF |
+| `LA`, `LB`       | unchanged | unchanged | unchanged |
+: A wire under the coil of `inductor2` {#tbl-exclusion-inductor2-wire-under}
+
+So a model of the coil that has that wire in its simulation should be used with `tie` or `ports`, and one without with `ignore`.
+
+This is what [#121](https://github.com/iic-jku/klayout-pex/issues/121) asks for: most of a circuit with the 2.5D engine, and EM models for the sensitive RF parts.
+
+#### Coil of LC Oscillator
+
+[#213](https://github.com/iic-jku/klayout-pex/issues/213) extracts the core of an oscillator without the coil of its tank, which has an EM-fitted model, but with its leads and its guard ring, with ports where the core meets the coil. Outside `KPEX`, this took a cut of the GDS, with workarounds for the recognition texts of devices and the labels of child cells.
+
+Test pattern `cut_coil` (@fig-cut-coil) is a small layout with these parts, not that design:
+
+- the cell `coil`, with a `TopMetal2` loop with stubs of its leads, a center tap on `TopMetal1`, and a `TopMetal1` guard ring around them, and the labels `LA`, `LB` and `CT`
+- wires of the top cell, which go on from the stubs to `OSCP`, `OSCN` and `VCT`, and a stub with the label `VDD` on the guard ring
+- a `Metal5` wire `VC` of the top cell under the coil
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/cut_coil.gds.gz>
+
+{{< include /figures/test_patterns/cut_coil_-_layout.qmd >}}
+
+With `kpex extract --pdk ihp-sg13g2 --gds cut_coil.gds.gz --2.5D --mode RC --cut coil=xind --cut-keep-net VDD`:
+
+```spice
+.SUBCKT cut_coil OSCN OSCP VCT xind__CT xind__LA xind__LB VC VDD sub!
+Cext_1 OSCN sub! 1.04552f
+Cext_2 OSCP sub! 1.04552f
+Cext_3 VC VDD 2.1086f
+Cext_4 VC sub! 8.43019f
+Cext_5 VC xind__CT 0.89613f
+Cext_6 VC xind__LA 0.398954f
+Cext_7 VC xind__LB 0.398954f
+Cext_8 VCT sub! 1.17194f
+Cext_9 VDD sub! 30.0624f
+Cext_10 VDD xind__LA 0.110313f
+Cext_11 VDD xind__LB 0.110313f
+Cext_12 sub! xind__CT 0.925084f
+Cext_13 sub! xind__LA 0.703486f
+Cext_14 sub! xind__LB 0.703486f
+Rext_1 OSCN OSCN|OSCP|VCT 0.001
+Rext_2 OSCN xind__LB 0.0348333333333
+Rext_3 OSCP xind__LA 0.0348333333333
+Rext_4 VCT xind__CT 0.0855
+.ENDS cut_coil
+```
+
+The model goes between the ports, in the netlist that includes this one:
+
+```spice
+XCORE OSCN OSCP VCT xind__CT xind__LA xind__LB VC VDD 0 cut_coil
+XL xind__LA xind__LB xind__CT coil_em_model
+```
+
+`--mode CC` shows what is left out, with the net of the coil being `OSCN,OSCP,VCT`:
+
+| Nets | as drawn [fF] | with `--cut` [fF] |
+|:-----|-------------:|-----------------:|
+| coil ↔ `VSUBS` | 28.432 | 5.595 |
+| coil ↔ `VC` | 1.694 | 1.694 |
+| coil ↔ `VDD` | 0.221 | 0.221 |
+| `VC` ↔ `VDD` | 2.109 | 2.109 |
+| `VC` ↔ `VSUBS` | 8.430 | 8.430 |
+| `VDD` ↔ `VSUBS` | 30.062 | 30.062 |
+: Capacitances of `cut_coil` {#tbl-cut-coil}
+
+The wire `VC`, which is no shape of the cell, keeps all of its capacitances, also to the coil, which a model wouldn't know. Without `--cut-keep-net VDD`, the guard ring is left to the model too, and the net `VDD` enters the cell at the port `xind__VDD_0`.
+
+To check that this fits, a test extracts the coil on its own (`cut_coil_model`), as a stand-in for a model, connects it between the ports, and compares the port admittance in `ngspice` with the one of the flat extraction:
+
+- the resistances, between `OSCP`, `OSCN` and `VCT`, are the same within 0.1 %
+- so are the values of `VC` and `VDD` to each other and to the substrate, and their capacitances to the coil in sum, which are at the ports instead of along the coil
+- the coil to the substrate is 10 % higher, as a model on its own has no shielding by the wires around it
+
+Compared with the cut of the GDS:
+
+- running LVS on the whole layout keeps the recognition texts of the devices, and needs no selection of the labels of child cells
+- the ports go by the metal, wherever a net enters, so that the leads need no pins, and the nets their names from the top level
+- what a block has around it stays in the field model
+
+`--exclusion-markers ports` does the same without a cell, for a marker drawn over the coil, inside the guard ring, as in test pattern `exclusion_coil_guard_ring` (@fig-exclusion-coil-guard-ring), whose labels name the ports. As a marker applies to all layers, routing through it is left out too.
+
+{{< include /figures/test_patterns/exclusion_coil_guard_ring_-_layout.qmd >}}
+
+| Nets | `ignore` [fF] | `tie`, `ports` [fF] |
+|:-----|-------------:|-------------------:|
+| coil ↔ `VSUBS` | 28.432 | 6.117 |
+| coil ↔ `VC` | 1.658 | 1.658 |
+| coil ↔ `VDD` | 0.221 | 0.221 |
+| `VC` ↔ `VDD` | 0.056 | 0.056 |
+| `VC` ↔ `VSUBS` | 8.430 | 8.430 |
+| `VDD` ↔ `VSUBS` | 29.917 | 29.917 |
+: Capacitances of `exclusion_coil_guard_ring` {#tbl-exclusion-coil-guard-ring}
+
+The second part of [#213](https://github.com/iic-jku/klayout-pex/issues/213), every label a port for the wiring between hard blocks, is what the netlists of `--mode R` and `RC` do for the labels of a net.
+
+#### Power Grid of Block
+
+[#85](https://github.com/iic-jku/klayout-pex/issues/85) extracts a block whose power grid is part of the top level:
+
+```bash
+kpex extract --pdk ihp-sg13g2 --gds block.gds.gz --2.5D --mode RC \
+             --exclude-net VDD --exclude-net VSS
+```
+
+So `VDD` and `VSS` are ideal nodes of the netlist, with all device terminals on them, and each signal keeps its load to them, as the grid stays in the field model. For debugging, leaving out the resistance of one net at a time shows what it adds to a simulation.
+
+### Limits {#sec-kpex-2_5D-exclusion-limits}
+
+- A model whose simulation includes a neighbor counts their coupling twice, unless the neighbor is within the block too. The boundary of such hybrid flows seems to be little studied: the literature has the error of ports within an EM model [@rautio-internal-ports-2008], but no work on the double counting was found
+- A model extracted or simulated on its own has no shielding by what is around it (@sec-kpex-2_5D-exclusion-use-cases)
+- The coupling of a conductor outside to one within a block lands on the nearest node of its net, which is approximate in a large block
+- KLayout's square counting, which the resistance network uses, has the current along the longest edge of each convex part of a polygon, also without these options. So a part beyond a cut that is shorter than it is wide has too little resistance, which matters on wells: two `nwell` taps of `r_ntap_pair_nwell_li1_m1`, with a marker of 2 µm between them across the `nwell` of 7 µm, have 212 Ω with `tie`, 1948 Ω by tessellation. Wires at an angle have too little too, a `Metal3` wire of 60 µm x 1 µm has 5.28 Ω at 0° and 2.65 Ω at 45°, and a corner of a marker on such a wire can give several times the value of the whole wire
+- A net that goes on from one cut cell to another, where they abut, has no port between them, for which a warning names the net and the cells
+- `--cut` of an instance at an angle other than a multiple of 90°, or of one with such an instance below it, is an error, as the LVS database only has the bounding boxes of the shapes of such an instance
+- There is no comparison with silicon or an EM simulation yet: the reference of `tie`, `ports` and `--cut` is the flat extraction
+- The exports of 2.5D scenes for other field solvers don't honor these options. MAGIC doesn't either, so they are an error together with it

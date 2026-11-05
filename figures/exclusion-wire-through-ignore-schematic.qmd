@@ -1,0 +1,41 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-exclusion-wire-through-ignore-schematic
+#| echo: false
+#| fig-cap: "The netlist of `exclusion_wire_through` with `ignore`. Open dots are ports, the wire is one resistor, and `A|B`, the node of the net, is tied to the port `A`."
+import schemdraw as sd
+import schemdraw.elements as elm
+import schemdraw.segments as seg
+sd.svgconfig.svg2 = False
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=2)
+    d.config(fontsize=16)
+
+    A = elm.Dot(open=True).label('A', loc='top')
+    R = elm.Resistor().right().length(6).at(A.center).label('$2.596\\,\\Omega$')
+    B = elm.Dot(open=True).label('B', loc='top')
+    CA = elm.Capacitor().down().at(A.center).label('$2.664\\,\\mathrm{fF}$', loc='bottom').dot()
+    CB = elm.Capacitor().down().at(B.center).label('$2.664\\,\\mathrm{fF}$').dot()
+    Rail = elm.Line().endpoints(CA.end, CB.end)
+    S = elm.Dot().at(Rail.center).label('sub!', loc='bottom', ofst=(0.5, 0))
+    elm.Line().down().at(S.center).length(0.3)
+    elm.Ground()
+    RT = elm.Resistor().left().at(A.center).length(2.6).label('$1\\,\\mathrm{m\\Omega}$')
+    elm.Dot().label('A|B', loc='top')
+```

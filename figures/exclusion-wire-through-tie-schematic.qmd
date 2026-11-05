@@ -1,0 +1,56 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-exclusion-wire-through-tie-schematic
+#| echo: false
+#| fig-cap: "The netlist of `exclusion_wire_through` with `tie`. In green what replaces the resistor of `ignore`, struck through in red: a resistor outside the marker on each side, and one ideal node for all that is within the marker."
+import schemdraw as sd
+import schemdraw.elements as elm
+import schemdraw.segments as seg
+sd.svgconfig.svg2 = False
+
+def strike_through(drawing: sd.Drawing,
+                   element: elm.Element):
+    hw = 0.5  # half width
+    hh = 0.5  # half height
+
+    p_lower_left = element.center[0] - hw, element.center[1] - hh
+    p_upper_right = element.center[0] + hw, element.center[1] + hh
+    d.add(elm.Line().at(p_lower_left).to(p_upper_right).color('red').linewidth(2))
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=2)
+    d.config(fontsize=16)
+
+    A = elm.Dot(open=True).label('A', loc='top', ofst=(-0.3, 0))
+    R1 = elm.Resistor().right().length(4).at(A.center).label('$0.858\\,\\Omega$').color('green')
+    M = elm.Dot().label('A|B', loc='top').color('green')
+    R2 = elm.Resistor().right().length(4).at(M.center).label('$0.858\\,\\Omega$').color('green')
+    B = elm.Dot(open=True).label('B', loc='top', ofst=(0.3, 0))
+    CA = elm.Capacitor().down().at(A.center).label('$0.951\\,\\mathrm{fF}$').dot()
+    CM = elm.Capacitor().down().at(M.center).label('$1.691\\,\\mathrm{fF}$', loc='bottom').color('green').dot()
+    CB = elm.Capacitor().down().at(B.center).label('$0.951\\,\\mathrm{fF}$', loc='bottom').dot()
+    elm.Line().endpoints(CA.end, CM.end)
+    elm.Line().endpoints(CM.end, CB.end)
+    S = elm.Dot().at(CM.end).label('sub!', loc='bottom', ofst=(0.5, 0))
+    elm.Line().down().at(S.center).length(0.3)
+    elm.Ground()
+    elm.Line().up().at(A.center).length(1.4)
+    Old = elm.Resistor().right().length(8).label('$2.596\\,\\Omega$', ofst=0.5)
+    elm.Line().down().length(1.4)
+    strike_through(d, Old)
+```
