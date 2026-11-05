@@ -492,7 +492,7 @@ Compared with the cut of the GDS:
 | `VDD` ↔ `VSUBS` | 29.917 | 29.917 |
 : Capacitances of `exclusion_coil_guard_ring` {#tbl-exclusion-coil-guard-ring}
 
-The second part of [#213](https://github.com/iic-jku/klayout-pex/issues/213), every label a port for the wiring between hard blocks, is what the netlists of `--mode R` and `RC` do for the labels of a net.
+The second part of [#213](https://github.com/iic-jku/klayout-pex/issues/213), every label a port for the wiring between hard blocks, is what the netlists of `--mode R` and `RC` do for the labels of a net in the top cell. Labels in the cells of the blocks become ports with `--cut`.
 
 #### Power Grid of Block
 
