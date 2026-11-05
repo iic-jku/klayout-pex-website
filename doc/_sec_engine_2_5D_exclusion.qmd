@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-## Leaving Parts of the Layout to a Model {#sec-kpex-2_5D-exclusion}
+## Excluding Parts of the Layout {#sec-kpex-2_5D-exclusion}
 
 Some structures are better served by a model than by a 2.5D extraction: an inductor by an EM simulation, which also has its inductance, a hard block by a netlist of its own, or the power grid of a block by the extraction of the top level. FEM co-simulation for example matches measured mm-wave amplifiers better than an RC extraction [@sagouo-minko-em-vs-rc-2019]. The rest of the layout should still be extracted, and connect to the model.
 
