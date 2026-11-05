@@ -168,6 +168,8 @@ Rext_2 A|B B 0.858
 
 {{< include /figures/exclusion-wire-through-tie-schematic.qmd >}}
 
+##### Metal Joined Only Outside the Marker {#sec-kpex-2_5D-exclusion-joined-outside}
+
 The metal within a marker stays apart where nothing within the marker joins it. In the test pattern `exclusion_stubs` (@fig-exclusion-stubs), two stubs of a net end within the marker, which only the metal outside it joins. So their pins `S1` and `S2` stay two nodes, with 1.046 Ω to `A` each, as a tie would short the metal outside the marker.
 
 ![Test pattern `exclusion_stubs`](figures/test_patterns/exclusion_stubs_-_layout.png){#fig-exclusion-stubs fig-alt="Two stubs of a net ending within a marker"}
