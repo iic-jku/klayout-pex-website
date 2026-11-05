@@ -38,10 +38,6 @@ By default, nothing is left out, so that a netlist doesn't change without one of
 
 The options work with `--2.5D`, `--fastercap` and `--fastcap` (@sec-kpex-2_5D-exclusion-field-solvers), not with `--magic`.
 
-::: {.callout-note}
-This is new, see [#401](https://github.com/iic-jku/klayout-pex/issues/401), which collects the requests [#121](https://github.com/iic-jku/klayout-pex/issues/121), [#213](https://github.com/iic-jku/klayout-pex/issues/213) and [#85](https://github.com/iic-jku/klayout-pex/issues/85).
-:::
-
 ### What the PDKs Mark {#sec-kpex-2_5D-exclusion-pdks}
 
 | PDK | Marker | Applies to | Drawn by |
