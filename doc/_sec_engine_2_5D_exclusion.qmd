@@ -28,7 +28,7 @@ This raises four questions, which this section answers:
 There are three ways to select what is left out, which follow the same rule (@sec-kpex-2_5D-exclusion-rule):
 
 | Option | Selects | Connection to the model |
-|--------|---------|-------------------------|
+|:-------|:--------|:------------------------|
 | `--exclusion-markers {ignore,tie,ports}` | what is within the marker layers of a PDK, or of the user (@sec-kpex-2_5D-exclusion-variants) | as the value says |
 | `--cut CELL[=PREFIX]` | the shapes and the devices of the instances of a cell, not the routing over them (@sec-kpex-2_5D-exclusion-cut) | ports |
 | `--exclude-net NET` | a net (@sec-kpex-2_5D-exclusion-nets) | the net itself |
@@ -41,7 +41,7 @@ The options work with `--2.5D`, `--fastercap` and `--fastcap` (@sec-kpex-2_5D-ex
 ### What the PDKs Mark {#sec-kpex-2_5D-exclusion-pdks}
 
 | PDK | Marker | Applies to | Drawn by |
-|-----|--------|------------|----------|
+|:----|:-------|:-----------|:---------|
 | `ihp-sg13g2`, `ihp-sg13cmos5l` | `NoRCX.drawing` `148/0` | all layers of the stack | the pcells `inductor2` and `inductor3` (parameter `blockqrc`, on by default), the same polygon as `IND` |
 | `ihp-sg13g2`, `ihp-sg13cmos5l` | `<layer>.noqrc` `*/28` | one layer each: `Activ`, `GatPoly`, `Metal1` to `Metal5`, `BackMetal1`, `TopMetal1`, `TopMetal2` | the pcell `rfcmim`, around the device by 5.6 µm, up to `TopMetal1` |
 | `ihp-sg13g2`, `ihp-sg13cmos5l` | `NoRCX.<pair>` `148/41` to `55`, `148/123` to `127`, `148/300`, `148/301` | pairs of metals from `m2m3` up, metal to substrate (`m1sub`) | no pcell |
@@ -61,7 +61,7 @@ By default, `KPEX` honors `NoRCX.drawing` and the pair markers. `noqrc` only tak
 Tools take one of three approaches, here by the public material of commercial tools:
 
 | Approach | The shapes | What is around them | Used by |
-|----------|------------|---------------------|---------|
+|:---------|:-----------|:--------------------|:--------|
 | Remove | are not passed to the solver | loses its load, which the vendor warns about | commercial tool A |
 | Keep, couple to ground | are considered | keeps its load, with no path into the device | commercial tool A, commercial tool B for nets within a cell |
 | Keep, couple to the net | are interconnect with all cross-coupling, a model replaces the RC model | keeps its load, on the net | commercial tool A, commercial tool B for nets with a pin |
@@ -74,7 +74,7 @@ Removing the shapes is the simple approach, but it changes what is outside them,
 @tbl-exclusion-removed-geometry has this for small layouts of `ihp-sg13g2`, in `--mode CC`, with FasterCap in brackets. FasterCap is no reference here, it only shows the same trend. "Coupling dropped" keeps the shape as a shield, but leaves out all of its capacitances, also those to the wires.
 
 | Layout | Value | With the shape | Shape removed | Coupling dropped |
-|--------|------:|---------------:|--------------:|-----------------:|
+|:-------|:------|---------------:|--------------:|-----------------:|
 | `Metal3` plate of 20 µm x 20 µm between 2 µm wide `Metal2` wire `A` and `Metal4` wire `B` | `A`-`B` | 1.39 fF | +67 % (+63 %) | unchanged |
 | | `A` total | 11.19 fF | -31 % (-24 %) | -39 % (-41 %) |
 | | `B` total | 8.08 fF | -34 % (-30 %) | -60 % (-57 %) |
@@ -83,7 +83,7 @@ Removing the shapes is the simple approach, but it changes what is outside them,
 | `Metal3` wire 0.3 µm beside a `Metal3` plate | total | 5.05 fF | -18 % (-7 %) | -29 % (-38 %) |
 | `Metal5` wire under the coil of an `inductor2` | total | 10.27 fF | -10 % | |
 | 20 µm wire ending at the cut, instead of going on | total | 1.797 fF | +3.5 % | |
-: What removing a shape does to what is around it {#tbl-exclusion-removed-geometry tbl-colwidths="[49,9,10,16,16]"}
+: What removing a shape does to what is around it {#tbl-exclusion-removed-geometry tbl-colwidths="[47,9,12,16,16]"}
 
 So the shapes stay: without them, the wires around them have wrong values, which neither the netlist nor the model can correct.
 
@@ -98,7 +98,7 @@ The coil of a PDK inductor is an exception that does no harm: the deck of `KPEX`
 A conductor is _in_ where it lies within what is left out on its layer, otherwise _out_. Each polygon of the merged markers, and each instance of a cut cell, stands for a model of its own, which is called a _block_ below.
 
 | Capacitance between | What happens | Why |
-|---------------------|--------------|-----|
+|:--------------------|:-------------|:----|
 | in and in, within one block | left out | the model has it |
 | in and substrate | left out | the model has it, also where the fringe ends on the substrate beyond the marker |
 | out and out, out and substrate | unchanged | nothing else has it |
@@ -131,7 +131,7 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13
 ![Test pattern `exclusion_wire_through`, the frame is the marker](figures/test_patterns/exclusion_wire_through_-_layout.png){#fig-exclusion-wire-through fig-alt="A wire from A to B through a marker"}
 
 | `--exclusion-markers` | `--mode CC` | `--mode R` |
-|---------------|----------------------|---------------------------|
+|:--------------|:---------------------|:--------------------------|
 | `ignore`      | `A,B`-`VSUBS` 5.327 fF | `A`-`B` 2.596 Ω |
 | `tie`         | `A,B`-`VSUBS` 3.593 fF | `A`-`A,B` 0.858 Ω, `A,B`-`B` 0.858 Ω |
 | `ports`       | `A,B`-`VSUBS` 3.593 fF | `A`-`A_B__m0_0` 0.858 Ω, `A_B__m0_1`-`B` 0.858 Ω |
@@ -205,7 +205,7 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13
 ![Test pattern `exclusion_hairpin`](figures/test_patterns/exclusion_hairpin_-_layout.png){#fig-exclusion-hairpin fig-alt="Two wires ending within a marker, joined there by a bridge"}
 
 | Capacitance | `exclusion_hairpin`, `ignore` or `tie` | `exclusion_hairpin`, `ports` | `exclusion_hairpin_open`, `ports` |
-|-------------|--------------------------------------:|-----------------------------:|----------------------------------:|
+|:------------|--------------------------------------:|-----------------------------:|----------------------------------:|
 | from the pin of `A` to the pin of `B` | | 0.147 fF | 0.147 fF |
 | between the cuts | | 0.142 fF | 0.142 fF |
 : Capacitance between the wires of `exclusion_hairpin` {#tbl-exclusion-hairpin tbl-colwidths="[32,22,20,26]"}
@@ -227,7 +227,7 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13
 ![Test pattern `exclusion_plate_neighbor`](figures/test_patterns/exclusion_plate_neighbor_-_layout.png){#fig-exclusion-plate-neighbor fig-alt="A plate within a marker, with a wire beside it"}
 
 | Nets | `ignore` [fF] | `tie`, `ports` [fF] | Plates |
-|------|-------------:|-------------------:|--------|
+|:-----|-------------:|-------------------:|:-------|
 | `N`-`P` | 1.478 | 1.478 | out and in |
 | `N`-`VSUBS` | 3.568 | 3.568 | out and substrate |
 | `P`-`VSUBS` | 6.720 | | in and substrate |
@@ -244,7 +244,7 @@ Two such plates `P` and `Q`, 0.5 µm apart. With a marker each (`exclusion_plate
 Test pattern `exclusion_via_stack`, a wire from `A` to `B` on `Metal2`, with a bridge on `Metal3` over a gap in the middle, with a marker around the bridge:
 
 | `--exclusion-markers` | Resistors |
-|---------------|-----------|
+|:--------------|:----------|
 | `ignore`      | 0.568 Ω, via 2.031 Ω, 0.176 Ω, via 2.031 Ω, 0.532 Ω |
 | `tie`         | `A`-`A,B` 0.418 Ω, `A,B`-`B` 0.418 Ω |
 | `ports`       | `A`-`A_B__m0_0` 0.418 Ω, `A_B__m0_1`-`B` 0.418 Ω |
@@ -277,7 +277,7 @@ A marker of a layer leaves out only what is on that layer. In test pattern `excl
 A pair marker only leaves out the capacitances between its two layers, so it has no effect on the resistances. The same plate with `m2m3` (`exclusion_plate_pair_m2m3`), and with `m3sub` (`exclusion_plate_pair_m3sub`):
 
 | Nets | `ignore` [fF] | `Metal3.noqrc` [fF] | `NoRCX.m2m3` [fF] | `NoRCX.m3sub` [fF] |
-|------|-------------:|--------------------:|------------------:|-------------------:|
+|:-----|-------------:|--------------------:|------------------:|-------------------:|
 | `A`-`B` | 1.387 | 1.387 | 1.387 | 1.387 |
 | `A`-`P` | 4.363 | 4.363 | 0.198 | 4.363 |
 | `B`-`P` | 4.831 | 4.831 | 4.831 | 4.831 |
@@ -343,7 +343,7 @@ The netlist of a field solver has one node per net, so it has no ports, as with 
 FasterCap gives the same picture as @tbl-exclusion-plate-neighbor and @tbl-exclusion-coil-guard-ring, with its own values:
 
 | Layout | Nets | as drawn [fF] | what is left out, left out [fF] |
-|--------|------|-------------:|-------------------------------:|
+|:-------|:-----|-------------:|-------------------------------:|
 | `exclusion_plate_neighbor`, `tie` | `N`-`P` | 2.16 | 2.16 |
 | | `N`-substrate | 3.59 | 3.59 |
 | | `P`-substrate | 8.24 | |
@@ -370,7 +370,7 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13
 ![Test pattern `exclusion_inductor2_wire_under`, the frame is the marker, the same polygon as `IND`](figures/test_patterns/exclusion_inductor2_wire_under_-_layout.png){#fig-exclusion-inductor2-wire-under fig-alt="An inductor of the PDK, with a wire under its coil, across its marker"}
 
 | | `ignore` | `tie` | `ports` |
-|------------------|---------:|------:|--------:|
+|:-----------------|---------:|------:|--------:|
 | `Y1`-`Y2`        | 4.356 Ω | 0.858 Ω | 0.429 Ω to each port |
 | `Y` to substrate | 7.044 fF | 1.532 fF | 1.532 fF |
 | `LA`, `LB`       | unchanged | unchanged | unchanged |
@@ -429,7 +429,7 @@ XL xind__LA xind__LB xind__CT coil_em_model
 `--mode CC` shows what is left out, with the net of the coil being `OSCN,OSCP,VCT`:
 
 | Nets | as drawn [fF] | with `--cut` [fF] |
-|------|-------------:|-----------------:|
+|:-----|-------------:|-----------------:|
 | coil-`VSUBS` | 28.432 | 5.595 |
 | coil-`VC` | 1.694 | 1.694 |
 | coil-`VDD` | 0.221 | 0.221 |
@@ -457,7 +457,7 @@ Compared with the cut of the GDS:
 ![Test pattern `exclusion_coil_guard_ring`, the frame is the marker](figures/test_patterns/exclusion_coil_guard_ring_-_layout.png){#fig-exclusion-coil-guard-ring fig-alt="A coil within a marker, with leads leaving it, a guard ring around it and a wire below the leads"}
 
 | Nets | `ignore` [fF] | `tie`, `ports` [fF] |
-|------|-------------:|-------------------:|
+|:-----|-------------:|-------------------:|
 | coil-`VSUBS` | 28.432 | 6.117 |
 | coil-`VC` | 1.658 | 1.658 |
 | coil-`VDD` | 0.221 | 0.221 |
