@@ -42,13 +42,13 @@ The options work with `--2.5D`, `--fastercap` and `--fastcap` (@sec-kpex-2_5D-ex
 
 | PDK | Marker | Applies to | Drawn by |
 |:----|:-------|:-----------|:---------|
-| `ihp-sg13g2`, `ihp-sg13cmos5l` | `NoRCX.drawing` `148/0` | all layers of the stack | the pcells `inductor2` and `inductor3` (parameter `blockqrc`, on by default), the same polygon as `IND` |
-| `ihp-sg13g2`, `ihp-sg13cmos5l` | `<layer>.noqrc` `*/28` | one layer each: `Activ`, `GatPoly`, `Metal1` to `Metal5`, `BackMetal1`, `TopMetal1`, `TopMetal2` | the pcell `rfcmim`, around the device by 5.6 µm, up to `TopMetal1` |
-| `ihp-sg13g2`, `ihp-sg13cmos5l` | `NoRCX.<pair>` `148/41` to `55`, `148/123` to `127`, `148/300`, `148/301` | pairs of metals from `m2m3` up, metal to substrate (`m1sub`) | no pcell |
-| `ihp-sg13g2`, `ihp-sg13cmos5l` | `IND` `27/0` | the metal of an inductor, whose pins touch the edge of `IND` | inductors |
+| `ihp-sg13*` | `NoRCX.drawing` `148/0` | all layers of the stack | the pcells `inductor2` and `inductor3` (parameter `blockqrc`, on by default), the same polygon as `IND` |
+| `ihp-sg13*` | `<layer>.noqrc` `*/28` | one layer each: `Activ`, `GatPoly`, `Metal1` to `Metal5`, `BackMetal1`, `TopMetal1`, `TopMetal2` | the pcell `rfcmim`, around the device by 5.6 µm, up to `TopMetal1` |
+| `ihp-sg13*` | `NoRCX.<pair>` `148/41` to `55`, `148/123` to `127`, `148/300`, `148/301` | pairs of metals from `m2m3` up, metal to substrate (`m1sub`) | no pcell |
+| `ihp-sg13*` | `IND` `27/0` | the metal of an inductor, whose pins touch the edge of `IND` | inductors |
 | `sky130A` | none | `inductor.drawing` `82/24` only takes `met2` and `met3` out of the conductors of LVS | RF coils |
 | `gf180mcuD` | none | `IND_MK` `151/5` marks inductors: the LVS deck only defines it, the DRC keeps `COMP` and `Poly2` fill 3 µm away | |
-: Markers of the supported PDKs {#tbl-exclusion-markers-of-pdks tbl-colwidths="[17,20,33,30]"}
+: Markers of the supported PDKs {#tbl-exclusion-markers-of-pdks tbl-colwidths="[13,21,35,31]"}
 
 The layer rules of the IHP PDKs don't describe the markers beyond one line each. What the pair markers can mean follows from their names, as they name a pair of plates. Of the 533 GDS of the IHP reference layouts and LVS testcases, 25 have a marker, all of them `noqrc` of `rfcmim`.
 
