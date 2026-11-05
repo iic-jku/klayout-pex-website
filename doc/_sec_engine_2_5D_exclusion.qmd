@@ -128,7 +128,7 @@ Test pattern `exclusion_wire_through`, a `Metal3` wire of 60 µm x 2 µm with a 
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_wire_through.gds.gz>
 
-![Test pattern `exclusion_wire_through`, the frame is the marker](figures/test_patterns/exclusion_wire_through_-_layout.png){#fig-exclusion-wire-through fig-alt="A wire from A to B through a marker"}
+{{< include /figures/test_patterns/exclusion_wire_through_-_layout.qmd >}}
 
 | `--exclusion-markers` | `--mode CC` | `--mode R` |
 |:--------------|:---------------------|:--------------------------|
@@ -172,7 +172,7 @@ Rext_2 A|B B 0.858
 
 The metal within a marker stays apart where nothing within the marker joins it. In the test pattern `exclusion_stubs` (@fig-exclusion-stubs), two stubs of a net end within the marker, which only the metal outside it joins. So their pins `S1` and `S2` stay two nodes, with 1.046 Ω to `A` each, as a tie would short the metal outside the marker.
 
-![Test pattern `exclusion_stubs`](figures/test_patterns/exclusion_stubs_-_layout.png){#fig-exclusion-stubs fig-alt="Two stubs of a net ending within a marker"}
+{{< include /figures/test_patterns/exclusion_stubs_-_layout.qmd >}}
 
 #### `ports` {#sec-kpex-2_5D-exclusion-ports}
 
@@ -204,7 +204,7 @@ Metal that only a model joins is one net in LVS, but apart in the netlist with `
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_hairpin.gds.gz>
 
-![Test pattern `exclusion_hairpin`](figures/test_patterns/exclusion_hairpin_-_layout.png){#fig-exclusion-hairpin fig-alt="Two wires ending within a marker, joined there by a bridge"}
+{{< include /figures/test_patterns/exclusion_hairpin_-_layout.qmd >}}
 
 | Capacitance | `exclusion_hairpin`, `ignore` or `tie` | `exclusion_hairpin`, `ports` | `exclusion_hairpin_open`, `ports` |
 |:------------|--------------------------------------:|-----------------------------:|----------------------------------:|
@@ -226,7 +226,7 @@ Test pattern `exclusion_plate_neighbor` (@fig-exclusion-plate-neighbor), a `Meta
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_plate_neighbor.gds.gz>
 
-![Test pattern `exclusion_plate_neighbor`](figures/test_patterns/exclusion_plate_neighbor_-_layout.png){#fig-exclusion-plate-neighbor fig-alt="A plate within a marker, with a wire beside it"}
+{{< include /figures/test_patterns/exclusion_plate_neighbor_-_layout.qmd >}}
 
 | Nets | `ignore` [fF] | `tie`, `ports` [fF] | Plates |
 |:-----|-------------:|-------------------:|:-------|
@@ -260,7 +260,7 @@ Test pattern `exclusion_nmos_diode2` (@fig-exclusion-nmos-diode2), with a marker
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_nmos_diode2.gds.gz>
 
-![Test pattern `exclusion_nmos_diode2`](figures/test_patterns/exclusion_nmos_diode2_-_layout.png){#fig-exclusion-nmos-diode2 fig-alt="A MOS transistor with a marker over it"}
+{{< include /figures/test_patterns/exclusion_nmos_diode2_-_layout.qmd >}}
 
 With `tie`, its terminals are on the nodes of the metal within the marker. With `ports`, each terminal is a port of its own, as the model connects them:
 
@@ -325,15 +325,7 @@ Test pattern `cut_block_with_mos` has the MOS of the design `nmos_diode2` in the
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/cut_block_with_mos.gds.gz>
 
-::: {#fig-cut-block-with-mos layout-nrow=3}
-{{< include /figures/test_patterns/cut_block_with_mos_-_layout.qmd >}}
-
-{{< include /figures/test_patterns/cut_block_with_mos_-_cell.qmd >}}
-
-{{< include /figures/test_patterns/cut_block_with_mos_-_extracted.qmd >}}
-
-Test pattern `cut_block_with_mos`, as drawn, and split by `--cut block=X`
-:::
+{{< include /figures/test_patterns/cut_block_with_mos.qmd >}}
 
 ```spice
 .SUBCKT cut_block_with_mos A X__VSS B X__VDD sub! R
@@ -401,7 +393,7 @@ The pcells draw `NoRCX.drawing`, and the LVS deck of `KPEX` recognizes the induc
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/exclusion_inductor2_wire_under.gds.gz>
 
-![Test pattern `exclusion_inductor2_wire_under`, the frame is the marker, the same polygon as `IND`](figures/test_patterns/exclusion_inductor2_wire_under_-_layout.png){#fig-exclusion-inductor2-wire-under fig-alt="An inductor of the PDK, with a wire under its coil, across its marker"}
+{{< include /figures/test_patterns/exclusion_inductor2_wire_under_-_layout.qmd >}}
 
 | | `ignore` | `tie` | `ports` |
 |:-----------------|---------:|------:|--------:|
@@ -426,7 +418,7 @@ Test pattern `cut_coil` (@fig-cut-coil) is a small layout with these parts, not 
 
 GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/cut_coil.gds.gz>
 
-![Test pattern `cut_coil`](figures/test_patterns/cut_coil_-_layout.png){#fig-cut-coil fig-alt="A coil in a child cell with a guard ring around it, wires leaving it, and a wire under it"}
+{{< include /figures/test_patterns/cut_coil_-_layout.qmd >}}
 
 With `kpex extract --pdk ihp-sg13g2 --gds cut_coil.gds.gz --2.5D --mode RC --cut coil=xind --cut-keep-net VDD`:
 
@@ -488,7 +480,7 @@ Compared with the cut of the GDS:
 
 `--exclusion-markers ports` does the same without a cell, for a marker drawn over the coil, inside the guard ring, as in test pattern `exclusion_coil_guard_ring` (@fig-exclusion-coil-guard-ring), whose labels name the ports. As a marker applies to all layers, routing through it is left out too.
 
-![Test pattern `exclusion_coil_guard_ring`, the frame is the marker](figures/test_patterns/exclusion_coil_guard_ring_-_layout.png){#fig-exclusion-coil-guard-ring fig-alt="A coil within a marker, with leads leaving it, a guard ring around it and a wire below the leads"}
+{{< include /figures/test_patterns/exclusion_coil_guard_ring_-_layout.qmd >}}
 
 | Nets | `ignore` [fF] | `tie`, `ports` [fF] |
 |:-----|-------------:|-------------------:|
