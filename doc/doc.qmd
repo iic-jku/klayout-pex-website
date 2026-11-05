@@ -39,6 +39,7 @@ format:
         \usepackage{newunicodechar}
         \newunicodechar{✔}{\ding{51}}
         \newunicodechar{✘}{\ding{55}}
+        \newunicodechar{↔}{\ensuremath{\leftrightarrow}}
         %---
         \usepackage{geometry}
         %% Set page size with a wider right margin
@@ -57,6 +58,13 @@ format:
         \setlength{\footskip}{20pt}
         %---
         \usepackage{arydshln}
+        %% arydshln brings an old copy of the output routine of longtable, which takes the whole page
+        %% for the text after a table, also if floats take a part of it: the text then runs off the page
+        \makeatletter
+        \patchcmd{\LT@output}{\@outputpage\setbox\z@\vbox{\copy\LT@head}}{\@outputpage\global\vsize\@colroom\setbox\z@\vbox{\copy\LT@head}}{}{}
+        \patchcmd{\LT@output}{\global\@colroom\@colht\global\vsize\@colht}{}{}{}
+        \AddToHook{env/longtable/after}{\global\@colroom\vsize}
+        \makeatother
         %---
         \usepackage{cancel}
         \newcommand{\pexheadingroom}{%
