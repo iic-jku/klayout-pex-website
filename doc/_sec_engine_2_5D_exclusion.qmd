@@ -139,11 +139,22 @@ GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13
 
 #### `ignore` {#sec-kpex-2_5D-exclusion-ignore}
 
-What is within a marker is extracted like the rest of the layout. This is the default.
+What is within a marker is extracted like the rest of the layout. This is the default, as @fig-exclusion-wire-through-ignore-schematic shows:
+
+```spice
+.SUBCKT exclusion_wire_through A B sub!
+Cext_1 A sub! 2.66364f
+Cext_2 B sub! 2.66364f
+Rext_1 A A|B 0.001
+Rext_2 A B 2.596
+.ENDS exclusion_wire_through
+```
+
+{{< include /figures/exclusion-wire-through-ignore-schematic.qmd >}}
 
 #### `tie` {#sec-kpex-2_5D-exclusion-tie}
 
-What is within a marker has no parasitics, and each net stays connected across it, so that the netlist simulates without a model. It's useful to see what the rest of a layout adds, or if a model is only needed for some of the analyses:
+What is within a marker has no parasitics, and each net stays connected across it, so that the netlist simulates without a model. It's useful to see what the rest of a layout adds, or if a model is only needed for some of the analyses (@fig-exclusion-wire-through-tie-schematic):
 
 ```spice
 .SUBCKT exclusion_wire_through A B sub!
@@ -155,13 +166,15 @@ Rext_2 A|B B 0.858
 .ENDS exclusion_wire_through
 ```
 
+{{< include /figures/exclusion-wire-through-tie-schematic.qmd >}}
+
 The metal within a marker stays apart where nothing within the marker joins it. In the test pattern `exclusion_stubs` (@fig-exclusion-stubs), two stubs of a net end within the marker, which only the metal outside it joins. So their pins `S1` and `S2` stay two nodes, with 1.046 Ω to `A` each, as a tie would short the metal outside the marker.
 
 ![Test pattern `exclusion_stubs`](figures/test_patterns/exclusion_stubs_-_layout.png){#fig-exclusion-stubs fig-alt="Two stubs of a net ending within a marker"}
 
 #### `ports` {#sec-kpex-2_5D-exclusion-ports}
 
-Each cut of a net at a marker is a port of the netlist, for a model to connect:
+Each cut of a net at a marker is a port of the netlist, for a model to connect (@fig-exclusion-wire-through-ports-schematic):
 
 ```spice
 .SUBCKT exclusion_wire_through A A_B__m0_0 A_B__m0_1 B sub!
@@ -174,6 +187,8 @@ Rext_2 A A_B__m0_0 0.857956
 Rext_3 A_B__m0_1 B 0.858
 .ENDS exclusion_wire_through
 ```
+
+{{< include /figures/exclusion-wire-through-ports-schematic.qmd >}}
 
 A port is named after the pin of the net within the marker that is nearest to the cut, on its layer before others, otherwise `<net>__m<marker>_<number>`. So labels within a marker name the ports. In `exclusion_stubs`, these are `S1` and `S2`. Such a pin only names a cut of the metal it is joined to within the marker, and not if the net has a pin of that label outside the marker, as a port is one node. A net entirely within a marker has a port at its pin.
 
@@ -473,4 +488,3 @@ So `VDD` and `VSS` are ideal nodes of the netlist, with all device terminals on 
 - `--cut` of an instance at an angle other than a multiple of 90°, or of one with such an instance below it, is an error, as the LVS database only has the bounding boxes of the shapes of such an instance
 - There is no comparison with silicon or an EM simulation yet: the reference of `tie`, `ports` and `--cut` is the flat extraction
 - The exports of 2.5D scenes for other field solvers don't honor these options. MAGIC doesn't either, so they are an error together with it
-- `--fastcap` shares the code of `--fastercap`, but has not been run with FastCap2 itself
