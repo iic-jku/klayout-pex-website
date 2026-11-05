@@ -47,12 +47,14 @@ The options work with `--2.5D`, `--fastercap` and `--fastcap` (@sec-kpex-2_5D-ex
 | `ihp-sg13g2`, `ihp-sg13cmos5l` | `NoRCX.<pair>` `148/41` to `55`, `148/123` to `127`, `148/300`, `148/301` | pairs of metals from `m2m3` up, metal to substrate (`m1sub`) | no pcell |
 | `ihp-sg13g2`, `ihp-sg13cmos5l` | `IND` `27/0` | the metal of an inductor, whose pins touch the edge of `IND` | inductors |
 | `sky130A` | none | `inductor.drawing` `82/24` only takes `met2` and `met3` out of the conductors of LVS | RF coils |
-| `gf180mcuD` | none | `IND_MK` `151/5` is only defined | |
+| `gf180mcuD` | none | `IND_MK` `151/5` marks inductors: the LVS deck only defines it, the DRC keeps `COMP` and `Poly2` fill 3 µm away | |
 : Markers of the supported PDKs {#tbl-exclusion-markers-of-pdks tbl-colwidths="[17,20,33,30]"}
 
 The layer rules of the IHP PDKs don't describe the markers beyond one line each. What the pair markers can mean follows from their names, as they name a pair of plates. Of the 533 GDS of the IHP reference layouts and LVS testcases, 25 have a marker, all of them `noqrc` of `rfcmim`.
 
 By default, `KPEX` honors `NoRCX.drawing` and the pair markers. `noqrc` only takes effect on request, with `--exclusion-marker-layer` (@sec-kpex-2_5D-exclusion-layers): the extraction of the `rfcmim` already knows the device, in white-box mode it would lose the capacitor, and in a reference layout it would hit 2624 µm² of metal that isn't part of the device.
+
+`sky130A` and `gf180mcuD` have no layer for this, in their layer tables or in the cells and layouts looked at. SkyWater's extraction rules leave parasitics to the models by device recognition (varactors, MIM capacitors, RF ESD diodes, precision poly resistors), and MAGIC by the property `device` of a cell, which zeroes the parasitics of the cell. So these PDKs take markers of the user (@sec-kpex-2_5D-exclusion-layers).
 
 ### Why the Geometry Stays {#sec-kpex-2_5D-exclusion-geometry}
 
