@@ -292,16 +292,48 @@ The 0.198 fF that stay with `m2m3` are the fringe to the part of `A` beyond the 
 
 ### Cutting Out a Cell {#sec-kpex-2_5D-exclusion-cut}
 
-`--cut CELL[=PREFIX]` leaves the instances of a cell to a model. It selects the shapes of the cell, by the layers of the stack, so that routing over the cell stays out, unlike with a marker over all layers: metal and wells by their drawn layers, what LVS computes from the diffusion (e.g. source and drain) by the diffusion of the cell. So what else the cell has, such as its boundary, or the overhang of its wells and implants, takes nothing of the layout under it. The cell is a name or a glob pattern, and a cell within a cut cell is part of it. Each `--cut` needs instances of its own, the first one that matches a cell takes them.
+`--cut CELL[=PREFIX]` leaves the instances of a cell to a model. `CELL` is a name or a glob pattern, and a cell within a cut cell is part of it. Each `--cut` needs instances of its own: the first one that matches a cell takes them.
 
-- Its devices are left out of the netlist, and `--check` knows that. As the netlist of LVS is flat, they are found by what the cell draws at their terminals, on the layers that LVS makes a device of that class from, which the tech info has: the diffusion and the gate of a MOS, the marker of a resistor, a diode, a BJT or a capacitor. On each of these layers, the cell has to draw a polygon at all terminals of the device, and more of them than the rest of the layout, as a diffusion can go on beyond a cell, and a tap can overlap the one of a neighbor. So a device under the boundary of a cell, under its fill, beside it on the same diffusion, or with only wires of a cell on its terminals stays, and fill, a boundary or a wire of the top cell leaves the device to the cell. Diffusion that no layer draws, which LVS fills up for a device of the cell, such as the drain of an LDMOS across the gap to its gate, is of the cell too, unlike what the rest of the layout draws of a diffusion
-- Its fill is left out with it, on the layers whose fill LVS joins to them
-- Where a net enters the cell is a port of the netlist, as with `--exclusion-markers ports`
-- A port is named `<prefix>__<label>`, by the labels of the cell on the metal it is joined to within the cell, nearest first. Several cuts of that metal share the port, as they are one pin of the model. A terminal of a device of the cell on the metal around it gets a port of its own, `<prefix>__<terminal>`, numbered if the block has several such nodes on a net (`X__S_0`, `X__S_1`), otherwise it's `<prefix>__<net>_<number>`
-- The prefix is `PREFIX` for a single instance, with a number for several (`x_0`, `x_1`), by default it's the name of the cell with a number per cell (`coil_0`). `PREFIX` names ports, so it has letters, digits and `_` only, and each instance needs a name of its own, so `--cut a=S_0 --cut b=S` is an error if `b` has several instances
-- `--cut-keep-net NET` takes the shapes of a net out of the cell, also its wells, so that they are extracted like the rest of the layout, such as a guard ring
+What is left out:
 
-Test pattern `cut_block_with_mos` has the MOS of the design `nmos_diode2` in the cell `block`, whose pins `VDD` and `VSS` on `Metal3` the top cell wires on to `A` and `B`, and a `Metal5` wire `R` over the cell:
+- The shapes of the cell, on the layers of the stack, so routing over it stays extracted, unlike with a marker over all layers:
+   - metal and wells by their drawn layers, with the fill that LVS joins to them
+   - what LVS computes from the diffusion (e.g. source and drain) by the diffusion of the cell
+   - not its boundary or the overhang of its wells and implants, which take nothing of the layout under them
+- The devices of the cell, also for `--check`. As the netlist of LVS is flat, they go by what the cell draws at their terminals, on the layers that LVS makes a device of that class from, which the tech info has (the diffusion and the gate of a MOS, the marker of a resistor, a diode, a BJT or a capacitor):
+   - on each layer, the cell has to draw a polygon at all terminals, and more of them than the rest of the layout, as a diffusion can go on beyond a cell, and a tap can overlap the one of a neighbor
+   - so a device stays if it's under the boundary or the fill of a cell, beside it on the same diffusion, or has only wires of the cell on its terminals
+   - and fill, a boundary or a wire of the top cell leaves a device to the cell
+- Diffusion that no layer draws, which LVS fills up for a device of the cell (e.g. the drain of an LDMOS, across the gap to its gate), but not what the rest of the layout draws
+
+`--cut-keep-net NET` takes the shapes of a net out of the cell, also its wells, so that they are extracted like the rest of the layout, e.g. a guard ring.
+
+Where a net enters the cell is a port of the netlist, as with `--exclusion-markers ports`, named:
+
+- `<prefix>__<label>`, by the labels of the cell on the metal it is joined to within the cell, nearest first. Several cuts of that metal share the port, as they are one pin of the model
+- `<prefix>__<terminal>`, for a terminal of a device of the cell on the metal around it, numbered if the block has several such nodes on a net (`X__S_0`, `X__S_1`)
+- `<prefix>__<net>_<number>` otherwise
+
+The prefix:
+
+- is `PREFIX` for a single instance, with a number for several (`x_0`, `x_1`)
+- is by default the name of the cell with a number per cell (`coil_0`)
+- has letters, digits and `_` only, as it names ports
+- has to differ for each instance, so `--cut a=S_0 --cut b=S` is an error if `b` has several instances
+
+Test pattern `cut_block_with_mos` has the MOS of the design `nmos_diode2` in the cell `block`, whose pins `VDD` and `VSS` on `Metal3` the top cell wires on to `A` and `B`, and a `Metal5` wire `R` over the cell (@fig-cut-block-with-mos). With `--cut block=X`:
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/cut_block_with_mos.gds.gz>
+
+::: {#fig-cut-block-with-mos layout-nrow=3}
+{{< include /figures/test_patterns/cut_block_with_mos_-_layout.qmd >}}
+
+{{< include /figures/test_patterns/cut_block_with_mos_-_cell.qmd >}}
+
+{{< include /figures/test_patterns/cut_block_with_mos_-_extracted.qmd >}}
+
+Test pattern `cut_block_with_mos`, as drawn, and split by `--cut block=X`
+:::
 
 ```spice
 .SUBCKT cut_block_with_mos A X__VSS B X__VDD sub! R

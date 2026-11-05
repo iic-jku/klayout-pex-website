@@ -1,0 +1,52 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-cut-block-with-mos-extracted
+#| echo: false
+#| fig-cap: "What is extracted: the rest of the layout, with a port where a net enters the cell"
+import drawsvg as dw
+import os
+
+def image_path(file_name: str) -> str:
+    quarto_dir = os.getenv('QUARTO_PROJECT_ROOT', None)
+    if quarto_dir is None: # called from Jupyter
+        return os.path.join(os.path.dirname(__file__), file_name)
+    else:  # called from Quarto
+        return os.path.join(quarto_dir, 'figures', 'test_patterns', file_name)
+
+w = 800
+h = 244
+
+def x_of(x_um: float) -> float:  # NOTE: the view of the screenshot is from -7 to 12 µm
+    return (x_um + 7) / 19 * w
+
+def y_of(y_um: float) -> float:  # NOTE: and from -3.2 to 2.6 µm
+    return (2.6 - y_um) / 5.8 * h
+
+img_path = image_path('cut_block_with_mos_-_extracted.png')
+
+d = dw.Drawing(w, h)
+d.append(dw.Image(0, 0, w, h, img_path, embed=True))
+d.append(dw.Rectangle(x_of(-1.65), y_of(2), x_of(0.95) - x_of(-1.65), y_of(-1.3) - y_of(2),
+                      fill='none', stroke='cyan', stroke_width=2, stroke_dasharray='6,4'))
+for x, y, text_x, text_y, name, value in ((0.95, -0.6, 3.2, 1.9, 'X__VDD', '2.86 Ω to B'),
+                                          (0.15, -1.15, 3.2, -1.95, 'X__VSS', '2.86 Ω to A')):
+    d.append(dw.Line(sx=x_of(x), sy=y_of(y), ex=x_of(text_x) - 4, ey=y_of(text_y) - 5, stroke='white', stroke_width=1))
+    d.append(dw.Circle(x_of(x), y_of(y), 4, fill='white'))
+    d.append(dw.Text([name, value], x=x_of(text_x), y=y_of(text_y), fill='white', font_size=16))
+d
+```
