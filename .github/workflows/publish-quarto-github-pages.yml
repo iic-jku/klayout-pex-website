@@ -29,7 +29,7 @@ on:
 name: "Publish Quarto Website to GitHub Pages"
 
 concurrency:
-  group: ${{ github.repository }}-${{ github.event.number || github.head_ref || github.sha }}-${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -52,11 +52,13 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Python and Dependencies
         uses: actions/setup-python@v7
         with:
-          python-version: '3.x'
+          python-version: '3.12'
           cache: 'pip'
       - run: pip install -r requirements.txt
       
