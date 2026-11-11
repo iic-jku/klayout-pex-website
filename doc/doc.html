@@ -702,7 +702,7 @@ window.Quarto = {
 <p><a href="https://pypi.org/project/klayout-pex/">KLayout-PEX</a> (short <code>KPEX</code>) is a PEX tool, well integrated with <code>KLayout</code> by using its API.</p>
 <p>There are multiple PEX engines supported, currently:</p>
 <ul>
-<li><a href="https://www.fastfieldsolvers.com/fastercap.htm">FasterCap</a> integration (field solver engine)</li>
+<li><a href="https://github.com/iic-jku/FasterCap"><code>FasterCap</code></a> integration (field solver engine)</li>
 <li><code>FastCap2</code> integration (field solver engine, selected with <code>--fastcap</code>)</li>
 <li><a href="https://opencircuitdesign.com/magic/">MAGIC</a> integration (wrapper calling <code>magic</code>)</li>
 <li>Analytical 2.5D engine (parasitic concepts and formulas of MAGIC, implemented using KLayout methods)</li>
@@ -860,11 +860,11 @@ Table&nbsp;1: Engine capabilities
 <li><a href="https://www.klayout.de/build.html">get the latest pre-built package version</a></li>
 <li>or <a href="https://www.klayout.de/build.html">follow the build instructions</a></li>
 </ul></li>
-<li><a href="https://www.fastfieldsolvers.com/fastercap.htm">FasterCap</a> engine:
+<li><a href="https://github.com/iic-jku/FasterCap"><code>FasterCap</code></a> engine:
 <ul>
-<li>optional, required to run the FasterCap engine</li>
-<li>either compile your own version from the <a href="https://github.com/ediloren/FasterCap/">GitHub repository</a></li>
-<li>or use precompiled versions available at <a href="https://github.com/martinjankoehler/FasterCap/releases" class="uri">https://github.com/martinjankoehler/FasterCap/releases</a></li>
+<li>optional, required to run the <code>FasterCap</code> engine</li>
+<li>either compile your own version from the <a href="https://github.com/iic-jku/FasterCap">GitHub repository</a></li>
+<li>or use precompiled versions available at <a href="https://github.com/iic-jku/FasterCap/releases" class="uri">https://github.com/iic-jku/FasterCap/releases</a></li>
 </ul></li>
 <li><a href="https://opencircuitdesign.com/magic/">MAGIC</a>-wrapper engine:
 <ul>
@@ -17753,7 +17753,7 @@ C_{\mathrm{pair}}=b\,\frac{L}{s_{\mathrm{eff}}},
 </section>
 <section id="sec-kpex-fastercap" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> <code>KPEX/FasterCap</code> Engine</h1>
-<p><code>FasterCap</code> is a 3D and 2D parallel capacitance field solver, inspired by <code>FastCap2</code>. <a href="https://www.fastfieldsolvers.com/fastercap.htm" class="uri">https://www.fastfieldsolvers.com/fastercap.htm</a></p>
+<p><code>FasterCap</code> is a 3D and 2D parallel capacitance field solver, inspired by <code>FastCap2</code>. The maintained fork is <a href="https://github.com/iic-jku/FasterCap"><code>iic-jku/FasterCap</code></a>.</p>
 <p>Starting from an input layout (e.g.&nbsp;GDS file) and a process stack-up (part of the <a href="#sec-tech-def" class="quarto-xref">Section&nbsp;3.3</a>), <code>KPEX</code> creates input geometries for <code>FasterCap</code>. After running <code>FasterCap</code>, the Maxwell capacitance matrix is parsed and interpreted to obtain the parasitic capacitances.</p>
 <p>See <a href="#sec-first-steps-run-fastercap-engine" class="quarto-xref">Section&nbsp;2.4</a> to get started with a first extraction example.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -17770,7 +17770,7 @@ C_{\mathrm{pair}}=b\,\frac{L}{s_{\mathrm{eff}}},
 <figcaption><code>FasterCap</code> 3D Input: File System Overview</figcaption>
 </figure>
 </div>
-<p>The <code>FasterCap</code> input files and their format is documented in <span class="citation" data-cites="fastfieldsolvers-fastercap-manual-chm">(<a href="#ref-fastfieldsolvers-fastercap-manual-chm" role="doc-biblioref">Di Lorenzo 2019</a>)</span>, a PDF version of the Windows-specific <code>*.chm</code> file is available at <a href="https://github.com/martinjankoehler/FasterCap/tree/master/doc/pdf" class="uri">https://github.com/martinjankoehler/FasterCap/tree/master/doc/pdf</a>.</p>
+<p>The <code>FasterCap</code> input files and their format are documented in the <a href="https://github.com/iic-jku/FasterCap/tree/master/doc/pdf">PDF manual</a> <span class="citation" data-cites="fastfieldsolvers-fastercap-manual-chm">(<a href="#ref-fastfieldsolvers-fastercap-manual-chm" role="doc-biblioref">Di Lorenzo 2019</a>)</span>.</p>
 <p><code>KPEX</code> generates 3D input geometries:</p>
 <ul>
 <li><code>*.lst</code> file: Main input file
@@ -24149,7 +24149,7 @@ Authors, SkyWater PDK. 2020. <span>“SkyWater Open Source PDK.”</span> May. <
 Cong, Jason, Lei He, Andrew B. Kahng, David Noice, Nagesh Shirali, and Steve H.-C. Yen. 1997. <span>“Analysis and Justification of a Simple, Practical 2 1/2-d Capacitance Extraction Methodology.”</span> <em>Proceedings of the 34th Annual Conference on Design Automation Conference - DAC ’97</em>, 627–32. <a href="https://doi.org/10.1145/266021.266303">https://doi.org/10.1145/266021.266303</a>.
 </div>
 <div id="ref-fastfieldsolvers-fastercap-manual-chm" class="csl-entry" role="listitem">
-Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help.”</span> <a href="https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm">https://www.fastfieldsolvers.com/Download/FasterCapHelp.chm</a>.
+Di Lorenzo, Enrico. 2019. <span>“FasterCap Embedded Help (PDF Edition).”</span> <a href="https://github.com/iic-jku/FasterCap/tree/master/doc/pdf">https://github.com/iic-jku/FasterCap/tree/master/doc/pdf</a>.
 </div>
 <div id="ref-fastfieldsolvers-maxwell-capacitance-matrix" class="csl-entry" role="listitem">
 Di Lorenzo, Enrico. 2023. <span>“The Maxwell Capacitance Matrix: White Paper WP110301. Revision 03.”</span> <a href="https://www.fastfieldsolvers.com/Papers/The_Maxwell_Capacitance_Matrix_WP110301_R03.pdf">https://www.fastfieldsolvers.com/Papers/The_Maxwell_Capacitance_Matrix_WP110301_R03.pdf</a>.
