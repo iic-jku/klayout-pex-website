@@ -1,0 +1,52 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-polygon-holes-and-strips
+#| echo: false
+#| fig-cap: "A triangular shield leaves a hole in the target. Vertical strips pair the filled boundary crossings, so the hole contributes no fringe. The dashed lines mark decomposition boundaries, not new conductors."
+#| fig-alt: "Two panels show a rectangular target with a triangular shield, then the same visible target partitioned at the triangle's left and right vertices. In the middle strip, upper and lower filled intervals surround the empty triangular hole."
+import os
+import sys
+from pathlib import Path
+import drawsvg as dw
+project_root = Path(os.environ.get('QUARTO_PROJECT_ROOT', '.')).resolve()
+sys.path.insert(0, str(project_root / 'figures'))
+from polygon_diagram_helpers import INK, SOURCE, TARGET, SHIELD, ACCENT, label, arrow, polygon
+d=dw.Drawing(880,400)
+d.append(dw.Rectangle(0,0,880,400,fill='white'))
+for left,title in ((40,'Subtract the projected shield'),(480,'Partition the remaining target')):
+    label(d,title,left,30,size=20)
+    polygon(d,[(left,80),(left+320,80),(left+320,320),(left,320)],TARGET,TARGET)
+    hole=[(left+80,280),(left+240,200),(left+240,280)]
+    polygon(d,hole,'white',SHIELD,1.0)
+    d.append(dw.Line(left,350,left+320,350,stroke=SOURCE,stroke_width=4))
+    label(d,'Source edge',left+160,380,color=SOURCE,anchor='middle')
+label(d,'Target',65,113,color=TARGET)
+label(d,'Shield',204,267,color=SHIELD)
+label(d,'Target',738,113,size=17,color=TARGET)
+label(d,'Hole',665,267,color=SHIELD)
+for x in (560,720):
+    d.append(dw.Line(x,65,x,332,stroke=ACCENT,stroke_dasharray='5,4',stroke_width=1.5))
+label(d,'x₁',560,58,color=ACCENT,anchor='middle')
+label(d,'x₂',720,58,color=ACCENT,anchor='middle')
+arrow(d,625,83,625,244,both=True,color=INK)
+arrow(d,625,284,625,317,both=True,color=INK)
+label(d,'Filled',646,164,size=17)
+label(d,'Filled',646,309,size=17)
+arrow(d,385,200,450,200,color=INK,width=2.5)
+d
+```

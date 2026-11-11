@@ -1,0 +1,49 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-polygon-nonparallel-layout
+#| echo: false
+#| fig-cap: "The `sky130A` sloped-wire example on `li1`. The taper changes the `A` ↔ `B` separation along the facing interval."
+#| fig-alt: "Layout screenshot of three local interconnect conductors A, B and C. A has a sloping edge facing the bent wire B. Rectangular C faces a straight part of B with constant gap."
+#| out-width: 75%
+import os
+import sys
+from pathlib import Path
+from typing import Tuple
+import drawsvg as dw
+project_root = Path(os.environ.get('QUARTO_PROJECT_ROOT', '.')).resolve()
+sys.path.insert(0, str(project_root / 'figures'))
+from polygon_diagram_helpers import label, arrow
+w, h = 620, 620 * 21 / 22
+scale = w / 22
+
+def position(x: float, y: float) -> Tuple[float, float]:
+    return (x + 5) * scale, (18 - y) * scale
+
+d = dw.Drawing(w, h)
+d.append(dw.Image(0, 0, w, h, str(project_root / 'figures/test_patterns/sidewall_non_parallel_li1_-_polygon_geometry.png'), embed=True))
+for name, x, y in [('A', 0.5, 11), ('B', 8, 6), ('C', 12, 5)]:
+    label(d, name, *position(x, y), color='white', size=24, anchor='middle')
+accent = '#ffd34e'
+arrow(d, *position(4.6, 7), *position(7, 7), color=accent, both=True, width=2)
+arrow(d, *position(9, 6.5), *position(10, 6.5), color=accent, both=True, width=2)
+label(d, 'Changing gap', *position(7, 14.4), size=20, color=accent, anchor='middle')
+d.append(dw.Line(*position(7, 13.8), *position(5.8, 7.2), stroke=accent, stroke_width=1.6))
+label(d, 'Constant gap', *position(12, 11.6), size=20, color=accent, anchor='middle')
+d.append(dw.Line(*position(11.5, 11.2), *position(9.5, 6.8), stroke=accent, stroke_width=1.6))
+d
+```

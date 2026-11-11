@@ -1,0 +1,52 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-polygon-edge-coordinates
+#| echo: false
+#| fig-cap: "An edge-local view of a changing gap. The coordinate system follows the source edge even when the original layout is rotated."
+#| fig-alt: "A blue source conductor has a horizontal top edge. The lower edge of a green target slopes away, with gap d0 at left and larger gap d1 at right. A narrow vertical slice is marked dx."
+import os
+import sys
+from pathlib import Path
+import drawsvg as dw
+project_root = Path(os.environ.get('QUARTO_PROJECT_ROOT', '.')).resolve()
+sys.path.insert(0, str(project_root / 'figures'))
+from polygon_diagram_helpers import INK, SOURCE, TARGET, SHIELD, ACCENT, label, arrow, polygon
+d = dw.Drawing(820, 400)
+d.append(dw.Rectangle(0, 0, 820, 400, fill='white'))
+polygon(d, [(110, 280), (680, 280), (680, 345), (110, 345)], SOURCE, SOURCE)
+polygon(d, [(110, 205), (680, 95), (680, 20), (110, 130)], TARGET, TARGET)
+label(d, 'Source conductor', 130, 322, color=SOURCE)
+label(d, 'Facing conductor', 360, 110, color=TARGET)
+d.append(dw.Line(110, 280, 680, 280, stroke=SOURCE, stroke_width=4))
+arrow(d, 80, 280, 765, 280)
+arrow(d, 110, 365, 110, 55)
+label(d, 'x', 775, 286)
+label(d, 'y', 88, 45)
+label(d, '0', 90, 306)
+arrow(d, 195, 276, 195, 193, both=True, color=ACCENT)
+label(d, 'd(x)', 208, 240, color=ACCENT)
+arrow(d, 126, 276, 126, 206, both=True)
+label(d, 'd₀', 135, 265, size=17)
+arrow(d, 668, 276, 668, 99, both=True)
+label(d, 'd₁', 680, 185, size=17)
+polygon(d, [(377, 280), (393, 280), (393, 150), (377, 153)], ACCENT, ACCENT, 0.16)
+label(d, 'dx', 384, 305, color=ACCENT, anchor='middle')
+arrow(d, 110, 375, 680, 375, both=True)
+label(d, 'Interval length L', 395, 365, anchor='middle')
+d
+```

@@ -1,0 +1,220 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## Capacitance of Sloped and Holed Polygons {#sec-polygon-capacitance}
+
+A wire does not have to end in a rectangle. A taper, a diagonal segment, or a shield with a hole changes the distance to the neighboring conductor along the edge. `KPEX/2.5D` integrates that changing geometry using the same overlap, sidewall, and fringe models introduced in @sec-magic-cap-types.
+
+This extends where those models can be applied. It does not turn the analytical extraction into a three-dimensional field solution: the dielectric stack and fitted parasitic coefficients still determine the model's accuracy.
+
+### Looking Along One Edge {#sec-polygon-edge-coordinates}
+
+For each source edge, imagine rotating the layout until that edge lies on the horizontal axis. Let $x$ run along the edge and $y$ point outwards from its conductor. The local coordinate system is attached to the edge, so a diagonal wire needs no special capacitance formula.
+
+The neighborhood is divided into intervals where the facing boundaries remain straight. Within one interval:
+
+- A sidewall gap is a linear function $d(x)$
+- A fringe target has a near boundary $n(x)$ and a far boundary $f(x)$
+- A shield can shorten either boundary or remove a part of the target
+
+{{< include /figures/polygon-edge-coordinates.qmd >}}
+
+A bounding box loses this information. It fills the empty space beside a triangle and across a hole. Using the minimum distance everywhere also assigns the closest part's stronger coupling to the whole edge.
+
+Overlap capacitance needs no distance integration in this plane. It is proportional to the actual unshielded intersection area, including the subtraction of holes:
+
+$$
+C_{\mathrm{overlap}} = \frac{k_{\mathrm{ov}}}{1000}\,A_{\mathrm{visible}}.
+$$
+
+Here $k_{\mathrm{ov}}$ is in $\mathrm{aF}/\mu\mathrm{m}^2$, area is in $\mu\mathrm{m}^2$, and the result is in $\mathrm{fF}$.
+
+### Integrating a Changing Sidewall Gap {#sec-polygon-sidewall-integral}
+
+Take an edge interval of length $L$ with endpoint gaps $d_0$ and $d_1$:
+
+$$
+d(x)=d_0+\frac{d_1-d_0}{L}\,x,\qquad 0\leq x\leq L.
+$$
+
+The technology fit adds an offset $o$ to the physical gap. For a positive physical gap, a negative offset must not make the fitted separation zero or negative. `KPEX/2.5D` therefore uses
+
+$$
+s(d)=\max\left(d+o,\frac d2\right).
+$$
+
+The geometry factor is the integral of the reciprocal separation:
+
+$$
+G_{\mathrm{sw}}=\int_0^L \frac{dx}{s(d(x))}.
+$$
+
+For a full-pair sidewall coefficient $k_{\mathrm{sw}}$ in $\mathrm{aF}$, one directed edge contributes
+
+$$
+C_{\mathrm{sw,edge}}=\frac{k_{\mathrm{sw}}G_{\mathrm{sw}}}{2\cdot1000}
+\quad [\mathrm{fF}].
+$$
+
+The two directed visits together count the pair once. The geometry integral introduces no additional half, and the conversion from $\mathrm{aF}$ to $\mathrm{fF}$ divides by $1000$. This counting convention is separate from the shape of the gap (@sec-magic-cap-types-sidewall-capacitance).
+
+If the whole interval uses $s=d+o$, the integral has a closed form:
+
+$$
+G_{\mathrm{sw}}=
+\begin{cases}
+\displaystyle \frac{L}{d_0+o}, & d_0=d_1,\\[8pt]
+\displaystyle \frac{L}{d_1-d_0}
+\ln\left(\frac{d_1+o}{d_0+o}\right), & d_0\ne d_1.
+\end{cases}
+$$
+
+The logarithm is the result of integrating $1/(a+bx)$. It is not a correction fitted specifically to diagonal wires. Reversing the edge exchanges $d_0$ and $d_1$ and changes both signs, leaving the result unchanged.
+
+For a negative $o$, the two separation branches meet at $d=-2o$. If a taper crosses that gap, split its integral there. On the clamped part, integrate $2/d$ instead of $1/(d+o)$. The two branches agree at the split, so no capacitance jump is introduced.
+
+#### Why the Mean Gap Is Insufficient {#sec-polygon-mean-gap}
+
+Consider $L=4\,\mu\mathrm{m}$, a gap widening from $0.2$ to $0.6\,\mu\mathrm{m}$, and $o=0.1\,\mu\mathrm{m}$. These values describe a geometry exercise, independently of any PDK coefficient:
+
+$$
+G_{\mathrm{sw}}=
+\frac{4}{0.6-0.2}\ln\left(\frac{0.6+0.1}{0.2+0.1}\right)
+=10\ln(7/3).
+$$
+
+Replacing the taper by its mean gap gives $4/(0.4+0.1)=8$. The integral is larger because reducing a small gap strengthens coupling more than increasing an already large gap weakens it.
+
+The first half of the edge carries the fraction
+
+$$
+\frac{C_{[0,L/2]}}{C_{[0,L]}}
+=\frac{\ln(5/3)}{\ln(7/3)},
+$$
+
+which is greater than one half. This matters when the capacitance is assigned to different nodes of an extracted resistor network.
+
+### Integrating Fringe Across a Target {#sec-polygon-fringe-integral}
+
+The fringe model uses a cumulative fraction
+
+$$
+F(y)=\frac{2}{\pi}\arctan\bigl(\alpha\max(0,y)\bigr).
+$$
+
+$F(y)$ describes how much of the fringe is reached by distance $y$. Its slope decreases with distance. A strip near the source edge therefore receives more fringe than an equally wide strip farther away.
+
+For a strip extending from $n(x)$ to $f(x)$, the received fraction is $F(f(x))-F(n(x))$. Integrating along the source edge gives
+
+$$
+C_{\mathrm{fringe}}=
+\frac{k_{\mathrm{fr}}}{1000\,N}
+\int_0^L \left[F(f(x))-F(n(x))\right]dx.
+$$
+
+$k_{\mathrm{fr}}$ is the directional side-overlap coefficient in $\mathrm{aF}/\mu\mathrm{m}$. $N$ describes halo normalization, explained below. The overlap table supplies the parameter $\alpha$ for this source/target layer pair, while the side-overlap table supplies $k_{\mathrm{fr}}$. They play different roles: one sets the distance dependence, the other its magnitude.
+
+In the current coefficient convention, the numerical value of $\alpha$ in $\mu\mathrm{m}^{-1}$ is $0.02$ times the overlap coefficient in $\mathrm{aF}/\mu\mathrm{m}^2$. This scaling belongs to the empirical fringe model; it is not an identity between capacitance and inverse distance.
+
+{{< include /figures/polygon-fringe-integral.qmd >}}
+
+The near and far boundaries of a trapezoid are linear functions. Their integrals can be evaluated analytically using
+
+$$
+J(z)=z\arctan(z)-\frac12\ln(1+z^2),
+\qquad J'(z)=\arctan(z).
+$$
+
+For $q(x)=q_0+mx>0$, $m\ne0$ and $\alpha>0$:
+
+$$
+\int_a^b F(q(x))\,dx
+=\frac{2}{\pi\alpha m}
+\left[J(\alpha q(b))-J(\alpha q(a))\right].
+$$
+
+A constant boundary gives $(b-a)F(q_0)$. A boundary crossing zero is split there, because the part behind the source edge contributes no outward fringe. The implementation evaluates equivalent forms that avoid subtracting nearly equal numbers when the slope or $\alpha$ is small.
+
+### Subtracting Shields and Keeping Holes {#sec-polygon-shields-and-holes}
+
+A nearer conductor on the same layer limits the lateral reach. Its sloping facing edge produces a sloping shadow, rather than a rectangle beginning at one mean distance. This shadow also applies when the nearby shape belongs to the same net or to the opposite side of the same polygon.
+
+For a target on a different layer, conductors between the source and target provide additional shielding. The source-to-target ordering matters: a conductor beyond the target does not shield that target. Above and below the source are handled separately.
+
+After subtracting these shields, a target may be concave or have holes. `KPEX/2.5D` partitions the remaining geometry into vertical trapezoids in the source edge's local coordinates:
+
+1. Split at the distinct horizontal positions of polygon vertices
+2. Find the boundary crossings within each strip
+3. Pair successive crossings as filled intervals, leaving holes empty
+4. Integrate each trapezoid and add its contribution
+
+{{< include /figures/polygon-holes-and-strips.qmd >}}
+
+This is a partition of the visible polygon, not a replacement by rectangles. Intersections at a new strip boundary remain floating-point values for the capacitance calculation. Only the geometry drawn in the extraction report is rounded back onto the layout grid.
+
+The small-contribution cutoff is applied to each resulting unshielded polygon before its internal trapezoids are emitted. A polygon that contributes more than $0.0001\,\mathrm{fF}$ remains even if each trapezoid individually contributes less. A value equal to the cutoff is omitted. Changing the mathematical subdivision therefore does not change whether that polygon is retained.
+
+### Preserving the Profile When Geometry Is Cut {#sec-polygon-capacitance-profile}
+
+The total capacitance is not enough when a marker removes part of an edge or when RC extraction divides it between nodes. The taper example above has equal lengths on either side of its midpoint but unequal capacitances.
+
+`KPEX/2.5D` retains an integral profile for a sloped contribution. A cut asks the profile for the capacitance over the retained interval. A later cut uses the original coordinates of that interval. It does not restart the distance ramp at its new left endpoint.
+
+This makes three operations consistent:
+
+- Summing the parts reproduces the original contribution before cutoffs
+- An exclusion marker removes the capacitance carried by its covered geometry
+- RC node assignment uses the local capacitance density, rather than only the fraction of edge length
+
+For overlap capacitance, the density within one layer pair is uniform per area, so area fractions remain appropriate.
+
+### Inspecting Sloped Wires {#sec-polygon-sloped-wire-example}
+
+The `sky130A` pattern below has a tapered conductor `A`, a bent conductor `B`, and a rectangular conductor `C`. The `A` ↔ `B` gap varies along the taper, whereas part of the `B` ↔ `C` gap is constant.
+
+GDS: [`sidewall_non_parallel_li1.gds.gz`](https://github.com/iic-jku/klayout-pex/blob/v0.9.0/testdata/designs/sky130A/test_patterns/sidewall_non_parallel_li1.gds.gz)
+
+{{< include /figures/polygon-nonparallel-layout.qmd >}}
+
+From the `klayout-pex` source checkout, the committed LVS database allows the extraction to be repeated without running LVS:
+
+```bash
+lvsdb_dir=testdata/lvsdb/sky130A/test_patterns
+kpex extract --pdk sky130A --mode CC --blackbox n \
+  --lvsdb "$lvsdb_dir/sidewall_non_parallel_li1.lvsdb.gz" \
+  --2.5D --halo 8 --scale y --report-caps y \
+  --out-dir output_polygon_example
+```
+
+The example was checked with `klayout-pex 0.9.0` and the `KLayout` Python module `0.30.13`. `--report-caps y` adds each contribution and its geometry to the extraction report. Inspect the `A` ↔ `B` sidewall entries to see how the facing intervals follow the taper. The exported netlist combines the contributions belonging to the same pair of nets.
+
+### Halo, Grid and Model Limits {#sec-polygon-limits}
+
+The halo is the finite lateral neighborhood searched around an edge. `--halo` overrides the technology's `side_halo`, in $\mu\mathrm{m}$. It changes which geometry is considered, so it is a modeling choice as well as a runtime limit.
+
+The default `--scale y` normalizes the fringe fraction to that halo. For a positive overlap coefficient and halo $h$, $N=F(h)$, and a target occupying the full interval from $0$ to $h$ receives the full coefficient for that edge length. A zero overlap coefficient gives $\alpha=0$ and zero fringe contribution before normalization. With `--scale n`, $N=1$, so the tail beyond the halo remains omitted. A larger halo can change both the visible targets and, when scaling is enabled, the normalization of nearer ones.
+
+The `--scale` flag here concerns fringe fractions. It is independent of SPICE `.option scale`, which controls the interpretation of selected device geometry parameters.
+
+These limits matter when comparing results:
+
+- An overlap coefficient of exactly zero gives zero fringe, including with halo scaling enabled
+- Very small positive overlap coefficients approach a uniform distribution across a normalized halo
+- Rotating a layout onto an integer grid can move vertices and neighborhood boundaries slightly
+- Intervals no longer than one database unit are discarded to suppress degenerate edge neighborhoods
+- The analytical model does not resolve full three-dimensional corner fields or replace coefficient calibration
+
+For a rotation comparison, keep the same physical dimensions, coefficient tables, halo, and scaling option. A finer database unit reduces geometric rounding. Quarter-turn rotations preserve integer-grid coordinates exactly; arbitrary angles usually do not.

@@ -1,0 +1,73 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-polygon-fringe-integral
+#| echo: false
+#| fig-cap: "A fringe target receives the difference between the cumulative fractions at its far and near boundaries. Both boundaries may vary along the edge."
+#| fig-alt: "Left: a trapezoid above the source edge with near and far distances marked at one slice. Right: the increasing arctangent fraction F with the received fraction highlighted between F(n) and F(f)."
+import os
+import sys
+from pathlib import Path
+import drawsvg as dw
+project_root = Path(os.environ.get('QUARTO_PROJECT_ROOT', '.')).resolve()
+sys.path.insert(0, str(project_root / 'figures'))
+from polygon_diagram_helpers import INK, SOURCE, TARGET, SHIELD, ACCENT, label, arrow, polygon
+import math
+d = dw.Drawing(880, 380)
+d.append(dw.Rectangle(0, 0, 880, 380, fill='white'))
+label(d, 'Visible target in local coordinates', 25, 30, size=20)
+polygon(d, [(55, 222), (390, 155), (390, 65), (55, 135)], TARGET, TARGET)
+d.append(dw.Rectangle(55, 286, 335, 32, fill=SOURCE, fill_opacity=0.15))
+d.append(dw.Line(55, 286, 390, 286, stroke=SOURCE, stroke_width=4))
+arrow(d, 40, 286, 425, 286)
+arrow(d, 55, 320, 55, 55)
+label(d, 'x', 431, 292)
+label(d, 'y', 37, 49)
+label(d, 'Source edge', 165, 311, color=SOURCE)
+polygon(d, [(230, 187), (246, 184), (246, 95), (230, 98)], ACCENT, ACCENT, 0.22)
+arrow(d, 230, 282, 230, 191, both=True, color=ACCENT)
+label(d, 'n(x)', 172, 249, color=ACCENT)
+arrow(d, 270, 282, 270, 94, both=True, color=ACCENT)
+label(d, 'f(x)', 281, 233, color=ACCENT)
+label(d, 'dx', 238, 341, color=ACCENT, anchor='middle')
+label(d, 'Cumulative fringe fraction', 500, 30, size=20)
+x0,y0,xscale,yscale=515,286,39,205
+arrow(d,x0,y0,852,y0)
+arrow(d,x0,y0,x0,58)
+label(d,'y',857,292)
+label(d,'F(y)',482,52)
+path=dw.Path(stroke=TARGET,stroke_width=3,fill='none')
+for index in range(201):
+    y=8*index/200
+    fraction=2/math.pi*math.atan(0.6*y)
+    point=(x0+y*xscale,y0-fraction*yscale)
+    if index==0:path.M(*point)
+    else:path.L(*point)
+d.append(path)
+for distance,name in ((1.4,'n'),(4.8,'f')):
+    fraction=2/math.pi*math.atan(0.6*distance)
+    x=x0+distance*xscale; y=y0-fraction*yscale
+    d.append(dw.Line(x,y0,x,y,stroke=INK,stroke_dasharray='4,4'))
+    d.append(dw.Line(x0,y,810,y,stroke=INK,stroke_dasharray='4,4'))
+    label(d,name,x,y0+25,anchor='middle')
+    label(d,'F('+name+')',x0-8,y+6,size=17,anchor='end')
+near=y0-2/math.pi*math.atan(0.6*1.4)*yscale
+far=y0-2/math.pi*math.atan(0.6*4.8)*yscale
+arrow(d,805,near,805,far,both=True,color=ACCENT)
+label(d,'Received fraction',675,344,anchor='middle',color=ACCENT)
+d
+```
