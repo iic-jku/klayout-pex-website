@@ -1,0 +1,61 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-pdk-layer-identities
+#| echo: false
+#| fig-cap: "A computed MIM plate selects a coefficient layer and a process-stack layer independently. The names shown are from the `ihp-sg13g2` technology."
+import drawsvg as dw
+
+w, h = 900, 330
+d = dw.Drawing(w, h)
+d.append(dw.Rectangle(0, 0, w, h, fill='white'))
+ink = '#183247'
+blue = '#dcecf7'
+green = '#e0efe5'
+arrow = dw.Marker(-6, -4, 0, 4, scale=1, orient='auto')
+arrow.append(dw.Lines(-6, -4, 0, 0, -6, 4, fill=ink, close=True))
+
+def text(value: str, x: float, y: float, size: float = 17, mono: bool = False):
+    d.append(dw.Text(value, size, x, y, fill=ink,
+                     font_family='monospace' if mono else 'sans-serif'))
+
+def box(x: float, y: float, width: float, height: float, color: str):
+    d.append(dw.Rectangle(x, y, width, height, rx=8, fill=color,
+                          stroke=ink, stroke_width=1.5))
+
+text('Computed layer from the extraction deck', 25, 30, 20)
+box(25, 110, 270, 110, blue)
+text('metal5_cap', 45, 145, 21, True)
+text('MIM bottom-plate polygons', 45, 177)
+text('with their net association', 45, 202)
+
+box(455, 42, 420, 105, green)
+text('original_layer_name: Metal5', 475, 73, 18, True)
+text('Selects the physical-layer coefficients', 475, 106)
+text('for area, edge and resistance terms', 475, 131)
+
+box(455, 193, 420, 112, blue)
+text('process_layer_name: metal5_cap', 475, 226, 18, True)
+text('Selects the MIM bottom-plate stack', 475, 259)
+text('with the dielectric above that region', 475, 284)
+
+d.append(dw.Lines(295, 165, 365, 165, 365, 95, 450, 95,
+                  fill='none', stroke=ink, stroke_width=2, marker_end=arrow))
+d.append(dw.Lines(365, 165, 365, 249, 450, 249,
+                  fill='none', stroke=ink, stroke_width=2, marker_end=arrow))
+d
+```

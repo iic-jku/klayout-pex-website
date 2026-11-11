@@ -1,0 +1,66 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-pdk-gf180-passivation
+#| echo: false
+#| fig-cap: "Planar top passivation of `gf180mcuD`, shown relative to the bottom of `Metal5`. Vertical distances follow the selected cross-section; horizontal widths are illustrative."
+import drawsvg as dw
+
+w, h = 900, 425
+d = dw.Drawing(w, h)
+d.append(dw.Rectangle(0, 0, w, h, fill='white'))
+ink = '#183247'
+scale = 95.0
+base = 330.0
+left, right = 205.0, 680.0
+metal_top = base - 1.1925 * scale
+oxide_top = base - 2.3925 * scale
+nitride_top = base - 2.6925 * scale
+
+def text(value: str, x: float, y: float, size: float = 18, anchor: str = 'start'):
+    d.append(dw.Text(value, size, x, y, fill=ink, font_family='sans-serif', text_anchor=anchor))
+
+# The plane of each interface is unchanged between and above metal shapes.
+d.append(dw.Rectangle(left, oxide_top, right-left, base-oxide_top,
+                      fill='#dcecf7', stroke=ink, stroke_width=1))
+d.append(dw.Rectangle(left, nitride_top, right-left, oxide_top-nitride_top,
+                      fill='#e3d5ed', stroke=ink, stroke_width=1))
+for x in (255, 505):
+    d.append(dw.Rectangle(x, metal_top, 110, base-metal_top,
+                          fill='#b8d6c1', stroke=ink, stroke_width=1.5))
+    text('Metal5', x+55, metal_top+65, anchor='middle')
+text('air', (left+right)/2, 47, anchor='middle')
+text('oxide, k = 4', (left+right)/2, 158, anchor='middle')
+text('nitride, k = 7', (left+right)/2, 92, 17, 'middle')
+
+def dimension(x: float, y_top: float, y_bottom: float, label: str, label_x: float, anchor: str):
+    d.append(dw.Line(x, y_top, x, y_bottom, stroke=ink, stroke_width=1.5))
+    for y in (y_top, y_bottom):
+        d.append(dw.Line(x-7, y, x+7, y, stroke=ink, stroke_width=1.5))
+    text(label, label_x, (y_top+y_bottom)/2+6, 18, anchor)
+
+# Keep the cumulative field height separate from the metal-relative thicknesses.
+dimension(180, oxide_top, base, '2.3925 µm', 160, 'end')
+dimension(715, nitride_top, oxide_top, '0.3 µm', 740, 'start')
+dimension(715, oxide_top, metal_top, '1.2 µm', 740, 'start')
+dimension(715, metal_top, base, '1.1925 µm', 740, 'start')
+d.append(dw.Line(175, base, 725, base, stroke=ink, stroke_width=1,
+                 stroke_dasharray='4,4'))
+text('Metal5 bottom: z = 6.13 µm above substrate', left, 365)
+text('Planar interfaces continue across the field between wires', left, 399, 17)
+d
+```

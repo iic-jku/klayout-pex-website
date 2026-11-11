@@ -3,7 +3,7 @@ filters: ["inline-file-filter.lua"]
 ---
 
 ::: {.content-hidden}
-Copyright (C) 2024-2025 Martin Köhler and co-authors (martin.koehler@jku.at)
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,137 +18,106 @@ See the License for the specific language governing permissions and
 limitations under the License.
 :::
 
-# Supporting new PDKs
+# Choosing and describing PDKs {#sec-pdks}
 
-For every supported PDK[^abbrev-pdk], a `KPEX` technology definition is required, as well as customized PEX-"LVS" scripts.
+A PDK[^abbrev-pdk] supplies more than a list of GDS layer numbers. `KPEX` needs to know which shapes conduct, how they connect, what surrounds them in three dimensions, and which part of a device is already represented by its circuit model. The technology definition keeps these choices together, while the extraction algorithms remain independent of the PDK.
 
-## Customized PEX-"LVS" scripts
+## Choosing the process variant {#sec-pdk-variants}
 
-`KLayout` has built-in support for Layout-Versus-Schematic (LVS) scripts, based on its Ruby API.
-Customized "LVS" scripts are ("ab")used in `KPEX`, not with the intent of comparing Layout-Versus-Schematic, but rather to extract the connectivity/net information for all polygons across multiple layers.
-The resulting net information is stored in a `KLayout LVS Database` ("LVSDB") within the run directory.
+`--pdk` selects a complete combination of extraction deck, layer stack, parasitic tables and device mappings. Choose the variant used by the layout and its simulation models. Changing only a top-metal name cannot turn one stack into another.
 
-![`KPEX` Net Formation](figures/kpex-net-formation.svg)
+| `--pdk` value | Stack selected by `KPEX` | Extraction deck |
+|:---|:---|:---|
+| `sky130A` | `li1`, five routing metals and the configured MIM plates | [`sky130.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs) |
+| `gf180mcuD` | Five routing metals, thick `Metal5` and MIM option B | [`gf180mcu.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/gf180mcuD/libs.tech/kpex/gf180mcu.lvs) |
+| `ihp-sg13g2` | Five thin metals, `TopMetal1`, `TopMetal2` and MIM plates | [`sg13g2.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/ihp-sg13g2/libs.tech/kpex/sg13g2.lvs) |
+| `ihp-sg13cmos5l` | Four thin metals and `TopMetal1` | [`sg13cmos5l.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/ihp-sg13cmos5l/libs.tech/kpex/sg13cmos5l.lvs) |
 
-These customized "LVS" scripts are stored in:
+: Built-in process variants {#tbl-pdk-variants tbl-colwidths="[26,51,23]"}
 
-- Skywater sky130A: [`pdk/sky130A/libs.tech/kpex/sky130.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/sky130A/libs.tech/kpex/sky130.lvs)
-- IHP SG13G2: [`pdk/ihp_sg13gs/libs.tech/kpex/sg13g2.lvs`]({{< var urls.repo.kpex >}}/blob/main/pdk/ihp_sg13g2/libs.tech/kpex/sg13g2.lvs)
+The older spelling `ihp_sg13g2` remains an alias for `ihp-sg13g2`. Use the hyphenated spelling in new commands and scripts. The other three spellings in @tbl-pdk-variants are the accepted identifiers, including their capitalization.
 
-What's specific about this customization:
+This is a list of extraction configurations, not a claim that every device of each PDK has a simulation mapping. An extracted device without a supported mapping produces an error instead of a guessed model call.
 
-- Layers names must be assigned, using [KLayout's `(name(layer, name))` function](https://www.klayout.de/doc-qt5/about/drc_ref_netter.html#name)
-- MOM[^abbrev-mom] capacitors, MIM[^abbrev-mim] capacitors and resistors should be extracted to separate layers, to enable blackboxing / whiteboxing.
+## Forming nets and identifying layers {#sec-pdk-net-formation}
 
-The layer names in the script must correspond with the names configured in the tech JSON file.
+The PEX extraction decks use `KLayout`'s LVS facilities to recognize devices and establish connectivity. This step produces the flat netlist and the named, net-associated polygons in the `LVSDB`. Comparing that result with a schematic is a separate operation.
 
-## Technology Definition Files {#sec-tech-def}
+![`KPEX` net formation](figures/kpex-net-formation.svg)
 
-The `KPEX` technology definition format uses [Google Protocol Buffers](https://protobuf.dev), so there is:
+The deck and technology definition must agree on the meaning of each computed layer. A name alone is insufficient: a piece of drawn metal may have a different role inside a capacitor than outside it.
 
-- formal schema files, defining the structure and data types involved
-   - [`protos/tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/tech.proto): main schema / entry point, includes the others
-   - [`protos/process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_stack.proto): describes details of the process stack, such as dielectrics and heights of layers
-   - [`protos/process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_parasitics.proto): parasitic tables, used to parametrize the 2.5D engine
-- multiple concrete instantiations, that adhere to this schema (called *messages* in the `protobuf` lingo)
-   - in the form of JSON files
-   - Skywater 130A: `klayout_pex_protobuf/sky130A_tech.pb.json`
-   - IHP SG13G2: `klayout_pex_protobuf/ihp_sg13g2_tech.pb.json`
+{{< include /figures/pdk-layer-identities.qmd >}}
 
+There are three identities to keep distinct:
 
-### JSON tech files for supported PDKs
+- The **computed layer** identifies polygons produced by the extraction deck, including their net and device role
+- The **original layer** selects the physical layer's parasitic coefficients
+- The **process layer** selects its position and material environment in the three-dimensional stack
 
-:::: {.content-visible when-format="html"}
+For example, the `ihp-sg13g2` deck splits drawn `Metal5` into ordinary routing, MIM[^abbrev-mim] bottom-plate and device-related regions. All use coefficients keyed by `Metal5`, but their process layers distinguish metal under the MIM dielectric from ordinary metal.
 
-::: {.panel-tabset}
+| Computed layer | Original layer | Process layer | Meaning |
+|:---|:---|:---|:---|
+| `metal5_n_cap` | `Metal5` | `metal5_n_cap` | Ordinary metal |
+| `metal5_cap` | `Metal5` | `metal5_cap` | MIM bottom plate |
+| `metal5_rfcap` | `Metal5` | `metal5_cap` | RF MIM bottom plate |
+| `metal5_rfcap_feed` | `Metal5` | `metal5_n_cap` | RF MIM feed metal |
+| `metal5_mom` | `Metal5` | `metal5_n_cap` | MOM finger metal |
 
-### `sky130A_tech.pb.json`
+: Layer identities in the `ihp-sg13g2` technology {#tbl-pdk-layer-identities tbl-colwidths="[28,19,27,26]"}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
-<script> // Reusable function to fetch and render JSON  
-  function renderJson(jsonData, elementId) {
-      $(`#${elementId}`).jsonViewer(jsonData, { rootCollapsable: false, collapsed: true });
-  }
-</script>
+The computed-layer kind also specifies whether a region is ordinary conductor, a modeled capacitor plate, a resistor region, or device-internal geometry. This is why removing a capacitor from the parasitic sum does not necessarily remove its plates from shielding or from coupling to other nets. See @sec-engine-kpex-2_5D and the section on excluding parts of the layout for the extraction choices.
 
-<div>
-  <pre id="json-sky130A-tech"></pre>
-</div>
+When adding a deck, assign stable names with [`name(layer, name)`](https://www.klayout.de/doc-qt5/about/drc_ref_netter.html#name). Keep the named device regions and the technology's layer identities consistent. A pin label, a device plate and a physical routing layer are different contracts even when they originate from the same drawn GDS layer.
 
-<script>
-  renderJson(JSON.parse(`
-{{file:data/sky130A_tech.pb.json}}
-   `), "json-sky130A-tech");
-</script>
+## Keeping technology data together {#sec-tech-def}
 
+The technology definition uses a [Protocol Buffers schema](https://protobuf.dev/) and is distributed as JSON. Its parts answer different questions:
 
-### `ihp_sg13g2_tech.pb.json`
+| Technology data | Question answered | Used for |
+|:---|:---|:---|
+| Drawn and computed layers | Which shapes, labels and device regions have this meaning? | Connectivity, port discovery and exclusions |
+| Process stack | Where is each conductor, and which dielectric surrounds it? | 3D geometry |
+| Parasitic tables | What sheet resistance and fitted capacitance coefficients apply? | `KPEX/2.5D` |
+| Device mappings | How is an extracted device written for the circuit model? | Netlist export and schematic comparison |
+| Substrate definition | Which net or label represents the substrate? | Substrate terminal handling |
+| Model capacitance references | What nominal device coupling can be compared independently? | Device-capacitance checks |
 
-<div>
-  <pre id="json-ihp_sg13g2-tech"></pre>
-</div>
+: Responsibilities of the technology definition {#tbl-pdk-tech-contracts tbl-colwidths="[25,43,32]"}
 
-<script>
-  renderJson(JSON.parse(`
-{{file:data/ihp_sg13g2_tech.pb.json}}
-   `), "json-ihp_sg13g2-tech");
-</script>
+The main schema is [`tech.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/tech.proto). It incorporates [`process_stack.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_stack.proto), [`process_parasitics.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/process_parasitics.proto), [`device_models.proto`]({{< var urls.repo.kpex >}}/blob/main/protos/kpex/tech/device_models.proto) and the substrate definition. These schemas define the data contract; the generated JSON contains the values for a particular variant.
 
-:::
-:::
+Changing a dielectric height does **not** automatically refit the `KPEX/2.5D` coefficients. The stack and tables are separate inputs. This matters when comparing a three-dimensional solve with the table-based engine: both must describe the same intended physical process.
 
-::: {.callout-note}
-The built-in JSON tech files are programmatically generated during the build process[^tech-gen-script].
-Therefore they not part of the repository source code, but of course part of the deployed Python wheels.
-To review those, look into your Python `site-packages`[^kpex-site-packages]/`klayout_pex_protobuf`.
-:::
-
-### Process Stackup Definition
+## Describing the process stack {#sec-process-stack}
 
 For 3D solvers, like the `KPEX/FasterCap` engine, 3D information about the dimensions (e.g. z-offset and thickness) of metal layers is required, as well as the dielectrics in-between.
 
-The Skywater `sky130A` process includes more intricate types of dielectrics (e.g., compared to IHP `sg13g2`), therefore I'll use this PDK as an example here.
+The `sky130A` stack illustrates why a list of metal heights alone is not enough: several different dielectric profiles surround the same conductor.
 
 
-![Skywater `sky130A` Process Stackup (Source: [@skywater-sky130-pdk])](figures/skywater-sky130-metal_stack.svg){#fig-skywater-sky130-metal-stack}
+![`sky130A` process stack (Source: [@skywater-sky130-pdk])](figures/skywater-sky130-metal_stack.svg){#fig-skywater-sky130-metal-stack}
 
-We can derive the following data from @fig-skywater-sky130-metal-stack:
+The stack distinguishes conductors from the material around them:
 
-- Metal layers $= \{\text{poly}, \text{li}, \text{metal1}, \text{metal2}, \text{metal3}, \text{metal4}, \text{metal5}, \text{capm}, \text{cap2m} \}$
-   - thickness
-   - z-offset (relative to substrate)
-- Contact layers $= \{\text{licon}\}$
-- Via layers $= \{\text{mcon}, \text{via1}, \text{via2}, \text{via3}, \text{via4}\}$
-- Dielectrics
-   - dielectric constant $k$, the relative permittivity of the dielectric material
-   - Different types:
-      - Sidewall dielectrics $= \{\text{IOX}, \text{SPNIT}, \text{NILD3\_C}, \text{NILD4\_C}\}$
-         - width of the sidewall around metals
-         - height above metal
-      - Conformal dielectrics $= \{\text{LINT}, \text{TOPNIT}, \text{capild}\}$
-         - thickness above metal
-         - thickness where no metal
-         - thickness of the sidewall
-      - Simple dielectrics $= \{\text{PSG}, \text{NILD2}, \text{NILD3}, \text{NILD4}, \text{NILD5}, \text{NILD6}\}$
-         - embracing everything between 2 layers, including the sidewall and conformal dielectrics
+- Metals such as `poly`, `metal1` and `metal5` have a thickness and a bottom height relative to the substrate
+- Contacts and vias, such as `licon` and `via1`, connect conductors on adjacent levels
+- Sidewall dielectrics, such as `IOX` and `SPNIT`, specify lateral width and height above metal
+- Conformal dielectrics, such as `LINT` and `TOPNIT`, specify thickness above metal, beside it and in the field
+- Simple dielectrics, such as `PSG` and `NILD2`, fill the remaining region between levels
 
-An except of the `process_stack.proto` schema is shown in the code listing below, note:
+The relative permittivity $k$ belongs to each dielectric. A stack may therefore contain several dielectric boundaries around one piece of metal. The schematic labels above and the technology's physical-layer names need not be identical; their correspondence is explicit in the technology definition.
 
-- Line 3: `ProcessStackInfo.LayerType` is an enumeration type for the possible types of layers in the process stack
-- Line 58: `ProcessStackInfo.layers` is a list of `LayerInfo`
-   - the order of this list defines the orders of layers
-- Line 41: `MetalLayer` describes a metal layer
-- Line 44: `MetalLayer.contact_above` points to the via connecting to the metal layer above (omitted for the top metal layer)
-- Line 31, 38: `ConformalDielectricLayer.reference` and `SidewallDielectricLayer.reference`
-   - these refer to a dielectric or metal layer that they wrap around
-   - `ConformalDielectricLayer` and `ConformalDielectricLayer` can be wrapped, e.g. `SPNIT` wraps `IOX`, which wraps `poly`
+The schema excerpt below shows how these relationships are expressed:
 
----
-code-line-numbers: true
----
-```{.protobuf #lst-tech-def-process-stack caption="Excerpt from process_stack.proto"}
+- `ProcessStackInfo.layers` orders the layers of the stack
+- `MetalLayer.z` locates the metal bottom relative to the substrate
+- `MetalLayer.contact_above` describes the contact to the next conductor
+- A dielectric `reference` identifies the layer or profile it wraps
+- Wrapping can be nested: `SPNIT` wraps `IOX`, which wraps `poly`
+
+```{.protobuf #lst-tech-def-process-stack caption="Excerpt from process_stack.proto" code-line-numbers="true"}
 message ProcessStackInfo {
 
     enum LayerType { …
@@ -210,3 +179,175 @@ message ProcessStackInfo {
 }
 ```
 
+
+### Planar passivation over `gf180mcuD` {#sec-pdk-gf180-passivation}
+
+The top surface is an instructive example of why the reference of a dielectric matters. For the selected `1P5M/11KA/MIM-B` stack, the maintained [cross-section drawing](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/images/2_cross_section_43.png) gives the oxide surface relative to the **bottom** of `Metal5`.
+
+{{< include /figures/pdk-gf180-passivation.qmd >}}
+
+`Metal5` is $1.1925\,\mu\mathrm{m}$ thick. The planar oxide surface is $2.3925\,\mu\mathrm{m}$ above its bottom, leaving $1.2\,\mu\mathrm{m}$ of oxide over the metal. A $0.3\,\mu\mathrm{m}$ nitride layer sits above that surface. Its relative permittivity is $7$, while the oxide uses $4$, as recorded in the maintained [dielectric table](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/4_General_Dielectric.csv).
+
+The technology expresses these planar surfaces using two wrapped dielectric profiles:
+
+- `pass` wraps `Metal5`, with $1.2\,\mu\mathrm{m}$ above metal and $2.3925\,\mu\mathrm{m}$ in the field
+- `sin` wraps `pass`, with $0.3\,\mu\mathrm{m}$ above the oxide and $2.6925\,\mu\mathrm{m}$ in the field
+- Both use zero sidewall growth, preserving flat interfaces over the gap
+
+The field height of `sin` includes the oxide height because it is measured from the wrapped profile's bottom. Treating it as only $0.3\,\mu\mathrm{m}$ would place nitride near the bottom of the gap instead of above the oxide.
+
+The general dielectric table lists $2.3\,\mu\mathrm{m}$ for the `11KA` oxide. `KPEX` uses the detailed cross-section's $2.3925\,\mu\mathrm{m}$ consistently with the metal thickness from the same drawing. This is an explicit source choice, not a fitted capacitance correction. The maintained [community PDK repository](https://github.com/fossi-foundation/gf180mcu-pdk) is the source of these dimensions.
+
+## Interpreting parasitic coefficients {#sec-parasitic-coefficients}
+
+The capacitance tables are a compact model of geometry. Each family has different dimensions because it multiplies a different geometric quantity. Mixing their units can yield plausible-looking values with the wrong scale.
+
+| Table family | Stored quantity | Unit | Geometric factor |
+|:---|:---|:---|:---|
+| Substrate area | Area density | $\mathrm{aF}/\mu\mathrm{m}^{2}$ | Exposed area |
+| Substrate perimeter | Edge density | $\mathrm{aF}/\mu\mathrm{m}$ | Edge length and fringe fraction |
+| Interlayer overlap | Area density | $\mathrm{aF}/\mu\mathrm{m}^{2}$ | Unshielded overlap area |
+| Same-layer sidewall | Numerator $b$, offset $o$ | $\mathrm{aF}$, $\mu\mathrm{m}$ | Length divided by effective gap |
+| Directed side overlap | Edge density | $\mathrm{aF}/\mu\mathrm{m}$ | Edge length and fringe fraction |
+
+: Capacitance coefficient units {#tbl-pdk-capacitance-units tbl-colwidths="[25,24,22,29]"}
+
+For an overlap area $A$ and area coefficient $c_A$, the model contribution is $C=c_A A$. The coefficient is per **square** micrometre. A perimeter or fringe coefficient instead multiplies a length, and the fringe calculation supplies the fraction left after distance limits and shielding.
+
+The sidewall coefficient has a different form. For two facing parallel edges of length $L$, gap $s$ and fitted offset $o$, the table convention is
+
+$$
+C_{\mathrm{pair}}=b\,\frac{L}{s_{\mathrm{eff}}},
+\qquad s_{\mathrm{eff}}=\max(s+o,s/2).
+$$
+
+The ratio of lengths is dimensionless, so $b$ is in attofarads. It is **not** an area density or a capacitance per micrometre. A negative fitted offset is allowed; the lower bound on effective separation prevents a zero or negative denominator for positive gaps. For a varying gap, integrate this density along the edge instead of substituting an average gap.
+
+This equation defines the full-pair coefficient convention. In `KPEX 0.9.0`, each of the two directed visits contributes half, so their sum follows this law. Earlier versions applied an extra halving. The coefficient must not be doubled to compensate for that older behavior: contribution counting and physical table values are separate parts of the model.
+
+The stored capacitance units are attofarads; extraction reports commonly use femtofarads, with $1000\,\mathrm{aF}=1\,\mathrm{fF}$. Resistance tables use milliohms per square for sheets and milliohms per contact or via cut.
+
+### Direction and physical consistency {#sec-pdk-coefficient-consistency}
+
+A side-overlap row from an edge on `Metal1` toward a conductor on `Metal2` describes a different geometric contribution from a row in the reverse direction. These coefficients can differ without violating reciprocal capacitance: the final coupling of a node pair includes the applicable contributions, not a choice of just one directional row.
+
+Physical comparisons need the whole environment:
+
+- Equal conductor spacing and equal dielectric material give the same parallel-plate density
+- Equal gaps alone do not imply equal sidewall fits when height above substrate or nearby conductors differs
+- Variants with identical complete conductor and dielectric surroundings should not acquire different values solely from renaming layers
+- A changed fit can alter both $b$ and $o$, so compare its predicted capacitance over the relevant gaps
+
+Shared lower-layer dimensions do not make two complete stacks identical. Different upper metals or passivation can change the fitted capacitance of those lower conductors.
+
+The tables are based in part on the extraction sections of `MAGIC` technology files. Importing those values does not import `MAGIC`'s layer classification, device recognition, shielding or grid rounding. Agreement of one test pattern therefore does not establish agreement for every layout.
+
+## Mapping extracted devices to circuit models {#sec-device-model-mappings}
+
+An LVS device class is not necessarily the model name or primitive type expected by a simulator. The mapping declares:
+
+- The instance prefix, such as `M` or `X`
+- The target model or subcircuit name
+- The order of its terminals
+- Which parameters are exported, their names and their conversion factors
+- Fixed parameters, such as an RF-mode selector
+
+For example, the `ihp-sg13*` LVS class `rfnmos` maps to an `X` call of `sg13_lv_nmos` with `rfmode=1`. Its terminal order is `D`, `G`, `S`, `B`. The mapping supplies this information explicitly instead of assuming that every four-terminal device is a native MOS model.
+
+Lengths and areas also need an explicit contract. An `ihp-sg13*` LVS length stored in micrometres is exported to the model in metres using `lvs_parameter_factor=1e-6`. An area needs the square of that length factor. A mapping may give `schematic_parameter_factors` for different SPICE prefixes: a native `M` device read with geometry scaling and an `X` wrapper parameter do not have identical unit semantics. These factors describe the PDK model interface; they are separate from the netlist's `.option scale` setting.
+
+For symmetric area/perimeter models, the mapping can recover equivalent rectangle sides from area $A$ and perimeter $P$. The sides solve $wl=A$ and $2(w+l)=P$. This preserves those two geometric quantities without claiming to recover the original orientation. It is unsuitable for a transistor or varactor whose model depends differently on width and length.
+
+### Independent capacitance references {#sec-device-capacitance-references}
+
+A `KIND_METAL_CAPACITOR` mapping can also contain `capacitance_references`. These describe the nominal mutual capacitance of a particular unordered terminal pair. They are used by the [device-capacitance check](#sec-device-capacitance-check), not to tune the extraction result.
+
+Each reference states:
+
+- Two terminal names whose local plates can be compared
+- A capacitance expression in farads, using mapped model parameters
+- Optional derived parameters and a validity condition
+- A source and its nominal assumptions
+
+The instance multiplier belongs in the reference exactly once. A validity condition restricts the expression to the supported geometry; it is not permission to extrapolate outside the model's domain. The check evaluates the recorded expression without running a simulator or searching arbitrary SPICE libraries.
+
+The bundled references currently cover `cap_cmomf` and `cap_cmomi` in `ihp-sg13*`. The `cap_cmomf` reference uses nominal area density and the selected metal count. The `cap_cmomi` reference additionally reflects its discrete finger array and feed option. Their provenance is pinned to the [device model sources](https://github.com/IHP-GmbH/IHP-Open-PDK/tree/5e6d592e4002946a4616f798c357f0f3c06cf3b6).
+
+These references do not include process-corner or mismatch variation. Some densities are estimates or derived from a sibling stack, as stated in each reference's `description`. A ratio between extracted and nominal capacitance helps find a discrepancy; it does not by itself identify which model is physically correct. Unlisted device pairs have no such reference check.
+
+## Updating technology data {#sec-pdk-updates}
+
+The built-in definitions are produced by Python generators[^tech-gen-script]. The generated JSON and Python schema modules are packaged in the distribution, but are not committed source files in the code repository. Editing an installed JSON file is temporary: a rebuild or package upgrade replaces it.
+
+For a source change:
+
+1. Change the relevant PDK generator, with the source revision and the reason for the choice
+2. Run `./gen_tech_pb.sh` from the `klayout-pex` checkout to regenerate the schema modules and all built-in JSON definitions
+3. Compare the resulting tables by physical layer and coefficient family
+4. Check the affected geometries and sibling variants before interpreting changed extraction values
+
+The generators contain deliberate projections, not only verbatim copies of upstream tables. Diffusion rows may be shared between extracted implant or tap regions. MIM plates retain their model-derived plate coupling while surrounding parasitics come from other rows. Resistance overrides have their own sources. A table refresh must preserve these distinctions and show changed values for review.
+
+The nominal `sky130A` and `gf180mcuD` tables in `KPEX 0.9.0` follow the maintained [`open-pdks` extraction sources](https://github.com/fossi-foundation/open-pdks/tree/5740c4a81c42f9fe4af5ef2ee258a99151053d28). The `ihp-sg13g2` and `ihp-sg13cmos5l` tables use the corrected [extraction fits at `14b1ab8`](https://github.com/IHP-GmbH/IHP-Open-PDK/tree/14b1ab845696960a0a1881ec8614acba0f7b8eb7). These refreshes preserve the diffusion and MIM derivations and resistance overrides. They do not change the independent device-model references. Automatic calibration and selectable capacitance corners are not available in `0.9.0`.
+
+## Inspecting the generated definitions {#sec-pdk-json-previews}
+
+The previews below contain the generated technology definitions from [`klayout-pex 0.9.0`]({{< var urls.repo.kpex >}}/tree/v0.9.0), including the device mappings, `gf180mcuD` passivation and refreshed nominal capacitance tables. They show the data packaged with that release; your local installation may contain a different version.
+
+To inspect the data actually installed, locate `klayout_pex_protobuf` beside the `klayout_pex` package in `site-packages`[^kpex-site-packages]. Its filenames use the PDK identifiers from @tbl-pdk-variants, followed by `_tech.pb.json`.
+
+:::: {.content-visible when-format="html"}
+
+::: {.panel-tabset}
+
+### `sky130A`
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
+<script>
+  function renderJson(jsonData, elementId) {
+      $(`#${elementId}`).jsonViewer(jsonData, { rootCollapsable: false, collapsed: true });
+  }
+</script>
+
+<div><pre id="json-sky130A-tech"></pre></div>
+
+<script>
+  renderJson(JSON.parse(`
+{{file:data/sky130A_tech.pb.json}}
+  `), "json-sky130A-tech");
+</script>
+
+### `gf180mcuD`
+
+<div><pre id="json-gf180mcuD-tech"></pre></div>
+
+<script>
+  renderJson(JSON.parse(`
+{{file:data/gf180mcuD_tech.pb.json}}
+  `), "json-gf180mcuD-tech");
+</script>
+
+### `ihp-sg13g2`
+
+<div><pre id="json-ihp-sg13g2-tech"></pre></div>
+
+<script>
+  renderJson(JSON.parse(`
+{{file:data/ihp-sg13g2_tech.pb.json}}
+  `), "json-ihp-sg13g2-tech");
+</script>
+
+### `ihp-sg13cmos5l`
+
+<div><pre id="json-ihp-sg13cmos5l-tech"></pre></div>
+
+<script>
+  renderJson(JSON.parse(`
+{{file:data/ihp-sg13cmos5l_tech.pb.json}}
+  `), "json-ihp-sg13cmos5l-tech");
+</script>
+
+:::
+::::
