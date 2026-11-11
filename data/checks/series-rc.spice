@@ -1,0 +1,5 @@
+* Series RC example for the terminal-admittance check
+.SUBCKT series_rc A B
+R1 A n 100
+C1 n B 1p
+.ENDS series_rc

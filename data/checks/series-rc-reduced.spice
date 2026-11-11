@@ -1,0 +1,5 @@
+* Series RC example for the terminal-admittance check
+.SUBCKT series_rc A B
+* netlist reduce (TICER tau=1000ps max degree 5, floating max degree 64): 1 R, 1 C, 3 nodes -> 0 R, 1 C, 2 nodes
+Cred_1 A B 1p
+.ENDS series_rc

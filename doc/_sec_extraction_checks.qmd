@@ -1,0 +1,368 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+# Checking Extracted Netlists {#sec-extraction-checks}
+
+A plausible simulation result does not establish that an extracted netlist is complete. A device terminal can be disconnected from the resistance of its wire, a port can be missing, or a reduction can remove the loss that matters at the operating frequency. These failures need different comparisons.
+
+`KPEX/2.5D` checks the following stages:
+
+| Check | Compared quantities | Enabled by |
+| :--- | :--- | :--- |
+| Netlist structure | Connectivity, devices, ports and capacitance totals before reduction | Automatic, with failure policy controlled by `--check` |
+| Schematic consistency | Device classes, aggregate device dimensions and top-level pins | `--schematic` |
+| Reduction response | Terminal admittance of the written original and reduced R/C networks | `--check-frequency` or `--check-frequency-range` |
+| Device capacitance | Marker-internal plate coupling and independent nominal device reference | `--check-device-caps` |
+
+: Checks answer different questions. {#tbl-extraction-checks tbl-colwidths="[23,47,30]"}
+
+The structural checks guard the translation from layout connectivity into a netlist. The admittance check guards a subsequent approximation. The device comparison examines the physical capacitance estimate itself. Passing one does not imply that the other two pass.
+
+## Preserving Layout Connectivity {#sec-structural-checks}
+
+Resistance extraction splits one layout net into many nodes. These node names need not resemble the original net name, and device names may come from the schematic (@sec-netlist-schematic-names). The structural comparison therefore follows the layout's net identities and device identities, rather than trying to infer connectivity from spelling.
+
+For each original net, `KPEX` follows the connected component formed by its parasitic resistors. Capacitors do not join these components: they couple nets electrically, but do not make a DC connection.
+
+The comparison looks for:
+
+- Original nets missing from the expanded netlist
+- Resistors that incorrectly join two original nets
+- Resistor components that reach no original net or model interface port
+- Device terminals attached to the wrong net's resistor network
+- Device terminals attached to a different node than their extracted terminal port
+- Missing device instances, or retained whiteboxed devices that would count their capacitance twice
+- Missing ports and ports that touch nothing, with the exceptions required by exclusion interfaces
+- Node names that collide when SPICE treats names without regard to case
+
+For capacitance, the comparison first maps the distributed nodes back to their original nets. It then sums the parasitic capacitors for every pair of nets, and compares these sums with the extraction summary. The relative tolerance is $10^{-9}$; this comparison allows rounding, not a physical modeling error. A capacitance to the substrate is omitted from this comparison if the chosen substrate connection shorts its two endpoints together.
+
+### Choosing Whether a Structural Problem Stops the Run {#sec-structural-check-policy}
+
+In `--mode RC`, structural problems fail the run by default. In the other modes they are warnings by default. `--check y` makes them failures explicitly, and `--check n` accepts the netlist while keeping the warnings visible.
+
+The checks run on the full extracted network before reduction. A reduction therefore cannot hide a structural defect by removing the affected nodes. For a structural failure found after extraction, the netlist remains available for inspection.
+
+A separate warning identifies nets with parasitic elements but no device terminal or port that can drive them. Floating fill can legitimately produce this warning. A supply rail under a wrong label can produce it too, so it deserves review. This warning alone does not fail `--check`.
+
+## Comparing with the Schematic {#sec-schematic-checks}
+
+With `--schematic`, `KPEX` also compares the extracted devices with the schematic, using the technology's device mappings (@sec-device-model-mappings). These checks supplement LVS; they do not perform a complete schematic-versus-layout topology comparison.
+
+### Comparing Device Quantities {#sec-schematic-device-totals}
+
+Counting instances is insufficient. One schematic MOS instance can become several parallel fingers in the layout. Conversely, a layout extractor can combine devices. The comparison uses totals that survive these representations:
+
+- Device-class presence
+- Total $W L$ when both dimensions are mapped, or total area when an area is mapped instead
+- Total $W$ for mapped MOS devices
+- Total mapped multiplicity, such as emitter count
+
+Multipliers and the number of hierarchical instances are included. Schematic dimensions are converted back to the LVS units before summation, including the SPICE geometry scaling discussed in @sec-netlist-geometry-scale. The relative tolerance for device totals is $10^{-6}$.
+
+A missing parameter is not silently replaced by an invented value. If the schematic leaves a relevant quantity to a model default, the corresponding total is left out and reported. A class without mapped totals is checked for presence only. Equal totals can still conceal an incorrectly wired device, which is why they do not replace LVS.
+
+### Comparing Pins and Ports {#sec-schematic-pin-check}
+
+The top schematic subcircuit is selected by the layout cell name, without regard to case. If that name is absent, the schematic must have exactly one subcircuit that no other element calls.
+
+The comparison reports schematic pins without extracted ports, and extracted ports without schematic pins. It accounts for interfaces that extraction adds or treats specially:
+
+- The selected substrate net may be global in the schematic
+- Exclusion-marker and cut-cell model ports are extra interfaces
+- A schematic pin that reaches only mapped bulk terminals can be absent from the extracted ports
+- A bulk-only pin is compared normally if an extracted port has its name
+
+Port order is a separate interface contract, described in @sec-netlist-port-order.
+
+## Checking the Response after Reduction {#sec-admittance-check}
+
+A smaller netlist should present nearly the same electrical response to its surroundings. Rather than comparing resistor counts or individual component values, the admittance check asks:
+
+> For the same terminal voltages at this frequency, how much do the resulting terminal currents change?
+
+The check is optional because exact elimination can be more expensive than the reduction itself. It works with `netlist reduce`, and with `kpex extract --2.5D --reduce floating` or `--reduce ticer` in `R` or `RC` mode.
+
+### From Branches to Terminal Admittance {#sec-admittance-math}
+
+At frequency $f$, a branch with conductance $g$ and capacitance $c$ has complex admittance
+
+$$
+y(f)=g+j\omega c, \qquad \omega=2\pi f.
+$$
+
+A branch between nodes $a$ and $b$ adds $+y$ to both diagonal entries of the nodal admittance matrix, and $-y$ to the two off-diagonal entries. This gives
+
+$$
+\mathbf i = \mathbf Y(f)\,\mathbf v,
+\qquad \mathbf Y(f)=\mathbf G+j\omega\mathbf C.
+$$
+
+Partition the nodes into terminals $t$ that the surrounding circuit can observe, and internal nodes $i$ that it cannot drive directly:
+
+$$
+\begin{bmatrix}\mathbf i_t\\\mathbf 0\end{bmatrix}
+=
+\begin{bmatrix}
+\mathbf Y_{tt}&\mathbf Y_{ti}\\
+\mathbf Y_{it}&\mathbf Y_{ii}
+\end{bmatrix}
+\begin{bmatrix}\mathbf v_t\\\mathbf v_i\end{bmatrix}.
+$$
+
+Eliminating the internal voltages gives the terminal response
+
+$$
+\mathbf Y_{\mathrm{term}}
+=\mathbf Y_{tt}-\mathbf Y_{ti}\mathbf Y_{ii}^{-1}\mathbf Y_{it}.
+$$
+
+This is a Schur complement. The implementation performs sparse, complex node elimination rather than forming a dense inverse. For one internal star node, eliminating it adds a branch between each pair of its neighbors:
+
+$$
+y_{ab}^{\mathrm{added}}=
+\frac{y_{an}y_{nb}}{\sum_k y_{nk}}.
+$$
+
+This evaluation uses the full complex admittances at the requested frequency. It is independent of the approximate low-frequency reduction described in @sec-netlist-reduction-feasibility-study.
+
+The terminals include the subcircuit ports, global and ground nodes, nodes touched by non-plain-R/C lines, and nodes selected with `netlist reduce --keep`. In particular, device and subcircuit terminals remain observable. The global reference `0` is also included so that added tie resistors affect the comparison.
+
+Each subcircuit and the top level are evaluated separately. Components with no path to an observed terminal at that frequency do not contribute. At DC, capacitors are open circuits. The check does not add artificial ground conductances to make an isolated component solvable.
+
+### Comparing the Two Matrices {#sec-admittance-error}
+
+The reported error is
+
+$$
+\varepsilon(f)=
+\frac{\left\|\mathbf Y_{\mathrm{reduced}}(f)
+                 -\mathbf Y_{\mathrm{original}}(f)\right\|_F}
+     {\left\|\mathbf Y_{\mathrm{original}}(f)\right\|_F},
+\qquad
+\|\mathbf Y\|_F=\sqrt{\sum_{a,b}|Y_{ab}|^2}.
+$$
+
+Both real and imaginary parts contribute. The check reads the written netlists, so its result includes rounded component values and any real tie resistors introduced by reduction.
+
+The default limit is `--check-max-relative-error 0.01`, or 1%. Equality with the limit passes. The limit must be strictly between zero and one.
+
+There is no absolute-error floor. A tiny capacitance is still compared relatively. Two zero matrices have zero error, while a nonzero reduced response against a zero original response has infinite error.
+
+### Choosing Frequencies {#sec-admittance-frequency-window}
+
+Use a single frequency when one operating point is the question. Use a range when the circuit must behave across a band:
+
+```bash
+netlist reduce extracted.spice \
+  --check-frequency-range 1Meg 10G \
+  --check-points-per-decade 10 \
+  --check-include-dc
+```
+
+`--check-frequency-range` takes **two arguments**, the start and stop frequencies. SPICE suffixes are accepted. The endpoints are included, and the samples are logarithmically spaced. The default density is ten points per decade. A partial final decade still includes the exact upper endpoint.
+
+The range requires $0<f_{\mathrm{start}}\le f_{\mathrm{stop}}$. Equal endpoints produce one positive-frequency sample. `--check-include-dc` adds a separate sample at zero. For a DC-only check, use `--check-frequency 0` instead.
+
+Every sample in every checked scope must pass. The report names the worst sampled error and its frequency. A passing sweep covers those samples, not every frequency between them. Increase the density near an important transition or inspect a simulator response when that distinction matters.
+
+### Example: Losing the Series Resistance of a Capacitor {#sec-admittance-series-rc}
+
+Download [the original `series-rc.spice`](data/checks/series-rc.spice). The internal node `n` has a time constant $\tau=RC=100\,\mathrm{ps}$. Choosing a threshold of `1n` allows its elimination:
+
+```bash
+netlist reduce series-rc.spice --ticer-tau 1n \
+  --check-frequency-range 1Meg 1G \
+  --check-points-per-decade 2 --check-include-dc \
+  --out-netlist series-rc-reduced.spice
+```
+
+The input contains:
+
+```spice
+.SUBCKT series_rc A B
+R1 A n 100
+C1 n B 1p
+.ENDS series_rc
+```
+
+The [written reduced netlist](data/checks/series-rc-reduced.spice) contains:
+
+```spice
+.SUBCKT series_rc A B
+Cred_1 A B 1p
+.ENDS series_rc
+```
+
+{{< include /figures/check-reduction-example-schematic.qmd >}}
+
+For this circuit the original and reduced branch admittances are
+
+$$
+y_{\mathrm{original}}=\frac{j\omega C}{1+j\omega RC},
+\qquad y_{\mathrm{reduced}}=j\omega C.
+$$
+
+Their two-terminal matrices have the same sign pattern, so the Frobenius error reduces to the scalar relative error:
+
+$$
+\varepsilon(f)=
+\frac{|y_{\mathrm{reduced}}-y_{\mathrm{original}}|}
+     {|y_{\mathrm{original}}|}
+=\omega RC \quad (f>0).
+$$
+
+The run checks eight points, including DC, and exits with code `1`. Its reported worst relative Frobenius error is `0.628319` at `1G` Hz, against the `0.01` limit. At `1Meg` Hz alone it would pass, with relative error `0.000628319`.
+
+{{< include /figures/check-admittance-frequency.qmd >}}
+
+A smaller threshold preserves the internal node in this example:
+
+```bash
+netlist reduce series-rc.spice --ticer-tau 1p \
+  --check-frequency-range 1Meg 1G \
+  --check-points-per-decade 2 --check-include-dc \
+  --out-netlist series-rc-kept.spice
+```
+
+This run exits with code `0` and reports zero error at every sampled frequency. It keeps one resistor, one capacitor and three nodes. In a larger network, reducing the threshold usually trades fewer eliminated nodes for a closer response.
+
+### Limits of the Admittance Check {#sec-admittance-limits}
+
+The matrix comparison covers the plain, numerically valued resistors and capacitors that the reduction reads. It does not simulate nonlinear device models, resolve a transistor's bias point, or establish that the extracted parasitic values match silicon.
+
+A relative norm over the whole matrix is not a separate relative bound on every small matrix entry. Nor does a small admittance error guarantee an acceptable quality factor: a small dissipative part can matter even when the much larger capacitive response dominates the norm. Keep the full network or use a sufficiently small reduction threshold when loss is important, and inspect the relevant circuit response.
+
+Exact elimination can create many new couplings. The check limits each evaluation to 100,000 nodes/coupling entries and 1,000,000 coupling updates. It also limits the complete request to 1,001 frequency points and 10,000,000 graph entries/coupling updates across all scopes and samples. Exceeding a limit, or encountering an unevaluable numerical result, fails the requested check rather than silently accepting an unchecked network.
+
+## Comparing Device Capacitance with a Model {#sec-device-capacitance-check}
+
+A blackboxed capacitor keeps its device model in the netlist. `KPEX` suppresses coupling between its internal plates so that the netlist does not count that capacitance twice. Ordinarily, that suppression also hides a useful diagnostic: how closely would the geometry-based extraction agree with the device's nominal capacitance?
+
+`--check-device-caps` observes those otherwise suppressed contributions. It does not add them to the exported netlist. The prerequisites are `--gds`, `--2.5D`, `--blackbox y`, and `--mode CC` or `--mode RC`.
+
+### Selecting the Geometry {#sec-device-capacitance-observer}
+
+The comparison identifies the selected device's recognition marker in the original layout, using its terminal geometry and the recognition layers declared by the technology. It then observes coupling only when both participating plate shapes:
+
+- Belong to that same marker
+- Belong to the selected pair of terminal nets
+- Lie wholly inside the marker
+
+The plate polygons are tagged, rather than clipped. Clipping at the marker boundary would manufacture new edges and therefore change sidewall and fringe contributions. A plate crossing that boundary is reported as unevaluable instead.
+
+The comparison accumulates overlap, sidewall and fringe contributions separately:
+
+$$
+C_{\mathrm{geometry}}=
+C_{\mathrm{overlap}}+C_{\mathrm{sidewall}}+C_{\mathrm{fringe}},
+\qquad
+r=\frac{C_{\mathrm{geometry}}}{C_{\mathrm{reference}}}.
+$$
+
+This is a device-local measurement. Substrate capacitance, coupling to external routing, and other capacitors connected between the same two net names are not a substitute for it. Output exclusions do not turn it into a subtraction of two whole-net capacitance totals.
+
+Ambiguous geometry is not guessed. Missing or overlapping recognition markers, a marker containing another device's terminals, shorted selected terminals, and missing internal plate geometry are reported as errors or unevaluable comparisons.
+
+### Using the Technology's Nominal Reference {#sec-device-capacitance-automatic}
+
+With no filename after `--check-device-caps`, the reference comes from the technology's device mapping (@sec-device-capacitance-references). The mapping supplies an expression, its valid parameter domain, a source and its nominal assumptions. It is evaluated using the mapped device parameters.
+
+`KPEX` does not search simulator model libraries at runtime or use an arbitrary LVS capacitance placeholder as the reference. Unsupported metal capacitors are listed as unchecked. If the layout has no available references, the requested comparison fails with an explanation.
+
+There are **no default ratio bounds**. An evaluable automatic comparison is `informational`, not a declaration that the extraction is accurate enough for a circuit. This matters especially when the nominal model is itself an engineering estimate.
+
+### Example: MOM Plates below a Separate Route {#sec-device-capacitance-example}
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/v0.9.0/testdata/designs/ihp-sg13g2/test_patterns/cap_cmomf_w10u_l25u_m2_m4_m5_wire.gds.gz>
+
+{{< include /figures/check-device-capacitance-layout.qmd >}}
+
+The `ihp-sg13g2` example has a `cap_cmomf` device with `Metal2`–`Metal4` plates, width $10\,\mu\mathrm m$ and length $25\,\mu\mathrm m$. A separate `Metal5` route on net `X` crosses above it. The model reference is the nominal mutual capacitance of `mim_top` ↔ `mim_btm`, with no corner or mismatch variation.
+
+Set `KPEX_DIR` to the source checkout. This command uses its committed LVS database as well as the GDS, so that the comparison can find the original recognition marker. Here `--scale y` normalizes the fringe response at the halo, independently of SPICE geometry scaling:
+
+```bash
+pattern=cap_cmomf_w10u_l25u_m2_m4_m5_wire
+layouts="$KPEX_DIR/testdata/designs/ihp-sg13g2/test_patterns"
+lvsdbs="$KPEX_DIR/testdata/lvsdb/ihp-sg13g2/test_patterns"
+kpex extract --pdk ihp-sg13g2 --2.5D --mode CC \
+  --blackbox y --halo 8 --scale y \
+  --gds "$layouts/$pattern.gds.gz" \
+  --lvsdb "$lvsdbs/$pattern.lvsdb.gz" \
+  --check-device-caps --out-dir checks-mom \
+  --out-result checks-mom.json
+```
+
+With `klayout-pex 0.9.0`, including the sidewall counting correction and refreshed nominal coefficients, the comparison reports:
+
+```text
+$1 (cap_cmomf), mim_top / mim_btm:
+marker coupling 236.403 fF, model reference 228.75 fF,
+ratio 1.03345 (informational)
+```
+
+The device comparison is kept separately from the parasitic netlist. The netlist retains the compact-model instance and the external couplings, including those to `X` and the substrate. `checks-mom.json` records the comparison in `device_capacitance_checks`, including the three contributions in farads, the ratio, the reference source and its assumptions.
+
+### Supplying References and Acceptance Bounds {#sec-device-capacitance-bounds}
+
+An explicit JSON file replaces the automatic selection. It can select one device and terminal pair, supply an independent reference, and optionally make the comparison a pass/fail check. For the preceding example, [this reference file](data/checks/mom-reference.json) specifies an illustrative ±5% acceptance interval:
+
+```json
+{
+  "format_version": 1,
+  "references": [
+    {
+      "device": "$1",
+      "device_class": "cap_cmomf",
+      "terminals": ["mim_top", "mim_btm"],
+      "capacitance": "228.75f",
+      "min_ratio": 0.95,
+      "max_ratio": 1.05
+    }
+  ]
+}
+```
+
+Repeat the example command with `--check-device-caps mom-reference.json`. These bounds pass for the recorded ratio `1.03345`, producing exit code `0`.
+
+#### Rejected Comparison {#sec-device-capacitance-rejected-example}
+
+To exercise the failure path, change `max_ratio` in the reference file to `1.0` and repeat the same command. The measured ratio now exceeds the upper bound, producing exit code `1`. The extracted netlist and the comparison remain available to inspect.
+
+These bounds illustrate the mechanism. Choose a justified acceptance interval for the model, its assumptions and the intended use. Passing an interval does not establish calibration.
+
+A numeric `capacitance` is in farads, and a string accepts SPICE suffixes. The capacitance must be finite and positive. Ratio bounds are optional, finite and nonnegative, with `min_ratio` no greater than `max_ratio`. Bounds are inclusive. Omitting both leaves the result informational. Duplicate references for the same device and unordered terminal pair are rejected.
+
+`device` and `device_class` identify the device in the extracted LVS circuit, before schematic renaming. Use the names in `device_capacitance_checks` or the LVS database. The exported netlist may use different schematic-derived names (@sec-netlist-schematic-names). Terminal names must match that LVS device class.
+
+## Acting on a Check Result {#sec-check-result-actions}
+
+The different failure policies remain independent:
+
+| Result | Meaning | Next action |
+| :--- | :--- | :--- |
+| Structural problem | The extracted netlist does not preserve a checked connectivity or quantity invariant | Inspect the reported terminal, port or net before simulation |
+| Admittance error above the limit | Reduction changed the sampled terminal response too much | Reduce the time-constant threshold or retain the full network |
+| Device ratio outside supplied bounds | Geometry and the chosen reference disagree beyond the selected interval | Review geometry, coefficients, reference assumptions and bounds |
+| Informational device ratio | A comparison was evaluated without acceptance bounds | Decide whether the reference is appropriate for the intended use |
+| Unevaluable requested comparison | The requested evidence could not be established | Resolve the stated geometry, reference, numerical or resource problem |
+
+: Interpret each check according to what it measures. {#tbl-check-result-actions tbl-colwidths="[25,38,37]"}
+
+`--check n` changes the structural failure policy only. It does not disable a requested device comparison or admittance check. When several checks fail, their problems are retained together in the run result.
+
+The examples above were verified with `klayout-pex 0.9.0` and the `KLayout` Python module `0.30.13`. The device example explicitly fixes the halo and fringe scaling. Its numbers document that run, not a calibration target or a promise that later coefficient revisions preserve them.

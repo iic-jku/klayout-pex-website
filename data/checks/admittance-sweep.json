@@ -1,0 +1,47 @@
+{
+  "source_commit": "8010a414112d636f09badeea9b9cb6f879093408",
+  "resistance_ohm": 100,
+  "capacitance_f": 1e-12,
+  "samples": [
+    {
+      "frequency_hz": 0.0,
+      "relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "frequency_hz": 1000000.0,
+      "relative_error": 0.0006283185307179584,
+      "passed": true
+    },
+    {
+      "frequency_hz": 3162277.6601683795,
+      "relative_error": 0.0019869176531592202,
+      "passed": true
+    },
+    {
+      "frequency_hz": 10000000.0,
+      "relative_error": 0.006283185307179585,
+      "passed": true
+    },
+    {
+      "frequency_hz": 31622776.60168379,
+      "relative_error": 0.019869176531592203,
+      "passed": false
+    },
+    {
+      "frequency_hz": 100000000.0,
+      "relative_error": 0.06283185307179584,
+      "passed": false
+    },
+    {
+      "frequency_hz": 316227766.01683795,
+      "relative_error": 0.19869176531592203,
+      "passed": false
+    },
+    {
+      "frequency_hz": 1000000000.0,
+      "relative_error": 0.6283185307179585,
+      "passed": false
+    }
+  ]
+}

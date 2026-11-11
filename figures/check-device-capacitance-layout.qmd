@@ -1,0 +1,51 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-check-device-capacitance-layout
+#| echo: false
+#| fig-cap: "The MOM plates occupy the recognition marker. The separate `Metal5` route crosses above them; its coupling is external to the device comparison."
+import os
+from pathlib import Path
+import drawsvg as dw
+
+project = Path(os.environ['QUARTO_PROJECT_ROOT'])
+image = project / 'figures/test_patterns/cap_cmomf_w10u_l25u_m2_m4_m5_wire_-_device_check.png'
+w, h = 792, 432
+# The screenshot view box is (-4, -4; 29, 14) micrometers.
+scale = w / 33
+
+def screen_x(x: float) -> float:
+    return (x+4)*scale
+
+def screen_y(y: float) -> float:
+    return (14-y)*scale
+
+d = dw.Drawing(w, h)
+d.append(dw.Image(0, 0, w, h, str(image), embed=True))
+magenta = '#ff66ff'
+d.append(dw.Text('Recog.momf: device recognition marker', 17,
+                 screen_x(12.5), screen_y(12.5), text_anchor='middle', fill=magenta))
+d.append(dw.Text('Metal2–Metal4: capacitor plates', 16,
+                 screen_x(12.5), screen_y(11.0), text_anchor='middle', fill='white'))
+d.append(dw.Text('Metal5 route', 14, screen_x(27), screen_y(7.5),
+                 text_anchor='middle', fill='#ffff80'))
+d.append(dw.Text('net X', 14, screen_x(27), screen_y(6.6),
+                 text_anchor='middle', fill='#ffff80'))
+d.append(dw.Line(screen_x(27), screen_y(6.3), screen_x(26), screen_y(5.4),
+                 stroke='#ffff80', stroke_width=1.4))
+d
+```
