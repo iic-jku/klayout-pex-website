@@ -38,8 +38,23 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      # Remote action archives include test-data symlinks outside this directory.
+      - name: Check out shared APT setup
+        uses: actions/checkout@v7
+        with:
+          repository: iic-jku/klayout-pex
+          ref: 05cdc1920fd0eb9ece338e34333f3ff4d8ef41a6
+          path: .ci-dependencies/klayout-pex
+          sparse-checkout: .github/actions/setup-apt
+          persist-credentials: false
+
       - name: Configure Ubuntu package downloads
-        uses: iic-jku/klayout-pex/.github/actions/setup-apt@05cdc1920fd0eb9ece338e34333f3ff4d8ef41a6
+        uses: ./.ci-dependencies/klayout-pex/.github/actions/setup-apt
 
       - name: Install APT dependencies
         timeout-minutes: 5
@@ -47,11 +62,6 @@ jobs:
           sudo apt update
           sudo apt -y install librsvg2-bin
       
-      - name: Check out repository
-        uses: actions/checkout@v7
-        with:
-          submodules: recursive
-
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
