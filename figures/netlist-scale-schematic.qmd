@@ -1,0 +1,40 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-netlist-scale-schematic
+#| echo: false
+#| fig-cap: "The native device and the external wrapper share d, g, s and b. Each native MOS receives the global scale once; the wrapper arguments retain their interface values."
+import schemdraw as sd
+import schemdraw.elements as elm
+import schemdraw.flow as flow
+sd.svgconfig.svg2 = False
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=2, fontsize=14)
+    m = d.add(elm.NFet(bulk=True).at((0, 0)).reverse())
+    d.add(elm.Line().at(m.drain).up().length(0.8).dot().label('d', loc='top'))
+    d.add(elm.Line().at(m.source).down().length(0.8).dot().label('s', loc='bottom'))
+    d.add(elm.Line().at(m.gate).left().length(0.7).dot().label('g', loc='left'))
+    d.add(elm.Line().at(m.bulk).right().length(0.8).dot().label('b', loc='right'))
+    d.add(elm.Label().at((0, -3.2)).label('Mnative'))
+    block = d.add(flow.Box(w=2.5, h=1.5).at((4.6, -0.75)).anchor('center').label('external'))
+    d.add(elm.Line().at(block.N).up().length(0.8).dot().label('d', loc='top'))
+    d.add(elm.Line().at(block.S).down().length(0.8).dot().label('s', loc='bottom'))
+    d.add(elm.Line().at(block.W).left().length(0.6).dot().label('g', loc='left'))
+    d.add(elm.Line().at(block.E).right().length(0.6).dot().label('b', loc='right'))
+    d.add(elm.Label().at((4.6, -3.2)).label('Xwrapped'))
+```

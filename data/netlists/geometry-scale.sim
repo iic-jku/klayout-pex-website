@@ -1,0 +1,14 @@
+Geometry scale example
+
+include "geometry-scale-models.inc"
+include "geometry-scale.inc"
+xpair (d g 0 0) pair
+model supply vsource
+vd (d 0) supply dc=1 mag=1
+vg (g 0) supply dc=1
+
+control
+  include "geometry-scale.options.inc"
+  analysis op1 op
+  analysis ac1 ac values=[1e6]
+endc

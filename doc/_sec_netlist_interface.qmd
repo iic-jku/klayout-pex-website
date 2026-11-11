@@ -1,0 +1,160 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## Connecting the Extracted Netlist {#sec-netlist-interface}
+
+A parasitic netlist has two jobs: describe the layout's electrical network, and expose an interface that the testbench can call correctly. A correct capacitance attached to the wrong positional pin is still a wrong simulation.
+
+`--schematic` supplies two pieces of that interface to `KPEX/2.5D`: the order of the top-level ports, and names for devices that can be matched unambiguously. It does not replace a full LVS comparison. The checks in @sec-extraction-checks answer narrower questions about missing devices, geometry totals, pins and connectivity.
+
+### Choosing Which Labels Become Ports {#sec-netlist-port-labels}
+
+A label inside a child cell often names an internal net. Making every such label a top-level port can expose implementation details of a block to its testbench. Conversely, a layout without top-level pin labels may rely on the labels of its children.
+
+| Input and policy | Labels used for ports |
+|:---|:---|
+| `--gds`, `--port-labels auto`, top cell has a pin label | Top-level labels |
+| `--gds`, `--port-labels auto`, no top-level pin label | Labels across the hierarchy |
+| `--gds`, `--port-labels top` | Top-level labels, even when there are none |
+| `--lvsdb` alone, `--port-labels auto` | Hierarchical labels retained by the database |
+: Choosing the port-label policy {#tbl-netlist-port-labels tbl-colwidths="[63,37]"}
+
+`auto` is the default. `--port-labels top` needs `--gds`, including when an LVS database supplies the extracted nets. Substrate handling and top-level text-only ports remain in place. Selecting top-level labels does not remove the child geometry or the internal nets from extraction.
+
+### Keeping Positional Calls Correct {#sec-netlist-port-order}
+
+SPICE connects a subcircuit call by position. The first node in the call connects to the first port of its `.subckt` declaration, regardless of the spelling of the two names.
+
+`KPEX/2.5D` defines the exported order as follows:
+
+- With `--schematic`, the matching top subcircuit's ports come first, in schematic order
+- Any remaining ports follow, sorted by name, comparing without case first and exact spelling second
+- Without a usable schematic top, all exported ports use that name order
+- Matching ignores case, while the exported spelling comes from the extracted net
+
+This applies to `CC`, `R` and `RC`, to reduced netlists, to SPICE and `VACASK`, and to the port lists recorded in `kpex_result.json`. It changes the interface order, not which physical net each port connects to. In `CC`, several labels on one equipotential net can remain one exported port; its earliest schematic alias determines its position.
+
+#### Transistor with Schematic Port Order {#sec-netlist-port-example}
+
+Download [ordered.spice](../data/netlists/ordered.spice), whose top declaration is `.subckt nfet_li1 S G D` and whose transistor is named `Xtail`. From the `KPEX` source directory, run:
+
+```bash
+kpex extract --pdk sky130A --2.5D --mode CC --blackbox y \
+  --gds testdata/designs/sky130A/test_patterns/nfet_li1.gds.gz \
+  --schematic ordered.spice --out-netlist ordered-extracted.spice
+```
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/nfet_li1.gds.gz>
+
+The declaration and device lines from that run are:
+
+```spice
+.SUBCKT nfet_li1 S G D sky130_gnd
+Xtail D G S sky130_gnd sky130_fd_pr__nfet_01v8 l=0.15 w=0.65 as=0.169 ad=0.169
++ ps=1.82 pd=1.82
+```
+
+{{< include /figures/netlist-interface-schematic.qmd >}}
+
+The top-level interface starts with `S G D`. The substrate `sky130_gnd`, absent from the schematic's port declaration, follows them. The transistor line has its own model terminal order; it need not have the same order as the top-level interface. For this symmetric MOS device, exchanging source and drain still permits the match.
+
+### Following Schematic Device Names {#sec-netlist-schematic-names}
+
+Device naming needs a schematic `.subckt` whose name matches the layout top cell. Port ordering can additionally use the sole uncalled subcircuit when the top name differs; that fallback does not rename devices.
+
+Matching uses the device mappings of the technology, connectivity and device geometry. A successful match retains the schematic name, as `Xtail` above. Devices inside schematic subcircuits can retain hierarchical paths such as `X1.Xtail`. Parallel layout fingers of one schematic MOS receive suffixes such as `_0`, `_1` and `_2`.
+
+Names alone are not evidence that two devices correspond. Indistinguishable parallel schematic instances, missing model mappings or an ambiguous comparison keep layout-derived names and produce a warning. An assignment that would create duplicate output names is rejected. The model mapping still selects the proper SPICE designator, so a native schematic `M` may be emitted through an `X` wrapper when that is the PDK's model interface.
+
+### Keeping Geometry Units Separate from Electrical Values {#sec-netlist-geometry-scale}
+
+The SPICE directives `.option scale=1u` and `.options scale=1u` set one geometry scale for the whole parsed netlist. They are not per-device or per-model settings. A declaration inside a subcircuit still supplies that same global setting.
+
+For scale $s$, the schematic geometry evaluator applies:
+
+| Instance | Parameters | Effective value |
+|:---|:---|:---|
+| Native `M` | `l`, `w`, `pd`, `ps` | Parameter value multiplied by $s$ |
+| Native `M` | `ad`, `as` | Parameter value multiplied by $s^2$ |
+| Native `R` or `C` | `l`, `w` | Parameter value multiplied by $s$ |
+| `X` call | Wrapper arguments | Unchanged at the wrapper interface |
+| Any instance | Electrical values, multipliers and unrelated parameters | Unchanged |
+: Geometry scaled while evaluating the schematic {#tbl-netlist-geometry-scale tbl-colwidths="[19,31,50]"}
+
+An `X` parameter named `w` is not automatically a length: its meaning belongs to the wrapper. If the wrapper is defined in the input, its native devices receive scaling after parameter evaluation. For an external model wrapper, the technology's device mapping translates its declared units into the layout units used for matching and checks.
+
+This distinction avoids scaling twice. The technology mapping describes the model interface; `.options scale` describes the netlist's global geometry convention. Neither should be inferred from the other. Diode area factors and other model-specific parameters also cannot be treated as physical areas just because of their names.
+
+The schematic reader accepts only `scale` on `.option` or `.options`. Keep simulator analyses, `.model`, `.include`, `.lib` and unrelated options in the testbench or model library, outside this input. It is a circuit description reader, not a complete simulation-deck reader.
+
+The parser accepts a finite positive SPICE number, including suffixes. `1u` and `1000n` express the same scale. SPICE suffixes are case-insensitive: `M` means milli, and `MEG` means mega. Identical repeated declarations are accepted, while conflicting values, zero and negative scales are rejected.
+
+The extraction argument `--scale y` is a different setting: it normalizes the fringe model at the halo boundary (@sec-polygon-capacitance). It does not rescale layout coordinates or SPICE device geometry.
+
+### Including Both Files in a `VACASK` Testbench {#sec-netlist-vacask-scale}
+
+Conversion preserves the global setting in a companion options fragment. Download [geometry-scale.spice](../data/netlists/geometry-scale.spice), which contains a native `Mnative` and an external `Xwrapped` in parallel, both with `w=4 l=2`, under `.option scale=1u`:
+
+```bash
+netlist convert geometry-scale.spice --to vacask \
+  --out-netlist geometry-scale.inc
+```
+
+The circuit include contains:
+
+```text
+subckt pair (d g s b)
+  Mnative (d g s b) nmos w=4 l=2 ad=3 as=5 pd=7 ps=11
+  Xwrapped (d g s b) external w=4 l=2 ad=3 as=5 pd=7 ps=11
+ends
+```
+
+{{< include /figures/netlist-scale-schematic.qmd >}}
+
+The companion `geometry-scale.options.inc` contains:
+
+```text
+options scale=1e-06
+```
+
+Include the circuit at circuit scope, and the options inside the testbench's existing `control` block, before analyses:
+
+```text
+Geometry scale example
+
+include "geometry-scale-models.inc"
+include "geometry-scale.inc"
+xpair (d g 0 0) pair
+model supply vsource
+vd (d 0) supply dc=1 mag=1
+vg (g 0) supply dc=1
+
+control
+  include "geometry-scale.options.inc"
+  analysis op1 op
+  analysis ac1 ac values=[1e6]
+endc
+```
+
+Save the [complete testbench](../data/netlists/geometry-scale.sim) beside the converted files and run `vacask geometry-scale.sim`. Its operating-point and AC analyses both run with the fragment above.
+
+The [example model file](../data/netlists/geometry-scale-models.inc) defines `external` as a wrapper around the same native model. The native device therefore sees a width of 4 µm and length of 2 µm in both paths. The `X` arguments remain unchanged so that the wrapper passes them on in its expected units.
+
+The options affect the **whole simulation**, including other included circuits and external wrappers. Combining circuits that assume different global scales requires normalizing their model interfaces first. Omitting the options file or applying a second scale to the instance values changes the geometry.
+
+`kpex extract --netlist-format vacask --out-netlist extracted.inc` also writes a companion `extracted.options.inc`. Keep both files together, even when the options set `scale=1`. A converter does not translate model libraries: the testbench must supply compatible `VACASK` models. With PDK wrappers, pass `--pdk` to `netlist convert` so that multiplier handling follows their declared interfaces.
+
+The examples were verified with `klayout-pex 0.9.0` and `KLayout 0.30.13`. The port-order and naming guarantees are independent of the capacitance coefficients that may change in subsequent releases.
