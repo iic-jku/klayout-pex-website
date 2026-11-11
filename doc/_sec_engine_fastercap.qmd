@@ -1,5 +1,5 @@
 ::: {.content-hidden}
-Copyright (C) 2024-2025 Martin Köhler and co-authors (martin.koehler@jku.at)
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,14 +46,14 @@ The `FasterCap` input files and their format is documented in [@fastfieldsolvers
 ## Example: MOM Capacitor
 
 ::: {#fig-fastercap-mom-example layout-nrow=2}
-![MOM Capacitor: GDS Layout](figures/mom-capacitor-gds.jpg){width=80%}
+![MOM Capacitor: GDS Layout](figures/mom-capacitor-gds.jpg){width=70%}
 
-![MOM Capacitor: `MeshLab` 3D Preview](figures/mom-capacitor-3D.jpg){width=80%}
+![MOM Capacitor: `MeshLab` 3D Preview](figures/mom-capacitor-3D.jpg){width=70%}
 
 MOM Capacitor
 :::
 
-@fig-fastercap-mom-example depicts the MOM capacitor example of a from @sec-first-steps-run-fastercap-engine).
+@fig-fastercap-mom-example depicts the MOM capacitor from @sec-first-steps-run-fastercap-engine.
 
 The corresponding schematic representation of @fig-fastercap-maxwell-capacitance-matrix-schematic contains 3 conductors ($N_1$, $N_2$ and $N_3$), and coupling capacitances:
 

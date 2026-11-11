@@ -1,5 +1,5 @@
 ::: {.content-hidden}
-Copyright (C) 2024-2025 Martin Köhler and co-authors (martin.koehler@jku.at)
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -672,10 +672,11 @@ In the Bode plots, @fig-bode-plot-ft-vs-mag and @fig-bode-plot-ft-vs-phase, we s
 Bode Plots
 :::
 
-In the original circuit we have an additional pole at $s = 201$, which is expendable (@fig-pole-zero-plot-original).
+In the original circuit we have an additional pole at $s = -201$, which is expendable (@fig-pole-zero-plot-original).
 
 In @fig-pole-zero-plot-original-without-201 we remove this pole, for better comparison with the reduced circuit (@fig-pole-zero-plot-reduced), where that pole is no longer present, but the others still are.
 
+::: {.content-visible when-format="html"}
 ::: {#fig-ticer-pole-zero layout-nrow=3}
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original >}}
 
@@ -684,6 +685,15 @@ In @fig-pole-zero-plot-original-without-201 we remove this pole, for better comp
 {{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-reduced >}}
 
 Pole-Zero Plots
+:::
+:::
+
+::: {.content-visible when-format="pdf"}
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original >}}
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-original-without-201 >}}
+
+{{< embed ./notebooks/ticer_example_bode_plots.ipynb#fig-pole-zero-plot-reduced >}}
 :::
 
 

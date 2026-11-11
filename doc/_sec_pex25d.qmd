@@ -27,7 +27,7 @@ This appendix specifies the PEX25D format and explains its protobuf API and comm
 ::: {.callout-note title="The PEX25D format and the KPEX/2.5D engine"}
 The **PEX25D format** defines an interchange description. `kpex pex25d` generates files in this format; `pex25d` inspects and processes them.
 
-**KPEX/2.5D** is the analytical extraction engine described in @sec-engine-kpex-2_5D, selected with `kpex extract --2.5D`. It uses calibrated technology coefficients and shielding rules. Generating or resolving PEX25D files does not run that engine, and the format does not contain its calibrated capacitance tables.
+**KPEX/2.5D** is the analytical extraction engine described in @sec-engine-kpex-2_5D, selected with `kpex extract --2.5D`. It uses fitted technology coefficients and shielding rules. Generating or resolving PEX25D files does not run that engine, and the format does not contain its fitted capacitance tables.
 :::
 
 ### Why use PEX25D? {#sec-pex25d-benefits}
@@ -269,17 +269,19 @@ A metal terminal makes its selected region equipotential over the layer's thickn
 Everything selected by a terminal is shorted together. A marker covering an entire wire or gate can therefore remove the resistance you intend to extract. Size the region to the pin or device boundary it represents, rather than copying a large enclosing shape.
 :::
 
-Geometry owned by a compact model is excluded from the interconnect description to avoid counting its parasitics twice. The specification places the device/interconnect boundary below the contact: diffusion and the device's internal spreading resistance belong to the device, while the contact and routing above it belong to interconnect extraction. An anchor profile can locate that contact without drawing diffusion geometry.
+Geometry owned by a compact model is excluded from the interconnect description to avoid counting its parasitics twice. For contacted diffusion whose contacts belong to the interconnect, the device boundary lies at the contacts' lower faces. Diffusion and its internal spreading resistance remain in the device model; an empty anchor profile locates the contacts without drawing diffusion solids. When the device model also includes the contacts, the boundary instead lies on the routing metal above them.
 
 The lower face selected by `DEVICE_TERMINAL` is an **open boundary of the extracted region**, for both capacitance and resistance. This prevents a device contact coincident with the ground-plane surface from becoming a short to 0 V or adding device junction capacitance. Only the marked portion is opened. A substrate tap without a device terminal retains ordinary electrical contact with the ground plane. These are specification requirements for consumers; the current FasterCap adapter does not yet implement device-terminal open faces.
 
 ##### KLayout-generated terminals {#sec-pex25d-generated-terminals}
 
-Terminal generation is under development. The current development implementation derives `PIN` records from labels inside layout pin markers. Each pin region extends one layout DBU from the label in every direction, preserving wire resistance even when the pin marker itself covers a long wire.
+The layout producer derives `PIN` records from labels inside layout pin markers. Each pin region extends one layout DBU from the label in every direction, preserving wire resistance even when the pin marker itself covers a long wire.
 
 Device terminals use LVS terminal geometry on existing conductive profiles. Several disjoint pieces can share one node when their bounding box selects exactly those pieces; an abutting boundary selects a strip one DBU wide inside the interconnect. Generation rejects a box that would select additional interconnect or a node that spans multiple profiles. Names use `pin:<label>` and `device:<instance>:<terminal>`, with percent encoding for syntax-sensitive characters and numeric suffixes for uniqueness.
 
-This work also adds exact clipping of Manhattan polygons, including holes and disconnected intersections. Partial clipping of non-Manhattan polygons remains unsupported. Earlier resolver implementations support clipped boxes and whole polygons only. **Diffusion/contact terminal generation is still pending**; the presence of pin and gate terminals must not be taken as a complete device boundary model.
+Source and drain terminals on diffusion are generated at the lower faces of their contact cuts. For example, `sky130A` MOS terminals use `licon_nsd_con` or `licon_psd_con`; `ihp-sg13g2` uses `cont_nsd_con` or `cont_psd_con`. The boundary follows the model contract: `gf180mcuD` diffusion-resistor terminals are on `Metal1`, because those resistor models include the contacts.
+
+The resolver clips Manhattan polygons exactly, including holes and disconnected intersections. Partial clipping of non-Manhattan polygons remains unsupported. The exporter can preserve only the device-terminal pieces supplied by LVS: the remaining multi-polygon terminal limitation in `KLayout` can omit pieces before export, including with `0.30.13`.
 
 #### Computational domain {#sec-pex25d-domain}
 
@@ -313,20 +315,20 @@ This subcommand runs layout connectivity extraction through LVS, combines it wit
 
 | Option | Use |
 |:--|:--|
-| `--output_file PATH` | Write an unresolved file; `.pex25d`, `.pex25d.pb`, or `.pex25d.textpb` selects its encoding |
-| `--output_scene PATH` | Write a resolved scene; use `.pex25d.scene.pb` or `.pex25d.scene.textpb` |
+| `--out-file PATH` | Write an unresolved file; `.pex25d`, `.pex25d.pb`, or `.pex25d.textpb` selects its encoding |
+| `--out-scene PATH` | Write a resolved scene; use `.pex25d.scene.pb` or `.pex25d.scene.textpb` |
 | `--format FORMAT` | Select `auto`, `text`, `pb`, or `textpb`; one setting applies to both requested outputs |
 | `--grid UM` | Grid in µm; default `0.0001`, must represent stack dimensions and divide the layout DBU |
-| `--domain_margin UM` | Emit equal X, Y, and upper-Z margins; default is no domain record |
+| `--domain-margin UM` | Emit equal X, Y, and upper-Z margins; default is no domain record |
 | `--validate BOOL` | Run reference validation; `y` (default) or `n` |
 | `--comments BOOL` | Add syntax hints to text output; `y` or `n` (default) |
-| `--with_source_refs BOOL` | Retain per-record provenance in protobuf output; `y` or `n` (default) |
+| `--with-source-refs BOOL` | Retain per-record provenance in protobuf output; `y` or `n` (default) |
 
-Layout, PDK, top-cell, blackboxing, and material selection options are listed by `kpex pex25d --help`. The artifact's kind is selected by the output option, so requesting `--format text` together with `--output_scene` is invalid. Filenames ending in `.gz` produce compressed output.
+Layout, PDK, top-cell, blackboxing, and material selection options are listed by `kpex pex25d --help`. The artifact's kind is selected by the output option, so requesting `--format text` together with `--out-scene` is invalid. Filenames ending in `.gz` produce compressed output.
 
-`--strict`, `--werror`, `--diagnostics`, and `--diagnostics_out` are also available, with the meanings described in @sec-pex25d-validate.
+`--strict`, `--werror`, `--diagnostics`, and `--out-diagnostics` are also available, with the meanings described in @sec-pex25d-validate.
 
-Generation can leave artifacts on disk even when validation reports errors. Always inspect the exit status and diagnostics before using them as solver input. In the current Sky130 stack, the `nild6`/`capild` anchoring can trigger `PEX25D-E0260`. For an isolated terminal smoke test, `--diel all,-nild6` avoids that conflict, but removes a dielectric from the physical problem and is not a substitute for correcting the stack for capacitance extraction.
+Generation can leave artifacts on disk even when validation reports errors. Always inspect the exit status and diagnostics before using them as solver input. The bundled `sky130A` stack uses separate `capild3` and `capild4` profiles for the two MIM levels, with the corresponding dielectric anchors. The generation example above validates with the complete dielectric stack; no dielectric exclusion is needed. It reports `PEX25D-W0265` because `licon_ptap_con` carries geometry without a specified resistance. A capacitance consumer can ignore that resistance data, while a resistance consumer needs the missing value.
 
 #### Validate and inspect {#sec-pex25d-validate}
 
@@ -347,9 +349,9 @@ For automated checks of a custom PEX25D writer, save a structured report and use
 
 ```bash
 pex25d validate two_nets.pex25d --strict --werror \
-  --diagnostics json --diagnostics_out validation.json
+  --diagnostics json --out-diagnostics validation.json
 pex25d validate two_nets.pex25d --strict \
-  --diagnostics pb --diagnostics_out validation.pb
+  --diagnostics pb --out-diagnostics validation.pb
 ```
 
 JSON and binary protobuf reports carry stable `PEX25D-Ennnn` codes, severity, validation tier, and source positions where available. Use an explicit report path to keep the report separate from console logging. `--werror` makes warnings fail the run; without it, warnings alone do not fail validation.
@@ -360,7 +362,7 @@ JSON and binary protobuf reports carry stable `PEX25D-Ennnn` codes, severity, va
 | `1` | Validation or resolution errors, or warnings with `--werror` |
 | `2` | Invalid command line, I/O failure, missing dependency, or export failure |
 | `3` | An operation reports that it is not implemented |
-| `4` | An importer or exporter plugin failed unexpectedly (traceback with `--log_level debug`) |
+| `4` | An importer or exporter plugin failed unexpectedly (traceback with `--log-level debug`) |
 
 The validator is a reference check, not a guarantee that every adapter implements every specification rule. For example, the current depth-tie check detects competing profiles on the same wrap root; it is not a complete geometric intersection check for films on different roots. Terminal-boundary support must also be checked at the adapter level.
 
@@ -380,9 +382,11 @@ pex25d validate two_nets.pex25d.scene.pb --strict
 pex25d show two_nets.pex25d.scene.pb --section layers --section domain
 ```
 
-`convert` changes encoding within one kind; it does not validate the complete physical problem. `resolve` computes the scene and accepts `--strict`, `--werror`, and the diagnostics options. Validate before passing a resolved scene to an exporter as well: the current export path resolves file input, but does not automatically run the reference validator on an already-resolved scene.
+`convert` changes encoding within one kind; it does not validate the complete physical problem. `resolve` computes the scene and accepts `--strict`, `--werror`, and the diagnostics options.
 
-Use `--with_source_refs` on text conversion or resolution when you want the protobuf artifact to retain locations in an include tree. Diagnostics produced while reading text have source positions even without that flag. `--comments` adds syntax hints when writing PEX25D text; unlike the `kpex` option, it is a flag and takes no `y` argument.
+`export` resolves file input, then runs the normal reference validation on the scene before invoking the exporter. The same check applies to an already-resolved scene. Validation errors prevent export and produce CLI exit code `1`. Warnings do not prevent the exporter from writing files; `--werror` can therefore make the command fail after files were written. For stricter acceptance before any export, run `pex25d validate --strict --werror` first.
+
+Use `--with-source-refs` on text conversion or resolution when you want the protobuf artifact to retain locations in an include tree. Diagnostics produced while reading text have source positions even without that flag. `--comments` adds syntax hints when writing PEX25D text; unlike the `kpex` option, it is a flag and takes no `y` argument.
 
 #### Import from another tool {#sec-pex25d-import}
 
@@ -398,10 +402,10 @@ An importer translates another tool's scene description into an unresolved `PEX2
 ```bash
 pex25d exporters
 pex25d export two_nets.pex25d.scene.pb \
-  --to fastercap --out_dir solver/fastercap --prefix two_nets
+  --to fastercap --out-dir solver/fastercap --prefix two_nets
 pex25d export two_nets.pex25d \
-  --to fastcap2 --out_dir solver/fastcap2 --prefix two_nets
-pex25d export two_nets.pex25d --to stl --out_dir solver/stl
+  --to fastcap2 --out-dir solver/fastcap2 --prefix two_nets
+pex25d export two_nets.pex25d --to stl --out-dir solver/stl
 ```
 
 `--to` selects an exporter by its name, or by `package:name` when two installed packages provide the same name. `pex25d exporters` lists the installed ones. `klayout-pex` ships three exporters:
@@ -411,7 +415,7 @@ pex25d export two_nets.pex25d --to stl --out_dir solver/stl
 
 File input is resolved automatically. Export generates meshes and input files, **without running the solver or producing a capacitance matrix**. The solver executable is needed when those files are subsequently solved. `kpex extract` is the separate integrated flow for running engines from a layout.
 
-Exporter options are passed with `--option NAME=VALUE`, which can be repeated (since `klayout-pex` 0.6.3). VALUE is read as JSON where it parses (`10`, `1e-9`, `true`), otherwise as text. For FasterCap and FastCap2, `--stl`, `--field_margin`, `--delaunay_amax`, `--delaunay_b`, and `--geo_check` are shorthands for their options. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.
+Exporter options are passed with `--option NAME=VALUE`, which can be repeated (since `klayout-pex` 0.6.3). VALUE is read as JSON where it parses (`10`, `1e-9`, `true`), otherwise as text. For FasterCap and FastCap2, `--stl`, `--field-margin`, `--delaunay-amax`, `--delaunay-b`, and `--geo-check` are shorthands for their options. The default lateral field margin is 8 µm when the scene has no explicit or margin-derived domain.
 
 The built-in exporters write capacitance input. They do not extract a resistance network from `SHEET`, `PER_CUT`, or terminal records. Exporters for the FEM solvers Elmer and Palace are available as separate packages, [klayout-pex-plugin-elmer](https://github.com/iic-jku/klayout-pex-plugin-elmer) and [klayout-pex-plugin-palace](https://github.com/iic-jku/klayout-pex-plugin-palace).
 
@@ -420,11 +424,11 @@ The built-in exporters write capacitance input. They do not extract a resistance
 A path of `-` means stdin for input and stdout for output. Artifact output reserves stdout and redirects logging and diagnostics to stderr. Use explicit kinds and encodings in a binary pipeline:
 
 ```bash
-pex25d resolve two_nets.pex25d -o - --out_kind scene --out_format pb \
-  | pex25d show - --in_kind scene --in_format pb --section layers
+pex25d resolve two_nets.pex25d -o - --out-kind scene --out-format pb \
+  | pex25d show - --in-kind scene --in-format pb --section layers
 ```
 
-For filenames without conventional suffixes, supply **both** `--in_kind file|scene` and `--in_format text|pb|textpb`, or the corresponding `--out_kind` and `--out_format`. These are options of the standalone tool; `kpex pex25d` uses its output options and `--format` instead. Stdin defaults to unresolved text, while `resolve` defaults to binary scene output on stdout. Gzip is inferred from filenames; use a shell gzip tool when compressing a stream.
+For filenames without conventional suffixes, supply **both** `--in-kind file|scene` and `--in-format text|pb|textpb`, or the corresponding `--out-kind` and `--out-format`. These are options of the standalone tool; `kpex pex25d` uses its output options and `--format` instead. Stdin defaults to unresolved text, while `resolve` defaults to binary scene output on stdout. Gzip is inferred from filenames; use a shell gzip tool when compressing a stream.
 
 ### Protobuf API: Python Preparation and C++ Consumers {#sec-pex25d-api}
 
@@ -432,7 +436,7 @@ The [PEX25D schemas](https://github.com/iic-jku/klayout-pex/tree/main/protos/kpe
 
 One import is enough: `from klayout_pex import pex25d` provides the verbs `read`, `write`, `resolve`, `validate`, `import_file`, `export` and `show`, the artifact and diagnostics types, every error the pipeline raises, and `pex25d.proto` for the generated messages (`pex25d.proto.PEX25DFile()`, or a module such as `pex25d.proto.dielectric` for its enums). Names listed in `pex25d.__all__` are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g. `resolver.Resolver` and `validator.Validator`.
 
-`read()` and `write()` take a path in any supported encoding and derive kind and encoding from the conventional suffixes (@sec-pex25d-filenames); `read_text()` and `write_text()` work on the bytes of the text format. `validate()` fills a diagnostics report and never raises for an invalid message; `resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed. The package depends on `protobuf` alone, so it can be installed as a reference reader and validator without `klayout`.
+`read()` and `write()` take a path in any supported encoding and derive kind and encoding from the conventional suffixes (@sec-pex25d-filenames); `read_text()` and `write_text()` work on the bytes of the text format. `validate()` fills a diagnostics report and never raises for an invalid message; `resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed. These format operations do not import `klayout` at runtime. They are distributed within `klayout-pex`, whose normal installation includes `klayout>=0.30.12`, `protobuf` and the other declared dependencies.
 
 This Python example loads and resolves the downloadable file, then requests native FasterCap input and STL solids through the exporter API:
 

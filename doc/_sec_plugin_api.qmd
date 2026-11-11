@@ -39,7 +39,7 @@ Running the solver and reading its results back into `kpex extract` is not part 
 ::: {.callout-caution}
 The plugin API `v1` is provisional: it is currently tested together with colleagues, and may still change until it is declared stable. Afterwards, breaking changes will get a new version `v2`, with their own entry point groups.
 
-Plugins should therefore pin `klayout-pex` to one minor release, e.g. `>=0.6.3,<0.7`.
+Declare the range of `klayout-pex` versions supported by the plugin. The maintained `gmsh`, `elmer` and `palace` plugins at version `0.1.1` require `klayout-pex>=0.6.2,<1`, allowing later `0.x` releases. That package range does not make the provisional API stable; plugin maintainers still need to check compatibility when it changes.
 :::
 
 ### Using Plugins {#sec-plugin-api-using}
@@ -63,15 +63,16 @@ Selecting a plugin:
 Plugin specific options are passed with `--option NAME=VALUE` (since `klayout-pex` 0.6.3). The value is read as JSON if possible (`10`, `1e-9`, `true`), otherwise as text:
 
 ```bash
-pex25d export cell.pex25d --to palace --out_dir deck \
+pex25d export cell.pex25d --to palace --out-dir deck \
   --option mesh_size_edge_um=0.2 --option order=2
 ```
 
 | Exit status | Meaning |
 |:--|:--|
+| `1` | Scene validation errors, or warnings with `--werror` |
 | `2` | Unknown plugin, invalid option, or the plugin rejected its input |
 | `3` | The plugin does not implement the requested feature yet |
-| `4` | Unexpected plugin failure (`--log_level debug` shows the traceback) |
+| `4` | Unexpected plugin failure (`--log-level debug` shows the traceback) |
 
 ### Writing a Plugin {#sec-plugin-api-writing}
 
@@ -89,7 +90,7 @@ The registration in `pyproject.toml`:
 ```toml
 [project]
 name = "klayout-pex-plugin-example"
-dependencies = ["klayout-pex>=0.6.3,<0.7"]
+dependencies = ["klayout-pex>=0.6.3,<1"]
 
 [project.entry-points."klayout_pex.exporters.v1"]
 nets = "klayout_pex_plugins.example:create_exporter"
@@ -140,7 +141,7 @@ class NetsExporter(PEX25DSceneExporter):
             raise ExportError(f"unknown options: {', '.join(options)}")
         os.makedirs(output_dir_path, exist_ok=True)
         path = os.path.join(output_dir_path, f"{prefix}nets.txt")
-        with open(path, 'w') as file:
+        with open(path, 'w', encoding='utf-8') as file:
             for conductor in scene.conductors:
                 file.write(f"{conductor.name} {conductor.net}\n")
         return [path]
@@ -175,7 +176,7 @@ Elmer FEM:
 ```bash
 pip3 install --upgrade klayout-pex-plugin-elmer
 
-pex25d export cell.pex25d --to elmer --out_dir elmer
+pex25d export cell.pex25d --to elmer --out-dir elmer
 cd elmer
 ElmerGrid 14 2 mesh.msh -autoclean   # gmsh mesh -> Elmer mesh
 ElmerSolver case.sif                 # writes cmatrix.dat
@@ -186,7 +187,7 @@ Palace:
 ```bash
 pip3 install --upgrade klayout-pex-plugin-palace
 
-pex25d export cell.pex25d --to palace --out_dir palace
+pex25d export cell.pex25d --to palace --out-dir palace
 cd palace
 palace -np 4 config.json             # writes postpro/terminal-Cm.csv
 ```

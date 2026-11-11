@@ -1,5 +1,5 @@
 ::: {.content-hidden}
-Copyright (C) 2024-2025 Martin Köhler and co-authors (martin.koehler@jku.at)
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -80,17 +80,14 @@ $$
 - Foundry tables give constant coefficient referenced to $s = 1$
 :::
 
-::: {.callout-warning title="`defaultsidewall` counts once per pair, since MAGIC 8.3.679"}
-Up to `MAGIC 8.3.678`, each edge was evaluated against the *full*
-`defaultsidewall` value of the tech file, so the sidewall capacitance came out
-twice as large as intended. Since those values had been distributed with the
-open PDKs for years, `MAGIC 8.3.679` redefined the meaning of the tech file
-value instead of changing every PDK --- the PDKs stay as they are, and `MAGIC`
-applies half of the value per edge.
+::: {.callout-warning title="Count the sidewall pair once"}
+The sidewall coefficient describes the full pair. Half belongs to each directed edge visit. A second halving of the already weighted coefficient makes the pair too small by a factor of two.
 
-`KPEX/2.5D` follows that definition, so `MAGIC 8.3.679` or newer is required
-for the two to agree. See <https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429>.
+`MAGIC 8.3.693` removes that extra halving during final technology processing. The earlier interpretation that revisions before `8.3.679` simply counted the pair twice was incorrect. The [upstream correction](https://github.com/RTimothyEdwards/magic/commit/9fd4ee57386c08346b20389a55e4eb9d32553979) explains the two sites that applied the factor.
+
+`KPEX 0.9.0` restores the full pair value for both constant and sloped gaps. Updating the physical coefficient tables is a separate change: multiplying all extraction results by two would also alter overlap and fringe contributions, which are not affected by this counting correction.
 :::
+
 
 
 ## Overlap Capacitance   {#sec-magic-cap-types-overlap-capacitance}
@@ -114,7 +111,7 @@ $$
 
 - Multiplier $\alpha$ (comes from tech files: overlap table)
   - determines how quickly fringe capacitance drops with increasing distance
-  - $\alpha$ is related to distance $d$￼ between layers
+  - $\alpha$ is related to distance $d$ between layers
   - $\alpha$ is proportional to $C_{overlap_{metal1 \leftrightarrow metal2}}= \frac{\epsilon_{si} * K}{d} * \text{area}$  
     (for fixed value of area $1\, \mu m^2$)
 <!-- Markdown NOTE: to force the last list item two separate lines, I've added 2 blanks at the end of the first line  -->
@@ -122,7 +119,7 @@ $$
 - Fringe Fractions:
   - $\text{frac}_{metal1} = \tfrac{2}{\pi} * \text{atan}(\alpha_{metal2 \rightarrow metal1}*x)$
   - $\text{frac}_{sub} = \tfrac{2}{\pi} * \text{atan}(\alpha_{metal2 \rightarrow sub}*(\text{halo}-x))$
-  - $\tfrac{2}{\pi}$ is multiplied because of scaling to interval $[0.0,\,1.0]$, as￼$\text{atan}(\infty)=\tfrac{\pi}{2}$
+  - $\tfrac{2}{\pi}$ is multiplied because of scaling to interval $[0.0,\,1.0]$, as $\text{atan}(\infty)=\tfrac{\pi}{2}$
 
 - Overlap capacitance:
   - $C_{overlap} = \frac{\epsilon_{si} * K}{d} * \text{area} \,\,\,\,\,\,\,\,(\text{with area}=1 \mu m^2)$

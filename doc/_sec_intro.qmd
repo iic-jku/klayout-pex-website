@@ -1,5 +1,5 @@
 ::: {.content-hidden}
-Copyright (C) 2024-2025 Martin Köhler and co-authors (martin.koehler@jku.at)
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ To be able to simulate these effects, a parasitic extraction tool (PEX) is used,
 There are multiple PEX engines supported, currently:
 
 * [FasterCap](https://www.fastfieldsolvers.com/fastercap.htm) integration (field solver engine)
+* `FastCap2` integration (field solver engine, selected with `--fastcap`)
 * [MAGIC](https://opencircuitdesign.com/magic/) integration (wrapper calling `magic`)
 * Analytical 2.5D engine (parasitic concepts and formulas of MAGIC, implemented using KLayout methods)
 
@@ -47,7 +48,7 @@ KPEX *documentation* source code is made publicly available on GitHub ([follow t
 
 Please feel free to create issues and/or submit pull requests on GitHub to fix errors and omissions!
 
-The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `MAGIC`, `protobuf`, `Quarto`, `Python`, `ngspice`, `Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`…
+The production of the tool and this document would be impossible without these (and many more) great open-source software products: `KLayout`, `FasterCap`, `FastCap2`, `MAGIC`, `Palace`, `Elmer`, `OpenRCX`, `KQCircuits`, `protobuf`, `Quarto`, `Python`, `ngspice`, `Numpy`, `Scipy`, `Matplotlib`, `Git`, `Docker`, `Ubuntu`, `Linux`…
 :::
 
 ## Status  {#sec-into-klayout-pex-prototype-status}
@@ -56,8 +57,7 @@ The production of the tool and this document would be impossible without these (
 Currently, `KPEX` is developed as a Python prototype, using the [KLayout Python API](https://www.klayout.de/doc-qt5/code/).
 This allows for a faster development cycle during the current prototyping phase.
 
-Eventually, critical parts will be re-implemented (in C++, and parallelized), to improve performance.
-As we're already using the KLayout API (which is pretty similar between Python, Ruby and C++), this will be relatively straight-forward.
+Eventually, critical parts will be re-implemented in `Rust` and parallelized to improve performance.
 :::
 
 {{< include _status.qmd >}}
@@ -100,7 +100,7 @@ A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheats
 
 - [MAGIC](https://opencircuitdesign.com/magic/)-wrapper engine:
   - optional, required to run the MAGIC-wrapper engine
-  - `MAGIC 8.3.679` or newer is required: older revisions report twice the sidewall capacitance (see @sec-magic-cap-types-sidewall-capacitance and <https://github.com/martinjankoehler/magic/issues/6#issuecomment-5371056429>)
+  - use `MAGIC 8.3.693` or newer for the corrected sidewall counting (see @sec-magic-cap-types-sidewall-capacitance)
   - Follow the [installation instructions](https://github.com/RTimothyEdwards/magic/blob/master/INSTALL) at the [GitHub repository](https://github.com/RTimothyEdwards/magic/)
 
 - [Skywater sky130A PDK](https://skywater-pdk.readthedocs.io):
@@ -118,6 +118,23 @@ A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheats
     - for example `PRE-RELEASE cb7daaa8901016cf7c5d272dfa322c41f024931f (2025.07.18)`)
   - `ciel enable --pdk ihp-sg13g2 cb7daaa8901016cf7c5d272dfa322c41f024931f`  (install a PDK version)
   - PDK files now have been installed under `$HOME/.volare/ihp-sg13g2`
+
+### Checking Tool Versions {#sec-tool-version-checks}
+
+The Python package requires `klayout>=0.30.12`. `KLayout 0.30.13` is recommended for terminal-lookup performance, neighborhood-visitor memory fixes and resistance-extraction crash fixes. The recommendation is a warning, so an environment still shipping `0.30.12` can run.
+
+The CLI checks the Python module and the executable separately when both are used. Updating one does not update the other. An LVS-database-only extraction can use the module without the executable. The runtime table lists the version found, the required range and the recommended range.
+
+| `--tool-version-checks` | Behavior |
+|:---|:---|
+| `on` | Default: unmet requirements stop the run, recommendations warn |
+| `warn` | Report unmet requirements as warnings and continue |
+| `off` | Skip version checks |
+: Runtime version-check policies {#tbl-tool-version-checks tbl-colwidths="[32,68]"}
+
+An unrecognized tool version is reported as unchecked. `warn` and `off` do not repair the numerical or performance defects of an older executable.
+
+For `--magic`, `KPEX 0.9.0` requires `MAGIC 8.3.693` or newer, which removes an extra sidewall halving. Pure `--2.5D` extraction does not require a `MAGIC` executable. The remaining multi-polygon device-terminal limitation is separate from the recommendation to upgrade `KLayout` and is not resolved by installing `0.30.13`.
 
 ### Useful tools: `meshlab` {#sec-intro-meshlab}
 
