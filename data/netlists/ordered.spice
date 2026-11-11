@@ -1,0 +1,3 @@
+.subckt nfet_li1 S G D
+Xtail S G D sky130_gnd sky130_fd_pr__nfet_01v8 L=0.15 W=0.65
+.ends nfet_li1

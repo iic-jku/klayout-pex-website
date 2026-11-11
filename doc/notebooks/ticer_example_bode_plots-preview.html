@@ -178,9 +178,9 @@
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-443ec083c9578aa13a8ff787872b1cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-aabbeeb8ce3a989689481ed8ac76c05a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-443ec083c9578aa13a8ff787872b1cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-67c19ae4ccf12187c21e9a49606d88c4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7161d6debfbbeb18c199e9e749415f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-67c19ae4ccf12187c21e9a49606d88c4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
      <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -637,67 +637,55 @@ H(s) = \frac{0.5}{1.010025s^2 + 2.01s + 0.5}
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    w<span class="op">=</span>freq_range</span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [196]:</pre></div><div class="cell" data-execution_count="196">
+<div class="cell-container"><div class="cell-decorator"><pre>In [196]:</pre></div><div id="cell-fig-bode-plot-ft-vs-mag" class="cell" data-execution_count="196">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot fT versus Magnitude</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-bode-plot-ft-vs-mag</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Bode plot: Frequency versus Magnitude</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w1, mag1, label<span class="op">=</span><span class="st">'Original circuit (blue)'</span>)  <span class="co"># Bode magnitude plot</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w2, mag2, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">':'</span>, label<span class="op">=</span><span class="st">'Reduced circuit (red)'</span>)  <span class="co"># Bode magnitude plot</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Bode Plot - Magnitude'</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Frequency (rad/s)'</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Magnitude (dB)'</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.grid(which<span class="op">=</span><span class="st">'both'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [196]:</pre></div><div id="fig-bode-plot-ft-vs-mag" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="196">
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w1, mag1, label<span class="op">=</span><span class="st">'Original circuit (blue)'</span>)  <span class="co"># Bode magnitude plot</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w2, mag2, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">':'</span>, label<span class="op">=</span><span class="st">'Reduced circuit (red)'</span>)  <span class="co"># Bode magnitude plot</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Bode Plot - Magnitude'</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Frequency (rad/s)'</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Magnitude (dB)'</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.grid(which<span class="op">=</span><span class="st">'both'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-bode-plot-ft-vs-mag" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<div class="cell-output cell-output-display">
-<div class="">
-<figure class="figure">
-<p class=""><img src="ticer_example_bode_plots_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<img src="ticer_example_bode_plots_files/figure-html/fig-bode-plot-ft-vs-mag-output-1.png" class="img-fluid figure-img">
 </div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bode-plot-ft-vs-mag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Bode plot: Frequency versus Magnitude
 </figcaption>
 </figure>
+</div>
+</div>
 </div></div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [197]:</pre></div><div class="cell" data-execution_count="197">
+<div class="cell-container"><div class="cell-decorator"><pre>In [197]:</pre></div><div id="cell-fig-bode-plot-ft-vs-phase" class="cell" data-execution_count="197">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot fT versus phase</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-bode-plot-ft-vs-phase</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Bode plot: Frequency versus Phase</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w1, phase1, label<span class="op">=</span><span class="st">'Original circuit (blue)'</span>)  <span class="co"># Bode phase plot</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w2, phase2, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">':'</span>, label<span class="op">=</span><span class="st">'Reduced circuit (red)'</span>)  <span class="co"># Bode phase plot</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Bode Plot - Phase'</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Frequency (rad/s)'</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Phase (degrees)'</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.grid(which<span class="op">=</span><span class="st">'both'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [197]:</pre></div><div id="fig-bode-plot-ft-vs-phase" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="197">
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w1, phase1, label<span class="op">=</span><span class="st">'Original circuit (blue)'</span>)  <span class="co"># Bode phase plot</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.semilogx(w2, phase2, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">':'</span>, label<span class="op">=</span><span class="st">'Reduced circuit (red)'</span>)  <span class="co"># Bode phase plot</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Bode Plot - Phase'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Frequency (rad/s)'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Phase (degrees)'</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.grid(which<span class="op">=</span><span class="st">'both'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-bode-plot-ft-vs-phase" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<div class="cell-output cell-output-display">
-<div class="">
-<figure class="figure">
-<p class=""><img src="ticer_example_bode_plots_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<img src="ticer_example_bode_plots_files/figure-html/fig-bode-plot-ft-vs-phase-output-1.png" class="img-fluid figure-img">
 </div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bode-plot-ft-vs-phase-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Bode plot: Frequency versus Phase
 </figcaption>
 </figure>
-</div></div>
+</div>
+</div>
 </div></div>
 <div id="cell-9" class="cell markdown">
 <section id="pole-zero-plots" class="level3">
@@ -761,80 +749,62 @@ Figure&nbsp;2
 <span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show the plot</span></span>
 <span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [199]:</pre></div><div class="cell" data-execution_count="199">
+<div class="cell-container"><div class="cell-decorator"><pre>In [199]:</pre></div><div id="cell-fig-pole-zero-plot-original" class="cell" data-execution_count="199">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pole-Zero Plot for the original circuit</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pole-zero-plot-original</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Pole-Zero plot: Original circuit</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plot_poles_and_zeros(poles<span class="op">=</span>solution_orig[<span class="st">'poles'</span>],</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                     zeros<span class="op">=</span>solution_orig[<span class="st">'zeros'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [199]:</pre></div><div id="fig-pole-zero-plot-original" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="199">
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plot_poles_and_zeros(poles<span class="op">=</span>solution_orig[<span class="st">'poles'</span>],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                     zeros<span class="op">=</span>solution_orig[<span class="st">'zeros'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-pole-zero-plot-original" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<div class="cell-output cell-output-display">
-<div class="">
-<figure class="figure">
-<p class=""><img src="ticer_example_bode_plots_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<img src="ticer_example_bode_plots_files/figure-html/fig-pole-zero-plot-original-output-1.png" class="img-fluid figure-img">
 </div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pole-zero-plot-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Pole-Zero plot: Original circuit
 </figcaption>
 </figure>
-</div></div>
+</div>
+</div>
 </div></div>
 <div id="cell-12" class="cell markdown">
 <p>If we remove the node at <span class="math inline">\(s=201\)</span> we get better scaling for comparison.</p>
 </div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [204]:</pre></div><div class="cell" data-execution_count="204">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pole-Zero Plot for the original circuit (without the pole at s=201)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pole-zero-plot-original-without-201</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Pole-Zero plot: Original circuit (without the pole at $s = 201$)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>poles <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">list</span>(solution_orig[<span class="st">'poles'</span>].items())[<span class="dv">1</span>:])</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plot_poles_and_zeros(poles<span class="op">=</span>poles,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                     zeros<span class="op">=</span>solution_orig[<span class="st">'zeros'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [204]:</pre></div><div id="fig-pole-zero-plot-original-without-201" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="204">
+<div class="cell-container"><div class="cell-decorator"><pre>In [204]:</pre></div><div id="cell-fig-pole-zero-plot-original-without-201" class="cell" data-execution_count="204">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pole-Zero Plot for the original circuit (without the pole at s=-201)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>poles <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">list</span>(solution_orig[<span class="st">'poles'</span>].items())[<span class="dv">1</span>:])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plot_poles_and_zeros(poles<span class="op">=</span>poles,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                     zeros<span class="op">=</span>solution_orig[<span class="st">'zeros'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-pole-zero-plot-original-without-201" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<div class="cell-output cell-output-display">
-<div class="">
-<figure class="figure">
-<p class=""><img src="ticer_example_bode_plots_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<img src="ticer_example_bode_plots_files/figure-html/fig-pole-zero-plot-original-without-201-output-1.png" class="img-fluid figure-img">
 </div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pole-zero-plot-original-without-201-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Pole-Zero plot: Original circuit (without the pole at <span class="math inline">\(s = -201\)</span>)
 </figcaption>
 </figure>
+</div>
+</div>
 </div></div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [200]:</pre></div><div class="cell" data-execution_count="200">
+<div class="cell-container"><div class="cell-decorator"><pre>In [200]:</pre></div><div id="cell-fig-pole-zero-plot-reduced" class="cell" data-execution_count="200">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pole-Zero Plot for the reduced circuit</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pole-zero-plot-reduced</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Pole-Zero plot: Reduced circuit</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plot_poles_and_zeros(poles<span class="op">=</span>solution_redux[<span class="st">'poles'</span>],</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                     zeros<span class="op">=</span>solution_redux[<span class="st">'zeros'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [200]:</pre></div><div id="fig-pole-zero-plot-reduced" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="200">
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plot_poles_and_zeros(poles<span class="op">=</span>solution_redux[<span class="st">'poles'</span>],</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                     zeros<span class="op">=</span>solution_redux[<span class="st">'zeros'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-pole-zero-plot-reduced" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<div class="cell-output cell-output-display">
-<div class="">
-<figure class="figure">
-<p class=""><img src="ticer_example_bode_plots_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<img src="ticer_example_bode_plots_files/figure-html/fig-pole-zero-plot-reduced-output-1.png" class="img-fluid figure-img">
 </div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pole-zero-plot-reduced-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Pole-Zero plot: Reduced circuit
 </figcaption>
 </figure>
-</div></div>
+</div>
+</div>
 </div></div>
 
 

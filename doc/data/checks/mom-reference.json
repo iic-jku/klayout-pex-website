@@ -1,0 +1,13 @@
+{
+  "format_version": 1,
+  "references": [
+    {
+      "device": "$1",
+      "device_class": "cap_cmomf",
+      "terminals": ["mim_top", "mim_btm"],
+      "capacitance": "228.75f",
+      "min_ratio": 0.95,
+      "max_ratio": 1.05
+    }
+  ]
+}

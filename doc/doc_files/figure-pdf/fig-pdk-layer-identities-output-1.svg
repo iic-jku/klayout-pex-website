@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="900" height="330" viewBox="0 0 900 330">
+<defs>
+<marker markerWidth="6" markerHeight="8" viewBox="-6 -4 6 8" orient="auto" id="Gte2LlPd0">
+<path d="M-6,-4 L0,0 L-6,4 Z" fill="#183247" />
+</marker>
+</defs>
+<rect x="0" y="0" width="900" height="330" fill="white" />
+<text x="25" y="30" font-size="20" fill="#183247" font-family="sans-serif">Computed layer from the extraction deck</text>
+<rect x="25" y="110" width="270" height="110" rx="8" fill="#dcecf7" stroke="#183247" stroke-width="1.5" />
+<text x="45" y="145" font-size="21" fill="#183247" font-family="monospace">metal5_cap</text>
+<text x="45" y="177" font-size="17" fill="#183247" font-family="sans-serif">MIM bottom-plate polygons</text>
+<text x="45" y="202" font-size="17" fill="#183247" font-family="sans-serif">with their net association</text>
+<rect x="455" y="42" width="420" height="105" rx="8" fill="#e0efe5" stroke="#183247" stroke-width="1.5" />
+<text x="475" y="73" font-size="18" fill="#183247" font-family="monospace">original_layer_name: Metal5</text>
+<text x="475" y="106" font-size="17" fill="#183247" font-family="sans-serif">Selects the physical-layer coefficients</text>
+<text x="475" y="131" font-size="17" fill="#183247" font-family="sans-serif">for area, edge and resistance terms</text>
+<rect x="455" y="193" width="420" height="112" rx="8" fill="#dcecf7" stroke="#183247" stroke-width="1.5" />
+<text x="475" y="226" font-size="18" fill="#183247" font-family="monospace">process_layer_name: metal5_cap</text>
+<text x="475" y="259" font-size="17" fill="#183247" font-family="sans-serif">Selects the MIM bottom-plate stack</text>
+<text x="475" y="284" font-size="17" fill="#183247" font-family="sans-serif">with the dielectric above that region</text>
+<path d="M295,165 L365,165 L365,95 L450,95" fill="none" stroke="#183247" stroke-width="2" marker-end="url(#Gte2LlPd0)" />
+<path d="M365,165 L365,249 L450,249" fill="none" stroke="#183247" stroke-width="2" marker-end="url(#Gte2LlPd0)" />
+</svg>

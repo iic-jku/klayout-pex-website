@@ -1,0 +1,5 @@
+.option scale=1u
+.subckt pair d g s b
+Mnative d g s b nmos w=4 l=2 ad=3 as=5 pd=7 ps=11
+Xwrapped d g s b external w=4 l=2 ad=3 as=5 pd=7 ps=11
+.ends pair

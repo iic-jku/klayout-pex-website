@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="880" height="400" viewBox="0 0 880 400">
+<defs>
+</defs>
+<rect x="0" y="0" width="880" height="400" fill="white" />
+<text x="40" y="30" font-size="20" fill="#213547" font-family="DejaVu Sans" text-anchor="start">Subtract the projected shield</text>
+<path d="M40,80 L360,80 L360,320 L40,320 Z" fill="#13877a" fill-opacity="0.2" stroke="#13877a" stroke-width="2" />
+<path d="M120,280 L280,200 L280,280 Z" fill="white" fill-opacity="1.0" stroke="#b45a22" stroke-width="2" />
+<path d="M40,350 L360,350" stroke="#2364a5" stroke-width="4" />
+<text x="200" y="380" font-size="19" fill="#2364a5" font-family="DejaVu Sans" text-anchor="middle">Source edge</text>
+<text x="480" y="30" font-size="20" fill="#213547" font-family="DejaVu Sans" text-anchor="start">Partition the remaining target</text>
+<path d="M480,80 L800,80 L800,320 L480,320 Z" fill="#13877a" fill-opacity="0.2" stroke="#13877a" stroke-width="2" />
+<path d="M560,280 L720,200 L720,280 Z" fill="white" fill-opacity="1.0" stroke="#b45a22" stroke-width="2" />
+<path d="M480,350 L800,350" stroke="#2364a5" stroke-width="4" />
+<text x="640" y="380" font-size="19" fill="#2364a5" font-family="DejaVu Sans" text-anchor="middle">Source edge</text>
+<text x="65" y="113" font-size="19" fill="#13877a" font-family="DejaVu Sans" text-anchor="start">Target</text>
+<text x="204" y="267" font-size="19" fill="#b45a22" font-family="DejaVu Sans" text-anchor="start">Shield</text>
+<text x="738" y="113" font-size="17" fill="#13877a" font-family="DejaVu Sans" text-anchor="start">Target</text>
+<text x="665" y="267" font-size="19" fill="#b45a22" font-family="DejaVu Sans" text-anchor="start">Hole</text>
+<path d="M560,65 L560,332" stroke="#8a306f" stroke-dasharray="5,4" stroke-width="1.5" />
+<path d="M720,65 L720,332" stroke="#8a306f" stroke-dasharray="5,4" stroke-width="1.5" />
+<text x="560" y="58" font-size="19" fill="#8a306f" font-family="DejaVu Sans" text-anchor="middle">x₁</text>
+<text x="720" y="58" font-size="19" fill="#8a306f" font-family="DejaVu Sans" text-anchor="middle">x₂</text>
+<path d="M625,83 L625,244" stroke="#213547" stroke-width="1.8" />
+<path d="M621.5809609581294,236.76742286386352 L625,244 L628.4190390418706,236.76742286386352" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M628.4190390418706,90.23257713613648 L625,83 L621.5809609581294,90.23257713613648" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M625,284 L625,317" stroke="#213547" stroke-width="1.8" />
+<path d="M621.5809609581294,309.7674228638635 L625,317 L628.4190390418706,309.7674228638635" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M628.4190390418706,291.2325771361365 L625,284 L621.5809609581294,291.2325771361365" stroke="#213547" stroke-width="1.8" fill="none" />
+<text x="646" y="164" font-size="17" fill="#213547" font-family="DejaVu Sans" text-anchor="start">Filled</text>
+<text x="646" y="309" font-size="17" fill="#213547" font-family="DejaVu Sans" text-anchor="start">Filled</text>
+<path d="M385,200 L450,200" stroke="#213547" stroke-width="2.5" />
+<path d="M442.7674228638635,203.41903904187063 L450,200 L442.7674228638635,196.58096095812937" stroke="#213547" stroke-width="2.5" fill="none" />
+</svg>

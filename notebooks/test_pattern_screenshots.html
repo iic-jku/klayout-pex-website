@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-443ec083c9578aa13a8ff787872b1cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-aabbeeb8ce3a989689481ed8ac76c05a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-443ec083c9578aa13a8ff787872b1cad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-67c19ae4ccf12187c21e9a49606d88c4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-7161d6debfbbeb18c199e9e749415f29.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-67c19ae4ccf12187c21e9a49606d88c4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -583,6 +583,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    screenshot(<span class="st">'ihp-sg13g2'</span>, <span class="st">'cut_block_with_mos'</span>, aspect, view_box<span class="op">=</span>CUT_VIEW_BOX, marked_boxes<span class="op">=</span>[],</span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>               pixels_per_um<span class="op">=</span>EXCLUSION_WIDTH_PX <span class="op">/</span> CUT_VIEW_BOX.width(),</span>
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>               hidden_layers<span class="op">=</span>[TEXT_DRAWING, (<span class="dv">51</span>, <span class="dv">0</span>)], edit_layout<span class="op">=</span>edit_layout)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="sloped-wire-capacitance" class="level2">
+<h2 class="anchored" data-anchor-id="sloped-wire-capacitance">Sloped-wire capacitance</h2>
+<p>The <code>sky130A</code> pattern <code>sidewall_non_parallel_li1</code> compares a tapered facing edge with a constant-width gap. The overlay redraws net names after hiding the layout text layer.</p>
+<div id="cell-23" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>screenshot(<span class="st">'sky130A'</span>, <span class="st">'sidewall_non_parallel_li1'</span>, <span class="st">'polygon_geometry'</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">5</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">17</span>, <span class="dv">18</span>), marked_boxes<span class="op">=</span>[],</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>           pixels_per_um<span class="op">=</span><span class="dv">96</span>, hidden_layers<span class="op">=</span>((<span class="dv">67</span>, <span class="dv">5</span>),))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="device-capacitance-comparison-mom-marker-and-overlying-route" class="level2">
+<h2 class="anchored" data-anchor-id="device-capacitance-comparison-mom-marker-and-overlying-route">Device-capacitance comparison: MOM marker and overlying route</h2>
+<p>The frame marks the device-recognition area. The overlay labels <code>Recog.momf</code> and the external <code>Metal5</code> route.</p>
+<div id="cell-25" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>screenshot(<span class="st">'ihp-sg13g2'</span>, <span class="st">'cap_cmomf_w10u_l25u_m2_m4_m5_wire'</span>, <span class="st">'device_check'</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>           view_box<span class="op">=</span>kdb.DBox(<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">4</span>, <span class="dv">29</span>, <span class="dv">14</span>), marked_boxes<span class="op">=</span>[kdb.DBox(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">10</span>)],</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>           pixels_per_um<span class="op">=</span><span class="dv">64</span>, marker_dither_pattern<span class="op">=</span><span class="dv">1</span>, marker_color<span class="op">=</span><span class="bn">0xff66ff</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>           hidden_layers<span class="op">=</span>((<span class="dv">160</span>, <span class="dv">0</span>), (<span class="dv">99</span>, <span class="dv">40</span>), (<span class="dv">50</span>, <span class="dv">25</span>), (<span class="dv">67</span>, <span class="dv">25</span>), (<span class="dv">63</span>, <span class="dv">0</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 

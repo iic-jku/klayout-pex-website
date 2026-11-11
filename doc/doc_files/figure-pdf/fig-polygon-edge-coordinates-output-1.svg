@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="820" height="400" viewBox="0 0 820 400">
+<defs>
+</defs>
+<rect x="0" y="0" width="820" height="400" fill="white" />
+<path d="M110,280 L680,280 L680,345 L110,345 Z" fill="#2364a5" fill-opacity="0.2" stroke="#2364a5" stroke-width="2" />
+<path d="M110,205 L680,95 L680,20 L110,130 Z" fill="#13877a" fill-opacity="0.2" stroke="#13877a" stroke-width="2" />
+<text x="130" y="322" font-size="19" fill="#2364a5" font-family="DejaVu Sans" text-anchor="start">Source conductor</text>
+<text x="360" y="110" font-size="19" fill="#13877a" font-family="DejaVu Sans" text-anchor="start">Facing conductor</text>
+<path d="M110,280 L680,280" stroke="#2364a5" stroke-width="4" />
+<path d="M80,280 L765,280" stroke="#213547" stroke-width="1.8" />
+<path d="M757.7674228638635,283.41903904187063 L765,280 L757.7674228638635,276.58096095812937" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M110,365 L110,55" stroke="#213547" stroke-width="1.8" />
+<path d="M113.41903904187063,62.23257713613649 L110,55 L106.58096095812937,62.23257713613649" stroke="#213547" stroke-width="1.8" fill="none" />
+<text x="775" y="286" font-size="19" fill="#213547" font-family="DejaVu Sans" text-anchor="start">x</text>
+<text x="88" y="45" font-size="19" fill="#213547" font-family="DejaVu Sans" text-anchor="start">y</text>
+<text x="90" y="306" font-size="19" fill="#213547" font-family="DejaVu Sans" text-anchor="start">0</text>
+<path d="M195,276 L195,193" stroke="#8a306f" stroke-width="1.8" />
+<path d="M198.41903904187063,200.23257713613648 L195,193 L191.58096095812937,200.23257713613648" stroke="#8a306f" stroke-width="1.8" fill="none" />
+<path d="M191.58096095812937,268.7674228638635 L195,276 L198.41903904187063,268.7674228638635" stroke="#8a306f" stroke-width="1.8" fill="none" />
+<text x="208" y="240" font-size="19" fill="#8a306f" font-family="DejaVu Sans" text-anchor="start">d(x)</text>
+<path d="M126,276 L126,206" stroke="#213547" stroke-width="1.8" />
+<path d="M129.41903904187063,213.23257713613648 L126,206 L122.58096095812937,213.23257713613648" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M122.58096095812937,268.7674228638635 L126,276 L129.41903904187063,268.7674228638635" stroke="#213547" stroke-width="1.8" fill="none" />
+<text x="135" y="265" font-size="17" fill="#213547" font-family="DejaVu Sans" text-anchor="start">d₀</text>
+<path d="M668,276 L668,99" stroke="#213547" stroke-width="1.8" />
+<path d="M671.4190390418706,106.23257713613648 L668,99 L664.5809609581294,106.23257713613648" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M664.5809609581294,268.7674228638635 L668,276 L671.4190390418706,268.7674228638635" stroke="#213547" stroke-width="1.8" fill="none" />
+<text x="680" y="185" font-size="17" fill="#213547" font-family="DejaVu Sans" text-anchor="start">d₁</text>
+<path d="M377,280 L393,280 L393,150 L377,153 Z" fill="#8a306f" fill-opacity="0.16" stroke="#8a306f" stroke-width="2" />
+<text x="384" y="305" font-size="19" fill="#8a306f" font-family="DejaVu Sans" text-anchor="middle">dx</text>
+<path d="M110,375 L680,375" stroke="#213547" stroke-width="1.8" />
+<path d="M672.7674228638635,378.41903904187063 L680,375 L672.7674228638635,371.58096095812937" stroke="#213547" stroke-width="1.8" fill="none" />
+<path d="M117.23257713613648,371.58096095812937 L110,375 L117.23257713613648,378.41903904187063" stroke="#213547" stroke-width="1.8" fill="none" />
+<text x="395" y="365" font-size="19" fill="#213547" font-family="DejaVu Sans" text-anchor="middle">Interval length L</text>
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="900" height="425" viewBox="0 0 900 425">
+<defs>
+</defs>
+<rect x="0" y="0" width="900" height="425" fill="white" />
+<rect x="205.0" y="102.7125" width="475.0" height="227.2875" fill="#dcecf7" stroke="#183247" stroke-width="1" />
+<rect x="205.0" y="74.2125" width="475.0" height="28.5" fill="#e3d5ed" stroke="#183247" stroke-width="1" />
+<rect x="255" y="216.7125" width="110" height="113.2875" fill="#b8d6c1" stroke="#183247" stroke-width="1.5" />
+<text x="310" y="281.7125" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="middle">Metal5</text>
+<rect x="505" y="216.7125" width="110" height="113.2875" fill="#b8d6c1" stroke="#183247" stroke-width="1.5" />
+<text x="560" y="281.7125" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="middle">Metal5</text>
+<text x="442.5" y="47" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="middle">air</text>
+<text x="442.5" y="158" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="middle">oxide, k = 4</text>
+<text x="442.5" y="92" font-size="17" fill="#183247" font-family="sans-serif" text-anchor="middle">nitride, k = 7</text>
+<path d="M180,102.7125 L180,330.0" stroke="#183247" stroke-width="1.5" />
+<path d="M173,102.7125 L187,102.7125" stroke="#183247" stroke-width="1.5" />
+<path d="M173,330.0 L187,330.0" stroke="#183247" stroke-width="1.5" />
+<text x="160" y="222.35625" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="end">2.3925 µm</text>
+<path d="M715,74.2125 L715,102.7125" stroke="#183247" stroke-width="1.5" />
+<path d="M708,74.2125 L722,74.2125" stroke="#183247" stroke-width="1.5" />
+<path d="M708,102.7125 L722,102.7125" stroke="#183247" stroke-width="1.5" />
+<text x="740" y="94.4625" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="start">0.3 µm</text>
+<path d="M715,102.7125 L715,216.7125" stroke="#183247" stroke-width="1.5" />
+<path d="M708,102.7125 L722,102.7125" stroke="#183247" stroke-width="1.5" />
+<path d="M708,216.7125 L722,216.7125" stroke="#183247" stroke-width="1.5" />
+<text x="740" y="165.7125" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="start">1.2 µm</text>
+<path d="M715,216.7125 L715,330.0" stroke="#183247" stroke-width="1.5" />
+<path d="M708,216.7125 L722,216.7125" stroke="#183247" stroke-width="1.5" />
+<path d="M708,330.0 L722,330.0" stroke="#183247" stroke-width="1.5" />
+<text x="740" y="279.35625" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="start">1.1925 µm</text>
+<path d="M175,330.0 L725,330.0" stroke="#183247" stroke-width="1" stroke-dasharray="4,4" />
+<text x="205.0" y="365" font-size="18" fill="#183247" font-family="sans-serif" text-anchor="start">Metal5 bottom: z = 6.13 µm above substrate</text>
+<text x="205.0" y="399" font-size="17" fill="#183247" font-family="sans-serif" text-anchor="start">Planar interfaces continue across the field between wires</text>
+</svg>
