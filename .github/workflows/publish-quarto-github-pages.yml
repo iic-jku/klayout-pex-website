@@ -38,7 +38,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Configure Ubuntu package downloads
+        uses: iic-jku/klayout-pex/.github/actions/setup-apt@05cdc1920fd0eb9ece338e34333f3ff4d8ef41a6
+
       - name: Install APT dependencies
+        timeout-minutes: 5
         run: |
           sudo apt update
           sudo apt -y install librsvg2-bin
