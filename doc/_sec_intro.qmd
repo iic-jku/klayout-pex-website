@@ -36,7 +36,7 @@ To be able to simulate these effects, a parasitic extraction tool (PEX) is used,
 
 There are multiple PEX engines supported, currently:
 
-* [FasterCap](https://www.fastfieldsolvers.com/fastercap.htm) integration (field solver engine)
+* [`FasterCap`](https://github.com/iic-jku/FasterCap) integration (field solver engine)
 * `FastCap2` integration (field solver engine, selected with `--fastcap`)
 * [MAGIC](https://opencircuitdesign.com/magic/) integration (wrapper calling `magic`)
 * Analytical 2.5D engine (parasitic concepts and formulas of MAGIC, implemented using KLayout methods)
@@ -93,10 +93,10 @@ A summary of important Linux shell commands is provided in [IIC-JKU Linux Cheats
   - [get the latest pre-built package version](https://www.klayout.de/build.html) 
   - or [follow the build instructions](https://www.klayout.de/build.html)
 
-- [FasterCap](https://www.fastfieldsolvers.com/fastercap.htm) engine:
-  - optional, required to run the FasterCap engine
-  - either compile your own version from the [GitHub repository](https://github.com/ediloren/FasterCap/)
-  - or use precompiled versions available at <https://github.com/martinjankoehler/FasterCap/releases>
+- [`FasterCap`](https://github.com/iic-jku/FasterCap) engine:
+  - optional, required to run the `FasterCap` engine
+  - either compile your own version from the [GitHub repository](https://github.com/iic-jku/FasterCap)
+  - or use precompiled versions available at <https://github.com/iic-jku/FasterCap/releases>
 
 - [MAGIC](https://opencircuitdesign.com/magic/)-wrapper engine:
   - optional, required to run the MAGIC-wrapper engine

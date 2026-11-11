@@ -17,7 +17,7 @@ limitations under the License.
 # `KPEX/FasterCap` Engine  {#sec-kpex-fastercap}
 
 `FasterCap` is a 3D and 2D parallel capacitance field solver, inspired by `FastCap2`.
-<https://www.fastfieldsolvers.com/fastercap.htm>
+The maintained fork is [`iic-jku/FasterCap`](https://github.com/iic-jku/FasterCap).
 
 Starting from an input layout (e.g. GDS file) and a process stack-up (part of the @sec-tech-def), `KPEX` creates input geometries for `FasterCap`. After running `FasterCap`, the Maxwell capacitance matrix is parsed and interpreted to obtain the parasitic capacitances.
 
@@ -29,7 +29,7 @@ See @sec-first-steps-run-fastercap-engine to get started with a first extraction
 
 ![`FasterCap` 3D Input: File System Overview](figures/fastercap-input-geometry-3D-part1.svg)
 
-The `FasterCap` input files and their format is documented in [@fastfieldsolvers-fastercap-manual-chm], a PDF version of the Windows-specific `*.chm` file is available at <https://github.com/martinjankoehler/FasterCap/tree/master/doc/pdf>.
+The `FasterCap` input files and their format are documented in the [PDF manual](https://github.com/iic-jku/FasterCap/tree/master/doc/pdf) [@fastfieldsolvers-fastercap-manual-chm].
 
 `KPEX` generates 3D input geometries:
 
