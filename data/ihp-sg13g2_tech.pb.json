@@ -4151,6 +4151,7 @@
   "process_stack": {
     "layers": [
       {
+        "layer_type": "LAYER_TYPE_SUBSTRATE",
         "name": "subs",
         "substrate_layer": {
           "reference": "fox",
@@ -4158,6 +4159,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_NWELL",
         "name": "nwell_drw",
         "nwell_layer": {
           "reference": "fox"
@@ -4175,6 +4177,7 @@
           },
           "reference": "fox"
         },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
         "name": "nSD"
       },
       {
@@ -4189,6 +4192,7 @@
           },
           "reference": "fox"
         },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
         "name": "pSD"
       },
       {
@@ -4203,6 +4207,7 @@
           },
           "reference": "fox"
         },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
         "name": "ntap"
       },
       {
@@ -4217,15 +4222,18 @@
           },
           "reference": "fox"
         },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
         "name": "ptap"
       },
       {
         "field_oxide_layer": {
           "dielectric_k": 3.95
         },
+        "layer_type": "LAYER_TYPE_FIELD_OXIDE",
         "name": "fox"
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "layer_below": "poly_con",
@@ -4248,9 +4256,11 @@
           "thickness_sidewall": 0.05,
           "thickness_where_no_metal": 0.05
         },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
         "name": "nitride"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ild0",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4258,6 +4268,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "layer_below": "metal1_n_mom",
@@ -4273,6 +4284,7 @@
         "name": "Metal1"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ild1",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4280,6 +4292,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "layer_below": "metal2_n_mom",
@@ -4295,6 +4308,7 @@
         "name": "Metal2"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ild2",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4302,6 +4316,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "layer_below": "metal3_n_mom",
@@ -4317,6 +4332,7 @@
         "name": "Metal3"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ild3",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4324,6 +4340,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "layer_below": "metal4_n_mom",
@@ -4339,6 +4356,7 @@
         "name": "Metal4"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ild4",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4346,6 +4364,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "border": 0.005,
@@ -4362,6 +4381,7 @@
         "name": "metal5_n_cap"
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "thickness": 0.49,
           "z": 5.09
@@ -4374,9 +4394,11 @@
           "reference": "metal5_cap",
           "thickness_over_metal": 0.04
         },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
         "name": "ismim"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ildtm1b",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4384,6 +4406,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "border": 0.005,
@@ -4400,6 +4423,7 @@
         "name": "cmim_top"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ildtm1c",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4407,6 +4431,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "contact_above": {
             "border": 0.5,
@@ -4423,6 +4448,7 @@
         "name": "TopMetal1"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "ildtm2",
         "simple_dielectric_layer": {
           "dielectric_k": 4.1,
@@ -4430,6 +4456,7 @@
         }
       },
       {
+        "layer_type": "LAYER_TYPE_METAL",
         "metal_layer": {
           "thickness": 3.0,
           "z": 11.23
@@ -4444,6 +4471,7 @@
           "thickness_sidewall": 0.3,
           "thickness_where_no_metal": 1.5
         },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
         "name": "pass1"
       },
       {
@@ -4454,9 +4482,11 @@
           "thickness_sidewall": 0.3,
           "thickness_where_no_metal": 0.4
         },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
         "name": "pass2"
       },
       {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
         "name": "air",
         "simple_dielectric_layer": {
           "dielectric_k": 1.0,

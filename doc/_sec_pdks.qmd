@@ -114,7 +114,8 @@ The relative permittivity $k$ belongs to each dielectric. A stack may therefore 
 The schema excerpt below shows how these relationships are expressed:
 
 - `ProcessStackInfo.layers` orders the layers of the stack
-- Each `LayerInfo` selects one `parameters` payload, which defines its layer kind
+- `LayerInfo.layer_type` identifies the layer kind with a `LayerType` enum value
+- Its `parameters` payload must match that kind
 - `MetalLayer.z` locates the metal bottom relative to the substrate
 - `MetalLayer.contact_above` describes the contact to the next conductor
 - A dielectric `reference` identifies the layer or profile it wraps
@@ -122,6 +123,12 @@ The schema excerpt below shows how these relationships are expressed:
 
 ```{.protobuf #lst-tech-def-process-stack caption="Excerpt from process_stack.proto" code-line-numbers="true"}
 message ProcessStackInfo {
+
+    enum LayerType { …
+        LAYER_TYPE_SIMPLE_DIELECTRIC = 50;
+        LAYER_TYPE_CONFORMAL_DIELECTRIC = 60;
+        LAYER_TYPE_METAL = 80;
+    }
 
     message Contact { // Contact/Via
         string name = 1;
@@ -156,6 +163,7 @@ message ProcessStackInfo {
 
     message LayerInfo {
         string name = 1;
+        LayerType layer_type = 2;
         oneof parameters { …
             SimpleDielectricLayer simple_dielectric_layer = 50;
             ConformalDielectricLayer conformal_dielectric_layer = 60;
@@ -284,7 +292,7 @@ The previews below show the complete resolved nominal `Technology` messages for 
 
 To inspect the data actually installed, locate `klayout_pex_protobuf` beside the `klayout_pex` package in `site-packages`[^kpex-site-packages]. The resolved nominal snapshots use the PDK identifiers from @tbl-pdk-variants, followed by `_tech.pb.json`. The catalogs and their component datasets are under `tech/<PDK>/`.
 
-Each process-stack layer selects exactly one parameter payload, such as `metal_layer` or `conformal_dielectric_layer`. That payload defines its type and physical properties.
+Each process-stack layer declares its kind in `layer_type` and supplies exactly one matching `parameters` payload. For example, `LAYER_TYPE_METAL` requires `metal_layer`. Unspecified or unknown kinds, missing payloads and mismatches are rejected when the technology is loaded.
 
 :::: {.content-visible when-format="html"}
 

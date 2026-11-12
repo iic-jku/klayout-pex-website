@@ -19,7 +19,7 @@
     {
       "file": {
         "path": "process_stack/nominal.pb.json",
-        "sha256": "b06495b948dc57358b292c7e38e735b09c8a11a4cf2d0ca8590b0fe0354755ca"
+        "sha256": "71cb48aa4a2714ba3fdbdc217c765f93c9bda71b335d15114f0984d7b3975020"
       },
       "id": "nominal",
       "kind": "PROCESS_STACK"
