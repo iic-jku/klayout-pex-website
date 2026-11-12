@@ -49,6 +49,8 @@ The engine uses those new API classes to extract parasitic resistances:
 
 `--mode CC` keeps each connected net equipotential. `--mode R` breaks its conductors into a resistance network. `--mode RC` places extracted capacitances on that distributed network as well, so the position of a load along a wire affects the simulated response.
 
+Grounded capacitance is an explicit approximation: `--mode C` uses ideal conductors, while `--mode RC --coupling grounded` retains distributed resistance. The development-version options, floating-conductor treatment and standalone postprocessing are described in @sec-capacitance-coupling.
+
 The capacitance model has separate area-overlap, facing-sidewall and fringe terms. Polygon integration preserves their geometric meaning for sloped boundaries (@sec-polygon-capacitance). It does not turn the analytical model into a field solver or remove the need to check its coefficients against the intended technology.
 
 The halo limits which neighboring geometry participates in sidewall and fringe extraction. Keep the same halo and fringe normalization when comparing runs. Recent neighborhood batching and rectangular-shield interval subtraction reduce repeated geometric work while retaining the polygon path for general shapes. They do not justify shrinking the halo to obtain a faster result.
