@@ -1,0 +1,10 @@
+* Distributed conductors with capacitor-only floating fill
+.subckt coupled A B VSS
+Rext_a A A1 100
+Rext_b B B1 200
+Cext_ab A1 B1 2p
+Cext_af A1 F 3p
+Cext_fb F B1 6p
+Cext_sub A1 VSS 1p
+Cload A VSS 5p
+.ends coupled
