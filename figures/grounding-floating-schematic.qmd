@@ -1,0 +1,71 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+::: {#fig-grounding-floating layout-nrow=3}
+
+```{python}
+#| label: fig-grounding-floating-before
+#| echo: false
+#| fig-cap: "Coupled input: F has no external terminal."
+import schemdraw as sd
+import schemdraw.elements as elm
+sd.svgconfig.svg2 = False
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=3, fontsize=14)
+    elm.Dot().at((0,0)).label('A', loc='left')
+    elm.Capacitor().right().label('3 pF')
+    elm.Label().at((3,0)).theta(0).label('F', loc='bottom', ofst=0.2)
+    elm.Capacitor().right().label('6 pF')
+    elm.Dot().label('B', loc='right')
+```
+
+```{python}
+#| label: fig-grounding-floating-eliminated
+#| echo: false
+#| fig-cap: "Exact elimination: the retained terminals see a 2 pF coupling."
+import schemdraw as sd
+import schemdraw.elements as elm
+sd.svgconfig.svg2 = False
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=3, fontsize=14)
+    elm.Dot().at((0,0)).label('A', loc='left')
+    elm.Capacitor().right().length(6).label('2 pF').color('green')
+    elm.Dot().label('B', loc='right')
+```
+
+```{python}
+#| label: fig-grounding-floating-after
+#| echo: false
+#| fig-cap: "Grounded approximation: each endpoint receives the full 2 pF load."
+import schemdraw as sd
+import schemdraw.elements as elm
+sd.svgconfig.svg2 = False
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=3, fontsize=14)
+    elm.Dot().at((0,0)).label('A', loc='left')
+    removed=elm.Capacitor().right().length(6).label('2 pF')
+    elm.Dot().label('B', loc='right')
+    x,y=removed.center
+    elm.Line().at((x-.35,y-.35)).to((x+.35,y+.35)).color('red').linewidth(2)
+    elm.Capacitor().at((0,0)).down().length(2.2).label('2 pF').color('green')
+    elm.Line().right().length(6)
+    elm.Capacitor().up().length(2.2).label('2 pF').color('green')
+    elm.Dot().at((3,-2.2)).label('VSS', loc='bottom')
+```
+
+Exact floating elimination precedes the grounded approximation. Red strikes through the removed coupling. Green identifies each newly introduced capacitor. `VSS` is an explicit reference, not a new connection to `F`.
+
+:::
