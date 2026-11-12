@@ -109,6 +109,8 @@ bibliography: ../references.bib
 
 {{< include _sec_netlist_interface.qmd >}}
 
+{{< include _sec_grounded_capacitance.qmd >}}
+
 {{< include _sec_extraction_checks.qmd >}}
 
 {{< pagebreak >}}

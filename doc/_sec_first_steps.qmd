@@ -49,6 +49,8 @@ kpex extract --pdk sky130A --2.5D --mode RC --blackbox y \
 
 Use `--schematic` to follow an existing testbench interface (@sec-netlist-interface). `RC` enables consistency failures by default; @sec-extraction-checks explains the diagnostics and the additional checks that can be requested.
 
+Grounded capacitance is an explicit approximation: `--mode C` uses ideal conductors, while `--mode RC --coupling grounded` retains distributed resistance. The development-version options, floating-conductor treatment and standalone postprocessing are described in @sec-capacitance-coupling.
+
 Each run directory contains `kpex_result.json`, which records the output paths, warnings, errors and final status. A written netlist can coexist with failed checks, so inspect the exit status and diagnostics before simulation.
 
 ## Generating PEX25D {#sec-first-steps-pex25d}
