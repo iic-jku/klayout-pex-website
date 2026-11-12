@@ -1,0 +1,2537 @@
+{
+  "device_layers": [
+    {
+      "gds_pairs": [
+        {
+          "layer": 22
+        },
+        {
+          "layer": 30
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "nfet_*",
+        "pfet_*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 5,
+          "layer": 166
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "cap_nmos_*",
+        "cap_pmos_*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 5,
+          "layer": 115
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "diode_nd2ps_*",
+        "diode_pd2nw_*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 51,
+          "layer": 153
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "diode_nw2ps_*",
+        "diode_pw2dw_*",
+        "diode_dw2ps_*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "layer": 241
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "sc_diode"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 5,
+          "layer": 127
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "npn_*",
+        "pnp_*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 5,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "nplus_*",
+        "pplus_*",
+        "npolyf_*",
+        "ppolyf_*",
+        "nwell",
+        "pwell"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 11,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "rm1"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 12,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "rm2"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 13,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "rm3"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 14,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "rm4"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 15,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "rm5"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 15,
+          "layer": 110
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "tm*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "layer": 75
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "cap_mim_*"
+      ]
+    },
+    {
+      "gds_pairs": [
+        {
+          "datatype": 5,
+          "layer": 80
+        }
+      ],
+      "lvs_device_class_patterns": [
+        "efuse"
+      ]
+    }
+  ],
+  "device_models": {
+    "device_model_mappings": [
+      {
+        "lvs_device_class_name": "nfet_03v3",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nfet_03v3_dss",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nfet_05v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nfet_06v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nfet_06v0_dss",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nfet_06v0_nvt",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nfet_10v0_asym",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pfet_03v3",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pfet_03v3_dss",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pfet_05v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pfet_06v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pfet_06v0_dss",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pfet_10v0_asym",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "l"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "w"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AS",
+            "name": "as"
+          },
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "AD",
+            "name": "ad"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PS",
+            "name": "ps"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "PD",
+            "name": "pd"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "D",
+          "G",
+          "S",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_nd2ps_03v3",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_nd2ps_06v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_nw2ps_03v3",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_nw2ps_06v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_pd2nw_03v3",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_pd2nw_06v0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "sc_diode",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_pw2dw_03v3",
+        "model_name": "diode_pw2dw",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_pw2dw_06v0",
+        "model_name": "diode_pw2dw",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_dw2ps_03v3",
+        "model_name": "diode_dw2ps",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "diode_dw2ps_06v0",
+        "model_name": "diode_dw2ps",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-12,
+            "lvs_parameter_name": "A",
+            "name": "area"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "P",
+            "name": "pj"
+          }
+        ],
+        "spice_prefix": "D",
+        "terminal_names": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npn_00p54x02p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E",
+          "S"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npn_00p54x04p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E",
+          "S"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npn_00p54x08p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E",
+          "S"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npn_00p54x16p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E",
+          "S"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npn_05p00x05p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E",
+          "S"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npn_10p00x10p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E",
+          "S"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pnp_05p00x00p42",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pnp_05p00x05p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pnp_10p00x00p42",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pnp_10p00x10p00",
+        "parameters": [
+          {
+            "lvs_parameter_name": "NE",
+            "name": "m"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "C",
+          "B",
+          "E"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nplus_s",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nplus_u",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pplus_s",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "pplus_u",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npolyf_s",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "npolyf_u",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "ppolyf_s",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "ppolyf_u",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "ppolyf_u_1k",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "ppolyf_u_1k_6p0",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "nwell",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B",
+          "W"
+        ]
+      },
+      {
+        "lvs_device_class_name": "rm1",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "rm2",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "rm3",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "rm4",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "tm11k",
+        "parameters": [
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "W",
+            "name": "r_width"
+          },
+          {
+            "lvs_parameter_factor": 1e-06,
+            "lvs_parameter_name": "L",
+            "name": "r_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "efuse",
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "kind": "KIND_METAL_CAPACITOR",
+        "lvs_device_class_name": "cap_mim_1f0fF",
+        "model_name": "cap_mim_1f0_m4m5_noshield",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "B",
+          "A"
+        ]
+      },
+      {
+        "kind": "KIND_METAL_CAPACITOR",
+        "lvs_device_class_name": "cap_mim_1f5fF",
+        "model_name": "cap_mim_1f5_m4m5_noshield",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "B",
+          "A"
+        ]
+      },
+      {
+        "kind": "KIND_METAL_CAPACITOR",
+        "lvs_device_class_name": "cap_mim_2f0fF",
+        "model_name": "cap_mim_2f0_m4m5_noshield",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "B",
+          "A"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_nmos_03v3",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_nmos_03v3_b",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_nmos_06v0",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_nmos_06v0_b",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_pmos_03v3",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_pmos_03v3_b",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_pmos_06v0",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "lvs_device_class_name": "cap_pmos_06v0_b",
+        "parameters": [
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_LONG"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_width"
+          },
+          {
+            "lvs_area_perimeter_side": {
+              "area_parameter_name": "A",
+              "perimeter_parameter_name": "P",
+              "side": "SIDE_SHORT"
+            },
+            "lvs_parameter_factor": 1e-06,
+            "name": "c_length"
+          }
+        ],
+        "spice_prefix": "X",
+        "terminal_names": [
+          "A",
+          "B"
+        ]
+      }
+    ]
+  },
+  "layers": [
+    {
+      "description": "Deep N-well",
+      "drw_gds_pair": {
+        "layer": 12
+      },
+      "name": "DNWELL",
+      "purpose": "PURPOSE_DNWELL"
+    },
+    {
+      "description": "N-well region",
+      "drw_gds_pair": {
+        "layer": 21
+      },
+      "name": "Nwell",
+      "purpose": "PURPOSE_NWELL"
+    },
+    {
+      "description": "LV P-well region (isolated within DNWELL)",
+      "drw_gds_pair": {
+        "layer": 204
+      },
+      "name": "LVPWELL",
+      "purpose": "PURPOSE_PWELL"
+    },
+    {
+      "description": "Diffusion for device and interconnect",
+      "drw_gds_pair": {
+        "layer": 22
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 22
+      },
+      "name": "COMP",
+      "purpose": "PURPOSE_DIFF"
+    },
+    {
+      "description": "P+ source/drain implant",
+      "drw_gds_pair": {
+        "layer": 31
+      },
+      "name": "Pplus",
+      "purpose": "PURPOSE_P_IMPLANT"
+    },
+    {
+      "description": "N+ source/drain implant",
+      "drw_gds_pair": {
+        "layer": 32
+      },
+      "name": "Nplus",
+      "purpose": "PURPOSE_N_IMPLANT"
+    },
+    {
+      "description": "Polysilicon gate & interconnect",
+      "drw_gds_pair": {
+        "layer": 30
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 30
+      },
+      "name": "Poly2",
+      "pin_gds_pair": {
+        "layer": 30
+      },
+      "purpose": "PURPOSE_METAL"
+    },
+    {
+      "description": "Contact to local interconnect",
+      "drw_gds_pair": {
+        "layer": 33
+      },
+      "name": "Contact",
+      "purpose": "PURPOSE_CONTACT"
+    },
+    {
+      "description": "Metal 1 interconnect",
+      "drw_gds_pair": {
+        "layer": 34
+      },
+      "fill_gds_pair": {
+        "datatype": 4,
+        "layer": 34
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 34
+      },
+      "name": "Metal1",
+      "pin_gds_pair": {
+        "layer": 34
+      },
+      "purpose": "PURPOSE_METAL"
+    },
+    {
+      "description": "Contact from Metal1 to Metal2",
+      "drw_gds_pair": {
+        "layer": 35
+      },
+      "name": "Via1",
+      "purpose": "PURPOSE_VIA"
+    },
+    {
+      "description": "Metal 2 interconnect",
+      "drw_gds_pair": {
+        "layer": 36
+      },
+      "fill_gds_pair": {
+        "datatype": 4,
+        "layer": 36
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 36
+      },
+      "name": "Metal2",
+      "pin_gds_pair": {
+        "layer": 36
+      },
+      "purpose": "PURPOSE_METAL"
+    },
+    {
+      "description": "Contact from Metal2 to Metal3",
+      "drw_gds_pair": {
+        "layer": 38
+      },
+      "name": "Via2",
+      "purpose": "PURPOSE_VIA"
+    },
+    {
+      "description": "Metal 3 interconnect",
+      "drw_gds_pair": {
+        "layer": 42
+      },
+      "fill_gds_pair": {
+        "datatype": 4,
+        "layer": 42
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 42
+      },
+      "name": "Metal3",
+      "pin_gds_pair": {
+        "layer": 42
+      },
+      "purpose": "PURPOSE_METAL"
+    },
+    {
+      "description": "Contact from Metal3 to Metal4",
+      "drw_gds_pair": {
+        "layer": 40
+      },
+      "name": "Via3",
+      "purpose": "PURPOSE_VIA"
+    },
+    {
+      "description": "Metal 4 interconnect",
+      "drw_gds_pair": {
+        "layer": 46
+      },
+      "fill_gds_pair": {
+        "datatype": 4,
+        "layer": 46
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 46
+      },
+      "name": "Metal4",
+      "pin_gds_pair": {
+        "layer": 46
+      },
+      "purpose": "PURPOSE_METAL"
+    },
+    {
+      "description": "Contact from Metal4 to Metal5",
+      "drw_gds_pair": {
+        "layer": 41
+      },
+      "name": "Via4",
+      "purpose": "PURPOSE_VIA"
+    },
+    {
+      "description": "MiM capacitor top plate over Metal4",
+      "drw_gds_pair": {
+        "layer": 75
+      },
+      "name": "FuseTop",
+      "purpose": "PURPOSE_MIM_CAP"
+    },
+    {
+      "description": "Metal 5 interconnect",
+      "drw_gds_pair": {
+        "layer": 81
+      },
+      "fill_gds_pair": {
+        "datatype": 4,
+        "layer": 81
+      },
+      "label_gds_pair": {
+        "datatype": 10,
+        "layer": 81
+      },
+      "name": "Metal5",
+      "pin_gds_pair": {
+        "layer": 81
+      },
+      "purpose": "PURPOSE_METAL"
+    }
+  ],
+  "lvs_computed_layers": [
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Deep NWell",
+        "drw_gds_pair": {
+          "layer": 12
+        },
+        "name": "dnwell",
+        "purpose": "PURPOSE_DNWELL"
+      },
+      "original_layer_name": "DNWELL"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "NWell",
+        "drw_gds_pair": {
+          "layer": 21
+        },
+        "name": "nwell_con",
+        "purpose": "PURPOSE_NWELL"
+      },
+      "original_layer_name": "Nwell"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Isolated p-well (LVPWELL within DNWELL)",
+        "drw_gds_pair": {
+          "layer": 204
+        },
+        "name": "lvpwell_dw_con",
+        "purpose": "PURPOSE_PWELL"
+      },
+      "original_layer_name": "LVPWELL"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "N+ source/drain",
+        "drw_gds_pair": {
+          "layer": 32
+        },
+        "name": "nsd",
+        "purpose": "PURPOSE_N_IMPLANT"
+      },
+      "original_layer_name": "Nplus",
+      "process_layer_name": "Nplus"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "P+ source/drain",
+        "drw_gds_pair": {
+          "layer": 31
+        },
+        "name": "psd",
+        "purpose": "PURPOSE_P_IMPLANT"
+      },
+      "original_layer_name": "Pplus",
+      "process_layer_name": "Pplus"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "N+ drain of the LDNMOS, the same n+ diffusion as nsd",
+        "drw_gds_pair": {
+          "layer": 32
+        },
+        "name": "nd_ldmos",
+        "purpose": "PURPOSE_N_IMPLANT"
+      },
+      "original_layer_name": "Nplus",
+      "process_layer_name": "Nplus"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "P+ source/drain within DNWELL, the same p+ diffusion as psd",
+        "drw_gds_pair": {
+          "layer": 31
+        },
+        "name": "psd_dw",
+        "purpose": "PURPOSE_P_IMPLANT"
+      },
+      "original_layer_name": "Pplus",
+      "process_layer_name": "Pplus"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "P+ drain of the LDPMOS, the same p+ diffusion as psd",
+        "drw_gds_pair": {
+          "layer": 31
+        },
+        "name": "pd_ldmos",
+        "purpose": "PURPOSE_P_IMPLANT"
+      },
+      "original_layer_name": "Pplus",
+      "process_layer_name": "Pplus"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "N+ tap (COMP within nwell)",
+        "drw_gds_pair": {
+          "datatype": 144,
+          "layer": 22
+        },
+        "name": "ntap",
+        "purpose": "PURPOSE_NTAP"
+      },
+      "original_layer_name": "COMP",
+      "process_layer_name": "ntap"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "P+ tap (COMP outside nwell)",
+        "drw_gds_pair": {
+          "datatype": 244,
+          "layer": 22
+        },
+        "name": "ptap",
+        "purpose": "PURPOSE_PTAP"
+      },
+      "original_layer_name": "COMP",
+      "process_layer_name": "ptap"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "N+ tap of the deep nwell (COMP within DNWELL, outside LVPWELL)",
+        "drw_gds_pair": {
+          "datatype": 344,
+          "layer": 22
+        },
+        "name": "ntap_dw",
+        "purpose": "PURPOSE_NTAP"
+      },
+      "original_layer_name": "COMP",
+      "process_layer_name": "ntap_dw"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "P+ tap of an isolated p-well (COMP within LVPWELL within DNWELL)",
+        "drw_gds_pair": {
+          "datatype": 444,
+          "layer": 22
+        },
+        "name": "ptap_dw",
+        "purpose": "PURPOSE_PTAP"
+      },
+      "original_layer_name": "COMP",
+      "process_layer_name": "ptap_dw"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for poly",
+        "drw_gds_pair": {
+          "layer": 30
+        },
+        "name": "poly2_con",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Poly2",
+      "process_layer_name": "Poly2"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for met1",
+        "drw_gds_pair": {
+          "layer": 34
+        },
+        "name": "metal1_con",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal1",
+      "process_layer_name": "Metal1"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for met2",
+        "drw_gds_pair": {
+          "layer": 36
+        },
+        "name": "metal2_con",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal2",
+      "process_layer_name": "Metal2"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for met3 (no cap)",
+        "drw_gds_pair": {
+          "layer": 42
+        },
+        "name": "metal3_con",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal3",
+      "process_layer_name": "Metal3"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for met4 (no MIM cap)",
+        "drw_gds_pair": {
+          "layer": 46
+        },
+        "name": "metal4_n_cap",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal4",
+      "process_layer_name": "metal4_n_cap"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for met5",
+        "drw_gds_pair": {
+          "layer": 81
+        },
+        "name": "metal5_con",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal5",
+      "process_layer_name": "Metal5"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from nsd to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4401,
+          "layer": 33
+        },
+        "name": "contact_nsd_con",
+        "purpose": "PURPOSE_CONTACT"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_nsd_con"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from psd to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4402,
+          "layer": 33
+        },
+        "name": "contact_psd_con",
+        "purpose": "PURPOSE_CONTACT"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_psd_con"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from poly to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4403,
+          "layer": 33
+        },
+        "name": "contact_poly_con",
+        "purpose": "PURPOSE_CONTACT"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_poly_con"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from ntap (the nwell below) to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4404,
+          "layer": 33
+        },
+        "name": "contact_ntap_con",
+        "purpose": "PURPOSE_CONTACT"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_ntap_con"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from ptap (the substrate below) to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4405,
+          "layer": 33
+        },
+        "name": "contact_ptap_con",
+        "purpose": "PURPOSE_PTAP"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_ptap_con"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from ntap_dw (the deep nwell below) to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4406,
+          "layer": 33
+        },
+        "name": "contact_ntap_dw_con",
+        "purpose": "PURPOSE_NTAP"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_ntap_dw_con"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for contact from the p-diffusion of an isolated p-well to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4407,
+          "layer": 33
+        },
+        "name": "contact_ptap_dw_con",
+        "purpose": "PURPOSE_PTAP"
+      },
+      "original_layer_name": "Contact",
+      "process_layer_name": "contact_ptap_dw_con"
+    },
+    {
+      "kind": "KIND_DEVICE_INTERNAL",
+      "layer_info": {
+        "description": "Computed layer for contact from the terminals of the diffusion resistors to Metal1",
+        "drw_gds_pair": {
+          "datatype": 4408,
+          "layer": 33
+        },
+        "name": "contact_res_con",
+        "purpose": "PURPOSE_CONTACT"
+      },
+      "original_layer_name": "Contact"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for via1",
+        "drw_gds_pair": {
+          "layer": 35
+        },
+        "name": "via1",
+        "purpose": "PURPOSE_VIA"
+      },
+      "original_layer_name": "Via1",
+      "process_layer_name": "via1"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for via2 (no MIM cap)",
+        "drw_gds_pair": {
+          "datatype": 144,
+          "layer": 38
+        },
+        "name": "via2_n_cap",
+        "purpose": "PURPOSE_VIA"
+      },
+      "original_layer_name": "Via2",
+      "process_layer_name": "via2_n_cap"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for via3 (no MIM cap)",
+        "drw_gds_pair": {
+          "datatype": 144,
+          "layer": 40
+        },
+        "name": "via3_n_cap",
+        "purpose": "PURPOSE_VIA"
+      },
+      "original_layer_name": "Via3",
+      "process_layer_name": "via3_n_cap"
+    },
+    {
+      "kind": "KIND_REGULAR",
+      "layer_info": {
+        "description": "Computed layer for via4 (no MIM cap)",
+        "drw_gds_pair": {
+          "datatype": 144,
+          "layer": 41
+        },
+        "name": "via4_n_cap",
+        "purpose": "PURPOSE_VIA"
+      },
+      "original_layer_name": "Via4",
+      "process_layer_name": "via4_n_cap"
+    },
+    {
+      "kind": "KIND_DEVICE_CAPACITOR_PLATE",
+      "layer_info": {
+        "description": "Computed layer for via4 (with MIM cap)",
+        "drw_gds_pair": {
+          "datatype": 244,
+          "layer": 41
+        },
+        "name": "top_via_cap",
+        "purpose": "PURPOSE_VIA"
+      },
+      "original_layer_name": "Via4",
+      "process_layer_name": "top_via_cap"
+    },
+    {
+      "kind": "KIND_DEVICE_CAPACITOR_PLATE",
+      "layer_info": {
+        "description": "Computed layer for met4 (MIM cap bottom plate)",
+        "drw_gds_pair": {
+          "layer": 46
+        },
+        "name": "metal4_cap",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal4",
+      "process_layer_name": "metal4_cap"
+    },
+    {
+      "kind": "KIND_DEVICE_CAPACITOR_PLATE",
+      "layer_info": {
+        "description": "MiM cap top plate over Metal4",
+        "drw_gds_pair": {
+          "layer": 75
+        },
+        "name": "fuse_cap",
+        "purpose": "PURPOSE_MIM_CAP"
+      },
+      "original_layer_name": "FuseTop",
+      "process_layer_name": "FuseTop"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at diffusion layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 22
+        },
+        "name": "comp_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "COMP_label"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at poly2 layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 30
+        },
+        "name": "poly2_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Poly2_label"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at Metal1 layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 34
+        },
+        "name": "metal1_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal1_label"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at Metal2 layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 36
+        },
+        "name": "metal2_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal2_label"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at Metal3 layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 42
+        },
+        "name": "metal3_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal3_label"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at Metal4 layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 46
+        },
+        "name": "metal4_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal4_label"
+    },
+    {
+      "kind": "KIND_LABEL",
+      "layer_info": {
+        "description": "LABEL drawn at Metal5 layer",
+        "drw_gds_pair": {
+          "datatype": 10,
+          "layer": 81
+        },
+        "name": "metal5_label",
+        "purpose": "PURPOSE_METAL"
+      },
+      "original_layer_name": "Metal5_label"
+    }
+  ],
+  "name": "gf180mcuD",
+  "substrate": {
+    "lvs_layer_names": [
+      "ptap_regular"
+    ],
+    "net_names": [
+      "SUB"
+    ],
+    "tap_connections": [
+      {
+        "conductor_layer_name": "metal1_con",
+        "tap_lvs_layer_name": "contact_ptap_con"
+      },
+      {
+        "conductor_layer_name": "metal1_con",
+        "tap_lvs_layer_name": "contact_ntap_dw_con"
+      },
+      {
+        "conductor_layer_name": "metal1_con",
+        "tap_lvs_layer_name": "contact_ptap_dw_con"
+      }
+    ],
+    "well_lvs_layer_names": [
+      "nwell_con",
+      "lvpwell_dw_con",
+      "dnwell"
+    ]
+  }
+}

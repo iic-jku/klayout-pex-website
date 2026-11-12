@@ -1,0 +1,465 @@
+{
+  "description": "Nominal process stack data",
+  "id": "nominal",
+  "process_stack": {
+    "layers": [
+      {
+        "layer_type": "LAYER_TYPE_SUBSTRATE",
+        "name": "subs",
+        "substrate_layer": {
+          "height": 0.1,
+          "reference": "fox",
+          "thickness": 0.33
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_NWELL",
+        "name": "nwell",
+        "nwell_layer": {
+          "contact_above": {
+            "layer_below": "nwell",
+            "metal_above": "li1",
+            "name": "licon_ntap_con",
+            "spacing": 0.17,
+            "thickness": 0.9361,
+            "width": 0.17
+          },
+          "reference": "fox",
+          "z": 0.1
+        }
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "nsdm",
+            "metal_above": "li1",
+            "name": "licon_nsd_con",
+            "spacing": 0.17,
+            "thickness": 0.9361,
+            "width": 0.17
+          },
+          "reference": "fox",
+          "z": -0.12
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "nsd"
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "psdm",
+            "metal_above": "li1",
+            "name": "licon_psd_con",
+            "spacing": 0.17,
+            "thickness": 0.9361,
+            "width": 0.17
+          },
+          "reference": "fox",
+          "z": -0.12
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "psd"
+      },
+      {
+        "diffusion_layer": {
+          "reference": "fox",
+          "z": -0.12
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "ntap_conn"
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "ptap_conn",
+            "metal_above": "li1",
+            "name": "licon_ptap_con",
+            "spacing": 0.17,
+            "thickness": 0.9361,
+            "width": 0.17
+          },
+          "reference": "fox",
+          "z": -0.12
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "ptap_conn"
+      },
+      {
+        "field_oxide_layer": {
+          "dielectric_k": 4.632
+        },
+        "layer_type": "LAYER_TYPE_FIELD_OXIDE",
+        "name": "fox"
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "layer_below": "poly",
+            "metal_above": "li1",
+            "name": "licon_poly_con",
+            "spacing": 0.17,
+            "thickness": 0.4299,
+            "width": 0.17
+          },
+          "thickness": 0.18,
+          "z": 0.3262
+        },
+        "name": "poly"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 3.9,
+          "reference": "poly",
+          "thickness_sidewall": 0.006
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "iox"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 7.5,
+          "reference": "iox",
+          "thickness_over_metal": 0.121,
+          "thickness_sidewall": 0.0431
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "spnit"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "psg",
+        "simple_dielectric_layer": {
+          "dielectric_k": 3.9,
+          "reference": "fox"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "layer_below": "li1",
+            "metal_above": "met1",
+            "name": "mcon_con",
+            "spacing": 0.19,
+            "thickness": 0.34,
+            "width": 0.17
+          },
+          "thickness": 0.1,
+          "z": 0.9361
+        },
+        "name": "li1"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 7.3,
+          "reference": "li1",
+          "thickness_over_metal": 0.075,
+          "thickness_sidewall": 0.075,
+          "thickness_where_no_metal": 0.075
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "lint"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild2",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.05,
+          "reference": "lint"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.055,
+            "layer_below": "met1",
+            "metal_above": "met2",
+            "name": "via1_con",
+            "spacing": 0.17,
+            "thickness": 0.27,
+            "width": 0.15
+          },
+          "thickness": 0.36,
+          "z": 1.3761
+        },
+        "name": "met1"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 3.5,
+          "reference": "met1",
+          "thickness_sidewall": 0.03
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "nild3c"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild3",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.5,
+          "reference": "nild2"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.04,
+            "layer_below": "met2",
+            "metal_above": "met3",
+            "name": "via2_con",
+            "spacing": 0.2,
+            "thickness": 0.42,
+            "width": 0.2
+          },
+          "thickness": 0.36,
+          "z": 2.0061
+        },
+        "name": "met2"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 3.5,
+          "reference": "met2",
+          "thickness_sidewall": 0.03
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "nild4c"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild4",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.2,
+          "reference": "nild3"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.06,
+            "layer_below": "met3",
+            "metal_above": "met4",
+            "name": "via3_ncap",
+            "spacing": 0.2,
+            "thickness": 0.39,
+            "width": 0.2
+          },
+          "thickness": 0.845,
+          "z": 2.7861
+        },
+        "name": "met3_ncap"
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "thickness": 0.845,
+          "z": 2.7861
+        },
+        "name": "met3_cap"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 4.52,
+          "reference": "met3_cap",
+          "thickness_over_metal": 0.02
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "capild3"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild5",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "nild4"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.06,
+            "layer_below": "capm",
+            "metal_above": "met4",
+            "name": "via3_cap",
+            "spacing": 0.2,
+            "thickness": 0.27,
+            "width": 0.2
+          },
+          "thickness": 0.1,
+          "z": 3.6511
+        },
+        "name": "capm"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild5b",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "nild4"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.19,
+            "layer_below": "met4",
+            "metal_above": "met5",
+            "name": "via4_ncap",
+            "spacing": 0.8,
+            "thickness": 0.505,
+            "width": 0.8
+          },
+          "thickness": 0.845,
+          "z": 4.0211
+        },
+        "name": "met4_ncap"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 4.52,
+          "reference": "met4_cap",
+          "thickness_over_metal": 0.02
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "capild4"
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "thickness": 0.845,
+          "z": 4.0211
+        },
+        "name": "met4_cap"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild6",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.0,
+          "reference": "nild5"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.19,
+            "layer_below": "capm2",
+            "metal_above": "met5",
+            "name": "via4_cap",
+            "spacing": 0.8,
+            "thickness": 0.385,
+            "width": 0.8
+          },
+          "thickness": 0.1,
+          "z": 4.8861
+        },
+        "name": "capm2"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "nild6b",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.0,
+          "reference": "nild5"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "thickness": 1.26,
+          "z": 5.3711
+        },
+        "name": "met5"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 3.9,
+          "reference": "met5",
+          "thickness_over_metal": 0.09,
+          "thickness_sidewall": 0.07
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "topox"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 7.5,
+          "reference": "topox",
+          "thickness_over_metal": 0.54,
+          "thickness_sidewall": 0.3777,
+          "thickness_where_no_metal": 0.4223
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "topnit"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "air",
+        "simple_dielectric_layer": {
+          "dielectric_k": 2.94,
+          "reference": "topnit"
+        }
+      }
+    ]
+  },
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "The physical stack is the declared nominal KPEX geometry recipe",
+        "id": "nominal-geometry",
+        "reason": "A matching nominal scenario does not establish foundry qualification or numerical agreement with every analytical fit",
+        "source_ids": [
+          "recipe"
+        ]
+      },
+      {
+        "description": "The dielectric constant below local interconnect includes the existing nominal adjustment",
+        "id": "substrate-dielectric",
+        "reason": "The recipe matches the single-plate substrate-capacitance reference",
+        "source_ids": [
+          "recipe"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder"
+        ],
+        "summary": "Record nominal process stack sources and assumptions"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/sky130A.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "409b021a9ee4b4ec03b9528c5be81335292cace0eba7ae1a527584d4b35d0d72",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/sky130A.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      }
+    ]
+  }
+}

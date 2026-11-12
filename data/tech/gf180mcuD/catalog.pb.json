@@ -1,0 +1,89 @@
+{
+  "datasets": [
+    {
+      "file": {
+        "path": "resistance/nominal.pb.json",
+        "sha256": "0ba9a615f6486cd7972996aba7991fa66340761584a12a01dbf0f6c9eddf0934"
+      },
+      "id": "nominal",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "capacitance/nominal.pb.json",
+        "sha256": "c84817a7f67731181ecbea32f49464fa3c0df1f735717dfa7183fcc01df36fdb"
+      },
+      "id": "nominal",
+      "kind": "CAPACITANCE"
+    },
+    {
+      "file": {
+        "path": "process_stack/nominal.pb.json",
+        "sha256": "b49e12156a6dea4380a2b4a4a538dfef52d1e570cccfe3b3a2e3c6b221512c27"
+      },
+      "id": "nominal",
+      "kind": "PROCESS_STACK"
+    },
+    {
+      "file": {
+        "path": "device_references/nominal.pb.json",
+        "sha256": "99ea818d1b4a7746612477f375fbd25a8d7dc43f891146a4943199a6c99bb85b"
+      },
+      "id": "nominal",
+      "kind": "DEVICE_REFERENCES"
+    }
+  ],
+  "default_scenario": "nominal",
+  "description": "Nominal extraction scenarios for gf180mcuD",
+  "provenance": {
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder"
+        ],
+        "summary": "Describe the nominal technology scenario and its component sources"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/gf180mcuD.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "1cdbdd6b6350b56e5ba76a3df4c8fc1781eec4dd835f76e8dbc7aeb60fc560d2",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/gf180mcuD.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "capacitance": "nominal",
+      "description": "Existing nominal technology data",
+      "device_references": "nominal",
+      "id": "nominal",
+      "physical_stack_matches": true,
+      "process_stack": "nominal",
+      "resistance": "nominal"
+    }
+  ],
+  "schema_version": 1,
+  "shared": {
+    "path": "shared.pb.json",
+    "sha256": "a264d4fa1a88de0be18335448960bd9f260162211e955fddc281c10ca8f9ffa7"
+  },
+  "technology_id": "gf180mcuD"
+}

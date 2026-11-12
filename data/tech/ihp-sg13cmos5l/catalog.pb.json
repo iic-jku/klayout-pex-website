@@ -1,0 +1,89 @@
+{
+  "datasets": [
+    {
+      "file": {
+        "path": "resistance/nominal.pb.json",
+        "sha256": "39287c2227db8627a2b89a3aa0b4211baa42a70a30573f599143815765a66de2"
+      },
+      "id": "nominal",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "capacitance/nominal.pb.json",
+        "sha256": "b1ffe8d7a1bb68c8e48bebfd4ebb0f93a7e8578b92efd87394a8abb251209998"
+      },
+      "id": "nominal",
+      "kind": "CAPACITANCE"
+    },
+    {
+      "file": {
+        "path": "process_stack/nominal.pb.json",
+        "sha256": "228338ee4ce1aafb403e672593d864447131ec87384817189fa30cadef73a027"
+      },
+      "id": "nominal",
+      "kind": "PROCESS_STACK"
+    },
+    {
+      "file": {
+        "path": "device_references/nominal.pb.json",
+        "sha256": "f80df0d428be1ce488c5e2bc795bfd7a538678c365a0946a0625472ffb839e64"
+      },
+      "id": "nominal",
+      "kind": "DEVICE_REFERENCES"
+    }
+  ],
+  "default_scenario": "nominal",
+  "description": "Nominal extraction scenarios for ihp-sg13cmos5l",
+  "provenance": {
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder"
+        ],
+        "summary": "Describe the nominal technology scenario and its component sources"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/ihp_sg13.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "481b497fc70aa0c122a5c85dd2a4ac0eea4bc2f6b0fd0b5d533cdd349e802c34",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/ihp_sg13.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "capacitance": "nominal",
+      "description": "Existing nominal technology data",
+      "device_references": "nominal",
+      "id": "nominal",
+      "physical_stack_matches": true,
+      "process_stack": "nominal",
+      "resistance": "nominal"
+    }
+  ],
+  "schema_version": 1,
+  "shared": {
+    "path": "shared.pb.json",
+    "sha256": "d5f1b4d8cbd0d1a75185fb9d199e4080762a7c31cb775b04404a5aa0ddcbbd19"
+  },
+  "technology_id": "ihp-sg13cmos5l"
+}

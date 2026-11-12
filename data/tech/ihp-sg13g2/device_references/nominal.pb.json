@@ -1,0 +1,110 @@
+{
+  "description": "Nominal device capacitance references",
+  "device_references": {
+    "devices": [
+      {
+        "capacitance_references": [
+          {
+            "capacitance": "density * (l*1e6) * (w*1e6) * 1f * m",
+            "description": "Nominal low-frequency mutual capacitance, bias and temperature independent. No corner or mismatch variation. Engineering density estimate, not silicon-validated.",
+            "parameters": {
+              "density": "(mmin==1 ? 0.372 : 0.305) + (layers-1)*0.305",
+              "layers": "mmax-mmin+1"
+            },
+            "source": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/5e6d592e4002946a4616f798c357f0f3c06cf3b6/ihp-sg13g2/libs.tech/verilog-a/cap_cmomf/cap_cmomf.va",
+            "terminal_names": [
+              "mim_top",
+              "mim_btm"
+            ],
+            "valid_when": "w>0 && l>0 && m>0 && mmin>=1 && mmax>=mmin && mmax<=5 && floor(mmin)==mmin && floor(mmax)==mmax"
+          }
+        ],
+        "lvs_device_class_name": "cap_cmomf"
+      },
+      {
+        "capacitance_references": [
+          {
+            "capacitance": "(density*active_area + feed_cap)*1f*m",
+            "description": "Nominal low-frequency mutual capacitance, excluding substrate shunts and series R/L. No corner or mismatch variation. The two-layer density is extrapolated.",
+            "parameters": {
+              "active_area": "nx*ny*0.84*0.89",
+              "density": "layers<=2 ? 0.55 : layers==3 ? 0.82 : layers==4 ? 1.09 : 1.36",
+              "feed_cap": "feed==1 ? 0.1625*pad_length+0.0916 : feed==2 ? 0.152*pad_length : 0",
+              "layers": "mmax-mmin+1",
+              "nx": "max(1, floor(l*1e6/0.84 + 1e-6))",
+              "ny": "max(2, floor(w*1e6/0.89 + 1e-6))",
+              "pad_length": "ny*0.89+0.42"
+            },
+            "source": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/5e6d592e4002946a4616f798c357f0f3c06cf3b6/ihp-sg13g2/libs.tech/verilog-a/cap_cmomi/cap_cmomi.va",
+            "terminal_names": [
+              "mim_top",
+              "mim_btm"
+            ],
+            "valid_when": "w>0 && l>0 && m>0 && mmin>=1 && mmax>=mmin && mmax<=5 && floor(mmin)==mmin && floor(mmax)==mmax && mmax>mmin && (feed==0 || feed==1 || feed==2)"
+          }
+        ],
+        "lvs_device_class_name": "cap_cmomi"
+      }
+    ]
+  },
+  "id": "nominal",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "MOM references are low-frequency engineering estimates without corner or mismatch variation",
+        "id": "nominal-model",
+        "reason": "They provide independent nominal checks rather than silicon-qualified corner limits",
+        "source_ids": [
+          "cap_cmomf",
+          "cap_cmomi"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder",
+          "cap_cmomf",
+          "cap_cmomi"
+        ],
+        "summary": "Record nominal device references sources and assumptions"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/ihp_sg13.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "481b497fc70aa0c122a5c85dd2a4ac0eea4bc2f6b0fd0b5d533cdd349e802c34",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/ihp_sg13.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      },
+      {
+        "description": "Independent nominal cap_cmomf reference",
+        "id": "cap_cmomf",
+        "revision": "5e6d592e4002946a4616f798c357f0f3c06cf3b6",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/5e6d592e4002946a4616f798c357f0f3c06cf3b6/ihp-sg13g2/libs.tech/verilog-a/cap_cmomf/cap_cmomf.va"
+      },
+      {
+        "description": "Independent nominal cap_cmomi reference",
+        "id": "cap_cmomi",
+        "revision": "5e6d592e4002946a4616f798c357f0f3c06cf3b6",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/5e6d592e4002946a4616f798c357f0f3c06cf3b6/ihp-sg13g2/libs.tech/verilog-a/cap_cmomi/cap_cmomi.va"
+      }
+    ]
+  }
+}

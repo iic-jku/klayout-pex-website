@@ -1,0 +1,312 @@
+{
+  "description": "Nominal process stack data",
+  "id": "nominal",
+  "process_stack": {
+    "layers": [
+      {
+        "layer_type": "LAYER_TYPE_SUBSTRATE",
+        "name": "subs",
+        "substrate_layer": {
+          "reference": "fox",
+          "thickness": 0.28
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_NWELL",
+        "name": "nwell_drw",
+        "nwell_layer": {
+          "reference": "fox"
+        }
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "nsd_fet",
+            "metal_above": "metal1_n_mom",
+            "name": "cont_nsd_con",
+            "spacing": 0.18,
+            "thickness": 1.04,
+            "width": 0.16
+          },
+          "reference": "fox"
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "nSD"
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "psd_fet",
+            "metal_above": "metal1_n_mom",
+            "name": "cont_psd_con",
+            "spacing": 0.18,
+            "thickness": 1.04,
+            "width": 0.16
+          },
+          "reference": "fox"
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "pSD"
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "ntap",
+            "metal_above": "metal1_n_mom",
+            "name": "cont_ntap_con",
+            "spacing": 0.18,
+            "thickness": 1.04,
+            "width": 0.16
+          },
+          "reference": "fox"
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "ntap"
+      },
+      {
+        "diffusion_layer": {
+          "contact_above": {
+            "layer_below": "ptap",
+            "metal_above": "metal1_n_mom",
+            "name": "cont_ptap_con",
+            "spacing": 0.18,
+            "thickness": 1.04,
+            "width": 0.16
+          },
+          "reference": "fox"
+        },
+        "layer_type": "LAYER_TYPE_DIFFUSION",
+        "name": "ptap"
+      },
+      {
+        "field_oxide_layer": {
+          "dielectric_k": 3.95
+        },
+        "layer_type": "LAYER_TYPE_FIELD_OXIDE",
+        "name": "fox"
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "layer_below": "poly_con",
+            "metal_above": "metal1_n_mom",
+            "name": "cont_poly_con",
+            "spacing": 0.18,
+            "thickness": 0.48,
+            "width": 0.16
+          },
+          "thickness": 0.16,
+          "z": 0.4
+        },
+        "name": "GatPoly"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 6.5,
+          "reference": "GatPoly",
+          "thickness_over_metal": 0.05,
+          "thickness_sidewall": 0.05,
+          "thickness_where_no_metal": 0.05
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "nitride"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "ild0",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "fox"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "layer_below": "metal1_n_mom",
+            "metal_above": "metal2_n_mom",
+            "name": "via1_drw",
+            "spacing": 0.22,
+            "thickness": 0.54,
+            "width": 0.19
+          },
+          "thickness": 0.42,
+          "z": 1.04
+        },
+        "name": "Metal1"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "ild1",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "ild0"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "layer_below": "metal2_n_mom",
+            "metal_above": "metal3_n_mom",
+            "name": "via2_drw",
+            "spacing": 0.22,
+            "thickness": 0.54,
+            "width": 0.19
+          },
+          "thickness": 0.49,
+          "z": 2.0
+        },
+        "name": "Metal2"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "ild2",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "ild1"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "layer_below": "metal3_n_mom",
+            "metal_above": "metal4_n_mom",
+            "name": "via3_drw",
+            "spacing": 0.22,
+            "thickness": 0.54,
+            "width": 0.19
+          },
+          "thickness": 0.49,
+          "z": 3.03
+        },
+        "name": "Metal3"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "ild3",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "ild2"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "contact_above": {
+            "border": 0.005,
+            "layer_below": "metal4_n_mom",
+            "metal_above": "topmetal1_con",
+            "name": "topvia1_n_cap",
+            "spacing": 0.42,
+            "thickness": 0.85,
+            "width": 0.42
+          },
+          "thickness": 0.49,
+          "z": 4.06
+        },
+        "name": "Metal4"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "ild4",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "ild3"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "ildtm1",
+        "simple_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "ild4"
+        }
+      },
+      {
+        "layer_type": "LAYER_TYPE_METAL",
+        "metal_layer": {
+          "thickness": 2.0,
+          "z": 5.4
+        },
+        "name": "TopMetal1"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 4.1,
+          "reference": "TopMetal1",
+          "thickness_over_metal": 1.5,
+          "thickness_sidewall": 0.3,
+          "thickness_where_no_metal": 1.5
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "pass1"
+      },
+      {
+        "conformal_dielectric_layer": {
+          "dielectric_k": 6.6,
+          "reference": "pass1",
+          "thickness_over_metal": 0.4,
+          "thickness_sidewall": 0.3,
+          "thickness_where_no_metal": 0.4
+        },
+        "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
+        "name": "pass2"
+      },
+      {
+        "layer_type": "LAYER_TYPE_SIMPLE_DIELECTRIC",
+        "name": "air",
+        "simple_dielectric_layer": {
+          "dielectric_k": 1.0,
+          "reference": "pass2"
+        }
+      }
+    ]
+  },
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "The physical stack is the declared nominal KPEX geometry recipe",
+        "id": "nominal-geometry",
+        "reason": "A matching nominal scenario does not establish foundry qualification or numerical agreement with every analytical fit",
+        "source_ids": [
+          "recipe"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder"
+        ],
+        "summary": "Record nominal process stack sources and assumptions"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/ihp_sg13.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "481b497fc70aa0c122a5c85dd2a4ac0eea4bc2f6b0fd0b5d533cdd349e802c34",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/ihp_sg13.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      }
+    ]
+  }
+}
