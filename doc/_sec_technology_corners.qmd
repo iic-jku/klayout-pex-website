@@ -1,0 +1,248 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+## Selecting Technology Corners {#sec-technology-corners}
+
+An extraction corner selects the data used to calculate parasitics. It does not automatically select transistor models, temperature or supply voltage for the subsequent simulation. Those choices can be independent in an open PDK.
+
+::: {.callout-note}
+Corner selection belongs to the development version following `0.9.0`. The first bundled catalogs provide `nominal` for each supported technology. Additional upstream corner data is being qualified separately. An upstream style name is not automatically an available KPEX selection.
+:::
+
+### Selecting Declared Scenarios {#sec-corner-selection}
+
+Both `kpex extract` and `kpex pex25d` accept `--corner`. A scenario names complete resistance, capacitance, physical-stack and optional device-reference datasets. With no explicit option, the catalog's declared default is selected.
+
+```bash
+kpex extract --pdk sky130A --2.5D --mode RC --corner nominal \
+  --gds r_wire_voltage_divider_li1.gds.gz \
+  --out-netlist divider.spice --out-result divider-result.json
+```
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_wire_voltage_divider_li1.gds.gz>
+
+This example uses the bundled nominal data and a distributed wire pattern. Omitting `--corner nominal` produces the same technology selection while `nominal` is the catalog default.
+
+A separately supplied catalog can be selected explicitly:
+
+```bash
+kpex extract --pdk sky130A --2.5D --mode RC \
+  --tech-catalog path/to/catalog.pb.json --corner nominal \
+  --gds r_wire_voltage_divider_li1.gds.gz \
+  --out-netlist divider.spice
+```
+
+The catalog must identify the selected `--pdk`. A catalog for one process cannot silently change the layout/LVS interface of another. Scenario identifiers are case-sensitive: `nominal` and `Nominal` are different names.
+
+Unknown selections fail before the layout or LVS database is read. The diagnostic lists the valid scenarios, so a typo cannot silently fall back to nominal extraction.
+
+{{< pagebreak >}}
+
+### Keeping the Sources Independent {#sec-corner-components}
+
+The four datasets answer different physical questions:
+
+| Dataset | What it determines |
+|:---|:---|
+| Resistance | Sheet resistance and per-cut contact/via resistance |
+| Capacitance | Area, sidewall and fringe coefficients, including fitted offsets and halo |
+| Physical stack | Layer positions, film thicknesses and dielectric constants for geometry generation |
+| Device references | Independent capacitance estimates used by device checks |
+: Component datasets selected by a scenario {#tbl-corner-components tbl-colwidths="[26,74]"}
+
+Layout layers, computed-layer identities, device interfaces, substrate connectivity and exclusion definitions remain shared. Selection resolves a fresh complete technology before extraction caches are constructed. Running one corner and then another does not accumulate table rows or modify a previous selection.
+
+{{< include /figures/technology-corner-selection.qmd >}}
+
+A missing table entry is not the same as an explicit zero. Each selected resistance and capacitance table must cover the same row keys as the default scenario. Complete components can be shared by several scenarios without inheriting unspecified numerical entries from nominal data.
+
+{{< pagebreak >}}
+
+### Inspecting Catalog Data {#sec-corner-catalog-json}
+
+The following examples contain the generated `pb.json` files for the current corner implementation. Each complete example includes its catalog, shared technology and all four nominal datasets. Unpack it before passing the catalog to `--tech-catalog`: the component paths are relative to that catalog.
+
+| Technology | Catalog | Complete example |
+|:---|:---|:---|
+| `sky130A` | [`catalog.pb.json`](../data/tech/sky130A/catalog.pb.json) | [`sky130A.zip`](../data/tech/sky130A.zip) |
+| `gf180mcuD` | [`catalog.pb.json`](../data/tech/gf180mcuD/catalog.pb.json) | [`gf180mcuD.zip`](../data/tech/gf180mcuD.zip) |
+| `ihp-sg13g2` | [`catalog.pb.json`](../data/tech/ihp-sg13g2/catalog.pb.json) | [`ihp-sg13g2.zip`](../data/tech/ihp-sg13g2.zip) |
+| `ihp-sg13cmos5l` | [`catalog.pb.json`](../data/tech/ihp-sg13cmos5l/catalog.pb.json) | [`ihp-sg13cmos5l.zip`](../data/tech/ihp-sg13cmos5l.zip) |
+: Generated catalogs and their complete datasets {#tbl-corner-catalog-examples tbl-colwidths="[30,35,35]"}
+
+For example, the `sky130A` catalog selects separate [resistance](../data/tech/sky130A/resistance/nominal.pb.json), [capacitance](../data/tech/sky130A/capacitance/nominal.pb.json), [physical-stack](../data/tech/sky130A/process_stack/nominal.pb.json) and [device-reference](../data/tech/sky130A/device_references/nominal.pb.json) datasets. The [shared technology](../data/tech/sky130A/shared.pb.json) supplies the layer and device interfaces.
+
+The catalog and datasets each have a `description`. A `TechnologyFile` reference identifies the file by `path` and `sha256`; the description and provenance belong to the referenced content.
+
+:::: {.content-visible when-format="html"}
+::: {.panel-tabset}
+
+### `sky130A` catalog
+
+<div><pre id="json-sky130A-catalog"></pre></div>
+<script>
+  renderJson(JSON.parse(`
+{{file:data/tech/sky130A/catalog.pb.json}}
+  `), "json-sky130A-catalog");
+</script>
+
+### `gf180mcuD` catalog
+
+<div><pre id="json-gf180mcuD-catalog"></pre></div>
+<script>
+  renderJson(JSON.parse(`
+{{file:data/tech/gf180mcuD/catalog.pb.json}}
+  `), "json-gf180mcuD-catalog");
+</script>
+
+### `ihp-sg13g2` catalog
+
+<div><pre id="json-ihp-sg13g2-catalog"></pre></div>
+<script>
+  renderJson(JSON.parse(`
+{{file:data/tech/ihp-sg13g2/catalog.pb.json}}
+  `), "json-ihp-sg13g2-catalog");
+</script>
+
+### `ihp-sg13cmos5l` catalog
+
+<div><pre id="json-ihp-sg13cmos5l-catalog"></pre></div>
+<script>
+  renderJson(JSON.parse(`
+{{file:data/tech/ihp-sg13cmos5l/catalog.pb.json}}
+  `), "json-ihp-sg13cmos5l-catalog");
+</script>
+
+:::
+::::
+
+### Tracing Sources and Assumptions {#sec-corner-source-provenance}
+
+Each catalog and dataset has structured `provenance`:
+
+| Field | Meaning |
+|:---|:---|
+| `data_revision` | Authored revision of this catalog or dataset |
+| `sources` | Source identifiers, descriptions, URIs, revisions, hashes and preprocessing options |
+| `assumptions` | Explicit projections or approximations, their reasons and supporting source identifiers |
+| `history` | Dated changes with their revision, summary, reason, source identifiers and review links |
+: Evidence accompanying technology data {#tbl-corner-provenance-fields tbl-colwidths="[28,72]"}
+
+A source must identify a revision or an exact SHA256 digest. Extraction records these references without downloading them. A source revision identifies the input document, while `data_revision` identifies the KPEX interpretation of that input. The two can change independently.
+
+For example, the `ihp-sg13g2` capacitance dataset identifies the corrected extraction file at `14b1ab8`. Its resistance dataset separately records the nominal `GatPoly` and MIM assumptions. The device-reference dataset cites its independent MOM models. A common process name does not make those sources interchangeable.
+
+An assumption states both what was assumed and why. Diffusion projection and the thin-plate approximation for surrounding MIM coupling therefore remain visible alongside the imported coefficients. Recording an assumption does not establish a measured error bound or qualify a physical corner.
+
+{{< pagebreak >}}
+
+### Maintaining Data History {#sec-corner-data-history}
+
+Maintain history when reviewing a data change:
+
+1. Add new source records for changed upstream inputs, with new identifiers and pinned revisions or hashes
+2. Describe changed assumptions and their physical reasons
+3. Append a history entry with the change date, summary, reason and supporting source or review references
+4. Set `data_revision` to that final entry's revision, then regenerate the files and their catalog hashes
+5. Compare the numerical tables and check the affected geometries and sibling variants
+
+Keep previous history entries and the source identities they reference unchanged. Entries are ordered from oldest to newest. Multiple revisions on one date are allowed. A build does not invent a new revision or timestamp, and revision labels are not interpreted as corner names or version ranges.
+
+The catalog's history describes its declared scenarios. Each component retains its own history, so updating capacitance does not invent a resistance or physical-stack revision.
+
+`schema_version` describes the catalog format. `data_revision` describes the data and its interpretation. File hashes identify exact serialized bytes, while the resolved payload hashes identify numerical inputs. A clarification of an assumption changes file identity without changing coefficient identity.
+
+The technology format is under development before `1.0.0`. After a schema change, regenerate the examples with the matching KPEX version. Assigned field numbers and JSON names will become compatibility contracts when the format is stabilized.
+
+{{< pagebreak >}}
+
+### Reading Upstream Corner Names {#sec-corner-upstream-names}
+
+The maintained `MAGIC` extraction decks for the supported technologies declare these R/C combinations:
+
+| Style suffix | Resistance | Capacitance |
+|:---|:---|:---|
+| Nominal style | Nominal | Nominal |
+| `hrhc` | High | High |
+| `hrlc` | High | Low |
+| `lrhc` | Low | High |
+| `lrlc` | Low | Low |
+: Explicit upstream extraction combinations, distinct from bundled availability {#tbl-corner-upstream-styles tbl-colwidths="[40,30,30]"}
+
+The sources are the maintained [OpenPDKs `sky130` deck](https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/sky130/magic/sky130-extract.tech), [OpenPDKs `gf180mcu` deck](https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/gf180mcu/magic/gf180mcu-extract.tech), and the corrected [`ihp-sg13g2`](https://github.com/IHP-GmbH/IHP-Open-PDK/blob/14b1ab845696960a0a1881ec8614acba0f7b8eb7/ihp-sg13g2/libs.tech/magic/ihp-sg13g2-extract.tech) and [`ihp-sg13cmos5l`](https://github.com/IHP-GmbH/IHP-Open-PDK/blob/14b1ab845696960a0a1881ec8614acba0f7b8eb7/ihp-sg13cmos5l/libs.tech/magic/ihp-sg13cmos5l-extract.tech) decks.
+
+These names do not define all nine products of low, nominal and high R/C. Nor do transistor labels such as `tt`, `ff` and `ss` imply an extraction corner. For example, the [`sky130` simulation library](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/sky130.lib.spice) separates MOS corner selection from its R/C model sections.
+
+KPEX also contains derived MIM and diffusion rows and resistance values from other process sources. An imported corner must resolve those rows explicitly. The presence of a high-C block in an extraction deck is not evidence for an otherwise undocumented MIM sheet-resistance limit.
+
+Separate component files do not imply statistical independence of R and C. In `sky130A`, some resistance-model overrides differ between `hrhc` and `hrlc`, even though both names start with high R. Such sources require scenario-specific R datasets rather than one generic high-R component.
+
+The bundled catalogs provide these scenarios:
+
+| Technology | Packaged scenarios | Default |
+|:---|:---|:---|
+| `sky130A` | `nominal` | `nominal` |
+| `gf180mcuD` | `nominal` | `nominal` |
+| `ihp-sg13g2` | `nominal` | `nominal` |
+| `ihp-sg13cmos5l` | `nominal` | `nominal` |
+: Availability in the corner-support implementation {#tbl-corner-availability tbl-colwidths="[40,35,25]"}
+
+### Matching Physical Geometry to Analytical Tables {#sec-corner-physical-stack}
+
+Analytical extraction needs conductor ordering and connectivity from the stack, while its numerical capacitance comes from tables. A table-only corner can therefore use a nominal stack explicitly for structural purposes.
+
+A field solver instead calculates capacitance from physical geometry and materials. Exporting nominal geometry under a nonnominal label would not reproduce a table corner. A scenario consequently declares whether its selected physical stack matches the scenario.
+
+| Requested operation | Required evidence |
+|:---|:---|
+| `--2.5D` extraction | Complete R/C datasets and compatible conductor identities |
+| `kpex pex25d` | A declared matching physical stack |
+| `--fastcap` or `--fastercap` | A declared matching physical stack |
+| Automatic `--check-device-caps` | A device-reference dataset for the scenario |
+: Capabilities checked before layout loading {#tbl-corner-capabilities tbl-colwidths="[40,60]"}
+
+A missing capability produces a diagnostic before extraction. Device checks can instead use an explicitly supplied reference JSON file. Its physical assumptions remain the user's choice. A nominal reference is never inherited automatically by a scenario that declares none.
+
+The matching-stack declaration records a dataset contract, not foundry certification. A numerical recipe may vary permittivity, thickness or manufactured width. Those choices require their own sources and must not be inferred from the spelling of a corner name.
+
+{{< pagebreak >}}
+
+### Recording What Was Used {#sec-corner-provenance}
+
+`kpex_result.json`, or the path selected by `--out-result`, records `technology_selection`:
+
+- Technology and scenario identifiers
+- Catalog path and SHA256 of its exact bytes
+- Catalog description, structured provenance and data revision
+- Selected component identifiers, content hashes, source records, assumptions and revision histories
+- Hash of the complete selected input technology
+- Whether a matching physical stack and device references were declared
+
+Sources, source references and revision history are validated before using the selected data. A missing source identity, unknown source identifier, invalid calendar date or inconsistent current revision is an error.
+
+Each component file is checked against the catalog's byte hash. Changing or reformatting a file while retaining an old byte hash is detected. A byte-identical copy retains the same hash. The resolved content identities are separate: irrelevant JSON object-key order does not change the identity, while physically significant stack and terminal order is retained.
+
+`technology_selection.resolved_technology_sha256` identifies the selected input before runtime overrides. An extraction with `--halo 3` records its effective halo separately as `halo_um`, and preserves the override in `arguments`. Keep the complete result with the netlist rather than using a scenario label alone as a reproducibility key.
+
+`PEX25D` metadata records the selected `process_corner`. Physical-stack identity remains distinct from the capacitance-table identity, which matters when comparing geometry generation with fitted or imported coefficients.
+
+### Limits {#sec-corner-limits}
+
+- Explicit `--corner` or `--tech-catalog` cannot be combined with `--magic`, whose installed technology and extraction style are selected independently
+- A different conductor topology or layout/LVS interface needs a separate technology catalog
+- No voltage, temperature, statistical variation or transistor-model selection is inferred
+- An analytical corner without a matching physical recipe cannot be exported as corner-matched solver geometry
+- Only the scenarios declared by the supplied catalog can be selected

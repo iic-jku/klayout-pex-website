@@ -1,0 +1,128 @@
+{
+  "description": "Nominal resistance data",
+  "id": "nominal",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Use 500 mOhm/square for FuseTop",
+        "id": "mim-sheet",
+        "reason": "Retain the nominal estimate from the 1/1.5 fF MIM option; a range for the 2 fF option is not established",
+        "source_ids": [
+          "recipe"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder"
+        ],
+        "summary": "Record nominal resistance sources and assumptions"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/gf180mcuD.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "1cdbdd6b6350b56e5ba76a3df4c8fc1781eec4dd835f76e8dbc7aeb60fc560d2",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/gf180mcuD.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      }
+    ]
+  },
+  "resistance": {
+    "contacts": [
+      {
+        "contact_name": "contact_nsd_con",
+        "device_layer_name": "Nplus",
+        "layer_above": "Metal1",
+        "resistance": 6300.0
+      },
+      {
+        "contact_name": "contact_psd_con",
+        "device_layer_name": "Pplus",
+        "layer_above": "Metal1",
+        "resistance": 5200.0
+      },
+      {
+        "contact_name": "contact_poly_con",
+        "device_layer_name": "Poly2",
+        "layer_above": "Metal1",
+        "resistance": 5900.0
+      },
+      {
+        "contact_name": "contact_ntap_con",
+        "device_layer_name": "Nwell",
+        "layer_above": "Metal1",
+        "resistance": 6300.0
+      }
+    ],
+    "layers": [
+      {
+        "layer_name": "Poly2",
+        "resistance": 7300.0
+      },
+      {
+        "layer_name": "Metal1",
+        "resistance": 90.0
+      },
+      {
+        "layer_name": "Metal2",
+        "resistance": 90.0
+      },
+      {
+        "layer_name": "Metal3",
+        "resistance": 90.0
+      },
+      {
+        "layer_name": "Metal4",
+        "resistance": 90.0
+      },
+      {
+        "layer_name": "Metal5",
+        "resistance": 40.0
+      },
+      {
+        "layer_name": "Nwell",
+        "resistance": 1000000.0
+      },
+      {
+        "layer_name": "FuseTop",
+        "resistance": 500.0
+      }
+    ],
+    "vias": [
+      {
+        "resistance": 4500.0,
+        "via_name": "Via1"
+      },
+      {
+        "resistance": 4500.0,
+        "via_name": "Via2"
+      },
+      {
+        "resistance": 4500.0,
+        "via_name": "Via3"
+      },
+      {
+        "resistance": 4500.0,
+        "via_name": "Via4"
+      }
+    ]
+  }
+}

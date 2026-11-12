@@ -103,15 +103,18 @@ The stack distinguishes conductors from the material around them:
 
 - Metals such as `poly`, `metal1` and `metal5` have a thickness and a bottom height relative to the substrate
 - Contacts and vias, such as `licon` and `via1`, connect conductors on adjacent levels
-- Sidewall dielectrics, such as `IOX` and `SPNIT`, specify lateral width and height above metal
+- Sidewall dielectrics, such as `IOX` and `SPNIT`, use conformal profiles with lateral thickness and no thickness in the field. A profile may also cover the metal top
 - Conformal dielectrics, such as `LINT` and `TOPNIT`, specify thickness above metal, beside it and in the field
 - Simple dielectrics, such as `PSG` and `NILD2`, fill the remaining region between levels
 
 The relative permittivity $k$ belongs to each dielectric. A stack may therefore contain several dielectric boundaries around one piece of metal. The schematic labels above and the technology's physical-layer names need not be identical; their correspondence is explicit in the technology definition.
 
+{{< pagebreak >}}
+
 The schema excerpt below shows how these relationships are expressed:
 
 - `ProcessStackInfo.layers` orders the layers of the stack
+- Each `LayerInfo` selects one `parameters` payload, which defines its layer kind
 - `MetalLayer.z` locates the metal bottom relative to the substrate
 - `MetalLayer.contact_above` describes the contact to the next conductor
 - A dielectric `reference` identifies the layer or profile it wraps
@@ -119,13 +122,6 @@ The schema excerpt below shows how these relationships are expressed:
 
 ```{.protobuf #lst-tech-def-process-stack caption="Excerpt from process_stack.proto" code-line-numbers="true"}
 message ProcessStackInfo {
-
-    enum LayerType { …
-        LAYER_TYPE_SIMPLE_DIELECTRIC = 50;
-        LAYER_TYPE_CONFORMAL_DIELECTRIC = 60;
-        LAYER_TYPE_SIDEWALL_DIELECTRIC = 70;
-        LAYER_TYPE_METAL = 80;
-    }
 
     message Contact { // Contact/Via
         string name = 1;
@@ -151,27 +147,19 @@ message ProcessStackInfo {
         string reference = 30;
     }
 
-    message SidewallDielectricLayer { // Sidewall dielectric
-        double dielectric_k = 10;
-        double height_above_metal = 20; // might be 0 if none
-        double width_outside_sidewall = 21;
-        string reference = 30;
-    }
-
     message MetalLayer { // Metal
-        double z = 1;          // z-offset in µm (of layer bottom), above substrate
-        double thickness = 2;  // thickness in µm
+        // Bottom height above substrate and thickness, in µm
+        double z = 1;
+        double thickness = 2;
         Contact contact_above = 40;
     }
 
     message LayerInfo {
         string name = 1;
-        LayerType layer_type = 2;
         oneof parameters { …
-            SimpleDielectricLayer simple_dielectric_layer = 12;
-            ConformalDielectricLayer conformal_dielectric_layer = 13;
-            SidewallDielectricLayer sidewall_dielectric_layer = 14;
-            MetalLayer metal_layer = 15;
+            SimpleDielectricLayer simple_dielectric_layer = 50;
+            ConformalDielectricLayer conformal_dielectric_layer = 60;
+            MetalLayer metal_layer = 70;
         }
     }
 
@@ -281,7 +269,7 @@ The built-in definitions are produced by Python generators[^tech-gen-script]. Th
 
 For a source change:
 
-1. Change the relevant PDK generator, with the source revision and the reason for the choice
+1. Change the relevant PDK generator and maintain its source records, assumptions and data-revision history as in @sec-corner-data-history
 2. Run `./gen_tech_pb.sh` from the `klayout-pex` checkout to regenerate the schema modules and all built-in JSON definitions
 3. Compare the resulting tables by physical layer and coefficient family
 4. Check the affected geometries and sibling variants before interpreting changed extraction values
@@ -292,9 +280,11 @@ The nominal `sky130A` and `gf180mcuD` tables in `KPEX 0.9.0` follow the maintain
 
 ## Inspecting the generated definitions {#sec-pdk-json-previews}
 
-The previews below contain the generated technology definitions from [`klayout-pex 0.9.0`]({{< var urls.repo.kpex >}}/tree/v0.9.0), including the device mappings, `gf180mcuD` passivation and refreshed nominal capacitance tables. They show the data packaged with that release; your local installation may contain a different version.
+The previews below show the complete resolved nominal `Technology` messages for the development version following `0.9.0`. They contain the selected coefficients, physical stack and device interfaces used by extraction. The catalog examples in @sec-corner-catalog-json show how these components are selected and how their provenance is recorded.
 
-To inspect the data actually installed, locate `klayout_pex_protobuf` beside the `klayout_pex` package in `site-packages`[^kpex-site-packages]. Its filenames use the PDK identifiers from @tbl-pdk-variants, followed by `_tech.pb.json`.
+To inspect the data actually installed, locate `klayout_pex_protobuf` beside the `klayout_pex` package in `site-packages`[^kpex-site-packages]. The resolved nominal snapshots use the PDK identifiers from @tbl-pdk-variants, followed by `_tech.pb.json`. The catalogs and their component datasets are under `tech/<PDK>/`.
+
+Each process-stack layer selects exactly one parameter payload, such as `metal_layer` or `conformal_dielectric_layer`. That payload defines its type and physical properties.
 
 :::: {.content-visible when-format="html"}
 
@@ -302,14 +292,7 @@ To inspect the data actually installed, locate `klayout_pex_protobuf` beside the
 
 ### `sky130A`
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer/json-viewer/jquery.json-viewer.js"></script>
-<script>
-  function renderJson(jsonData, elementId) {
-      $(`#${elementId}`).jsonViewer(jsonData, { rootCollapsable: false, collapsed: true });
-  }
-</script>
+
 
 <div><pre id="json-sky130A-tech"></pre></div>
 

@@ -1,0 +1,47 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-technology-corner-selection
+#| echo: false
+#| fig-cap: "One explicit scenario selects separate complete datasets. Shared layout and device interfaces remain unchanged. The nominal labels are those of the first bundled catalogs."
+import drawsvg as dw
+from typing import List
+w,h=960,430
+d=dw.Drawing(w,h)
+d.append(dw.Rectangle(0,0,w,h,fill='white'))
+ink='#183247'
+arrow=dw.Marker(-6,-4,0,4,scale=1,orient='auto')
+arrow.append(dw.Lines(-6,-4,0,0,-6,4,fill=ink,close=True))
+def box(x: float, y: float, width: float, height: float, fill: str, title: str, detail: str):
+    d.append(dw.Rectangle(x,y,width,height,rx=8,fill=fill,stroke=ink,stroke_width=1.5))
+    d.append(dw.Text(title,19,x+14,y+29,fill=ink,font_family='sans-serif'))
+    d.append(dw.Text(detail,16,x+14,y+56,fill=ink,font_family='sans-serif'))
+def line(points: List[float]):
+    d.append(dw.Lines(*points,stroke=ink,stroke_width=2,fill='none',marker_end=arrow))
+box(20,165,210,80,'#e0efe5','Scenario: nominal','Four dataset selections')
+for y,title,detail in [(20,'R dataset: nominal','Sheet, contact and via values'),
+                       (120,'C dataset: nominal','Coefficients, offsets and halo'),
+                       (220,'Stack: nominal','Geometry and dielectrics'),
+                       (320,'References: nominal','Device capacitance estimates')]:
+    box(315,y,300,80,'#dcecf7',title,detail)
+    line([230,205,265,205,265,y+40,310,y+40])
+    line([615,y+40,650,y+40,650,205,690,205])
+box(695,155,245,100,'#e0efe5','Resolved technology','Fresh inputs for extraction')
+box(695,20,245,80,'#f5ecd9','Shared definitions','Layout and device interfaces')
+line([817,100,817,150])
+d
+```

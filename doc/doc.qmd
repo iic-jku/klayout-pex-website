@@ -81,6 +81,8 @@ bibliography: ../references.bib
 
 ---
 
+{{< include /doc/_json_viewer.qmd >}}
+
 {{< include _sec_intro.qmd >}}
 
 {{< pagebreak >}}
@@ -90,6 +92,8 @@ bibliography: ../references.bib
 {{< pagebreak >}}
 
 {{< include _sec_pdks.qmd >}}
+
+{{< include _sec_technology_corners.qmd >}}
 
 {{< pagebreak >}}
 

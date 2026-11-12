@@ -22,6 +22,8 @@
 ##
 project:
   type: website
+  resources:
+    - "data/tech/**"
 
 var:
   url-repo: https://github.com/iic-jku/klayout-pex-website   # to call this value : {{< meta var.url-repo >}}
