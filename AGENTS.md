@@ -62,6 +62,10 @@ not something that only looks the same.
 - Schematics are `figures/*-schematic.qmd` with `schemdraw`, as in
   `figures/ticer-example-schematic-reduced.qmd`: what goes away is struck through in red
   (`strike_through`), what is new is green (`.color('green')`).
+  - Draw a dot at each circuit port, including reference ports, and at each electrical
+    junction where three or more wire or component-lead branches meet
+  - Two-branch connections, including bends and straight joins, have no dot unless they are
+    ports. An internal net label does not make a node a port: keep its label without a dot
 - Before and after, or variants, are a figure group: `::: {#fig-x layout-nrow=N}` with the caption
   paragraph last, as `fig-ticer-pole-zero` in `doc/_ticer_study.qmd`. The licence block of an
   include takes a layout cell within a group and halves the figures: the whole group goes into
