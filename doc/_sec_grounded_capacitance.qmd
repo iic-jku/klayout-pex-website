@@ -1,0 +1,254 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+# Choosing Capacitance Coupling {#sec-capacitance-coupling}
+
+Two neighboring conductors exchange current when their voltages change differently. Keeping that coupling is necessary for crosstalk and charge sharing. A grounded approximation instead describes the load of each conductor when the others are held at the reference potential.
+
+::: {.callout-note}
+These options belong to the development version following `0.9.0`. The released `0.9.0` command line does not yet provide `--mode C`, `--coupling` or `netlist ground`.
+:::
+
+## Choosing the Extraction Mode {#sec-coupling-modes}
+
+The analytical engine keeps coupling by default. Select grounded output explicitly:
+
+| Options after `--2.5D` | Wires | Capacitance |
+|:---|:---|:---|
+| `--mode CC` | Ideal conductors | Coupled |
+| `--mode C` | Ideal conductors | Grounded after floating elimination |
+| `--mode RC` | Distributed resistance | Coupled |
+| `--mode RC --coupling grounded` | Distributed resistance | Grounded after floating elimination |
+| `--mode R` | Distributed resistance | None |
+: Extraction modes and their electrical meaning {#tbl-coupling-modes tbl-colwidths="[43,25,32]"}
+
+`--mode CC --coupling grounded` is equivalent to `--mode C`. `--coupling coupled` explicitly retains the default policy for `CC` or `RC`. It cannot be combined with `C`. `R` has no capacitance policy to select.
+
+For grounded capacitance with ideal interconnects:
+
+```bash
+kpex extract --pdk sky130A --2.5D --mode C --blackbox y \
+  --gds layout.gds --out-netlist layout-c.spice
+```
+
+For grounded coupling while retaining the distributed resistance:
+
+```bash
+kpex extract --pdk sky130A --2.5D --mode RC \
+  --coupling grounded --blackbox y \
+  --gds layout.gds --out-netlist layout-rc.spice
+```
+
+The reference is the extracted substrate net, or `VSUBS` when no substrate net is available. It is not implicitly SPICE node `0`. Connect the exported reference to the intended testbench potential.
+
+## Eliminating Floating Conductors First {#sec-coupling-floating}
+
+A floating conductor has no port or retained device terminal that can drive it. It can still transfer charge between other conductors. Connecting it to the reference would change that transfer, so floating capacitance is eliminated before any coupling is grounded.
+
+Consider `A` ↔ `F` with 3 pF and `F` ↔ `B` with 6 pF, where `F` is floating. The two capacitors form a series connection:
+
+$$
+C_{AB}=\frac{C_{AF}C_{FB}}{C_{AF}+C_{FB}}
+       =\frac{3\times6}{3+6}\;\mathrm{pF}=2\;\mathrm{pF}.
+$$
+
+The first transformation is exact for this capacitor network. The subsequent replacement of `A` ↔ `B` by loads to the reference is an approximation.
+
+{{< include /figures/grounding-floating-schematic.qmd >}}
+
+{{< pagebreak >}}
+
+### Reproducing the Floating Example {#sec-coupling-floating-example}
+
+Download [floating-divider.spice](../data/coupling/floating-divider.spice):
+
+```spice
+.subckt divider A B VSS
+Cext_af A F 3p
+Cext_fb F B 6p
+.ends divider
+```
+
+Run:
+
+```bash
+netlist ground floating-divider.spice --reference VSS \
+  --out-netlist grounded-divider.spice
+```
+
+The [written output](../data/coupling/grounded-divider.spice) contains:
+
+```spice
+.subckt divider A B VSS
+* netlist ground: exact floating elimination, then full inter-net loads to VSS
+Cgrnd_1 A VSS 2p
+Cgrnd_2 B VSS 2p
+.ends divider
+```
+
+No element ties `F` to `VSS`. The node disappears through elimination. Grounding `F` first would have produced unequal 3 pF and 6 pF loads instead of the two 2 pF loads above.
+
+### Extending the Elimination to a Network {#sec-coupling-floating-math}
+
+For a floating node connected to several neighbors, eliminating its voltage adds a capacitance between every pair of neighbors:
+
+$$
+C_{ij}^{\mathrm{added}}=
+\frac{C_{iF}C_{Fj}}{\sum_k C_{Fk}}.
+$$
+
+Existing parallel capacitances add to these contributions. Repeating the operation gives the Schur complement of the floating block of the capacitance matrix:
+
+$$
+\mathbf C_{\mathrm{retained}}=
+\mathbf C_{tt}-\mathbf C_{tf}\mathbf C_{ff}^{-1}\mathbf C_{ft}.
+$$
+
+The expression explains the result. The calculation uses sparse node elimination. An isolated component with no observable connection contributes no terminal load. A floating component attached to only one retained node also contributes no load: its potential follows that node.
+
+Ports created by labels and exclusion interfaces remain observable. The log names eliminated floating conductors, so an unintentionally disconnected supply can be distinguished from intended floating fill.
+
+## Replacing Coupling by Grounded Loads {#sec-coupling-grounding}
+
+After floating elimination, a capacitance $C$ between distinct retained conductors becomes $C$ to the reference at **each** endpoint. It is not divided in half.
+
+For a single pair, with voltages measured relative to the reference:
+
+$$
+\begin{bmatrix}i_A\\i_B\end{bmatrix}
+=j\omega
+\begin{bmatrix}C&-C\\-C&C\end{bmatrix}
+\begin{bmatrix}v_A\\v_B\end{bmatrix}
+\quad\longrightarrow\quad
+j\omega
+\begin{bmatrix}C&0\\0&C\end{bmatrix}
+\begin{bmatrix}v_A\\v_B\end{bmatrix}.
+$$
+
+This preserves the diagonal of the reduced nodal capacitance matrix after floating elimination. It removes transfer admittance between conductors. With distributed resistance, capacitance between nodes of the **same** conductor remains at its original endpoints.
+
+This is a nodal capacitance property, not a general equality of RC port admittance. Holding an external port at the reference does not clamp every internal node behind its wire resistance.
+
+For the ideal-conductor pair above, the approximation has a specific operating assumption:
+
+| Motion of `B` while `A` changes | Original current from `A` through the pair | Grounded model |
+|:---|:---|:---|
+| `B` is held at the reference | $C\,dv_A/dt$ | Same load |
+| `B` follows `A` | Zero | Still charges its reference capacitor |
+| `B` moves equally in the opposite direction | $2C\,dv_A/dt$ | Uses $C\,dv_A/dt$ |
+: The load depends on how the neighboring conductor moves {#tbl-coupling-switching tbl-colwidths="[36,38,26]"}
+
+Grounded output therefore does not provide a universal worst case. Use coupled output to study crosstalk, differential switching or charge sharing. No switching multiplier or capacitance threshold is inferred.
+
+## Grounding an Existing Netlist {#sec-netlist-ground}
+
+`netlist ground` performs the same transformation without loading a layout or PDK. It selects parasitic elements and one SPICE scope, retains the rest of the input, and writes a separate file.
+
+### Distributed Wires and Intentional Capacitance {#sec-netlist-ground-example}
+
+Download [coupled-rc.spice](../data/coupling/coupled-rc.spice). `A1` belongs to conductor `A` through `Rext_a`. `B1` belongs to `B` through `Rext_b`. `F` is capacitor-only floating fill. `Cload` is an intentional capacitor that is outside the default parasitic selection.
+
+```spice
+.subckt coupled A B VSS
+Rext_a A A1 100
+Rext_b B B1 200
+Cext_ab A1 B1 2p
+Cext_af A1 F 3p
+Cext_fb F B1 6p
+Cext_sub A1 VSS 1p
+Cload A VSS 5p
+.ends coupled
+```
+
+{{< pagebreak >}}
+
+Run:
+
+```bash
+netlist ground coupled-rc.spice --reference VSS \
+  --out-netlist grounded-rc.spice
+```
+
+Eliminating `F` adds 2 pF to the existing 2 pF coupling. The resulting 4 pF is grounded at `A1` and `B1`. `A1` already has 1 pF to `VSS`, giving 5 pF there. The [written output](../data/coupling/grounded-rc.spice) is:
+
+```spice
+.subckt coupled A B VSS
+Rext_a A A1 100
+Rext_b B B1 200
+* netlist ground: exact floating elimination, then full inter-net loads to VSS
+Cgrnd_1 A1 VSS 5p
+Cgrnd_2 B1 VSS 4p
+Cload A VSS 5p
+.ends coupled
+```
+
+{{< include /figures/grounding-distributed-schematic.qmd >}}
+
+The two resistor lines and `Cload` remain unchanged. The grounded loads stay behind the wire resistances. They are not moved to ports `A` and `B`. Existing capacitance to a distributed reference node also stays on that node, preserving its reference-side resistance.
+
+### Selecting Parasitics and the Reference {#sec-netlist-ground-selection}
+
+| Setting | Contract |
+|:---|:---|
+| `--reference NODE` | Existing node, port or global, or `0`/`gnd`, required for new loads |
+| Default capacitor selection | `Cext_*` and `Cgrnd_*` |
+| Default resistor selection | `Rext_*`, used to identify conductors |
+| `--capacitor PATTERN` | Repeatable replacement for the default capacitor patterns |
+| `--resistor PATTERN` | Repeatable replacement for the default resistor patterns |
+| `--cell NAME` | Selects one subcircuit explicitly |
+| `--top-level` | Selects elements outside subcircuits |
+| `--keep NODE` | Retains the node and its entire conductor |
+: Selecting the transformation without selecting intentional devices {#tbl-netlist-ground-selection tbl-colwidths="[39,61]"}
+
+Names and patterns are case-insensitive. Capacitor patterns must start with `C` and resistor patterns with `R`, so a bare `*` is rejected. Quote patterns so the shell does not expand them. For a different extractor's naming convention:
+
+```bash
+netlist ground extracted.spice --cell amplifier --reference VSS \
+  --capacitor 'Cpar_*' --resistor 'Rwire_*' --keep bias_internal
+```
+
+Subcircuit ports, globals, terminals on retained device/source lines and `--keep` nodes retain their conductors. A capacitance does not make a DC connection between conductors. Selected resistors do, but their finite values and textual representation remain in the output.
+
+The reference is local to the selected scope. SPICE ground aliases `0` and `gnd` identify the same reference conductor for this transformation. Unrelated names such as `VSS` do not become ground implicitly.
+
+### Identifying Disconnected Pieces of One Conductor {#sec-netlist-ground-map}
+
+A netlist alone may not reveal that two disconnected wire pieces belong to one original layout net. Supply that identity explicitly in a flat JSON object:
+
+```json
+{"OUT.1": "OUT", "OUT.2": "OUT"}
+```
+
+Save it as `nodes.json` and add `--net-map nodes.json`. The map groups conductor identities for the coupling decision. It does not short the nodes, rename them or add a resistor. It cannot assign different conductors to nodes already joined by selected resistors.
+
+## Keeping the Approximation Separate from Other Checks {#sec-coupling-checks}
+
+Grounding occurs after capacitance has been assigned to distributed nodes and before optional network reduction. A reduction check therefore compares the grounded network with its further reduced version. It does not certify equivalence to the original coupled network.
+
+The geometry reports and `--check-device-caps` continue to describe the coupled extraction. Intentional capacitor models remain in place with `--blackbox y`. When a layout contains metal capacitors that white-box extraction would remove, grounded output asks for `--blackbox y` before capacitance extraction. Once device capacitance and parasitics have been mixed in a plain netlist, postprocessing cannot recover that distinction.
+
+## Limits {#sec-coupling-limits}
+
+- `RC` grounding rejects floating islands containing resistance because their frequency-dependent response cannot generally be replaced by fixed capacitors
+- `C` uses ideal conductors and can eliminate their floating capacitance network exactly
+- Exact elimination stops if a remaining floating node exceeds the 64-neighbor fill-in limit after other floating nodes have been removed
+- Standalone selection requires numeric two-node resistor and capacitor primitives
+- Selected resistor values must be strictly positive
+- Symbolic values and ambiguous scopes produce diagnostics
+- `netlist ground` refuses to overwrite its input and validates the selection before writing output
+- The extraction options apply only to `--2.5D`
+
+Keep coupled output for unsupported floating networks. Grounded output does not tie a remaining floating island to the reference as a fallback.

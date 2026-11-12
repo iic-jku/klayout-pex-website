@@ -1,0 +1,5 @@
+* Two retained terminals and one capacitor-only floating node
+.subckt divider A B VSS
+Cext_af A F 3p
+Cext_fb F B 6p
+.ends divider

@@ -45,7 +45,7 @@ SPICE connects a subcircuit call by position. The first node in the call connect
 - Without a usable schematic top, all exported ports use that name order
 - Matching ignores case, while the exported spelling comes from the extracted net
 
-This applies to `CC`, `R` and `RC`, to reduced netlists, to SPICE and `VACASK`, and to the port lists recorded in `kpex_result.json`. It changes the interface order, not which physical net each port connects to. In `CC`, several labels on one equipotential net can remain one exported port; its earliest schematic alias determines its position.
+This applies to `CC`, `C`, `R` and `RC`, to reduced netlists, to SPICE and `VACASK`, and to the port lists recorded in `kpex_result.json`. It changes the interface order, not which physical net each port connects to. In `CC` and `C`, several labels on one equipotential net can remain one exported port; its earliest schematic alias determines its position.
 
 #### Transistor with Schematic Port Order {#sec-netlist-port-example}
 
