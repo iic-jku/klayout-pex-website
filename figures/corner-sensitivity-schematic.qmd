@@ -1,0 +1,36 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-corner-sensitivity-schematic
+#| echo: false
+#| fig-width: 6
+#| fig-height: 2.6
+#| fig-cap: "The three-terminal capacitance network has the same connections in every selection. Only the coefficient datasets change."
+import schemdraw as sd
+import schemdraw.elements as elm
+sd.svgconfig.svg2 = False
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=2, fontsize=14)
+    elm.Capacitor().at((0, 0)).to((5, 0)).label(r'$C_{\mathrm{LU}}$')
+    elm.Capacitor().at((0, 0)).to((0, -2.2)).label(r'$C_{\mathrm{LS}}$', loc='bottom')
+    elm.Capacitor().at((5, 0)).to((5, -2.2)).label(r'$C_{\mathrm{US}}$', loc='top')
+    elm.Line().at((0, -2.2)).to((5, -2.2))
+    elm.Dot().at((0, 0)).label('LOWER', loc='top', ofst=0.2)
+    elm.Dot().at((5, 0)).label('UPPER', loc='top', ofst=0.2)
+    elm.Dot().at((2.5, -2.2)).label('sky130_gnd', loc='bottom', ofst=0.2)
+```

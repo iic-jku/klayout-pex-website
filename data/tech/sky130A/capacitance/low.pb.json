@@ -1,0 +1,1139 @@
+{
+  "capacitance": {
+    "capacitance": {
+      "overlaps": [
+        {
+          "bottom_layer_name": "dnwell",
+          "capacitance": 120.0,
+          "top_layer_name": "pwell"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 80.435,
+          "top_layer_name": "poly"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 80.435,
+          "top_layer_name": "poly"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 29.338,
+          "top_layer_name": "li1"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 29.338,
+          "top_layer_name": "li1"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 45.986,
+          "top_layer_name": "li1"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 45.986,
+          "top_layer_name": "li1"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 45.986,
+          "top_layer_name": "li1"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 64.353,
+          "top_layer_name": "li1"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 20.335,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 20.335,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 27.148,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 27.148,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 27.148,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 32.649,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 78.29,
+          "top_layer_name": "met1"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 14.652,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 14.652,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 17.886,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 17.886,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 17.886,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 20.119,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 31.399,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "met1",
+          "capacitance": 92.658,
+          "top_layer_name": "met2"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 10.567,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 10.567,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 12.152,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 12.152,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 12.152,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 13.143,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 17.173,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "met1",
+          "capacitance": 26.9,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "met2",
+          "capacitance": 59.433,
+          "top_layer_name": "met3"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 7.54,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 7.54,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 8.313,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 8.313,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 8.313,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 8.766,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 10.392,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "met1",
+          "capacitance": 13.303,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "met2",
+          "capacitance": 18.241,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "met3",
+          "capacitance": 63.127,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 5.783,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 5.783,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 6.227,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 6.227,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 6.227,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 6.478,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 7.325,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "met1",
+          "capacitance": 8.661,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "met2",
+          "capacitance": 10.514,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "met3",
+          "capacitance": 17.815,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "met4",
+          "capacitance": 53.498,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 10.567,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 10.567,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 12.152,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 12.152,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 12.152,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 13.143,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 17.173,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "met1",
+          "capacitance": 26.9,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "met2",
+          "capacitance": 59.433,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "capm",
+          "capacitance": 63.127,
+          "top_layer_name": "met4"
+        },
+        {
+          "bottom_layer_name": "capm",
+          "capacitance": 17.815,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "met3",
+          "capacitance": 1778.0,
+          "top_layer_name": "capm"
+        },
+        {
+          "bottom_layer_name": "nwell",
+          "capacitance": 7.54,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "pwell",
+          "capacitance": 7.54,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "nsdm",
+          "capacitance": 8.313,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "psdm",
+          "capacitance": 8.313,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "tap",
+          "capacitance": 8.313,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "poly",
+          "capacitance": 8.766,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "li1",
+          "capacitance": 10.392,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "met1",
+          "capacitance": 13.303,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "met2",
+          "capacitance": 18.241,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "met3",
+          "capacitance": 63.127,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "capm2",
+          "capacitance": 53.498,
+          "top_layer_name": "met5"
+        },
+        {
+          "bottom_layer_name": "capm",
+          "capacitance": 63.127,
+          "top_layer_name": "capm2"
+        },
+        {
+          "bottom_layer_name": "met4",
+          "capacitance": 1778.0,
+          "top_layer_name": "capm2"
+        }
+      ],
+      "sideoverlaps": [
+        {
+          "capacitance": 42.469,
+          "in_layer_name": "poly",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 42.469,
+          "in_layer_name": "poly",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 31.144,
+          "in_layer_name": "li1",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 31.144,
+          "in_layer_name": "li1",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 34.659,
+          "in_layer_name": "li1",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "capacitance": 34.659,
+          "in_layer_name": "li1",
+          "out_layer_name": "psdm"
+        },
+        {
+          "capacitance": 34.659,
+          "in_layer_name": "li1",
+          "out_layer_name": "tap"
+        },
+        {
+          "capacitance": 37.685,
+          "in_layer_name": "li1",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 20.766,
+          "in_layer_name": "poly",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 32.323,
+          "in_layer_name": "met1",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 32.323,
+          "in_layer_name": "met1",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 34.735,
+          "in_layer_name": "met1",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "capacitance": 34.735,
+          "in_layer_name": "met1",
+          "out_layer_name": "psdm"
+        },
+        {
+          "capacitance": 34.735,
+          "in_layer_name": "met1",
+          "out_layer_name": "tap"
+        },
+        {
+          "capacitance": 36.397,
+          "in_layer_name": "met1",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 13.548,
+          "in_layer_name": "poly",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 45.775,
+          "in_layer_name": "met1",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 28.057,
+          "in_layer_name": "li1",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 29.213,
+          "in_layer_name": "met2",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 29.213,
+          "in_layer_name": "met2",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 30.608,
+          "in_layer_name": "met2",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "capacitance": 30.608,
+          "in_layer_name": "met2",
+          "out_layer_name": "psdm"
+        },
+        {
+          "capacitance": 30.608,
+          "in_layer_name": "met2",
+          "out_layer_name": "tap"
+        },
+        {
+          "capacitance": 31.474,
+          "in_layer_name": "met2",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 9.573,
+          "in_layer_name": "poly",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 35.064,
+          "in_layer_name": "met2",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 17.482,
+          "in_layer_name": "li1",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 46.064,
+          "in_layer_name": "met2",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 38.074,
+          "in_layer_name": "met1",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 32.929,
+          "in_layer_name": "met3",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 32.929,
+          "in_layer_name": "met3",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 34.148,
+          "in_layer_name": "met3",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "capacitance": 34.148,
+          "in_layer_name": "met3",
+          "out_layer_name": "psdm"
+        },
+        {
+          "capacitance": 34.148,
+          "in_layer_name": "met3",
+          "out_layer_name": "tap"
+        },
+        {
+          "capacitance": 34.859,
+          "in_layer_name": "met3",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 6.857,
+          "in_layer_name": "poly",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 37.442,
+          "in_layer_name": "met3",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 11.977,
+          "in_layer_name": "li1",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 42.396,
+          "in_layer_name": "met3",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 21.358,
+          "in_layer_name": "met1",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 53.37,
+          "in_layer_name": "met3",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 32.398,
+          "in_layer_name": "met2",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 30.15,
+          "in_layer_name": "met4",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 30.15,
+          "in_layer_name": "met4",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 30.916,
+          "in_layer_name": "met4",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "capacitance": 30.916,
+          "in_layer_name": "met4",
+          "out_layer_name": "psdm"
+        },
+        {
+          "capacitance": 30.916,
+          "in_layer_name": "met4",
+          "out_layer_name": "tap"
+        },
+        {
+          "capacitance": 31.343,
+          "in_layer_name": "met4",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 4.884,
+          "in_layer_name": "poly",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 32.78,
+          "in_layer_name": "met4",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 8.354,
+          "in_layer_name": "li1",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 35.047,
+          "in_layer_name": "met4",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 13.956,
+          "in_layer_name": "met1",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 38.286,
+          "in_layer_name": "met4",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 18.434,
+          "in_layer_name": "met2",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 55.076,
+          "in_layer_name": "met4",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 44.371,
+          "in_layer_name": "met3",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 33.265,
+          "in_layer_name": "met5",
+          "out_layer_name": "nwell"
+        },
+        {
+          "capacitance": 33.265,
+          "in_layer_name": "met5",
+          "out_layer_name": "pwell"
+        },
+        {
+          "capacitance": 33.91,
+          "in_layer_name": "met5",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "capacitance": 33.91,
+          "in_layer_name": "met5",
+          "out_layer_name": "psdm"
+        },
+        {
+          "capacitance": 33.91,
+          "in_layer_name": "met5",
+          "out_layer_name": "tap"
+        },
+        {
+          "capacitance": 34.261,
+          "in_layer_name": "met5",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 3.746,
+          "in_layer_name": "poly",
+          "out_layer_name": "met5"
+        },
+        {
+          "capacitance": 35.393,
+          "in_layer_name": "met5",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 6.355,
+          "in_layer_name": "li1",
+          "out_layer_name": "met5"
+        },
+        {
+          "capacitance": 37.029,
+          "in_layer_name": "met5",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 10.37,
+          "in_layer_name": "met1",
+          "out_layer_name": "met5"
+        },
+        {
+          "capacitance": 39.063,
+          "in_layer_name": "met5",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 13.251,
+          "in_layer_name": "met2",
+          "out_layer_name": "met5"
+        },
+        {
+          "capacitance": 45.373,
+          "in_layer_name": "met5",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 25.052,
+          "in_layer_name": "met3",
+          "out_layer_name": "met5"
+        },
+        {
+          "capacitance": 62.502,
+          "in_layer_name": "met5",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 44.035,
+          "in_layer_name": "met4",
+          "out_layer_name": "met5"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "nwell"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "pwell"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "psdm"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "tap"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 6.857,
+          "in_layer_name": "poly",
+          "out_layer_name": "capm"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 11.977,
+          "in_layer_name": "li1",
+          "out_layer_name": "capm"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 21.358,
+          "in_layer_name": "met1",
+          "out_layer_name": "capm"
+        },
+        {
+          "in_layer_name": "capm",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 32.398,
+          "in_layer_name": "met2",
+          "out_layer_name": "capm"
+        },
+        {
+          "capacitance": 55.076,
+          "in_layer_name": "met4",
+          "out_layer_name": "capm"
+        },
+        {
+          "capacitance": 44.371,
+          "in_layer_name": "capm",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 45.373,
+          "in_layer_name": "met5",
+          "out_layer_name": "capm"
+        },
+        {
+          "capacitance": 25.052,
+          "in_layer_name": "capm",
+          "out_layer_name": "met5"
+        },
+        {
+          "capacitance": 30.0,
+          "in_layer_name": "capm",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 30.0,
+          "in_layer_name": "met3",
+          "out_layer_name": "capm"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "nwell"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "pwell"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "nsdm"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "psdm"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "tap"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "poly"
+        },
+        {
+          "capacitance": 4.884,
+          "in_layer_name": "poly",
+          "out_layer_name": "capm2"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "li1"
+        },
+        {
+          "capacitance": 8.354,
+          "in_layer_name": "li1",
+          "out_layer_name": "capm2"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "met1"
+        },
+        {
+          "capacitance": 13.956,
+          "in_layer_name": "met1",
+          "out_layer_name": "capm2"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "met2"
+        },
+        {
+          "capacitance": 18.434,
+          "in_layer_name": "met2",
+          "out_layer_name": "capm2"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "met3"
+        },
+        {
+          "capacitance": 44.371,
+          "in_layer_name": "met3",
+          "out_layer_name": "capm2"
+        },
+        {
+          "capacitance": 62.502,
+          "in_layer_name": "met5",
+          "out_layer_name": "capm2"
+        },
+        {
+          "capacitance": 44.035,
+          "in_layer_name": "capm2",
+          "out_layer_name": "met5"
+        },
+        {
+          "in_layer_name": "capm2",
+          "out_layer_name": "capm"
+        },
+        {
+          "capacitance": 44.371,
+          "in_layer_name": "capm",
+          "out_layer_name": "capm2"
+        },
+        {
+          "capacitance": 30.0,
+          "in_layer_name": "capm2",
+          "out_layer_name": "met4"
+        },
+        {
+          "capacitance": 30.0,
+          "in_layer_name": "met4",
+          "out_layer_name": "capm2"
+        }
+      ],
+      "sidewalls": [
+        {
+          "capacitance": 11.459,
+          "layer_name": "poly",
+          "offset": -0.048
+        },
+        {
+          "capacitance": 18.204,
+          "layer_name": "li1",
+          "offset": 0.084
+        },
+        {
+          "capacitance": 47.83,
+          "layer_name": "met1",
+          "offset": 0.376
+        },
+        {
+          "capacitance": 52.84,
+          "layer_name": "met2",
+          "offset": 0.433
+        },
+        {
+          "capacitance": 84.96,
+          "layer_name": "met3",
+          "offset": 0.625
+        },
+        {
+          "capacitance": 93.14,
+          "layer_name": "met4",
+          "offset": 0.713
+        },
+        {
+          "capacitance": 118.727,
+          "layer_name": "met5",
+          "offset": 0.115
+        },
+        {
+          "capacitance": 84.96,
+          "layer_name": "capm",
+          "offset": 0.625
+        },
+        {
+          "capacitance": 93.14,
+          "layer_name": "capm2",
+          "offset": 0.713
+        }
+      ],
+      "substrates": [
+        {
+          "area_capacitance": 80.435,
+          "layer_name": "poly",
+          "perimeter_capacitance": 42.469
+        },
+        {
+          "area_capacitance": 29.338,
+          "layer_name": "li1",
+          "perimeter_capacitance": 31.144
+        },
+        {
+          "area_capacitance": 20.335,
+          "layer_name": "met1",
+          "perimeter_capacitance": 32.323
+        },
+        {
+          "area_capacitance": 14.652,
+          "layer_name": "met2",
+          "perimeter_capacitance": 29.213
+        },
+        {
+          "area_capacitance": 10.567,
+          "layer_name": "met3",
+          "perimeter_capacitance": 32.929
+        },
+        {
+          "area_capacitance": 7.54,
+          "layer_name": "met4",
+          "perimeter_capacitance": 30.15
+        },
+        {
+          "area_capacitance": 5.783,
+          "layer_name": "met5",
+          "perimeter_capacitance": 33.265
+        },
+        {
+          "area_capacitance": 10.567,
+          "layer_name": "capm"
+        },
+        {
+          "area_capacitance": 7.54,
+          "layer_name": "capm2"
+        }
+      ]
+    },
+    "side_halo": 8.0
+  },
+  "description": "Low empirical capacitance coefficients",
+  "id": "low",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Project diffusion coefficients to nsdm, psdm and tap",
+        "id": "diffusion-projection",
+        "reason": "The LVS layer split differs from the source grouping",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Use the matching camimc/cpmimc model values for both MIM levels",
+        "id": "mim-law",
+        "reason": "Plate-to-plate capacitance needs the device model rather than the thin-plate estimate",
+        "source_ids": [
+          "mim-model-1",
+          "mim-model-2"
+        ]
+      },
+      {
+        "description": "Use same-corner bottom-plate coefficients for MIM coupling to other conductors",
+        "id": "mim-thin-plate",
+        "reason": "Preserve the nominal thin-plate construction while changing all its coefficient inputs together",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "No physical-stack, width-bias, transistor-corner or device-reference matching is claimed",
+        "id": "capability-limits",
+        "reason": "Empirical C coefficients alone do not establish those independent capabilities",
+        "source_ids": [
+          "extraction-table"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Make reviewed C data available without inferring missing resistance or physical corner laws",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/518",
+          "https://github.com/iic-jku/klayout-pex/pull/525"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "extraction-table",
+          "mim-model-1",
+          "mim-model-2"
+        ],
+        "summary": "Add complete low/high capacitance components with explicit source mappings"
+      }
+    ],
+    "sources": [
+      {
+        "description": "MAGIC empirical extraction coefficients",
+        "id": "extraction-table",
+        "options": {
+          "METAL5": "1",
+          "MIM": "1",
+          "REDISTRIBUTION": "1",
+          "area_unit": "aF/um2",
+          "edge_unit": "aF/um",
+          "preprocessed_sha256": "b276dcdf0e381434bd6a6bdf72027551f3cc7f6fc69a9d0f7d6dc44fda91fe99",
+          "sidewall_numerator_unit": "aF",
+          "sidewall_offset_unit": "um",
+          "variants": "hrlc,lrlc"
+        },
+        "revision": "5740c4a81c42f9fe4af5ef2ee258a99151053d28",
+        "sha256": "28267a7090be9ace22f7d4876fb4fcf285eefeabab805f00e65923ebf31e90e1",
+        "uri": "https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/sky130/magic/sky130-extract.tech"
+      },
+      {
+        "description": "MIM capacitance corner model input",
+        "id": "mim-model-1",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "c602a648587cab46b5db98a994656bdfad8b8970d658bab404890f65504be20e",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_high__cap_low__lin.spice"
+      },
+      {
+        "description": "MIM capacitance corner model input",
+        "id": "mim-model-2",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "459dde9efbf35abed0554d5203fc2ed4e8a10a25422a6794bf7662a71517dc75",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_high__lin.spice"
+      }
+    ]
+  }
+}
