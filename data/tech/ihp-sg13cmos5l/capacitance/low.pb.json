@@ -1,0 +1,634 @@
+{
+  "capacitance": {
+    "capacitance": {
+      "overlaps": [
+        {
+          "bottom_layer_name": "PWell",
+          "capacitance": 87.433,
+          "top_layer_name": "GatPoly"
+        },
+        {
+          "bottom_layer_name": "NWell",
+          "capacitance": 87.433,
+          "top_layer_name": "GatPoly"
+        },
+        {
+          "bottom_layer_name": "PWell",
+          "capacitance": 32.933,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "NWell",
+          "capacitance": 32.933,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "nSD",
+          "capacitance": 52.638,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "pSD",
+          "capacitance": 52.638,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "Activ",
+          "capacitance": 52.638,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "GatPoly",
+          "capacitance": 71.275,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "PWell",
+          "capacitance": 16.737,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "NWell",
+          "capacitance": 16.737,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "nSD",
+          "capacitance": 20.669,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "pSD",
+          "capacitance": 20.669,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Activ",
+          "capacitance": 20.669,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "GatPoly",
+          "capacitance": 23.034,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 60.502,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "PWell",
+          "capacitance": 10.956,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "NWell",
+          "capacitance": 10.956,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "nSD",
+          "capacitance": 12.514,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "pSD",
+          "capacitance": 12.514,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Activ",
+          "capacitance": 12.514,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "GatPoly",
+          "capacitance": 13.344,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 20.81,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 60.502,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "PWell",
+          "capacitance": 8.143,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "NWell",
+          "capacitance": 8.143,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "nSD",
+          "capacitance": 8.974,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "pSD",
+          "capacitance": 8.974,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Activ",
+          "capacitance": 8.974,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "GatPoly",
+          "capacitance": 9.393,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 12.566,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 20.81,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Metal3",
+          "capacitance": 60.502,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "PWell",
+          "capacitance": 6.104,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "NWell",
+          "capacitance": 6.104,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "nSD",
+          "capacitance": 6.56,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "pSD",
+          "capacitance": 6.56,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "Activ",
+          "capacitance": 6.56,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "GatPoly",
+          "capacitance": 6.78,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 8.292,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 11.227,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "Metal3",
+          "capacitance": 17.378,
+          "top_layer_name": "TopMetal1"
+        },
+        {
+          "bottom_layer_name": "Metal4",
+          "capacitance": 38.437,
+          "top_layer_name": "TopMetal1"
+        }
+      ],
+      "sideoverlaps": [
+        {
+          "capacitance": 42.719,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "PWell"
+        },
+        {
+          "capacitance": 42.719,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "NWell"
+        },
+        {
+          "capacitance": 36.059,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "PWell"
+        },
+        {
+          "capacitance": 36.059,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "NWell"
+        },
+        {
+          "capacitance": 40.937,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "nSD"
+        },
+        {
+          "capacitance": 40.937,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "pSD"
+        },
+        {
+          "capacitance": 40.937,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Activ"
+        },
+        {
+          "capacitance": 44.558,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "GatPoly"
+        },
+        {
+          "capacitance": 21.264,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 31.504,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "PWell"
+        },
+        {
+          "capacitance": 31.504,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "NWell"
+        },
+        {
+          "capacitance": 33.263,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "nSD"
+        },
+        {
+          "capacitance": 33.263,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "pSD"
+        },
+        {
+          "capacitance": 33.263,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Activ"
+        },
+        {
+          "capacitance": 34.222,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "GatPoly"
+        },
+        {
+          "capacitance": 9.846,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 44.58,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 28.443,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 28.325,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "PWell"
+        },
+        {
+          "capacitance": 28.325,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "NWell"
+        },
+        {
+          "capacitance": 29.264,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "nSD"
+        },
+        {
+          "capacitance": 29.264,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "pSD"
+        },
+        {
+          "capacitance": 29.264,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Activ"
+        },
+        {
+          "capacitance": 29.734,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "GatPoly"
+        },
+        {
+          "capacitance": 6.37,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 33.309,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 15.671,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 44.575,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 33.871,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 26.348,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "PWell"
+        },
+        {
+          "capacitance": 26.348,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "NWell"
+        },
+        {
+          "capacitance": 26.961,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "nSD"
+        },
+        {
+          "capacitance": 26.961,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "pSD"
+        },
+        {
+          "capacitance": 26.961,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Activ"
+        },
+        {
+          "capacitance": 27.256,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "GatPoly"
+        },
+        {
+          "capacitance": 4.723,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 29.263,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 11.166,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 33.288,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 20.128,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 44.57,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 36.32,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 35.946,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "PWell"
+        },
+        {
+          "capacitance": 35.946,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "NWell"
+        },
+        {
+          "capacitance": 36.66,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "nSD"
+        },
+        {
+          "capacitance": 36.66,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "pSD"
+        },
+        {
+          "capacitance": 36.66,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "Activ"
+        },
+        {
+          "capacitance": 36.995,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "GatPoly"
+        },
+        {
+          "capacitance": 3.54,
+          "in_layer_name": "GatPoly",
+          "out_layer_name": "TopMetal1"
+        },
+        {
+          "capacitance": 39.114,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 8.207,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "TopMetal1"
+        },
+        {
+          "capacitance": 42.579,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 13.92,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "TopMetal1"
+        },
+        {
+          "capacitance": 48.16,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 20.546,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "TopMetal1"
+        },
+        {
+          "capacitance": 59.997,
+          "in_layer_name": "TopMetal1",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 31.674,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "TopMetal1"
+        }
+      ],
+      "sidewalls": [
+        {
+          "capacitance": 10.562,
+          "layer_name": "GatPoly",
+          "offset": -0.044
+        },
+        {
+          "capacitance": 24.055,
+          "layer_name": "Metal1",
+          "offset": 0.028
+        },
+        {
+          "capacitance": 35.065,
+          "layer_name": "Metal2",
+          "offset": 0.084
+        },
+        {
+          "capacitance": 41.605,
+          "layer_name": "Metal3",
+          "offset": 0.136
+        },
+        {
+          "capacitance": 46.889,
+          "layer_name": "Metal4",
+          "offset": 0.179
+        },
+        {
+          "capacitance": 139.088,
+          "layer_name": "TopMetal1",
+          "offset": 0.081
+        }
+      ],
+      "substrates": [
+        {
+          "area_capacitance": 87.433,
+          "layer_name": "GatPoly",
+          "perimeter_capacitance": 42.719
+        },
+        {
+          "area_capacitance": 32.933,
+          "layer_name": "Metal1",
+          "perimeter_capacitance": 36.059
+        },
+        {
+          "area_capacitance": 16.737,
+          "layer_name": "Metal2",
+          "perimeter_capacitance": 31.504
+        },
+        {
+          "area_capacitance": 10.956,
+          "layer_name": "Metal3",
+          "perimeter_capacitance": 28.325
+        },
+        {
+          "area_capacitance": 8.143,
+          "layer_name": "Metal4",
+          "perimeter_capacitance": 26.348
+        },
+        {
+          "area_capacitance": 6.104,
+          "layer_name": "TopMetal1",
+          "perimeter_capacitance": 35.946
+        }
+      ]
+    },
+    "side_halo": 8.0
+  },
+  "description": "Low empirical capacitance coefficients",
+  "id": "low",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Project LV diffusion coefficients to nSD, pSD and Activ; exclude HV-specific coefficients",
+        "id": "lv-diffusion",
+        "reason": "The current LVS mapping does not select separate HV diffusion rows",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "No MIM top plate is added",
+        "id": "no-mim",
+        "reason": "This supported process variant has no MIM plate in its declared stack",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "No physical-stack, width-bias, transistor-corner or device-reference matching is claimed",
+        "id": "capability-limits",
+        "reason": "Empirical C coefficients alone do not establish those independent capabilities",
+        "source_ids": [
+          "extraction-table"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Make reviewed C data available without inferring missing resistance or physical corner laws",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/518",
+          "https://github.com/iic-jku/klayout-pex/pull/525",
+          "https://github.com/IHP-GmbH/IHP-Open-PDK/pull/1328"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "extraction-table"
+        ],
+        "summary": "Add complete low/high capacitance components with explicit source mappings"
+      }
+    ],
+    "sources": [
+      {
+        "description": "MAGIC empirical extraction coefficients",
+        "id": "extraction-table",
+        "options": {
+          "area_unit": "aF/um2",
+          "edge_unit": "aF/um",
+          "preprocessed_sha256": "15b771532b0701a6c45f6d0a1156e6422d15400a89125d640fbe7e57b44184eb",
+          "sidewall_numerator_unit": "aF",
+          "sidewall_offset_unit": "um",
+          "variants": "hrlc,lrlc"
+        },
+        "revision": "14b1ab845696960a0a1881ec8614acba0f7b8eb7",
+        "sha256": "15b771532b0701a6c45f6d0a1156e6422d15400a89125d640fbe7e57b44184eb",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/14b1ab845696960a0a1881ec8614acba0f7b8eb7/ihp-sg13cmos5l/libs.tech/magic/ihp-sg13cmos5l-extract.tech"
+      }
+    ]
+  }
+}

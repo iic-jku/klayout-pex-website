@@ -1,0 +1,816 @@
+{
+  "capacitance": {
+    "capacitance": {
+      "overlaps": [
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 130.21,
+          "top_layer_name": "Poly2"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 130.21,
+          "top_layer_name": "Poly2"
+        },
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 33.126,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 33.126,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "Nplus",
+          "capacitance": 43.987,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "Pplus",
+          "capacitance": 43.987,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "COMP",
+          "capacitance": 43.987,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "Poly2",
+          "capacitance": 60.319,
+          "top_layer_name": "Metal1"
+        },
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 16.471,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 16.471,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Nplus",
+          "capacitance": 18.777,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Pplus",
+          "capacitance": 18.777,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "COMP",
+          "capacitance": 18.777,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Poly2",
+          "capacitance": 21.231,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 73.63,
+          "top_layer_name": "Metal2"
+        },
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 10.961,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 10.961,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Nplus",
+          "capacitance": 11.936,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Pplus",
+          "capacitance": 11.936,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "COMP",
+          "capacitance": 11.936,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Poly2",
+          "capacitance": 12.883,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 22.673,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 73.63,
+          "top_layer_name": "Metal3"
+        },
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 8.213,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 8.213,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Nplus",
+          "capacitance": 8.749,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Pplus",
+          "capacitance": 8.749,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "COMP",
+          "capacitance": 8.749,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Poly2",
+          "capacitance": 9.247,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 13.4,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 22.673,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Metal3",
+          "capacitance": 73.63,
+          "top_layer_name": "Metal4"
+        },
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 6.24,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 6.24,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Nplus",
+          "capacitance": 6.545,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Pplus",
+          "capacitance": 6.545,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "COMP",
+          "capacitance": 6.545,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Poly2",
+          "capacitance": 6.82,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 8.841,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 12.108,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Metal3",
+          "capacitance": 19.206,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Metal4",
+          "capacitance": 46.417,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Nwell",
+          "capacitance": 8.213,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "LVPWELL",
+          "capacitance": 8.213,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "Nplus",
+          "capacitance": 8.749,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "Pplus",
+          "capacitance": 8.749,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "COMP",
+          "capacitance": 8.749,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "Poly2",
+          "capacitance": 9.247,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "Metal1",
+          "capacitance": 13.4,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "Metal2",
+          "capacitance": 22.673,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "Metal3",
+          "capacitance": 73.63,
+          "top_layer_name": "FuseTop"
+        },
+        {
+          "bottom_layer_name": "FuseTop",
+          "capacitance": 46.417,
+          "top_layer_name": "Metal5"
+        },
+        {
+          "bottom_layer_name": "Metal4",
+          "capacitance": 2189.0,
+          "top_layer_name": "FuseTop"
+        }
+      ],
+      "sideoverlaps": [
+        {
+          "capacitance": 53.506,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "capacitance": 53.506,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "capacitance": 42.144,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "capacitance": 42.144,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "capacitance": 45.576,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Nplus"
+        },
+        {
+          "capacitance": 45.576,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Pplus"
+        },
+        {
+          "capacitance": 45.576,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "COMP"
+        },
+        {
+          "capacitance": 49.798,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Poly2"
+        },
+        {
+          "capacitance": 19.221,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 35.327,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "capacitance": 35.327,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "capacitance": 36.551,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Nplus"
+        },
+        {
+          "capacitance": 36.551,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Pplus"
+        },
+        {
+          "capacitance": 36.551,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "COMP"
+        },
+        {
+          "capacitance": 37.755,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Poly2"
+        },
+        {
+          "capacitance": 9.086,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 53.167,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 36.404,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 31.819,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "capacitance": 31.819,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "capacitance": 32.504,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Nplus"
+        },
+        {
+          "capacitance": 32.504,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Pplus"
+        },
+        {
+          "capacitance": 32.504,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "COMP"
+        },
+        {
+          "capacitance": 33.136,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Poly2"
+        },
+        {
+          "capacitance": 6.028,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 38.397,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 19.554,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 53.157,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 41.317,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 29.587,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "capacitance": 29.587,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "capacitance": 30.045,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Nplus"
+        },
+        {
+          "capacitance": 30.045,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Pplus"
+        },
+        {
+          "capacitance": 30.045,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "COMP"
+        },
+        {
+          "capacitance": 30.454,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Poly2"
+        },
+        {
+          "capacitance": 4.52,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 33.421,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 13.914,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 38.361,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 23.857,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 53.137,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 43.947,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 32.324,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "capacitance": 32.324,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "capacitance": 32.737,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Nplus"
+        },
+        {
+          "capacitance": 32.737,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Pplus"
+        },
+        {
+          "capacitance": 32.737,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "COMP"
+        },
+        {
+          "capacitance": 33.1,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Poly2"
+        },
+        {
+          "capacitance": 3.439,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "Metal5"
+        },
+        {
+          "capacitance": 35.526,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 10.324,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "Metal5"
+        },
+        {
+          "capacitance": 38.793,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 16.584,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "Metal5"
+        },
+        {
+          "capacitance": 44.284,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 24.338,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "Metal5"
+        },
+        {
+          "capacitance": 57.18,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 38.327,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "Metal5"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Nwell"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "LVPWELL"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Nplus"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Pplus"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "COMP"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Poly2"
+        },
+        {
+          "capacitance": 4.52,
+          "in_layer_name": "Poly2",
+          "out_layer_name": "FuseTop"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Metal1"
+        },
+        {
+          "capacitance": 13.914,
+          "in_layer_name": "Metal1",
+          "out_layer_name": "FuseTop"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Metal2"
+        },
+        {
+          "capacitance": 23.857,
+          "in_layer_name": "Metal2",
+          "out_layer_name": "FuseTop"
+        },
+        {
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Metal3"
+        },
+        {
+          "capacitance": 43.947,
+          "in_layer_name": "Metal3",
+          "out_layer_name": "FuseTop"
+        },
+        {
+          "capacitance": 57.18,
+          "in_layer_name": "Metal5",
+          "out_layer_name": "FuseTop"
+        },
+        {
+          "capacitance": 38.327,
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Metal5"
+        },
+        {
+          "capacitance": 262.13,
+          "in_layer_name": "FuseTop",
+          "out_layer_name": "Metal4"
+        },
+        {
+          "capacitance": 262.13,
+          "in_layer_name": "Metal4",
+          "out_layer_name": "FuseTop"
+        }
+      ],
+      "sidewalls": [
+        {
+          "capacitance": 10.455,
+          "layer_name": "Poly2",
+          "offset": -0.09
+        },
+        {
+          "capacitance": 34.059,
+          "layer_name": "Metal1",
+          "offset": 0.021
+        },
+        {
+          "capacitance": 45.828,
+          "layer_name": "Metal2",
+          "offset": 0.096
+        },
+        {
+          "capacitance": 54.477,
+          "layer_name": "Metal3",
+          "offset": 0.163
+        },
+        {
+          "capacitance": 61.563,
+          "layer_name": "Metal4",
+          "offset": 0.22
+        },
+        {
+          "capacitance": 104.126,
+          "layer_name": "Metal5",
+          "offset": 0.213
+        },
+        {
+          "capacitance": 61.563,
+          "layer_name": "FuseTop",
+          "offset": 0.22
+        }
+      ],
+      "substrates": [
+        {
+          "area_capacitance": 130.21,
+          "layer_name": "Poly2",
+          "perimeter_capacitance": 53.506
+        },
+        {
+          "area_capacitance": 33.126,
+          "layer_name": "Metal1",
+          "perimeter_capacitance": 42.144
+        },
+        {
+          "area_capacitance": 16.471,
+          "layer_name": "Metal2",
+          "perimeter_capacitance": 35.327
+        },
+        {
+          "area_capacitance": 10.961,
+          "layer_name": "Metal3",
+          "perimeter_capacitance": 31.819
+        },
+        {
+          "area_capacitance": 8.213,
+          "layer_name": "Metal4",
+          "perimeter_capacitance": 29.587
+        },
+        {
+          "area_capacitance": 6.24,
+          "layer_name": "Metal5",
+          "perimeter_capacitance": 32.324
+        },
+        {
+          "area_capacitance": 8.213,
+          "layer_name": "FuseTop"
+        }
+      ]
+    },
+    "side_halo": 8.0
+  },
+  "description": "High empirical capacitance coefficients",
+  "id": "high",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Project LV diffusion coefficients to Nplus, Pplus and COMP; exclude MV-specific coefficients",
+        "id": "lv-diffusion",
+        "reason": "The current LVS mapping does not select separate MV diffusion rows",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Use the 2 fF/um2 MIM law with 0.9/1.0/1.1 factors on both area and edge terms",
+        "id": "mim-law",
+        "reason": "The supported stack selects the 2 fF option and its independent device law",
+        "source_ids": [
+          "mim-model-1",
+          "mim-model-2"
+        ]
+      },
+      {
+        "description": "Derive low-C Metal2-to-Nwell fringe as 32.657 aF/um from same-corner substrate perimeter",
+        "id": "missing-well-fringe",
+        "reason": "The source omits this row; substrate and well share the same capacitance plane",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Project Nwell coupling to LVPWELL",
+        "id": "well-projection",
+        "reason": "Preserve the established nominal layer mapping at each C corner",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Use same-corner bottom-plate coefficients for MIM coupling to other conductors",
+        "id": "mim-thin-plate",
+        "reason": "The existing thin-plate approximation provides complete non-device coupling rows",
+        "source_ids": [
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "No physical-stack, width-bias, transistor-corner or device-reference matching is claimed",
+        "id": "capability-limits",
+        "reason": "Empirical C coefficients alone do not establish those independent capabilities",
+        "source_ids": [
+          "extraction-table"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Make reviewed C data available without inferring missing resistance or physical corner laws",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/518",
+          "https://github.com/iic-jku/klayout-pex/pull/525"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "extraction-table",
+          "mim-model-1",
+          "mim-model-2"
+        ],
+        "summary": "Add complete low/high capacitance components with explicit source mappings"
+      }
+    ],
+    "sources": [
+      {
+        "description": "MAGIC empirical extraction coefficients",
+        "id": "extraction-table",
+        "options": {
+          "HRPOLY1K": "1",
+          "METALS5": "1",
+          "MIM": "1",
+          "THICKMET1P1": "1",
+          "area_unit": "aF/um2",
+          "edge_unit": "aF/um",
+          "preprocessed_sha256": "8b29ea04ec6dcf293259494a7715b88f5636c2a4fd8ac3a5ba6b4a5ff74e8c9d",
+          "sidewall_numerator_unit": "aF",
+          "sidewall_offset_unit": "um",
+          "variants": "hrhc,lrhc"
+        },
+        "revision": "5740c4a81c42f9fe4af5ef2ee258a99151053d28",
+        "sha256": "e8ab78e8f3c61b43d00ef493d247700ff76477ad6e9b84d2aebafde62be61fb8",
+        "uri": "https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/gf180mcu/magic/gf180mcu-extract.tech"
+      },
+      {
+        "description": "MIM capacitance corner model input",
+        "id": "mim-model-1",
+        "revision": "5e4be8726e2ae8be099c4131f697a353d6457874",
+        "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064.spice"
+      },
+      {
+        "description": "MIM capacitance corner model input",
+        "id": "mim-model-2",
+        "revision": "5e4be8726e2ae8be099c4131f697a353d6457874",
+        "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064_mim.spice"
+      }
+    ]
+  }
+}
