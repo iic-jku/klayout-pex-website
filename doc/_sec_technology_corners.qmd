@@ -19,7 +19,17 @@ limitations under the License.
 An extraction corner selects the data used to calculate parasitics. It does not automatically select transistor models, temperature or supply voltage for the subsequent simulation. Those choices can be independent in an open PDK.
 
 ::: {.callout-note}
-Corner selection belongs to the development version following `0.9.0`. The bundled catalogs provide the `nominal` scenario and complete `low`/`high` capacitance components for each supported technology. A custom scenario can select those components explicitly. Correlated resistance corners and matching physical/device-reference data are still being qualified. An upstream style name is not automatically an available `KPEX` selection.
+Corner selection belongs to the development version following `0.9.0`. Each supported technology supplies complete `nominal`, `low` and `high` capacitance components. A custom scenario can select those components explicitly.
+
+The development catalogs also provide:
+
+- Isolated IHP `GatPoly` sheet-resistance sensitivities (@sec-corner-gatpoly-sheet)
+- Complete `ihp-sg13cmos5l` fixed-layout resistance sensitivities (@sec-corner-cmos5l-resistance)
+- `sky130A` resistance sensitivities with explicit MIM sheet bounds (@sec-corner-sky130-resistance)
+- Independent MIM device-reference components (@sec-corner-device-references)
+- Source-related physical recipes (@sec-corner-physical-recipes)
+
+These selections retain their documented assumptions. An upstream style name does not automatically declare a matching physical stack or a correlated process corner.
 :::
 
 ### Selecting Declared Scenarios {#sec-corner-selection}
@@ -73,7 +83,7 @@ A missing table entry is not the same as an explicit zero. Each selected resista
 
 ### Inspecting Catalog Data {#sec-corner-catalog-json}
 
-The following examples contain the generated `pb.json` files for the current corner implementation. Each complete example includes its catalog, shared technology, all four nominal datasets and both additional capacitance datasets, `low` and `high`. Unpack it before passing the catalog to `--tech-catalog`: the component paths are relative to that catalog.
+The following examples contain the generated `pb.json` files for the current corner implementation. Each complete example includes its catalog, shared technology, all four nominal datasets, and both additional capacitance datasets (`low` and `high`). The bundles also contain the available resistance, MIM device-reference and physical-stack components described below. Unpack a bundle before passing its catalog to `--tech-catalog`; component paths are relative to that catalog.
 
 | Technology | Catalog | Complete example |
 |:---|:---|:---|
@@ -196,13 +206,15 @@ Separate component files do not imply statistical independence of R and C. In `s
 
 Each supported PDK has complete `nominal`, `low` and `high` capacitance datasets. The additional components cover substrate area and perimeter, overlap, fitted sidewall and directed fringe terms. They retain the diffusion projections and MIM construction used by the nominal technology, with the selected capacitance data.
 
-| Technology | Capacitance datasets | Bundled scenario |
+| Technology | Capacitance datasets | Selection examples |
 |:---|:---|:---|
-| `sky130A` | [`nominal`](../data/tech/sky130A/capacitance/nominal.pb.json), [`low`](../data/tech/sky130A/capacitance/low.pb.json), [`high`](../data/tech/sky130A/capacitance/high.pb.json) | `nominal` |
+| `sky130A` | [`nominal`](../data/tech/sky130A/capacitance/nominal.pb.json), [`low`](../data/tech/sky130A/capacitance/low.pb.json), [`high`](../data/tech/sky130A/capacitance/high.pb.json) | `nominal`; R/C sensitivities in @sec-corner-sky130-resistance |
 | `gf180mcuD` | [`nominal`](../data/tech/gf180mcuD/capacitance/nominal.pb.json), [`low`](../data/tech/gf180mcuD/capacitance/low.pb.json), [`high`](../data/tech/gf180mcuD/capacitance/high.pb.json) | `nominal` |
-| `ihp-sg13g2` | [`nominal`](../data/tech/ihp-sg13g2/capacitance/nominal.pb.json), [`low`](../data/tech/ihp-sg13g2/capacitance/low.pb.json), [`high`](../data/tech/ihp-sg13g2/capacitance/high.pb.json) | `nominal` |
-| `ihp-sg13cmos5l` | [`nominal`](../data/tech/ihp-sg13cmos5l/capacitance/nominal.pb.json), [`low`](../data/tech/ihp-sg13cmos5l/capacitance/low.pb.json), [`high`](../data/tech/ihp-sg13cmos5l/capacitance/high.pb.json) | `nominal` |
-: Capacitance components and selectable bundled scenarios {#tbl-corner-availability tbl-colwidths="[32,43,25]"}
+| `ihp-sg13g2` | [`nominal`](../data/tech/ihp-sg13g2/capacitance/nominal.pb.json), [`low`](../data/tech/ihp-sg13g2/capacitance/low.pb.json), [`high`](../data/tech/ihp-sg13g2/capacitance/high.pb.json) | `nominal`; `GatPoly` sensitivities in @sec-corner-gatpoly-sheet |
+| `ihp-sg13cmos5l` | [`nominal`](../data/tech/ihp-sg13cmos5l/capacitance/nominal.pb.json), [`low`](../data/tech/ihp-sg13cmos5l/capacitance/low.pb.json), [`high`](../data/tech/ihp-sg13cmos5l/capacitance/high.pb.json) | `nominal`; sheet and full resistance sensitivities in @sec-corner-cmos5l-resistance |
+: Capacitance components and selection examples {#tbl-corner-availability tbl-colwidths="[25,32,43]"}
+
+Each catalog also declares `capiche-low-c` and `capiche-high-c`, selecting the source-related physical recipes described in @sec-corner-physical-recipes.
 
 The `low` tables agree between the reviewed `hrlc` and `lrlc` styles, and the `high` tables agree between `hrhc` and `lrhc`, for all four PDKs. This permits sharing each capacitance component across those resistance choices; it does not prove that resistance can be factored in the same way.
 
@@ -275,6 +287,191 @@ The different ratios between the columns show why one multiplier cannot reproduc
 
 {{< pagebreak >}}
 
+### Varying GatPoly Sheet Resistance {#sec-corner-gatpoly-sheet}
+
+Both `ihp-sg13g2` and `ihp-sg13cmos5l` provide `gatpoly-low-sheet` and `gatpoly-high-sheet`. They vary only the sheet resistance of extracted `GatPoly` interconnect. Every other layer, contact and via resistance, and all capacitance coefficients, remain explicitly nominal.
+
+The values come directly from each process's maintained interconnect tables: 6.2, 7.0 and 7.8 $\Omega/\square$. The sources and hashes are recorded separately in the [`ihp-sg13g2` low-sheet dataset](../data/tech/ihp-sg13g2/resistance/gatpoly-low-sheet.pb.json) and the [`ihp-sg13cmos5l` low-sheet dataset](../data/tech/ihp-sg13cmos5l/resistance/gatpoly-low-sheet.pb.json).
+
+These are fixed-layout sensitivity selections. They do not apply the thickness or linewidth variation of a full process corner, select a transistor corner, or change temperature. Their nominal stack provides layer identities and ordering; `physical_stack_matches: false` prevents treating it as matched field-solver geometry. These sheet-only scenarios select no device-reference component. An automatic device-capacitance comparison requires a separately justified explicit reference.
+
+#### Comparing Strip Resistance {#sec-corner-gatpoly-example}
+
+The [example LVS database](../data/tech/examples/ihp-gatpoly-strip.lvsdb) contains one 10 µm × 0.5 µm `GatPoly` strip. Ports `A` and `B` span opposite ends, with no contacts and no recognized resistor device. The same conductor and pin definitions apply to both IHP variants.
+
+```bash
+for corner in nominal gatpoly-low-sheet gatpoly-high-sheet; do
+  kpex extract --pdk ihp-sg13g2 --2.5D --mode R \
+    --corner "$corner" --lvsdb ihp-gatpoly-strip.lvsdb \
+    --out-dir "output/$corner" \
+    --out-netlist "output/$corner.spice"
+done
+```
+
+For this rectangle, the independent reference is
+
+$$
+R_{AB}=R_{\square}\frac{L}{W} = 20R_{\square}.
+$$
+
+{{< include /figures/gatpoly-sheet-schematic.qmd >}}
+
+| Selected scenario | Sheet resistance [$\Omega/\square$] | Extracted resistance `A` ↔ `B` [$\Omega$] |
+|:---|---:|---:|
+| `gatpoly-low-sheet` | 6.2 | 124 |
+| `nominal` | 7.0 | 140 |
+| `gatpoly-high-sheet` | 7.8 | 156 |
+: Terminal resistance of the same fixed strip {#tbl-gatpoly-sheet-results tbl-colwidths="[43,25,32]"}
+
+Repeating the commands with `--pdk ihp-sg13cmos5l` gives the same values. Circuit simulations in `ngspice`, `Xyce` and `VACASK` agree with the sheet law, including strips at the published 0.13 µm interconnect width and the next layout-grid step.
+
+#### Keeping Compact Resistors Separate {#sec-corner-gatpoly-devices}
+
+A recognized `rsil`, `rppd` or `rhigh` resistor keeps its compact model, terminals and dimensions. Its modeled body is excluded from extracted interconnect. The `rsil` model has its own sheet parameters, effective-width correction and contact terms; applying those again to every drawn `GatPoly` polygon would mix two different resistance models.
+
+For this reason, the selectable wire limits are 6.2 and 7.8 $\Omega/\square$ from the interconnect tables, rather than the compact model's 6.02 and 7.98 $\Omega/\square$. No compact-model width shift is applied to the strip. Selecting one of these sensitivities does not select a compact-resistor simulation corner.
+
+{{< pagebreak >}}
+
+### Varying CMOS5L Resistance at Fixed Geometry {#sec-corner-cmos5l-resistance}
+
+The `ihp-sg13cmos5l` catalog provides `fixed-layout-low-r` and `fixed-layout-high-r`. They select complete resistance tables for the existing extracted interconnect layers, contacts and vias, while retaining nominal capacitance and the drawn geometry. Select a scenario with the usual extraction options:
+
+```bash
+kpex extract --pdk ihp-sg13cmos5l --2.5D --mode RC \
+  --corner fixed-layout-low-r --gds design.gds \
+  --out-netlist design-low-r.spice --out-result design-low-r.json
+```
+
+Use `fixed-layout-high-r` for the corresponding high-resistance extraction, or `nominal` for the unchanged default. The narrower `gatpoly-low-sheet` and `gatpoly-high-sheet` scenarios vary only `GatPoly`; all their other resistance rows remain nominal.
+
+#### Applying Sheet and Contact Laws {#sec-corner-cmos5l-resistance-laws}
+
+A rectangular wire follows $R=R_{\square}L/W$. Each layer has its own sheet resistance; the low/high scenarios therefore do not multiply the entire network by one common factor.
+
+| Conductor | Low | Nominal | High |
+|:---|---:|---:|---:|
+| `GatPoly` | 6.2 | 7.0 | 7.8 |
+| `Metal1` | 0.085 | 0.110 | 0.135 |
+| `Metal2`, `Metal3`, `Metal4` | 0.073 | 0.088 | 0.103 |
+| `TopMetal1` | 0.015 | 0.018 | 0.021 |
+: `ihp-sg13cmos5l` sheet resistance in $\Omega/\square$ {#tbl-cmos5l-sheet-resistance tbl-colwidths="[40,20,20,20]"}
+
+A contact or via contributes its per-cut resistance. With equipotential terminals on both sides, $N$ identical cuts in parallel give $R=R_{\mathrm{cut}}/N$. A real contact array also has access and spreading resistance in its conductors, which the resistance extraction retains.
+
+| Contact or via | Low | Nominal | High |
+|:---|---:|---:|---:|
+| `Cont` on `nSD` or `pSD` | 8 | 17 | 22 |
+| `Cont` on `GatPoly` | 8 | 15 | 20 |
+| `Via1`, `Via2`, `Via3` | 5 | 9 | 20 |
+| `TopVia1` | 1 | 2.2 | 4 |
+: `ihp-sg13cmos5l` contact and via resistance in $\Omega/\mathrm{cut}$ {#tbl-cmos5l-contact-resistance tbl-colwidths="[40,20,20,20]"}
+
+These rows come from the variant's maintained [minimum](https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_min.itf), [typical](https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_typ.itf) and [maximum](https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_max.itf) interconnect tables. In particular, those sources place `TopVia1` between `Metal4` and `TopMetal1` and specify its $0.42\,\mu\mathrm{m}$ square cut directly. This resolves the row left unspecified in the variant's [process-specification contact table](https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.doc/doc/SG13CMOS5L_os_process_spec.pdf).
+
+#### Interpreting Resistance Sensitivity {#sec-corner-cmos5l-resistance-scope}
+
+The selection changes the interconnect material laws applied to the existing polygons. Compact-device models retain their own internal resistances and geometry rules. Diffusion regions remain ideal device-terminal endpoints under the existing extraction boundary.
+
+The source interconnect files also vary physical parameters, including `GatPoly` thickness. The fixed-layout resistance selections do not apply those geometry changes, temperature variation or compact-model width corrections. They use nominal analytical capacitance and declare no matching field-solver stack or automatic device-capacitance references, as explained in @sec-corner-physical-stack.
+
+The [low-R dataset](../data/tech/ihp-sg13cmos5l/resistance/fixed-layout-low-r.pb.json) and [high-R dataset](../data/tech/ihp-sg13cmos5l/resistance/fixed-layout-high-r.pb.json) record the exact source revisions, hashes and assumptions. Their source-defined resistance bounds are suitable for sensitivity studies; combining them with nonnominal capacitance requires an explicit scenario and a justified interpretation of that combination.
+
+### Varying `sky130A` Resistance {#sec-corner-sky130-resistance}
+
+The `sky130A` catalog provides four fixed-layout resistance sensitivities. Each selects a complete resistance table and the corresponding `low` or `high` capacitance table. `nominal` remains the default.
+
+| Selected scenario | C dataset | MIM sheet resistance [$\Omega/\square$] |
+|:---|:---|---:|
+| `nominal` | `nominal` | 5.8 |
+| [`hrhc-mim-bound`](../data/tech/sky130A/resistance/hrhc-mim-bound.pb.json) | `high` | 6.8 |
+| [`hrlc-mim-bound`](../data/tech/sky130A/resistance/hrlc-mim-bound.pb.json) | `low` | 6.8 |
+| [`lrhc-mim-bound`](../data/tech/sky130A/resistance/lrhc-mim-bound.pb.json) | `high` | 4.8 |
+| [`lrlc-mim-bound`](../data/tech/sky130A/resistance/lrlc-mim-bound.pb.json) | `low` | 4.8 |
+: Complete resistance selections and their MIM-bound policy {#tbl-sky130-resistance-scenarios tbl-colwidths="[46,20,34]"}
+
+The four resistance datasets retain differences that one generic high-R and one generic low-R table would lose. The source parameters `rnw`, `rcvia3` and `rcvia4` map to the existing `nwell`, `via3` and `via4` resistance rows. The two via values also apply to their MIM contact aliases, `via3_cap` and `via4_cap`.
+
+| R/C source style | `nwell` [$\Omega/\square$] | `via3` [$\Omega$/cut] | `via4` [$\Omega$/cut] |
+|:---|---:|---:|---:|
+| [`nominal`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_typical__cap_typical.spice) | 1700 | 3.41 | 0.38 |
+| [`hrhc`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_high__cap_high.spice) | 2022 | 6.623 | 0.7377 |
+| [`hrlc`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_high__cap_low.spice) | 2160 | 8 | 0.891 |
+| [`lrhc`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_high.spice) | 1240 | 0.5 | 0.012 |
+| [`lrlc`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_low.spice) | 1378 | 1.373 | 0.1224 |
+: Resistance overrides retained from each maintained R/C model {#tbl-sky130-resistance-overrides tbl-colwidths="[25,25,25,25]"}
+
+Every dataset explicitly supplies all ten layer, four contact and five via rows. Missing values are errors; they do not inherit nominal resistance. Other sheet and cut values follow the reviewed extraction tables, with their units and source hashes recorded in the dataset provenance.
+
+{{< pagebreak >}}
+
+#### Understanding MIM Bounds {#sec-corner-sky130-mim-bounds}
+
+The [published MIM specification](https://github.com/google/skywater-pdk/blob/7198cf647113f56041e02abf3eb623692820c5e1/docs/rules/device-details/cap_mim/cap_mim-table0.rst) gives `RSCAPM` as 5.8 $\Omega/\square$, bounded by 4.8 and 6.8 $\Omega/\square$, for both MIM top electrodes. These are the `capm` and `capm2` sheet-resistance rows.
+
+The `-mim-bound` selections pair the upper limit with high-R styles and the lower limit with low-R styles. This is an explicit engineering sensitivity policy. The specification does not establish that these limits occur together with the selected R/C model style. The component provenance records that assumption separately from the imported model parameters.
+
+Keep the drawn polygons and contact count fixed when interpreting the result. For a rectangular sheet and $N$ identical contacts in parallel, the material laws are
+
+$$
+R_{\mathrm{sheet}}=R_{\square}\frac{L}{W},
+\qquad
+R_{\mathrm{contacts}}=\frac{R_{\mathrm{cut}}}{N}.
+$$
+
+No compact-model linewidth shift is applied to the extracted sheet, and the actual cuts determine $N$. The device models for [`capm`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_1.model.spice) and [`capm2`](https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_2.model.spice) have their own effective-width and effective-length corrections and estimated contact counts. Applying those corrections again to the extraction geometry would change the meaning of this fixed-layout comparison.
+
+These selections support analytical extraction with `--2.5D`. They do not specify a combined geometry/material worst case, a transistor corner, temperature, or a probability of the selected values occurring together. Their nominal stack supplies compatible layer identities and ordering; `physical_stack_matches: false` prevents exporting it as matched corner geometry. Automatic corner-specific device-capacitance checks are unavailable unless an independent reference is supplied explicitly.
+
+{{< pagebreak >}}
+
+#### Comparing Via Stacks {#sec-corner-sky130-via-example}
+
+The [example LVS database](../data/tech/examples/sky130-via-stack.lvsdb.gz) contains one cut at each connection from `poly` to `met5`, with ports at the cut centres and no intervening wire length. Download the [`sky130A` catalog bundle](../data/tech/sky130A.zip) and keep the layout unchanged for all five selections.
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/r_via_stack_1x1_minsize_poly_to_met5.gds.gz>
+
+```bash
+unzip sky130A.zip
+for corner in nominal hrhc-mim-bound hrlc-mim-bound \
+    lrhc-mim-bound lrlc-mim-bound; do
+  kpex extract --pdk sky130A --2.5D --mode R \
+    --tech-catalog sky130A/catalog.pb.json --corner "$corner" \
+    --lvsdb sky130-via-stack.lvsdb.gz \
+    --out-dir "output/$corner" \
+    --out-netlist "output/$corner.spice" \
+    --out-result "output/$corner.json"
+done
+```
+
+With `hrhc-mim-bound`, the [written netlist](../data/tech/examples/sky130-via-stack/hrhc-mim-bound.spice) contains these six physical-cut resistors:
+
+```spice
+Rext_2 li1 met1 23
+Rext_3 li1 poly 252
+Rext_4 met1 met2 15
+Rext_5 met2 met3 8
+Rext_6 met3 met4 6.623
+Rext_7 met4 met5 0.7377
+```
+
+{{< include /figures/sky130-resistance-via-schematic.qmd >}}
+
+The full netlist also includes a dangling 0.001 $\Omega$ tie from `li1` to the original LVS net name, omitted from the excerpt and @fig-sky130-resistance-via-schematic. With the intermediate ports unloaded, this branch draws no current and the six physical resistances add in series:
+
+| Selected scenario and written netlist | Resistance `poly` ↔ `met5` [$\Omega$] |
+|:---|---:|
+| [`nominal`](../data/tech/examples/sky130-via-stack/nominal.spice) | 173.0000 |
+| [`hrhc-mim-bound`](../data/tech/examples/sky130-via-stack/hrhc-mim-bound.spice) | 305.3607 |
+| [`hrlc-mim-bound`](../data/tech/examples/sky130-via-stack/hrlc-mim-bound.spice) | 306.8910 |
+| [`lrhc-mim-bound`](../data/tech/examples/sky130-via-stack/lrhc-mim-bound.spice) | 56.6120 |
+| [`lrlc-mim-bound`](../data/tech/examples/sky130-via-stack/lrlc-mim-bound.spice) | 57.5954 |
+: Terminal resistance of the same extracted via stack {#tbl-sky130-via-bound-results tbl-colwidths="[62,38]"}
+
+The distinct high-R and low-R results come from `via3` and `via4`, which depend on both R and C choices. This via stack demonstrates the source-dependent cut values; it does not establish correlation for MIM sheet bounds.
+
+{{< pagebreak >}}
+
 ### Matching Physical Geometry to Analytical Tables {#sec-corner-physical-stack}
 
 Analytical extraction needs conductor ordering and connectivity from the stack, while its numerical capacitance comes from tables. A table-only corner can therefore use a nominal stack explicitly for structural purposes.
@@ -291,7 +488,120 @@ A field solver instead calculates capacitance from physical geometry and materia
 
 A missing capability produces a diagnostic before extraction. Device checks can instead use an explicitly supplied reference JSON file. Its physical assumptions remain the user's choice. A nominal reference is never inherited automatically by a scenario that declares none.
 
-The matching-stack declaration records a dataset contract, not foundry certification. A numerical recipe may vary permittivity, thickness or manufactured width. Those choices require their own sources and must not be inferred from the spelling of a corner name.
+The matching-stack declaration records a dataset contract, not foundry certification. It is checked before layout loading; availability of individual physical profiles is checked against the extracted shapes afterward. A numerical recipe may vary permittivity, thickness or manufactured width. Those choices require their own sources and must not be inferred from the spelling of a corner name.
+
+{{< pagebreak >}}
+
+{{< include /doc/_sec_physical_corner_recipes.qmd >}}
+
+{{< pagebreak >}}
+
+### Selecting Device-Capacitance References {#sec-corner-device-references}
+
+A capacitance component describes the extracted interconnect. A device-reference component supplies independent model expressions for `--check-device-caps` (@sec-device-capacitance-check). Selecting one does not select the other. The catalog must name the intended reference explicitly.
+
+The additional reference components cover these MIM models:
+
+| Technology | Supported device | Reference component IDs |
+|:---|:---|:---|
+| `sky130A` | Both mapped MIM plate options | `hrhc`, `hrlc`, `lrhc`, `lrlc` |
+| `gf180mcuD` | `cap_mim_2f0fF` | `low`, `high` |
+| `ihp-sg13g2` | `cap_cmim` | `low`, `high` |
+| `ihp-sg13cmos5l` | No additional MIM reference component | No additional component |
+: Explicit source-backed MIM reference components {#tbl-corner-device-reference-coverage tbl-colwidths="[25,43,32]"}
+
+For `sky130A`, the two mapped devices are:
+
+- `sky130_fd_pr__model__cap_mim`
+- `sky130_fd_pr__model__cap_mim_m4`
+
+The references describe low-frequency mutual capacitance at zero bias and zero mismatch. The model reference temperatures are 27 °C for `sky130A` and `ihp-sg13g2`, and 25 °C for `gf180mcuD`. Series resistance, leakage and substrate shunts are separate observables.
+
+The source equations are checked against pinned compact-model simulations. For a two-terminal device, the mutual capacitance follows the off-diagonal admittance:
+
+$$
+C_{AB}=-\frac{\operatorname{Im}Y_{AB}}{\omega}.
+$$
+
+The comparison uses frequencies low enough that series resistance does not materially change this observable. It does not interpret leakage conductance as capacitance or compare the sum of all capacitances attached to a net.
+
+#### Preserving the Model's Corner Law {#sec-corner-device-model-law}
+
+Different models vary different terms:
+
+- `sky130A`: the R/C style changes the effective dimensions as well as area and edge coefficients. Two styles with the same C suffix can therefore require different reference expressions
+- `gf180mcuD`: the supported 2 fF MIM option scales both area and perimeter terms by its own MIM corner parameter
+- `ihp-sg13g2`: `cap_cmim` varies its area density while retaining the literal edge density of $40\,\mathrm{aF}/\mu\mathrm m$. Its multiplier applies once to the complete device capacitance
+
+For the IHP reference, with mapped dimensions expressed in micrometres,
+
+$$
+C_{\mathrm{reference}}=m\left[C_AWL+2C_P(W+L)\right].
+$$
+
+The `low` and `high` components use $C_A=1.35$ and $1.65\,\mathrm{fF}/\mu\mathrm m^2$, respectively, while $C_P=0.04\,\mathrm{fF}/\mu\mathrm m$ stays fixed. A global multiplier applied to nominal capacitance would incorrectly change that edge term too.
+
+{{< pagebreak >}}
+
+#### Comparing MIM Plates at Two Capacitance Selections {#sec-corner-device-reference-example}
+
+The [complete MIM comparison catalog](../data/tech/ihp-mim-reference.zip) declares `mim-low-c` and `mim-high-c`. They pair the corresponding C tables and device-reference component while holding resistance nominal. This is an explicitly authored sensitivity comparison, without a claim of correlated resistance or matching field-solver geometry.
+
+The low selection contains:
+
+```json
+{
+  "id": "mim-low-c",
+  "resistance": "nominal",
+  "capacitance": "low",
+  "process_stack": "nominal",
+  "device_references": "low",
+  "physical_stack_matches": false
+}
+```
+
+The high selection names `high` for both capacitance and device references. Neither selection inherits the nominal MOM references.
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/ihp-sg13g2/test_patterns/cap_cmim_20um_x_20um_over_m4_wire.gds.gz>
+
+The layout contains a 20 µm × 20 µm `cap_cmim` with terminals `A` ↔ `B`, above a separate `Metal4` route. Set `KPEX_DIR` to the source checkout, then run:
+
+```bash
+unzip ihp-mim-reference.zip
+pattern=cap_cmim_20um_x_20um_over_m4_wire
+layouts="$KPEX_DIR/testdata/designs/ihp-sg13g2/test_patterns"
+lvsdbs="$KPEX_DIR/testdata/lvsdb/ihp-sg13g2/test_patterns"
+for corner in mim-low-c mim-high-c; do
+  kpex extract --pdk ihp-sg13g2 --2.5D --mode CC \
+    --blackbox y --halo 8 --scale y \
+    --gds "$layouts/$pattern.gds.gz" \
+    --lvsdb "$lvsdbs/$pattern.lvsdb.gz" \
+    --tech-catalog ihp-mim-reference/catalog.pb.json \
+    --corner "$corner" --check-device-caps \
+    --out-dir "output/$corner" \
+    --out-result "output/$corner.json"
+done
+```
+
+| Selected scenario | Marker coupling [fF] | Model reference [fF] | Ratio |
+|:---|---:|---:|---:|
+| `mim-low-c` | 540.0 | 543.2 | 0.994109 |
+| `mim-high-c` | 660.0 | 663.2 | 0.995175 |
+: Recorded device-local comparisons of the same MIM layout {#tbl-corner-device-reference-results tbl-colwidths="[31,25,25,19]"}
+
+{{< include /figures/device-corner-reference-schematic.qmd >}}
+
+In this LVS definition, both device-owned plates stop at the MIM rectangle. The lower electrode's 2 µm overhang is ordinary `Metal5`, outside that ownership region. The marker observer therefore excludes fringe coupling to the overhang and reports area coupling only, while the model includes its 3.2 fF perimeter contribution.
+
+The separate route's coupling is also outside this device-local comparison. Both results are `informational`: no acceptance bound was supplied. Their ratios compare different observation domains and must not be interpreted as qualification of the complete device capacitance.
+
+#### Limits of Device-Corner References {#sec-corner-device-reference-limits}
+
+The components cover only the listed MIM models. MOM devices, RF MIM models, other MIM density options and unlisted capacitor types remain unchecked. A layout with no supported references fails a requested automatic check with an explanation.
+
+The existing `nominal` reference component is unchanged. In particular, the IHP nominal MOM engineering estimates remain available under their original assumptions; the new MIM components do not supply nonnominal MOM laws or automatically add nominal MIM checks.
+
+The selected expressions reject nonpositive effective dimensions and invalid multiplicities. They do not replace PDK layout rules, qualify arbitrary bias or temperature, or define statistical correlations with transistor corners. A custom explicit reference file remains available when another independently justified comparison is needed.
 
 {{< pagebreak >}}
 

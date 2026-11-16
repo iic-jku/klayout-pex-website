@@ -25,7 +25,7 @@ A plausible simulation result does not establish that an extracted netlist is co
 | Netlist structure | Connectivity, devices, ports and capacitance totals before reduction | Automatic, with failure policy controlled by `--check` |
 | Schematic consistency | Device classes, aggregate device dimensions and top-level pins | `--schematic` |
 | Reduction response | Terminal admittance of the written original and reduced R/C networks | `--check-frequency` or `--check-frequency-range` |
-| Device capacitance | Marker-internal plate coupling and independent nominal device reference | `--check-device-caps` |
+| Device capacitance | Marker-internal plate coupling and independently selected device reference | `--check-device-caps` |
 
 : Checks answer different questions. {#tbl-extraction-checks tbl-colwidths="[23,47,30]"}
 
@@ -277,9 +277,9 @@ This is a device-local measurement. Substrate capacitance, coupling to external 
 
 Ambiguous geometry is not guessed. Missing or overlapping recognition markers, a marker containing another device's terminals, shorted selected terminals, and missing internal plate geometry are reported as errors or unevaluable comparisons.
 
-### Using the Technology's Nominal Reference {#sec-device-capacitance-automatic}
+### Using the Selected Technology Reference {#sec-device-capacitance-automatic}
 
-With no filename after `--check-device-caps`, the reference comes from the technology's device mapping (@sec-device-capacitance-references). The mapping supplies an expression, its valid parameter domain, a source and its nominal assumptions. It is evaluated using the mapped device parameters.
+With no filename after `--check-device-caps`, the reference comes from the technology's device mapping (@sec-device-capacitance-references). The selected device-reference component supplies an expression, its valid parameter domain, a source and its assumptions. It is evaluated using the mapped device parameters. A nonnominal scenario must explicitly select a matching reference component; @sec-corner-device-references describes the supported MIM combinations. The default nominal comparison remains unchanged.
 
 `KPEX` does not search simulator model libraries at runtime or use an arbitrary LVS capacitance placeholder as the reference. Unsupported metal capacitors are listed as unchecked. If the layout has no available references, the requested comparison fails with an explanation.
 

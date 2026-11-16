@@ -107,6 +107,8 @@ The stack distinguishes conductors from the material around them:
 - Conformal dielectrics, such as `LINT` and `TOPNIT`, specify thickness above metal, beside it and in the field
 - Simple dielectrics, such as `PSG` and `NILD2`, fill the remaining region between levels
 
+Physical corners can change these profiles and manufactured widths. @sec-corner-physical-recipes describes the available source recipes, and @sec-corner-physical-coatings distinguishes incremental coating offsets from cumulative field extents.
+
 The relative permittivity $k$ belongs to each dielectric. A stack may therefore contain several dielectric boundaries around one piece of metal. The schematic labels above and the technology's physical-layer names need not be identical; their correspondence is explicit in the technology definition.
 
 {{< pagebreak >}}
@@ -118,6 +120,8 @@ The schema excerpt below shows how these relationships are expressed:
 - Its `parameters` payload must match that kind
 - `MetalLayer.z` locates the metal bottom relative to the substrate
 - `MetalLayer.contact_above` describes the contact to the next conductor
+- `MetalLayer.line_width_bias` changes total manufactured width for physical export
+- `MetalLayer.physical_geometry_unavailable` marks a profile whose physical law is unqualified
 - A dielectric `reference` identifies the layer or profile it wraps
 - Wrapping can be nested: `SPNIT` wraps `IOX`, which wraps `poly`
 
@@ -158,6 +162,8 @@ message ProcessStackInfo {
         // Bottom height above substrate and thickness, in µm
         double z = 1;
         double thickness = 2;
+        double line_width_bias = 20;
+        bool physical_geometry_unavailable = 30;
         Contact contact_above = 40;
     }
 
@@ -190,7 +196,7 @@ The technology expresses these planar surfaces using two wrapped dielectric prof
 - `sin` wraps `pass`, with $0.3\,\mu\mathrm{m}$ above the oxide and $2.6925\,\mu\mathrm{m}$ in the field
 - Both use zero sidewall growth, preserving flat interfaces over the gap
 
-The field height of `sin` includes the oxide height because it is measured from the wrapped profile's bottom. Treating it as only $0.3\,\mu\mathrm{m}$ would place nitride near the bottom of the gap instead of above the oxide.
+The field height of `sin` includes the oxide height because it is measured from the root metal's bottom. Treating it as only $0.3\,\mu\mathrm{m}$ would place nitride near the bottom of the gap instead of above the oxide.
 
 The general dielectric table lists $2.3\,\mu\mathrm{m}$ for the `11KA` oxide. `KPEX` uses the detailed cross-section's $2.3925\,\mu\mathrm{m}$ consistently with the metal thickness from the same drawing. This is an explicit source choice, not a fitted capacitance correction. The maintained [community PDK repository](https://github.com/fossi-foundation/gf180mcu-pdk) is the source of these dimensions.
 
@@ -284,7 +290,9 @@ For a source change:
 
 The generators contain deliberate projections, not only verbatim copies of upstream tables. Diffusion rows may be shared between extracted implant or tap regions. MIM plates retain their model-derived plate coupling while surrounding parasitics come from other rows. Resistance overrides have their own sources. A table refresh must preserve these distinctions and show changed values for review.
 
-The nominal `sky130A` and `gf180mcuD` tables in `KPEX 0.9.0` follow the maintained [`open-pdks` extraction sources](https://github.com/fossi-foundation/open-pdks/tree/5740c4a81c42f9fe4af5ef2ee258a99151053d28). The `ihp-sg13g2` and `ihp-sg13cmos5l` tables use the corrected [extraction fits at `14b1ab8`](https://github.com/IHP-GmbH/IHP-Open-PDK/tree/14b1ab845696960a0a1881ec8614acba0f7b8eb7). These refreshes preserve the diffusion and MIM derivations and resistance overrides. They do not change the independent device-model references. Automatic calibration and selectable capacitance corners are not available in `0.9.0`. The development version adds complete low/high capacitance components for all four PDKs; @sec-corner-low-high-capacitance explains their selection and the remaining qualification limits.
+The nominal `sky130A` and `gf180mcuD` tables in `KPEX 0.9.0` follow the maintained [`open-pdks` extraction sources](https://github.com/fossi-foundation/open-pdks/tree/5740c4a81c42f9fe4af5ef2ee258a99151053d28). The `ihp-sg13g2` and `ihp-sg13cmos5l` tables use the corrected [extraction fits at `14b1ab8`](https://github.com/IHP-GmbH/IHP-Open-PDK/tree/14b1ab845696960a0a1881ec8614acba0f7b8eb7). These refreshes preserve the diffusion and MIM derivations and resistance overrides. They do not change the independent device-model references. Automatic calibration and selectable capacitance corners are not available in `0.9.0`. The development version adds complete low/high capacitance components for all four PDKs; @sec-corner-low-high-capacitance explains their selection and the remaining qualification limits. Both IHP variants also provide isolated `GatPoly` sheet-resistance sensitivities, described in @sec-corner-gatpoly-sheet.
+
+The `sky130A` development catalog also provides four fixed-layout resistance sensitivities with explicit MIM sheet bounds. Their source-dependent overrides, engineering assumptions and via-stack example are described in @sec-corner-sky130-resistance.
 
 ## Inspecting the generated definitions {#sec-pdk-json-previews}
 

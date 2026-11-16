@@ -1,0 +1,222 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+#### Selecting Source Recipes {#sec-corner-physical-recipes}
+
+The development catalogs provide `capiche-low-c` and `capiche-high-c` for `sky130A`, `gf180mcuD`, `ihp-sg13g2` and `ihp-sg13cmos5l`. These select the physical interconnect recipes from the pinned [`Capiche` sources](https://github.com/RTimothyEdwards/capiche/tree/85905e8810982bd89966cbf8b7e9d3fd1e922d42), together with the corresponding empirical C tables.
+
+| Selected scenario | R dataset | C dataset | Physical component |
+|:---|:---|:---|:---|
+| `capiche-low-c` | `nominal` | `low` | `capiche-low` |
+| `capiche-high-c` | `nominal` | `high` | `capiche-high` |
+: Source-related physical selections, available in each of the four catalogs {#tbl-physical-corner-selections tbl-colwidths="[31,18,18,33]"}
+
+The [source mapping](https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/src/capiche/merge_extract.py) relates the physical recipes to the extraction styles. The catalog records the separate source revisions for the physical recipe and empirical coefficients. This relationship does not make a finite 3D solve numerically identical to a fitted table, establish a correlated resistance corner, or constitute silicon calibration.
+
+The R dataset deliberately stays `nominal`. These selections declare matching physical geometry within the supported profile scope, but no automatic device-capacitance reference. Unsupported MIM profiles are checked against the actual layout, as described in @sec-corner-physical-unavailable.
+
+| Technology | Low physical component | High physical component |
+|:---|:---|:---|
+| `sky130A` | [`capiche-low`](../data/tech/sky130A/process_stack/capiche-low.pb.json) | [`capiche-high`](../data/tech/sky130A/process_stack/capiche-high.pb.json) |
+| `gf180mcuD` | [`capiche-low`](../data/tech/gf180mcuD/process_stack/capiche-low.pb.json) | [`capiche-high`](../data/tech/gf180mcuD/process_stack/capiche-high.pb.json) |
+| `ihp-sg13g2` | [`capiche-low`](../data/tech/ihp-sg13g2/process_stack/capiche-low.pb.json) | [`capiche-high`](../data/tech/ihp-sg13g2/process_stack/capiche-high.pb.json) |
+| `ihp-sg13cmos5l` | [`capiche-low`](../data/tech/ihp-sg13cmos5l/process_stack/capiche-low.pb.json) | [`capiche-high`](../data/tech/ihp-sg13cmos5l/process_stack/capiche-high.pb.json) |
+: Physical components with their source records and explicit assumptions {#tbl-physical-corner-components tbl-colwidths="[34,33,33]"}
+
+A source material named `air` is not necessarily vacuum. `kpex pex25d` preserves its declared permittivity. `kpex extract --fastercap` and `--fastcap` use `--k-void` instead, defaulting to 3.9. To retain the source background, select the value in @tbl-physical-backgrounds.
+
+| Technology | `capiche-low-c` background $k$ | `capiche-high-c` background $k$ |
+|:---|---:|---:|
+| `sky130A` | 2.94 | 3.5 |
+| `gf180mcuD` | 3.0 | 3.0 |
+| `ihp-sg13g2` | 3.0 | 3.0 |
+| `ihp-sg13cmos5l` | 3.0 | 3.0 |
+: Source background permittivity, distinct from the extraction command's default {#tbl-physical-backgrounds tbl-colwidths="[34,33,33]"}
+
+Both extraction options use the shared `PEX25DFile`, `PEX25DScene` and scene exporter. Their electrostatic scope retains extracted diffusion and tap solids; `kpex pex25d` defaults to interconnect with device-terminal anchors. Background and domain settings can differ too. Compare exporters using the same prepared scene and solver settings.
+
+The source substrate is an ideal 2D ground surface at $z=0$. The 3D recipes retain a finite ground thickness as numerical truncation. `sky130A` also retains a 0.1 µm clearance below that surface, so a full ground plane does not touch device contacts beginning at $z=0$. Its exported ground top is therefore $z=-0.1$ µm. The `gf180mcuD` and `ihp-sg13*` recipes retain their existing zero clearance. The component provenance records this 3D boundary policy separately from the source geometry.
+
+{{< pagebreak >}}
+
+#### Applying Manufactured Width {#sec-corner-physical-width}
+
+`MetalLayer.line_width_bias` is the signed **total** change from drawn to manufactured width, in micrometres. If the drawn width is $W$ and the bias is $b$,
+
+$$
+W_{\mathrm{physical}}=W+b, \qquad
+\Delta_{\mathrm{edge}}=\frac{b}{2}.
+$$
+
+Positive $b$ grows metal; negative $b$ erodes it. Every contour edge follows the same law, including line ends and holes. Growing metal reduces a hole; eroding metal enlarges it. Contact cuts retain their drawn shapes and positions.
+
+{{< include /figures/physical-width-bias.qmd >}}
+
+The physical grid must represent the half-bias exactly. For example, the `sky130A` `met1` change of $-0.0206$ µm moves each boundary inward by $0.0103$ µm: 103 units on a $0.0001$ µm grid. A half-bias between grid points is rejected; `kpex pex25d --grid` can select a finer grid that also divides the layout DBU. Non-Manhattan polygon vertices are snapped to that grid, so their geometric displacement has a grid-sized discretization error.
+
+The geometry must retain its electrical connections. Export stops if a bias:
+
+- Removes a conductor or separates an originally connected polygon
+- Breaks a contact, terminal or connection between touching conductor profiles
+- Joins different conductors, including a new boundary touch
+- Exceeds the native coordinate range
+
+Touching profiles can require a joint physical recipe. Independently specified offsets that would open an internal seam are rejected, even when each profile remains nonempty. This avoids silently converting one conductor into disconnected pieces. Zero bias preserves drawn geometry.
+
+These offsets apply to physical export. They do not resize polygons for analytical `--2.5D` extraction or replace its selected R/C coefficient tables.
+
+{{< pagebreak >}}
+
+#### Exporting the Same Layout {#sec-corner-physical-example}
+
+The example has two drawn 100 µm square plates: `li1` from $(0,0)$ to $(100,100)$ µm, and `met1` from $(50,50)$ to $(150,150)$ µm. Their drawn overlap is 50 µm square. Download the [LVS database](../data/tech/examples/physical-corners/overlap.lvsdb.gz) and the [`sky130A` catalog bundle](../data/tech/sky130A.zip).
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/overlap_plates_100um_x_100um_li1_m1.gds.gz>
+
+```bash
+mkdir -p catalogs
+unzip sky130A.zip -d catalogs
+for corner in capiche-low-c capiche-high-c; do
+  kpex pex25d --pdk sky130A \
+    --tech-catalog catalogs/sky130A/catalog.pb.json \
+    --corner "$corner" --lvsdb overlap.lvsdb.gz \
+    --grid 0.0001 --out-dir "output/$corner" \
+    --out-file "output/$corner.pex25d" \
+    --out-scene "output/$corner.pex25d.scene.pb"
+done
+```
+
+The generated [low-C file](../data/tech/examples/physical-corners/capiche-low-c.pex25d) contains these layer extents:
+
+```text
+METAL li1 Z_OFFSETS 1.177 1.257
+METAL met1 Z_OFFSETS 1.7295 2.0595
+```
+
+The [high-C file](../data/tech/examples/physical-corners/capiche-high-c.pex25d) instead contains:
+
+```text
+METAL li1 Z_OFFSETS 0.6917 0.8067
+METAL met1 Z_OFFSETS 1.0137 1.4037
+```
+
+| Selected scenario | `li1` width [µm] | `met1` width [µm] | Vertical gap [µm] |
+|:---|---:|---:|---:|
+| `capiche-low-c` | 99.9770 | 99.9794 | 0.4725 |
+| `capiche-high-c` | 100.0230 | 100.0206 | 0.2070 |
+: Dimensions read from the two generated physical files {#tbl-physical-example-dimensions tbl-colwidths="[34,22,22,22]"}
+
+The gap is the `met1` bottom minus the `li1` top. Both the XY boundaries and the stack heights change; one global capacitance multiplier cannot describe this geometry. The resolved [low-C scene](../data/tech/examples/physical-corners/capiche-low-c.pex25d.scene.pb) and [high-C scene](../data/tech/examples/physical-corners/capiche-high-c.pex25d.scene.pb) are ready for a `PEX25D` exporter.
+
+{{< pagebreak >}}
+
+#### Comparing Finite Plates {#sec-corner-physical-validation}
+
+A representative numerical check uses two aligned 10 µm square plates on the first and second routing-metal layers. It applies the selected manufactured widths, stack heights and dielectric constants, with an 8 µm field margin. The mutual capacitance is the average magnitude of the two off-diagonal matrix entries; substrate coupling is a different observable.
+
+The independent area-only estimate is
+
+$$
+C_{\mathrm{area}}=\epsilon_0\epsilon_r\frac{W_{\mathrm{physical}}^2}{g},
+$$
+
+where $g$ is the selected dielectric gap. Finite plates also have edge coupling, which this area law omits. Comparing the two exposes mistakes in units, gap, width or permittivity without treating the area law as an exact finite-geometry solution.
+
+From a source checkout containing these recipes, the recorded cases can be reproduced with:
+
+```bash
+poetry run pytest tests/physical_corner_data_test.py::\
+test_physical_corner_parallel_plates_converge_and_preserve_expected_order \
+  -q -s
+```
+
+The [recorded results](../data/tech/examples/physical-corners/plate-comparison/results.json) and [solver logs](../data/tech/examples/physical-corners/plate-comparison/solver-logs.zip) use `KLayout` module `0.30.13` and `FasterCap` `6.2.1`. Each case was solved at tolerances `0.02` and `0.005`; the 3D column gives the latter result.
+
+| Technology | Recipe | Area law [fF] | 3D mutual [fF] | Refinement [%] |
+|:---|:---|---:|---:|---:|
+| `gf180mcuD` | `low` | 4.925835 | 5.465495 | 0.005 |
+| `gf180mcuD` | `high` | 7.363150 | 8.017195 | 0.313 |
+| `ihp-sg13g2` | `low` | 6.050362 | 6.574805 | 0.048 |
+| `ihp-sg13g2` | `high` | 7.394886 | 8.052925 | -0.027 |
+| `ihp-sg13cmos5l` | `low` | 6.050362 | 6.586825 | 0.178 |
+| `ihp-sg13cmos5l` | `high` | 7.394886 | 8.064470 | 0.160 |
+| `sky130A` | `low` | 9.227874 | 9.922760 | 0.122 |
+| `sky130A` | `high` | 34.754573 | 35.701250 | 0.004 |
+: Representative finite-plate checks of the physical implementation {#tbl-physical-plate-validation tbl-colwidths="[25,12,23,20,20]"}
+
+The finite-plate results exceed the area estimates by 2.724–10.956%. Tightening the solver tolerance changes the mutual capacitance by at most 0.313% in magnitude. The `high` recipe gives a larger capacitance than `low` for every tested technology.
+
+This validates representative physical dimensions, material assignment and numerical behavior. It does not establish agreement with the empirical analytical tables, qualify arbitrary layouts or provide silicon calibration. A fitted table also contains its own geometry conventions and finite-length assumptions.
+
+{{< pagebreak >}}
+
+#### Checking Available Profiles {#sec-corner-physical-unavailable}
+
+A physical recipe may describe interconnect without supplying a qualified MIM corner law. A nominal MIM plate height or thickness retained for layer ordering is insufficient evidence for a nonnominal 3D model. `MetalLayer.physical_geometry_unavailable` makes that distinction explicit.
+
+The source recipes mark these conductor profiles unavailable:
+
+| Technology | Unavailable physical conductor profiles |
+|:---|:---|
+| `sky130A` | `met3_cap`, `capm`, `met4_cap`, `capm2` |
+| `gf180mcuD` | `metal4_cap`, `FuseTop` |
+| `ihp-sg13g2` | `metal5_cap`, `cmim_top` |
+| `ihp-sg13cmos5l` | No profiles flagged unavailable in this recipe |
+: Layout-dependent restrictions in both source recipes {#tbl-physical-unavailable-profiles tbl-colwidths="[30,70]"}
+
+A layout containing an unavailable profile **or a contact touching it** is rejected before physical output is generated. If the layout contains neither, the profile, associated contacts and dependent conformal coatings are omitted from the exported physical model. A missing layout-layer mapping also fails, because absence could not be verified.
+
+For example, download the [MIM LVS database](../data/tech/examples/physical-corners/mim.lvsdb.gz):
+
+GDS: <https://github.com/iic-jku/klayout-pex/blob/main/testdata/designs/sky130A/test_patterns/cap_mim_m3_20um_x_20um_over_m2_wire.gds.gz>
+
+```bash
+kpex pex25d --pdk sky130A \
+  --tech-catalog catalogs/sky130A/catalog.pb.json \
+  --corner capiche-low-c --lvsdb mim.lvsdb.gz --blackbox n \
+  --out-dir output/mim --out-file output/mim.pex25d
+```
+
+The run rejects the unsupported plate:
+
+```text
+Could not generate PEX25D: Selected physical recipe has no
+qualified geometry for 'capm', present on net 'B'
+```
+
+No `output/mim.pex25d` is produced. Selecting `nominal` is a separate comparison using the existing nominal geometry, not a substitute for the missing MIM corner. The missing evidence is a source-backed combination of MIM plate geometry, surrounding dielectric geometry and relevant dimensional changes for that corner.
+
+{{< pagebreak >}}
+
+#### Reading Coating Thicknesses {#sec-corner-physical-coatings}
+
+A conformal coating can wrap a metal or another coating. Its top and side thicknesses are **incremental** from the wrapped profile. Its field thickness is the **total height from the bottom of the root metal**, including any inner field coating. The latter is not added again along the chain.
+
+The `ihp-sg13cmos5l` recipe illustrates the distinction. `pass1` wraps `TopMetal1`; `pass2` wraps `pass1`. Both reference the bottom of `TopMetal1` for their field extents.
+
+| Coating | Wraps | Top increment [µm] | Side increment [µm] | Field extent [µm] |
+|:---|:---|---:|---:|---:|
+| `pass1` | `TopMetal1` | 1.5 | 0.3 | 1.5 |
+| `pass2` | `pass1` | 0.4 | 0.3 | 1.9 |
+: Coating geometry shared by the low-C and high-C `ihp-sg13cmos5l` recipes {#tbl-physical-coating-thicknesses tbl-colwidths="[14,20,22,22,22]"}
+
+{{< include /figures/physical-coating-extents.qmd >}}
+
+`TopMetal1` starts at $z=5.4$ µm and is 2.0 µm thick. Over metal, the outer top is therefore $5.4+2.0+1.5+0.4=9.3$ µm. Beside metal, the outer reach is $0.3+0.3=0.6$ µm. In the field, the outer height is $5.4+1.9=7.3$ µm.
+
+Material precedence leaves `pass1` in the lower 1.5 µm of the field and `pass2` in the next 0.4 µm. Setting the `pass2` field value to only 0.4 µm would hide it entirely beneath `pass1`. This error can be present even when no `TopMetal1` shapes occur in the layout.
+
+The low/high choices vary the relative permittivities of these coatings: `pass1` uses 3.69/4.51 and `pass2` uses 5.94/7.26. Their geometry above is unchanged. These values come from the [low](https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/ihp-sg13cmos5l_low/metal_stack_ihp-sg13cmos5l_low.py) and [high](https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/ihp-sg13cmos5l_high/metal_stack_ihp-sg13cmos5l_high.py) source recipes. @sec-pex25d-dielectrics describes the corresponding `WRAPS` and material-precedence rules.
