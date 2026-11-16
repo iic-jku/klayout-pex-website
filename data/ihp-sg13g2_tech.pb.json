@@ -4480,7 +4480,7 @@
           "reference": "pass1",
           "thickness_over_metal": 0.4,
           "thickness_sidewall": 0.3,
-          "thickness_where_no_metal": 0.4
+          "thickness_where_no_metal": 1.9
         },
         "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
         "name": "pass2"

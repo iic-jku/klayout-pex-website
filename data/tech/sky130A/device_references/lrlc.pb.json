@@ -1,0 +1,117 @@
+{
+  "description": "lrlc MIM-only device references",
+  "device_references": {
+    "devices": [
+      {
+        "capacitance_references": [
+          {
+            "capacitance": "area_density*width*length + edge_density*2*(width+length)",
+            "description": "res_low__cap_low low-frequency mutual capacitance at zero bias, 27 C and zero mismatch. Includes both model dimension shifts; excludes series plate/contact resistance. Geometry is the exported compact-model rectangle in micrometres.",
+            "parameters": {
+              "area_density": "1.778e-15",
+              "edge_density": "3e-17",
+              "length": "l+(0.0205)",
+              "width": "w+(0.0205)"
+            },
+            "source": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_1.model.spice",
+            "terminal_names": [
+              "B",
+              "A"
+            ],
+            "valid_when": "width>0 && length>0"
+          }
+        ],
+        "lvs_device_class_name": "sky130_fd_pr__model__cap_mim"
+      },
+      {
+        "capacitance_references": [
+          {
+            "capacitance": "area_density*width*length + edge_density*2*(width+length)",
+            "description": "res_low__cap_low low-frequency mutual capacitance at zero bias, 27 C and zero mismatch. Includes both model dimension shifts; excludes series plate/contact resistance. Geometry is the exported compact-model rectangle in micrometres.",
+            "parameters": {
+              "area_density": "1.778e-15",
+              "edge_density": "3e-17",
+              "length": "l+(0.0205)",
+              "width": "w+(0.0205)"
+            },
+            "source": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_2.model.spice",
+            "terminal_names": [
+              "B",
+              "A"
+            ],
+            "valid_when": "width>0 && length>0"
+          }
+        ],
+        "lvs_device_class_name": "sky130_fd_pr__model__cap_mim_m4"
+      }
+    ]
+  },
+  "id": "lrlc",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Only the listed MIM devices have corner references; unlisted MOM, RF and other capacitor models remain unchecked",
+        "id": "partial-device-coverage",
+        "reason": "Interconnect corner coefficients do not establish those devices' independent reference laws",
+        "source_ids": [
+          "common-parameters",
+          "corner-dimensions",
+          "corner-capacitance",
+          "mim-model-1",
+          "mim-model-2"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Check the same corner without scaling nominal MOM estimates",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/551"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "common-parameters",
+          "corner-dimensions",
+          "corner-capacitance",
+          "mim-model-1",
+          "mim-model-2"
+        ],
+        "summary": "Add compact-model MIM corner references"
+      }
+    ],
+    "sources": [
+      {
+        "description": "models/sky130_fd_pr__model__r+c.model.spice",
+        "id": "common-parameters",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/sky130_fd_pr__model__r+c.model.spice"
+      },
+      {
+        "description": "models/r+c/res_low__cap_low.spice",
+        "id": "corner-dimensions",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r+c/res_low__cap_low.spice"
+      },
+      {
+        "description": "models/r+c/res_low__cap_low__lin.spice",
+        "id": "corner-capacitance",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r+c/res_low__cap_low__lin.spice"
+      },
+      {
+        "description": "cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_1.model.spice",
+        "id": "mim-model-1",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_1.model.spice"
+      },
+      {
+        "description": "cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_2.model.spice",
+        "id": "mim-model-2",
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/cells/cap_mim_m3/sky130_fd_pr__cap_mim_m3_2.model.spice"
+      }
+    ]
+  }
+}

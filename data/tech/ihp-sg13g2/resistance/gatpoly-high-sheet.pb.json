@@ -1,0 +1,239 @@
+{
+  "description": "GatPoly high sheet resistance at fixed layout; every other resistance remains nominal",
+  "id": "gatpoly-high-sheet",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Use 7.8 Ohm/square for salicided GatPoly from the max interconnect table",
+        "id": "poly-sheet",
+        "reason": "The interconnect RPSQ law is independent of the compact rsil model parameters",
+        "source_ids": [
+          "gatpoly-itf-max",
+          "gatpoly-process-spec"
+        ]
+      },
+      {
+        "description": "Use 13.36 Ohm/square for the MIM plate and TopVia1 resistance for its contact",
+        "id": "mim-sheet",
+        "reason": "The nominal recipe derives the plate estimate from 0.5 MS/m and 0.1497 um and aliases the contact material",
+        "source_ids": [
+          "recipe"
+        ]
+      },
+      {
+        "description": "Vary only GatPoly sheet resistance; all other sheet/contact/via values remain explicitly nominal",
+        "id": "gatpoly-only",
+        "reason": "Isolate this material sensitivity without claiming a complete process resistance corner",
+        "source_ids": [
+          "recipe",
+          "gatpoly-itf-max"
+        ]
+      },
+      {
+        "description": "Apply sheet resistance to the existing extracted polygons without geometry, temperature or mismatch changes",
+        "id": "fixed-layout",
+        "reason": "These are sheet-resistance sensitivity scenarios. The ITF also varies thickness and the process spec lists linewidth limits; neither defines a scalar correction for arbitrary drawn polygons",
+        "source_ids": [
+          "gatpoly-itf-max",
+          "gatpoly-process-spec",
+          "gatpoly-layout-rules"
+        ]
+      },
+      {
+        "description": "Recognized rsil/rppd/rhigh devices retain their own compact models; no compact-model width shift or series/contact term is applied to the extracted wire",
+        "id": "device-ownership",
+        "reason": "The LVS device boundary separates modeled resistor bodies from interconnect. Mixing the compact law with the interconnect RPSQ table would double-count device effects",
+        "source_ids": [
+          "recipe",
+          "gatpoly-device-corners",
+          "gatpoly-device-model"
+        ]
+      }
+    ],
+    "data_revision": "2",
+    "history": [
+      {
+        "date": "2026-11-12",
+        "reason": "Make source choices reproducible without changing the existing nominal numerical data",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/pull/534"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "recipe",
+          "builder"
+        ],
+        "summary": "Record nominal resistance sources and assumptions"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Use direct interconnect limits rather than project compact-device corner parameters",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/548"
+        ],
+        "revision": "2",
+        "source_ids": [
+          "gatpoly-itf-min",
+          "gatpoly-itf-typ",
+          "gatpoly-itf-max",
+          "gatpoly-process-spec",
+          "gatpoly-layout-rules",
+          "gatpoly-device-corners",
+          "gatpoly-device-model"
+        ],
+        "summary": "Add high GatPoly sheet-resistance sensitivity"
+      }
+    ],
+    "sources": [
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/ihp_sg13.py",
+        "id": "recipe",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "481b497fc70aa0c122a5c85dd2a4ac0eea4bc2f6b0fd0b5d533cdd349e802c34",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/ihp_sg13.py"
+      },
+      {
+        "description": "KPEX source recipe: scripts/gen_tech_pb/tech_builder.py",
+        "id": "builder",
+        "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
+        "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
+        "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      },
+      {
+        "description": "Interconnect min GatPoly sheet resistance",
+        "id": "gatpoly-itf-min",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "befa8871717b02333e065e913ec148bd5e152f6bc149af925a0ab0c652a6230e",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/parasitics/itf/sg13g2_min.itf"
+      },
+      {
+        "description": "Interconnect typ GatPoly sheet resistance",
+        "id": "gatpoly-itf-typ",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "c73498a236bbc2cea74d992c396a18742f1a1df082afa6f0d46582ac7e6983ab",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/parasitics/itf/sg13g2_typ.itf"
+      },
+      {
+        "description": "Interconnect max GatPoly sheet resistance",
+        "id": "gatpoly-itf-max",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "7c1f51f6fda3f4f6a024ec383b4011fbea6c047e3ced76f33e5e47d8a6c56007",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/parasitics/itf/sg13g2_max.itf"
+      },
+      {
+        "description": "Salicided n-doped polysilicon material and sheet-resistance specification",
+        "id": "gatpoly-process-spec",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "974d505886ee62932a50c52c22fbc290db4a70d8a7ce129c0ca8d7934aee160e",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.doc/doc/SG13G2_os_process_spec.pdf"
+      },
+      {
+        "description": "GatPoly width and resistor recognition rules",
+        "id": "gatpoly-layout-rules",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "66125e97386dd88ed058b50f4f8e8814c9633069e4060c2b19459d3e3e6450a2",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.doc/doc/SG13G2_os_layout_rules.pdf"
+      },
+      {
+        "description": "Distinct compact-device corner parameters",
+        "id": "gatpoly-device-corners",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "e0432415be26b0e530ea1acea44000c42d65904b406955464e4a7f97e95bfa2c",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib"
+      },
+      {
+        "description": "Distinct compact-device geometry and contact law",
+        "id": "gatpoly-device-model",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "b79812f31c7b757013a872fe419ad8c1cea3416f77f82826ac3ba34a4506e60d",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/resistors_mod.lib"
+      }
+    ]
+  },
+  "resistance": {
+    "contacts": [
+      {
+        "contact_name": "cont_nsd_con",
+        "device_layer_name": "nsd_fet",
+        "layer_above": "metal1_n_mom",
+        "resistance": 17000.0
+      },
+      {
+        "contact_name": "cont_psd_con",
+        "device_layer_name": "psd_fet",
+        "layer_above": "metal1_n_mom",
+        "resistance": 17000.0
+      },
+      {
+        "contact_name": "cont_poly_con",
+        "device_layer_name": "poly_con",
+        "layer_above": "metal1_n_mom",
+        "resistance": 15000.0
+      }
+    ],
+    "layers": [
+      {
+        "layer_name": "GatPoly",
+        "resistance": 7800.0
+      },
+      {
+        "layer_name": "Metal1",
+        "resistance": 110.0
+      },
+      {
+        "layer_name": "Metal2",
+        "resistance": 88.0
+      },
+      {
+        "layer_name": "Metal3",
+        "resistance": 88.0
+      },
+      {
+        "layer_name": "Metal4",
+        "resistance": 88.0
+      },
+      {
+        "layer_name": "Metal5",
+        "resistance": 88.0
+      },
+      {
+        "layer_name": "TopMetal1",
+        "resistance": 18.0
+      },
+      {
+        "layer_name": "TopMetal2",
+        "resistance": 11.0
+      },
+      {
+        "layer_name": "MIM",
+        "resistance": 13360.0
+      }
+    ],
+    "vias": [
+      {
+        "resistance": 9000.0,
+        "via_name": "Via1"
+      },
+      {
+        "resistance": 9000.0,
+        "via_name": "Via2"
+      },
+      {
+        "resistance": 9000.0,
+        "via_name": "Via3"
+      },
+      {
+        "resistance": 9000.0,
+        "via_name": "Via4"
+      },
+      {
+        "resistance": 2200.0,
+        "via_name": "TopVia1"
+      },
+      {
+        "resistance": 1100.0,
+        "via_name": "TopVia2"
+      }
+    ]
+  }
+}

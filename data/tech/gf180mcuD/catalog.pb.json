@@ -47,12 +47,64 @@
       },
       "id": "high",
       "kind": "CAPACITANCE"
+    },
+    {
+      "file": {
+        "path": "device_references/low.pb.json",
+        "sha256": "c663bf633a8433145142dee7e6ae2b1a29b8343518bd10cded12b2c7783f9ffe"
+      },
+      "id": "low",
+      "kind": "DEVICE_REFERENCES"
+    },
+    {
+      "file": {
+        "path": "device_references/high.pb.json",
+        "sha256": "d8478dc4ecd0b0c9fdfdb970556699570c92ba2eaac37a3c0f2f7c68b005bed8"
+      },
+      "id": "high",
+      "kind": "DEVICE_REFERENCES"
+    },
+    {
+      "file": {
+        "path": "process_stack/capiche-low.pb.json",
+        "sha256": "fb4389c2742d34ec910b30c4a37e58ba8ab62b4af44c2f2f833e95872cecfb3f"
+      },
+      "id": "capiche-low",
+      "kind": "PROCESS_STACK"
+    },
+    {
+      "file": {
+        "path": "process_stack/capiche-high.pb.json",
+        "sha256": "1aadc1e8a0e6d3d0a9c9eb240d368fdc839024266945a391724ade0df5ac0ecd"
+      },
+      "id": "capiche-high",
+      "kind": "PROCESS_STACK"
     }
   ],
   "default_scenario": "nominal",
-  "description": "Nominal scenario and low/high capacitance components for gf180mcuD",
+  "description": "Explicit extraction scenarios and capacitance components for gf180mcuD",
   "provenance": {
-    "data_revision": "2",
+    "assumptions": [
+      {
+        "description": "The source maps the selected process stack directories to MAGIC hrlc/lrlc low-C and hrhc/lrhc high-C blocks. The authored physical scenarios retain nominal R, omit device references and retain layout-dependent MIM restrictions",
+        "id": "physical-c-pairing",
+        "reason": "physical_stack_matches declares the source-related recipe, not identical fitted numbers, a correlated R law or silicon calibration",
+        "source_ids": [
+          "capiche-magic-mapping",
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Physical recipes are pinned to Capiche 85905e8. IHP coefficient revision 14b1ab8 includes the corrected coatings committed four minutes earlier. SKY130/GF180 coefficient files last changed at open_pdks bb8c82e after Capiche bf6bee7 introduced the selected physical profiles; later pinned Capiche changes do not alter their geometry/materials",
+        "id": "physical-coefficient-revisions",
+        "reason": "Keep recipe and empirical-table revision identities explicit rather than infer a match from names",
+        "source_ids": [
+          "capiche-magic-mapping",
+          "extraction-table"
+        ]
+      }
+    ],
+    "data_revision": "physical-capiche-2",
     "history": [
       {
         "date": "2026-11-12",
@@ -82,6 +134,33 @@
           "mim-model-2"
         ],
         "summary": "Add low/high capacitance components"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Keep compact-model device laws distinct from empirical interconnect coefficients",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/551"
+        ],
+        "revision": "device-mim-1",
+        "summary": "Add independent MIM corner references"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Keep physical interconnect inputs independent of empirical coefficients and resistance laws",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/550"
+        ],
+        "revision": "physical-capiche-1",
+        "summary": "Add source-specific physical recipes"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Expose qualified recipes with explicit layout restrictions while holding resistance nominal",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/550"
+        ],
+        "revision": "physical-capiche-2",
+        "summary": "Declare source physical C-only scenarios"
       }
     ],
     "sources": [
@@ -129,6 +208,13 @@
         "id": "mim-model-2",
         "revision": "5e4be8726e2ae8be099c4131f697a353d6457874",
         "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064_mim.spice"
+      },
+      {
+        "description": "Explicit process and R/C-style mapping for physical-stack results",
+        "id": "capiche-magic-mapping",
+        "revision": "85905e8810982bd89966cbf8b7e9d3fd1e922d42",
+        "sha256": "6f40e806634dcdd7c820a3de8f9d083e4ef4f75c89e9ba210dce87e221889a76",
+        "uri": "https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/src/capiche/merge_extract.py"
       }
     ]
   },
@@ -140,6 +226,22 @@
       "id": "nominal",
       "physical_stack_matches": true,
       "process_stack": "nominal",
+      "resistance": "nominal"
+    },
+    {
+      "capacitance": "low",
+      "description": "Source low-C physical interconnect recipe with nominal R; layout-dependent MIM restrictions apply. No correlated R or device-reference claim",
+      "id": "capiche-low-c",
+      "physical_stack_matches": true,
+      "process_stack": "capiche-low",
+      "resistance": "nominal"
+    },
+    {
+      "capacitance": "high",
+      "description": "Source high-C physical interconnect recipe with nominal R; layout-dependent MIM restrictions apply. No correlated R or device-reference claim",
+      "id": "capiche-high-c",
+      "physical_stack_matches": true,
+      "process_stack": "capiche-high",
       "resistance": "nominal"
     }
   ],

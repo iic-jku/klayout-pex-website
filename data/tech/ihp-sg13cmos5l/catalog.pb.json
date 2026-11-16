@@ -19,7 +19,7 @@
     {
       "file": {
         "path": "process_stack/nominal.pb.json",
-        "sha256": "228338ee4ce1aafb403e672593d864447131ec87384817189fa30cadef73a027"
+        "sha256": "ae172ba0a19a019efabb5bf71a926419fdcd3d9660af48aba8c2c3dbf2ea49ce"
       },
       "id": "nominal",
       "kind": "PROCESS_STACK"
@@ -47,12 +47,80 @@
       },
       "id": "high",
       "kind": "CAPACITANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/gatpoly-low-sheet.pb.json",
+        "sha256": "ce1a8e0704d83a58f232d65fbd550a8176b53dcb3151e5eddc2523f1073715e5"
+      },
+      "id": "gatpoly-low-sheet",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/gatpoly-high-sheet.pb.json",
+        "sha256": "b4e3113853d202f2697ae3f7f3846c172c88fea10371a04653fd22cdff95ab29"
+      },
+      "id": "gatpoly-high-sheet",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/fixed-layout-low-r.pb.json",
+        "sha256": "cd1a4f70b206b5ff41d5613827dce3df2fd4c4850a896cc0f02325cd56b8a31d"
+      },
+      "id": "fixed-layout-low-r",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/fixed-layout-high-r.pb.json",
+        "sha256": "30c31bff290136d61164c41b62a45872cdcea5dfc13962bf09cad417a61ce8a4"
+      },
+      "id": "fixed-layout-high-r",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "process_stack/capiche-low.pb.json",
+        "sha256": "5e6ad5a6b44eda924e6e5ca7c579cc8159a49d21ed9bea91d70f89a1c6f790d3"
+      },
+      "id": "capiche-low",
+      "kind": "PROCESS_STACK"
+    },
+    {
+      "file": {
+        "path": "process_stack/capiche-high.pb.json",
+        "sha256": "37d23191435a1cc2185f02704282583fe9626fe50758f9acc8807206f9732af0"
+      },
+      "id": "capiche-high",
+      "kind": "PROCESS_STACK"
     }
   ],
   "default_scenario": "nominal",
-  "description": "Nominal scenario and low/high capacitance components for ihp-sg13cmos5l",
+  "description": "Explicit extraction scenarios and capacitance components for ihp-sg13cmos5l",
   "provenance": {
-    "data_revision": "2",
+    "assumptions": [
+      {
+        "description": "The source maps the selected process stack directories to MAGIC hrlc/lrlc low-C and hrhc/lrhc high-C blocks. The authored physical scenarios retain nominal R, omit device references and retain layout-dependent MIM restrictions",
+        "id": "physical-c-pairing",
+        "reason": "physical_stack_matches declares the source-related recipe, not identical fitted numbers, a correlated R law or silicon calibration",
+        "source_ids": [
+          "capiche-magic-mapping",
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Physical recipes are pinned to Capiche 85905e8. IHP coefficient revision 14b1ab8 includes the corrected coatings committed four minutes earlier. SKY130/GF180 coefficient files last changed at open_pdks bb8c82e after Capiche bf6bee7 introduced the selected physical profiles; later pinned Capiche changes do not alter their geometry/materials",
+        "id": "physical-coefficient-revisions",
+        "reason": "Keep recipe and empirical-table revision identities explicit rather than infer a match from names",
+        "source_ids": [
+          "capiche-magic-mapping",
+          "extraction-table"
+        ]
+      }
+    ],
+    "data_revision": "physical-capiche-2",
     "history": [
       {
         "date": "2026-11-12",
@@ -80,6 +148,57 @@
           "extraction-table"
         ],
         "summary": "Add low/high capacitance components"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Expose directly specified interconnect limits independently of compact-device and geometry corners",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/548"
+        ],
+        "revision": "3",
+        "source_ids": [
+          "gatpoly-itf-min",
+          "gatpoly-itf-typ",
+          "gatpoly-itf-max",
+          "gatpoly-process-spec",
+          "gatpoly-layout-rules",
+          "gatpoly-device-corners",
+          "gatpoly-device-model"
+        ],
+        "summary": "Add explicit GatPoly sheet-resistance sensitivity scenarios"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Variant-specific ITF sources cover all extracted conductor and contact rows, including TopVia1 absent from the process-spec table",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/518"
+        ],
+        "revision": "4",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max",
+          "process-spec"
+        ],
+        "summary": "Add complete CMOS5L fixed-layout resistance sensitivity datasets"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Keep physical interconnect inputs independent of empirical coefficients and resistance laws",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/550"
+        ],
+        "revision": "physical-capiche-1",
+        "summary": "Add source-specific physical recipes"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Expose qualified recipes with explicit layout restrictions while holding resistance nominal",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/550"
+        ],
+        "revision": "physical-capiche-2",
+        "summary": "Declare source physical C-only scenarios"
       }
     ],
     "sources": [
@@ -111,6 +230,105 @@
         "revision": "14b1ab845696960a0a1881ec8614acba0f7b8eb7",
         "sha256": "15b771532b0701a6c45f6d0a1156e6422d15400a89125d640fbe7e57b44184eb",
         "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/14b1ab845696960a0a1881ec8614acba0f7b8eb7/ihp-sg13cmos5l/libs.tech/magic/ihp-sg13cmos5l-extract.tech"
+      },
+      {
+        "description": "Interconnect min GatPoly sheet resistance",
+        "id": "gatpoly-itf-min",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "ad16a5ade248c7d87c7a6789887e5a99cf9431f639358c6c104643527f879e73",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_min.itf"
+      },
+      {
+        "description": "Interconnect typ GatPoly sheet resistance",
+        "id": "gatpoly-itf-typ",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "08d0de3413256b996b7b6c5a1816e02f8dae4151e0df12c7a8f081ccee415cea",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_typ.itf"
+      },
+      {
+        "description": "Interconnect max GatPoly sheet resistance",
+        "id": "gatpoly-itf-max",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "969f391818c63d3057bf4554067626f2ec65c4949bb9a3820cc05ba74e67cb86",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_max.itf"
+      },
+      {
+        "description": "Salicided n-doped polysilicon material and sheet-resistance specification",
+        "id": "gatpoly-process-spec",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "26e28c28024411a98b7f3dd586f2c4c8bba832904e5a75935cebeb3264b378cd",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.doc/doc/SG13CMOS5L_os_process_spec.pdf"
+      },
+      {
+        "description": "GatPoly width and resistor recognition rules",
+        "id": "gatpoly-layout-rules",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "6c921a403b30c30950b43664204ee6a567e7a33166a74a0e48cabd2a0c7bbc1d",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.doc/doc/SG13CMOS5L_os_layout_rules.pdf"
+      },
+      {
+        "description": "Distinct compact-device corner parameters",
+        "id": "gatpoly-device-corners",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "e0432415be26b0e530ea1acea44000c42d65904b406955464e4a7f97e95bfa2c",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/cornerRES.lib"
+      },
+      {
+        "description": "Distinct compact-device geometry and contact law",
+        "id": "gatpoly-device-model",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "b79812f31c7b757013a872fe419ad8c1cea3416f77f82826ac3ba34a4506e60d",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/resistors_mod.lib"
+      },
+      {
+        "description": "IHP CMOS5L min interconnect resistance and physical-stack recipe",
+        "id": "itf-min",
+        "options": {
+          "contact_resistance_unit": "ohm/cut",
+          "cut_area_unit": "um^2",
+          "sheet_resistance_unit": "ohm/square"
+        },
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "ad16a5ade248c7d87c7a6789887e5a99cf9431f639358c6c104643527f879e73",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_min.itf"
+      },
+      {
+        "description": "IHP CMOS5L typ interconnect resistance and physical-stack recipe",
+        "id": "itf-typ",
+        "options": {
+          "contact_resistance_unit": "ohm/cut",
+          "cut_area_unit": "um^2",
+          "sheet_resistance_unit": "ohm/square"
+        },
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "08d0de3413256b996b7b6c5a1816e02f8dae4151e0df12c7a8f081ccee415cea",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_typ.itf"
+      },
+      {
+        "description": "IHP CMOS5L max interconnect resistance and physical-stack recipe",
+        "id": "itf-max",
+        "options": {
+          "contact_resistance_unit": "ohm/cut",
+          "cut_area_unit": "um^2",
+          "sheet_resistance_unit": "ohm/square"
+        },
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "969f391818c63d3057bf4554067626f2ec65c4949bb9a3820cc05ba74e67cb86",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_max.itf"
+      },
+      {
+        "description": "CMOS5L process specification, sections 2.2.1, 3.1 and 3.4",
+        "id": "process-spec",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "26e28c28024411a98b7f3dd586f2c4c8bba832904e5a75935cebeb3264b378cd",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.doc/doc/SG13CMOS5L_os_process_spec.pdf"
+      },
+      {
+        "description": "Explicit process and R/C-style mapping for physical-stack results",
+        "id": "capiche-magic-mapping",
+        "revision": "85905e8810982bd89966cbf8b7e9d3fd1e922d42",
+        "sha256": "6f40e806634dcdd7c820a3de8f9d083e4ef4f75c89e9ba210dce87e221889a76",
+        "uri": "https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/src/capiche/merge_extract.py"
       }
     ]
   },
@@ -122,6 +340,50 @@
       "id": "nominal",
       "physical_stack_matches": true,
       "process_stack": "nominal",
+      "resistance": "nominal"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout GatPoly sheet-resistance sensitivity (6.2 Ohm/square); other R and C remain nominal; no compact-model corner selection",
+      "id": "gatpoly-low-sheet",
+      "process_stack": "nominal",
+      "resistance": "gatpoly-low-sheet"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout GatPoly sheet-resistance sensitivity (7.8 Ohm/square); other R and C remain nominal; no compact-model corner selection",
+      "id": "gatpoly-high-sheet",
+      "process_stack": "nominal",
+      "resistance": "gatpoly-high-sheet"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout low sheet/contact resistance from the CMOS5L min ITF, with nominal capacitance",
+      "id": "fixed-layout-low-r",
+      "process_stack": "nominal",
+      "resistance": "fixed-layout-low-r"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout high sheet/contact resistance from the CMOS5L max ITF, with nominal capacitance",
+      "id": "fixed-layout-high-r",
+      "process_stack": "nominal",
+      "resistance": "fixed-layout-high-r"
+    },
+    {
+      "capacitance": "low",
+      "description": "Source low-C physical interconnect recipe with nominal R; layout-dependent MIM restrictions apply. No correlated R or device-reference claim",
+      "id": "capiche-low-c",
+      "physical_stack_matches": true,
+      "process_stack": "capiche-low",
+      "resistance": "nominal"
+    },
+    {
+      "capacitance": "high",
+      "description": "Source high-C physical interconnect recipe with nominal R; layout-dependent MIM restrictions apply. No correlated R or device-reference claim",
+      "id": "capiche-high-c",
+      "physical_stack_matches": true,
+      "process_stack": "capiche-high",
       "resistance": "nominal"
     }
   ],

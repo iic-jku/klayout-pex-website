@@ -1,0 +1,208 @@
+{
+  "description": "Fixed-layout high sheet/contact resistance from the CMOS5L max ITF, with nominal capacitance",
+  "id": "fixed-layout-high-r",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Use the source sheet and per-cut resistance bounds on unchanged drawn geometry",
+        "id": "fixed-layout",
+        "reason": "ITF geometry and dielectric variation are not imported by resistance components; these scenarios measure resistance sensitivity at nominal capacitance",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max"
+        ]
+      },
+      {
+        "description": "Keep compact-device models and their internal resistance laws unchanged",
+        "id": "device-ownership",
+        "reason": "Interconnect sheet resistance and per-cut contacts apply only to regions owned by extraction, independently of compact-model process corners",
+        "source_ids": [
+          "itf-min",
+          "itf-max",
+          "process-spec"
+        ]
+      },
+      {
+        "description": "Map ContIntActiv to the separate extracted nSD and pSD contact rows",
+        "id": "diffusion-contacts",
+        "reason": "The ITF groups active contacts; process-spec RCM1NSD and RCM1NPD confirm equal limits for both implants",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max",
+          "process-spec"
+        ]
+      },
+      {
+        "description": "Use the CMOS5L ITF TopVia1 resistance between Metal4 and TopMetal1",
+        "id": "topvia-source",
+        "reason": "The process specification leaves that row tbd; each variant-specific ITF explicitly supplies both endpoints, 0.1764 µm² area and its per-cut resistance",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max",
+          "process-spec"
+        ]
+      },
+      {
+        "description": "Pair the resistance bounds with nominal analytical capacitance only",
+        "id": "noncorrelated-capacitance",
+        "reason": "An R-only sensitivity selection does not establish statistical correlation with low/high capacitance or a matching field-solver stack",
+        "source_ids": [
+          "itf-min",
+          "itf-max"
+        ]
+      },
+      {
+        "description": "Keep diffusion regions as ideal device-terminal endpoints rather than importing the ITF Activ sheet term",
+        "id": "diffusion-boundary",
+        "reason": "These datasets cover every existing KPEX interconnect resistance row. They preserve the extraction boundary and do not add resistance inside compact devices",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max"
+        ]
+      },
+      {
+        "description": "Convert ITF RPSQ in Ohm/square and RPV in Ohm/cut to the milliohm units stored by KPEX",
+        "id": "source-units",
+        "reason": "The imported numerical tables multiply each source resistance by 1000 while preserving the independently defined cut dimensions",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Enable explicit fixed-layout sensitivity without claiming a correlated physical process corner",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/518"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "itf-min",
+          "itf-typ",
+          "itf-max",
+          "process-spec"
+        ],
+        "summary": "Import complete CMOS5L max ITF resistance rows"
+      }
+    ],
+    "sources": [
+      {
+        "description": "IHP CMOS5L min interconnect resistance and physical-stack recipe",
+        "id": "itf-min",
+        "options": {
+          "contact_resistance_unit": "ohm/cut",
+          "cut_area_unit": "um^2",
+          "sheet_resistance_unit": "ohm/square"
+        },
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "ad16a5ade248c7d87c7a6789887e5a99cf9431f639358c6c104643527f879e73",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_min.itf"
+      },
+      {
+        "description": "IHP CMOS5L typ interconnect resistance and physical-stack recipe",
+        "id": "itf-typ",
+        "options": {
+          "contact_resistance_unit": "ohm/cut",
+          "cut_area_unit": "um^2",
+          "sheet_resistance_unit": "ohm/square"
+        },
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "08d0de3413256b996b7b6c5a1816e02f8dae4151e0df12c7a8f081ccee415cea",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_typ.itf"
+      },
+      {
+        "description": "IHP CMOS5L max interconnect resistance and physical-stack recipe",
+        "id": "itf-max",
+        "options": {
+          "contact_resistance_unit": "ohm/cut",
+          "cut_area_unit": "um^2",
+          "sheet_resistance_unit": "ohm/square"
+        },
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "969f391818c63d3057bf4554067626f2ec65c4949bb9a3820cc05ba74e67cb86",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.tech/parasitics/itf/sg13cmos5l_max.itf"
+      },
+      {
+        "description": "CMOS5L process specification, sections 2.2.1, 3.1 and 3.4",
+        "id": "process-spec",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "sha256": "26e28c28024411a98b7f3dd586f2c4c8bba832904e5a75935cebeb3264b378cd",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13cmos5l/libs.doc/doc/SG13CMOS5L_os_process_spec.pdf"
+      }
+    ]
+  },
+  "resistance": {
+    "contacts": [
+      {
+        "contact_name": "cont_nsd_con",
+        "device_layer_name": "nsd_fet",
+        "layer_above": "metal1_n_mom",
+        "resistance": 22000.0
+      },
+      {
+        "contact_name": "cont_psd_con",
+        "device_layer_name": "psd_fet",
+        "layer_above": "metal1_n_mom",
+        "resistance": 22000.0
+      },
+      {
+        "contact_name": "cont_poly_con",
+        "device_layer_name": "poly_con",
+        "layer_above": "metal1_n_mom",
+        "resistance": 20000.0
+      }
+    ],
+    "layers": [
+      {
+        "layer_name": "GatPoly",
+        "resistance": 7800.0
+      },
+      {
+        "layer_name": "Metal1",
+        "resistance": 135.0
+      },
+      {
+        "layer_name": "Metal2",
+        "resistance": 103.0
+      },
+      {
+        "layer_name": "Metal3",
+        "resistance": 103.0
+      },
+      {
+        "layer_name": "Metal4",
+        "resistance": 103.0
+      },
+      {
+        "layer_name": "TopMetal1",
+        "resistance": 21.0
+      }
+    ],
+    "vias": [
+      {
+        "resistance": 20000.0,
+        "via_name": "Via1"
+      },
+      {
+        "resistance": 20000.0,
+        "via_name": "Via2"
+      },
+      {
+        "resistance": 20000.0,
+        "via_name": "Via3"
+      },
+      {
+        "resistance": 4000.0,
+        "via_name": "TopVia1"
+      }
+    ]
+  }
+}

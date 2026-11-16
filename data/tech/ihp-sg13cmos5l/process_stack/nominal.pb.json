@@ -250,7 +250,7 @@
           "reference": "pass1",
           "thickness_over_metal": 0.4,
           "thickness_sidewall": 0.3,
-          "thickness_where_no_metal": 0.4
+          "thickness_where_no_metal": 1.9
         },
         "layer_type": "LAYER_TYPE_CONFORMAL_DIELECTRIC",
         "name": "pass2"
@@ -274,9 +274,18 @@
         "source_ids": [
           "recipe"
         ]
+      },
+      {
+        "description": "pass2 has 1.9 um cumulative field extent: 1.5 um oxide plus 0.4 um nitride",
+        "id": "cumulative-field-extent",
+        "reason": "The field extent is measured from the root metal bottom; the incremental top and side coatings remain 0.4 and 0.3 um",
+        "source_ids": [
+          "passivation-recipe",
+          "conformal-mapping"
+        ]
       }
     ],
-    "data_revision": "1",
+    "data_revision": "passivation-field-1",
     "history": [
       {
         "date": "2026-11-12",
@@ -290,6 +299,19 @@
           "builder"
         ],
         "summary": "Record nominal process stack sources and assumptions"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "The former 0.4 um field extent placed the nitride inside the 1.5 um oxide instead of above it",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/556"
+        ],
+        "revision": "passivation-field-1",
+        "source_ids": [
+          "passivation-recipe",
+          "conformal-mapping"
+        ],
+        "summary": "Restore nominal nitride above the passivation oxide over the field"
       }
     ],
     "sources": [
@@ -306,6 +328,20 @@
         "revision": "1b923ea54d8d9b1028de1043afd654c9e1838049",
         "sha256": "abc23b724eedb8935244a6e15c2ca91b63ba380fabfd321dd87f93d94aac2fcc",
         "uri": "https://github.com/iic-jku/klayout-pex/blob/1b923ea54d8d9b1028de1043afd654c9e1838049/scripts/gen_tech_pb/tech_builder.py"
+      },
+      {
+        "description": "Nominal oxide and nitride coating dimensions",
+        "id": "passivation-recipe",
+        "revision": "85905e8810982bd89966cbf8b7e9d3fd1e922d42",
+        "sha256": "291c5731174298c993adca376d391bc508800b0bfd709be0cb6e5ff48dcb61dd",
+        "uri": "https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/ihp-sg13cmos5l/metal_stack_ihp-sg13cmos5l.py"
+      },
+      {
+        "description": "Cumulative field extent of chained conformal coatings",
+        "id": "conformal-mapping",
+        "revision": "85905e8810982bd89966cbf8b7e9d3fd1e922d42",
+        "sha256": "ef91dec393e1ac97bc1f491a8c605d1842533bc5a2deff5b53879f9fc8199ea7",
+        "uri": "https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/src/capiche/ordered_stack.py"
       }
     ]
   }
