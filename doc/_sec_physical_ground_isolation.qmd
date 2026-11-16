@@ -1,0 +1,93 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+#### Ground openings and electrical ownership {#sec-pex25d-ground-isolation}
+
+A contact can end exactly at the top of the ground slab without belonging to its reference net. If the exporter fills the entire slab below that contact, their shared face creates an unintended electrical connection. An opening removes ground material under the contact and leaves its height and electrical identity unchanged.
+
+This is a physical geometry operation. Grounding an extracted capacitance netlist, described in @sec-netlist-ground, changes an electrical approximation after extraction; it does not repair the field solver's geometry.
+
+```text
+GROUND_PLANE <profile> [NET <reference-net>] \
+    Z_OFFSETS <zlow> <zhigh>
+GROUND_CUTOUT <profile> \
+    OUTER <x1> <y1> <x2> <y2> ... \
+    [HOLE <x1> <y1> <x2> <y2> ...]
+```
+
+The profile name identifies the geometric slab and remains the target of `WRAPS` and `GROUND_CUTOUT`. `NET` identifies the electrical reference. For example, `GROUND_PLANE subs NET VSS` keeps the profile `subs` while connecting the retained ground material to `VSS`. Without `NET`, its electrical name is the profile name. A ground opening requires an explicit reference net, and that net cannot be the reserved name `FLOATING`.
+
+All opening polygons are unioned and removed through the original slab's full thickness. The remaining material stays at the original Z coordinates. A polygon's `HOLE` keeps a reference-material island inside that opening. The island remains on the declared reference net, rather than becoming a floating conductor. Another opening can still remove that island. Overlapping openings are subtracted once. A coating rooted on the ground follows the retained reference geometry and its own growth rules.
+
+##### Contact at the reference surface {#sec-pex25d-ground-opening-example}
+
+Download [ground_opening.pex25d](../data/pex25d/ground_opening.pex25d). This small illustrative scene places a 1 × 1 µm contact at `z = 0`, the top of the reference slab. The opening extends from −1 to 2 µm in both X and Y, leaving 1 µm of lateral clearance around the contact. The finite domain bounds the solver model; the opening does not move either body vertically.
+
+```text
+{{< include /data/pex25d/ground_opening.pex25d >}}
+```
+
+{{< include /figures/ground-isolation-geometry.qmd >}}
+
+Resolve and export the same scene:
+
+```bash
+pex25d validate --strict ground_opening.pex25d
+pex25d resolve ground_opening.pex25d \
+    -o ground_opening.pex25d.scene.pb
+pex25d export ground_opening.pex25d.scene.pb \
+    --to fastercap --out-dir ground_opening
+```
+
+The exporter produces two electrical bodies: reference net `VSS` and signal net `signal`. The opening prevents a conducting path between them while preserving their capacitive coupling. A contact tied explicitly to the reference net is permitted to meet the retained reference material.
+
+##### Floating body with the same label {#sec-pex25d-ground-floating-identity}
+
+The shortname of a floating conductor is a label for that independent body. It does not connect the body to a net with the same spelling. Download [ground_opening_floating.pex25d](../data/pex25d/ground_opening_floating.pex25d), which changes the example's conductor to:
+
+```text
+CONDUCTOR VSS FLOATING
+BOX CONDUCTOR VSS LAYER contact LL 0 0 UR 1 1
+```
+
+The reference still belongs to net `VSS`. The floating body's potential remains independent, as @fig-ground-isolation-ownership shows.
+
+{{< include /figures/ground-isolation-ownership-schematic.qmd >}}
+
+```bash
+pex25d export ground_opening_floating.pex25d \
+    --to fastercap --out-dir ground_opening_floating
+```
+
+Solvers with one flat label namespace receive distinct names: `VSS` for the reference net and `FLOATING:VSS` for this floating body. A further collision gets a suffix. When labels need disambiguation, the export also writes a `*_body_names.json` mapping that distinguishes named nets from floating bodies. Read that mapping when associating solver results with the source scene.
+
+##### Openings generated from layout {#sec-pex25d-ground-layout}
+
+`kpex pex25d` uses omitted diffusion footprints to derive the ground openings. It expands their union by 1 µm, rounded down to the layout's database unit, and records the numerical exclusion policy in the output metadata. This clearance follows the direct field-solver preparation and is not a manufactured dimension of the process.
+
+The generated scene preserves:
+
+- The reference net from the extracted circuit
+- The original ground and contact Z coordinates
+- Each contact's electrical net
+
+The opening remains part of the resolved scene, so a downstream exporter can preserve it without access to the original layout or PDK. No separate command-line switch is needed.
+
+##### Limits {#sec-pex25d-ground-limits}
+
+A different-net or floating conductor must not touch retained reference material. Both `pex25d validate --strict` and export preflight report `PEX25D-E0310` when it would, including an exact boundary touch. The ordinary `pex25d validate` command can accept an intermediate scene with such contact; successful structural validation alone does not establish that it is safe to export. Cutout geometry that the backend cannot represent, or unavailable geometry support, reports `PEX25D-E0311` instead of silently altering the opening.
+
+An exporter that cannot represent ground openings or separate electrical identities rejects the scene before writing solver input. Update that exporter before using these scenes; omitting an opening would change the electrical problem. The ground slab is still an ideal reference and does not model substrate resistance.

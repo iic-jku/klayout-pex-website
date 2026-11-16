@@ -1,0 +1,316 @@
+format_version_major: 1
+format_version_suffix: "rc2"
+units {
+  length: LENGTH_UNIT_UM
+  grid_numerator: 1
+  grid_denominator: 10000
+  source_dbu_numerator: 1
+  source_dbu_denominator: 1000
+}
+metadata {
+  key: "technology"
+  value: "example"
+}
+metadata {
+  key: "source_cell"
+  value: "two_nets"
+}
+metadata {
+  key: "source_dbu"
+  value: "0.001"
+}
+ground_plane {
+  name: "subs"
+  zlow: -4000
+  zhigh: -1000
+}
+layers {
+  name: "met1"
+  kind: RESOLVED_LAYER_KIND_METAL
+  zlow: 10000
+  zhigh: 14000
+  metal_resistance {
+    metal: "met1"
+    sheet: 0.125
+  }
+}
+layers {
+  name: "met2"
+  kind: RESOLVED_LAYER_KIND_METAL
+  zlow: 20000
+  zhigh: 24000
+  metal_resistance {
+    metal: "met2"
+    sheet: 0.125
+  }
+}
+layers {
+  name: "via1"
+  kind: RESOLVED_LAYER_KIND_VIA
+  zlow: 14000
+  zhigh: 20000
+  connects_below: "met1"
+  connects_above: "met2"
+  via_resistance {
+    via: "via1"
+    per_cut: 4.5
+  }
+}
+dielectrics {
+  name: "fox"
+  kind: DIELECTRIC_KIND_SIMPLE
+  permittivity: 3.9
+  wraps: "subs"
+  wrap_depth: 1
+  root: "subs"
+  zlow: -4000
+  zhigh: 10000
+  between_below: "subs"
+  between_above: "met1"
+}
+dielectrics {
+  name: "lint"
+  kind: DIELECTRIC_KIND_CONFORMAL
+  permittivity: 7.3
+  wraps: "met1"
+  wrap_depth: 1
+  root: "met1"
+  zlow: 10000
+  zhigh: 15000
+  thickness_beside_wrapped: 800
+  thickness_over_wrapped: 1000
+}
+dielectrics {
+  name: "ild"
+  kind: DIELECTRIC_KIND_SIMPLE
+  permittivity: 4.1
+  wraps: "lint"
+  wrap_depth: 2
+  root: "met1"
+  zlow: 10000
+  zhigh: 20000
+  between_below: "met1"
+  between_above: "met2"
+}
+background {
+  name: "air"
+  permittivity: 1.0
+}
+conductors {
+  name: "A"
+  net: "neta"
+  regions {
+    layer: "met1"
+    boxes {
+      lower_left {
+      }
+      upper_right {
+        x: 10000
+        y: 5000
+      }
+    }
+    accounting_part_id: "1:A:met1:0"
+    accounting_regions: "window1"
+  }
+  regions {
+    layer: "via1"
+    boxes {
+      lower_left {
+        x: 2000
+        y: 1000
+      }
+      upper_right {
+        x: 4000
+        y: 3000
+      }
+    }
+    accounting_part_id: "1:A:via1:0"
+  }
+  regions {
+    layer: "met2"
+    boxes {
+      lower_left {
+      }
+      upper_right {
+        x: 10000
+        y: 5000
+      }
+    }
+    accounting_part_id: "1:A:met2:0"
+    accounting_regions: "window1"
+  }
+  terminals {
+    name: "input"
+    kind: TERMINAL_KIND_PIN
+    layer: "met1"
+    region {
+      lower_left {
+      }
+      upper_right {
+        x: 1000
+        y: 5000
+      }
+    }
+    zlow: 10000
+    zhigh: 14000
+    boxes {
+      lower_left {
+      }
+      upper_right {
+        x: 1000
+        y: 5000
+      }
+    }
+  }
+  terminals {
+    name: "output"
+    kind: TERMINAL_KIND_PIN
+    layer: "met2"
+    region {
+      lower_left {
+        x: 9000
+      }
+      upper_right {
+        x: 10000
+        y: 5000
+      }
+    }
+    zlow: 20000
+    zhigh: 24000
+    boxes {
+      lower_left {
+        x: 9000
+      }
+      upper_right {
+        x: 10000
+        y: 5000
+      }
+    }
+  }
+}
+conductors {
+  name: "B"
+  net: "netb"
+  regions {
+    layer: "met1"
+    boxes {
+      lower_left {
+        x: 20000
+      }
+      upper_right {
+        x: 26000
+        y: 10000
+      }
+    }
+    accounting_part_id: "1:B:met1:0"
+    accounting_regions: "window1"
+  }
+  regions {
+    layer: "met1"
+    boxes {
+      lower_left {
+        x: 26000
+      }
+      upper_right {
+        x: 30000
+        y: 10000
+      }
+    }
+    accounting_part_id: "1:B:met1:1"
+  }
+}
+domain {
+  box {
+    lower_left {
+      x: -40800
+      y: -40800
+      z: -1000
+    }
+    upper_right {
+      x: 70800
+      y: 50800
+      z: 44000
+    }
+  }
+  origin: ORIGIN_DOMAIN_MARGIN
+  applied_margin {
+    x: 40000
+    y: 40000
+    z: 20000
+  }
+  geometry_bounds {
+    lower_left {
+      x: -800
+      y: -800
+      z: 10000
+    }
+    upper_right {
+      x: 30800
+      y: 10800
+      z: 24000
+    }
+  }
+}
+resistance_temperature {
+  celsius: 25.0
+}
+required_capabilities: REQUIRED_CAPABILITY_CAPACITANCE_ACCOUNTING
+capacitance_accounting {
+  regions {
+    name: "window1"
+    masks {
+      layer: "met1"
+      polygons {
+        outer {
+          points {
+            x: -1000
+            y: -1000
+          }
+          points {
+            x: 26000
+            y: -1000
+          }
+          points {
+            x: 26000
+            y: 11000
+          }
+          points {
+            x: -1000
+            y: 11000
+          }
+        }
+      }
+    }
+    masks {
+      layer: "met2"
+      polygons {
+        outer {
+          points {
+            x: -1000
+            y: -1000
+          }
+          points {
+            x: 26000
+            y: -1000
+          }
+          points {
+            x: 26000
+            y: 11000
+          }
+          points {
+            x: -1000
+            y: 11000
+          }
+        }
+      }
+    }
+  }
+  exclusions {
+    name: "internal12"
+    region: "window1"
+    kind: KIND_LAYER_PAIR
+    layer_a: "met1"
+    layer_b: "met2"
+  }
+  excluded_substrate_nets: "neta"
+}

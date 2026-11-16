@@ -22,7 +22,7 @@ limitations under the License.
 
 The **PEX25D format** (Parasitic Extraction 2.5D) describes interconnect geometry and materials for exchange between tools. It combines two-dimensional (XY) conductor shapes with a vertical process stack, so a solver adapter can reconstruct the three-dimensional structure without the original layout or PDK files. The same structure can describe an electrostatic capacitance problem and, with resistance parameters and terminals, a DC resistance problem.
 
-This appendix specifies the PEX25D format and explains its protobuf API and command-line tools. The reference implementation writes **`PEX25D 1.0-rc1`**. The format version is independent of the KLayout-PEX package version.
+This appendix specifies the PEX25D format and explains its protobuf API and command-line tools. Geometry-only output uses **`PEX25D 1.0-rc1`**; output with explicit capacitance accounting uses **`PEX25D 1.0-rc2 REQUIRES CAPABILITIES CAPACITANCE_ACCOUNTING`**. The format version is independent of the KLayout-PEX package version.
 
 ::: {.callout-note title="The PEX25D format and the KPEX/2.5D engine"}
 The **PEX25D format** defines an interchange description. `kpex pex25d` generates files in this format; `pex25d` inspects and processes them.
@@ -112,13 +112,14 @@ In the syntax templates below, angle brackets identify values to supply; square 
 Files are UTF-8 and line-oriented. Keywords are case-sensitive. Whitespace separates tokens, `#` starts a comment outside a quoted value, and a trailing backslash continues a record on the next line. Quote metadata values or paths containing whitespace. Clauses **within** a record must follow the documented order.
 
 ```text
-PEX25D <major>.<minor>[-<suffix>]
+PEX25D <major>.<minor>[-<suffix>] \
+    [REQUIRES CAPABILITIES <capability>[, <capability> ...]]
 UNITS LENGTH <um|nm|m> GRID <grid>
 ```
 
 `PEX25D` must be the first record of the top-level file. `UNITS` must precede numeric records, including numbers brought in by `INCLUDE`. After these, records can appear in any order and may reference profiles declared later.
 
-A reader accepts minor versions with the same supported major version. It skips an unknown top-level record with a warning; it rejects an unsupported major version. An unknown clause in a known record is an error. A clause keyword such as `WRAPS` or `THICKNESS_ON_FIELD` at the beginning of a record is also an error, since it may indicate a missing continuation backslash. An optional version suffix consists of letters, digits, dots, or hyphens and does not affect compatibility; writers should preserve it.
+A reader accepts minor versions with the same supported major version. It skips an unknown top-level record with a warning; it rejects an unsupported major version. An unknown clause in a known record is an error. A clause keyword such as `WRAPS` or `THICKNESS_ON_FIELD` at the beginning of a record is also an error, since it may indicate a missing continuation backslash. An optional version suffix consists of letters, digits, dots, or hyphens and does not affect compatibility; writers should preserve it. The `REQUIRES CAPABILITIES` clause lists capability names separated by commas, with optional whitespace around each comma. Empty entries and repeated names are errors. Required capabilities are checked independently: a consumer must reject every capability it does not implement. A required capability cannot be replaced by a `META` entry.
 
 Coordinates, Z offsets, thicknesses, and margins use the declared length unit and must be multiples of `GRID`. Decimal and scientific notation are accepted, including `.5`, `5.`, and `1e-3`. There are no per-value unit overrides or thousands separators. To check a length, divide by `GRID`, round to the nearest integer, and require the quotient to be within $10^{-6}$ of that integer. A value outside that tolerance is an error, not permission to snap the input geometry.
 
@@ -153,12 +154,13 @@ Both included files use the top-level length unit and grid. Changing the stack i
 #### Ground plane, metals, and vias {#sec-pex25d-layers}
 
 ```text
-GROUND_PLANE <name> Z_OFFSETS <zlow> <zhigh>
+GROUND_PLANE <name> [NET <reference-net>] \
+    Z_OFFSETS <zlow> <zhigh>
 METAL <name> Z_OFFSETS <zlow> <zhigh>
 VIA <name> CONNECTS <below> <above>
 ```
 
-There must be exactly one ground plane. It occupies an infinite XY slab at 0 V. Ground-plane and metal Z ranges are absolute, with `zlow < zhigh`. Metals become solids only where conductor shapes are drawn.
+The text format requires exactly one ground plane. Before openings are subtracted, it occupies an infinite XY slab at 0 V. Ground-plane and metal Z ranges are absolute, with `zlow < zhigh`. Metals become solids only where conductor shapes are drawn. An explicit `NET` separates the reference net from the geometric profile name, as described in @sec-pex25d-ground-isolation.
 
 A via fills the vertical gap between its ordered endpoints:
 
@@ -172,6 +174,8 @@ Endpoints may name profiles with Z extents, including the ground plane for subst
 Ground-plane, metal, via, dielectric, and background names share a unique **profile namespace**. Conductor shortnames have a separate namespace, and terminal names another. Shape and terminal `LAYER` references must select a metal or via, never the ground plane or a dielectric.
 
 A metal profile without shapes is legal. Such an **anchor** can locate the bottom of a contact at an excluded device layer without introducing that layer's solid. It has no resistance requirement and does not enlarge the computational domain or overlap the ground plane merely because its Z range lies inside it.
+
+{{< include /doc/_sec_physical_ground_isolation.qmd >}}
 
 #### Dielectrics and material precedence {#sec-pex25d-dielectrics}
 
@@ -195,9 +199,9 @@ DIELECTRIC_BACKGROUND <name> PERMITTIVITY <k>
 |:--|:--|
 | `THICKNESS_OVER_WRAPPED` | Growth above its top face; zero is flush with that face |
 | `THICKNESS_BESIDE_WRAPPED` | Growth beside its side faces |
-| `THICKNESS_ON_FIELD` | Film where the wrapped object is absent, measured upward from its bottom face; zero leaves no field film |
+| `THICKNESS_ON_FIELD` | Total field extent measured upward from the bottom of the root conductor or ground plane; zero leaves no field film |
 
-Thicknesses are incremental along a `WRAPS` chain. If one film extends 0.006 µm beside a metal and the next extends 0.0431 µm beside that film, the outer extent is 0.0491 µm beyond the metal. A sidewall film is expressed by a conformal record with zero field thickness; there is no separate `DIELECTRIC_SIDEWALL` record.
+Top and side thicknesses are incremental along a `WRAPS` chain. Field extents are cumulative from the root bottom and are not added along the chain; @sec-corner-physical-coatings illustrates the difference. If one film extends 0.006 µm beside a metal and the next extends 0.0431 µm beside that film, the outer extent is 0.0491 µm beyond the metal. A sidewall film is expressed by a conformal record with zero field thickness; there is no separate `DIELECTRIC_SIDEWALL` record.
 
 Profiles describe grown solids containing the wrapped object, rather than pre-subtracted shells. Material occupancy determines the visible material:
 
@@ -228,6 +232,130 @@ The exact, case-sensitive net name `FLOATING` is reserved for unconnected shield
 Boxes use lower-left and upper-right corners. Polygon rings are implicitly closed, so do not repeat the first vertex. An outer ring may be concave; outer and hole rings must be simple. Holes must lie strictly inside their outer ring and may not touch or intersect another ring. Winding direction is immaterial. Use separate polygon records for disconnected regions or an island inside a hole.
 
 **Every via cut is an explicit shape.** There is no via-array record, and readers do not infer cuts from spacing or enclosure rules. This preserves dielectric gaps between cuts and makes `PER_CUT` resistance unambiguous.
+
+#### Capacitance Accounting {#sec-pex25d-accounting}
+
+A result exclusion leaves the conductor in the physical problem. It still shields other conductors and keeps its original electrical potential. The policy selects which mutual-capacitance contributions enter the reported network; it does not remove metal, open a via, or create another `NET`.
+
+A file with accounting records must declare the required capability in its first record:
+
+```text
+PEX25D 1.0-rc2 REQUIRES CAPABILITIES CAPACITANCE_ACCOUNTING
+UNITS LENGTH um GRID 0.0001
+```
+
+The `rc2` suffix identifies the format revision used by this writer. The mandatory capability declaration carries the semantics: omitting it is an error even when the suffix is `rc2`. Unknown required capabilities are errors, including unknown numeric enum values in binary protobuf input. Geometry-only files need no capability declaration.
+
+##### Masks and Exclusion Policies {#sec-pex25d-accounting-masks}
+
+```text
+CAP_REGION <name> LAYER <layer> OUTER <xy...> [HOLE <xy...>]
+CAP_EXCLUDE <name> WITHIN <region> ALL_LAYER_PAIRS
+CAP_EXCLUDE <name> WITHIN <region> LAYER_PAIR <layer-a> <layer-b>
+CAP_EXCLUDE_SUBSTRATE <net>
+```
+
+`CAP_REGION` is a polygon mask on one conductor layer. Repeating the same region and layer adds polygons to their union. Repeating the region with another layer gives that region a mask on the other layer. Holes remain outside the mask. A missing mask on a layer selects nothing there; it does not inherit another layer's footprint.
+
+`CAP_EXCLUDE` names a result policy independently of its region:
+
+- `ALL_LAYER_PAIRS` excludes coupling between parts inside the same named region, across all their layers
+- `LAYER_PAIR` limits that exclusion to the unordered pair of named layers; both conductor layers need masks in the region
+- A physical ground profile may be one layer of `LAYER_PAIR`; only the non-ground layer needs a mask
+- The ground body is never locally partitioned; `ALL_LAYER_PAIRS` also excludes member-part coupling to that reference body
+
+`CAP_EXCLUDE_SUBSTRATE` selects the physical reference body. It does not exclude coupling to every routed conductor sharing the reference's electrical net name. Net names must name a connected net; `FLOATING` is not a connected net. The reference net itself may be listed.
+
+Overlapping regions retain all their memberships. A policy applies when its own membership and layer conditions match; another overlapping region does not broaden those conditions. A mask touching only a conductor edge selects no area.
+
+These are explicit result policies. They do not infer the intrinsic capacitance owned by a compact device model from a terminal mask or from two net names.
+
+##### Run the Accounting Example {#sec-pex25d-accounting-example}
+
+Download [two_nets_accounting.pex25d](../data/pex25d/two_nets_accounting.pex25d). It has the same physical geometry, materials, nets and terminals as @sec-pex25d-example. Its header declares `CAPACITANCE_ACCOUNTING`, and these records add the result policy:
+
+```text
+CAP_REGION window1 LAYER met1 \
+    OUTER -0.1 -0.1 2.6 -0.1 2.6 1.1 -0.1 1.1
+CAP_REGION window1 LAYER met2 \
+    OUTER -0.1 -0.1 2.6 -0.1 2.6 1.1 -0.1 1.1
+CAP_EXCLUDE internal12 WITHIN window1 LAYER_PAIR met1 met2
+CAP_EXCLUDE_SUBSTRATE neta
+```
+
+Validate and resolve the downloaded file:
+
+```bash
+pex25d validate two_nets_accounting.pex25d --strict --werror
+pex25d resolve two_nets_accounting.pex25d \
+  -o two_nets_accounting.pex25d.scene.textpb --strict
+```
+
+The example validates without diagnostics. The [resolved protobuf text](../data/pex25d/two_nets_accounting.pex25d.scene.textpb) contains these parts; areas below come from the actual resolved polygons:
+
+| Part ID | Layer | `NET` | Region membership | Area (µm²) |
+|:---|:---|:---|:---|---:|
+| `1:A:met1:0` | `met1` | `neta` | `window1` | 0.50 |
+| `1:A:via1:0` | `via1` | `neta` | None | 0.04 |
+| `1:A:met2:0` | `met2` | `neta` | `window1` | 0.50 |
+| `1:B:met1:0` | `met1` | `netb` | `window1` | 0.60 |
+| `1:B:met1:1` | `met1` | `netb` | None | 0.40 |
+
+: Accounting parts from the resolved two-net example {#tbl-pex25d-accounting-parts tbl-colwidths="[29,15,13,27,16]"}
+
+`A` keeps one electrical potential across its three parts. The `via1` cut has no membership because the region has no mask on that layer. `B` is split at $x=2.6\,\mu\mathrm{m}$, but both parts still belong to `netb`.
+
+The `internal12` policy excludes the contribution between `A` on `met2` and the part of `B` on `met1` inside `window1`. It retains coupling to the outside part of `B`, and retains `met1` ↔ `met1` coupling. The separate substrate policy excludes `neta`'s coupling to the physical reference body. None of these records changes the geometry that shields the remaining interactions.
+
+##### Parts and Common Electrical Potential {#sec-pex25d-accounting-parts}
+
+The file and scene both declare mandatory capabilities through the general `RequiredCapability` enum. The `CAPACITANCE_ACCOUNTING` capability adds a typed `capacitance_accounting` policy. In a resolved scene, `ConductorLayerRegion` also records each nonempty conductor part when masks are present:
+
+| Protobuf field | Tag | Meaning |
+|:---|---:|:---|
+| `required_capabilities` | 50 | Required semantics on both `PEX25DFile` and `PEX25DScene` |
+| `capacitance_accounting` | 60 | Typed masks, exclusions and substrate-net selection on both messages |
+| `accounting_part_id` | 10 | Nonempty, artifact-unique accounting identity |
+| `accounting_regions` | 20 | Names of regions selecting that part on its layer |
+
+: Required semantics and accounting identities {#tbl-pex25d-accounting-fields tbl-colwidths="[49,8,43]"}
+
+`accounting_part_id` is optional for geometry-only scenes and substrate-only policies. With accounting masks, every nonempty conductor region needs this opaque artifact-local identifier. It is not a new net name. A consumer must not decode electrical ownership from its spelling. The enclosing conductor's `net` and `floating` fields retain that meaning. Parts have disjoint area within each conductor and layer, and their union equals the original geometry.
+
+When a solver reports separate charge groups, all parts of one connected net must retain its common potential. For Maxwell coefficients, aggregation follows linearity:
+
+$$
+C_{IJ} = \sum_{i\in I}\sum_{j\in J} C_{ij},
+$$
+
+where $i,j$ identify accounting parts and $I,J$ identify their electrical bodies. The consumer applies the explicit exclusion policy while preserving the reference-body convention. Keeping only one coefficient per net pair before applying the policy would lose the distinction between inside and outside contributions.
+
+Accepting these scenes requires `SceneCapability.CAPACITANCE_ACCOUNTING`. The exporter returns that member from its `supported_capabilities()` class method; see @sec-plugin-api-capacitance-accounting. Successful protobuf parsing is not that declaration. Older binary consumers can ignore unknown fields, so they must gain the required-capability check and result-accounting support before receiving policy-bearing scenes. Regenerating bindings alone is insufficient. The guarded text header also makes older text readers reject the unfamiliar clause instead of silently discarding policy records.
+
+##### Exact Grid and Via Ownership {#sec-pex25d-accounting-grid}
+
+The masks classify geometry on the scene's exact grid. An angled edge can cross a mask boundary between grid points even when all original vertices lie on the grid. Rounding that crossing can move an edge, lose area or leave a sliver; accounting resolution rejects it with `PEX25D-E0285` and asks for a finer `GRID`.
+
+Authored files keep their declared grid. The resolver does not silently rewrite it. In the integrated layout-to-field-solver flow, KPEX can instead rebuild from the original layout on a finer rational grid. It derives the required integer refinement from the exact intersection denominators and retries without moving physical coordinates. The binary scene preserves that rational grid; a non-terminating decimal grid cannot be written in the decimal text syntax.
+
+Via ownership is decided on the **original layout grid** before that refinement. The layout producer classifies whole cuts and records their complete footprints. Refining the scene grid therefore does not move a cut across an exclusion boundary through a different rounded bounding-box centre. An authored mask must cover a via cut completely or miss it completely; a mask that cuts through a via is an error.
+
+Resolving masks uses KLayout polygon operations, loaded only for that geometric step. Ordinary format I/O and structural policy checks remain independent of KLayout. The current polygon backend requires XY coordinates strictly between the signed 32-bit endpoints, even though protobuf stores signed 64-bit coordinates. Grid refinement that exceeds those native limits fails with a domain diagnostic.
+
+##### Accounting Diagnostics {#sec-pex25d-accounting-diagnostics}
+
+| Code | Problem |
+|:---|:---|
+| `PEX25D-E0280` | Unknown, repeated or missing required capability |
+| `PEX25D-E0281` | Empty policy or mask, or duplicate region, layer or exclusion identity |
+| `PEX25D-E0282` | Unknown region, layer or connected net, or membership without a layer mask |
+| `PEX25D-E0283` | Unknown exclusion kind or incompatible kind-specific fields |
+| `PEX25D-E0284` | Missing, duplicate or empty accounting part, or parts without a policy |
+| `PEX25D-E0285` | Geometry cannot be resolved exactly, a via is clipped, native bounds are exceeded, or the geometry backend is unavailable |
+
+: Accounting diagnostics before solver execution {#tbl-pex25d-accounting-diagnostics tbl-colwidths="[24,76]"}
+
+Malformed mask rings use the polygon diagnostics as well. Their wellformedness is checked before partitioning, without waiting for `--strict`. An adapter must also reject a serialized scene whose part memberships disagree with its masks or whose parts overlap.
 
 #### Resistance parameters {#sec-pex25d-resistance}
 
@@ -307,7 +435,7 @@ pex25d validate --help
 pex25d export --help
 ```
 
-Reading, validating, converting, resolving, and summarizing an existing artifact do not require a layout, LVS, or a running solver, and their implementation does not import KLayout. Generating from a layout and exporting through the current meshing backend do require KLayout. This is a runtime distinction; the distributed `klayout-pex` package still declares KLayout as a dependency.
+Reading, converting and summarizing artifacts do not require KLayout, a layout, LVS or a running solver. Structural accounting checks are also independent of KLayout. Resolution of accounting masks requires the KLayout geometry backend; `validate` on an unresolved file performs that resolution too. Geometry-only stack resolution retains its format-only path. Generating from a layout and exporting through the current meshing backend also require KLayout. This is a runtime distinction; the distributed `klayout-pex` package still declares KLayout as a dependency.
 
 #### Generate from a layout: `kpex pex25d` {#sec-pex25d-generate}
 
@@ -341,7 +469,7 @@ pex25d show two_nets.pex25d
 pex25d show two_nets.pex25d --section layers --section terminals
 ```
 
-Normal validation checks syntax, units, references, wrap anchoring and depth conflicts, resistance records, and terminal selection. `--strict` adds geometric checks for boxes and rings, hole containment, and conductor volume overlap. `show` summarizes the artifact as supplied; resolve it first when you want to inspect derived layer heights.
+Normal validation checks syntax, units, references, wrap anchoring and depth conflicts, resistance records, terminal selection, and required accounting semantics. Accounting masks are checked before geometric partitioning; invalid required capabilities and policies are errors in binary scenes too. `--strict` adds geometric checks for boxes and rings, hole containment, and conductor volume overlap. `show` summarizes the artifact as supplied; resolve it first when you want to inspect derived layer heights.
 
 `--section` is repeatable and accepts `header`, `meta`, `layers`, `dielectrics`, `conductors`, `terminals`, `resistance`, `domain`, and `all`. Human-readable summaries and diagnostic wording are not stable APIs.
 
@@ -436,7 +564,7 @@ The [PEX25D schemas](https://github.com/iic-jku/klayout-pex/tree/main/protos/kpe
 
 One import is enough: `from klayout_pex import pex25d` provides the verbs `read`, `write`, `resolve`, `validate`, `import_file`, `export` and `show`, the artifact and diagnostics types, every error the pipeline raises, and `pex25d.proto` for the generated messages (`pex25d.proto.PEX25DFile()`, or a module such as `pex25d.proto.dielectric` for its enums). Names listed in `pex25d.__all__` are the supported surface, while the submodules stay importable for the classes behind the verbs, e.g. `resolver.Resolver` and `validator.Validator`.
 
-`read()` and `write()` take a path in any supported encoding and derive kind and encoding from the conventional suffixes (@sec-pex25d-filenames); `read_text()` and `write_text()` work on the bytes of the text format. `validate()` fills a diagnostics report and never raises for an invalid message; `resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed. These format operations do not import `klayout` at runtime. They are distributed within `klayout-pex`, whose normal installation includes `klayout>=0.30.12`, `protobuf` and the other declared dependencies.
+`read()` and `write()` take a path in any supported encoding and derive kind and encoding from the conventional suffixes (@sec-pex25d-filenames); `read_text()` and `write_text()` work on the bytes of the text format. `validate()` fills a diagnostics report and never raises for an invalid message; `resolve()` computes the scene and raises `ResolveError` when resolution cannot proceed. Reading, writing and structural policy validation do not import `klayout` at runtime. Resolving accounting masks needs its geometry backend, as described in @sec-pex25d-accounting-grid. They are distributed within `klayout-pex`, whose normal installation includes `klayout>=0.30.12`, `protobuf` and the other declared dependencies.
 
 This Python example loads and resolves the downloadable file, then requests native FasterCap input and STL solids through the exporter API:
 

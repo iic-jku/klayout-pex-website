@@ -75,7 +75,7 @@ pex25d show nmos_diode2.pex25d
 pex25d validate nmos_diode2.pex25d --strict
 ```
 
-For a complete, hand-written file that can be validated and exported without layout generation, use the downloadable example in @sec-pex25d-example. Terminal semantics and the current state of KLayout-generated terminals are explained in @sec-pex25d-terminals.
+For a complete, hand-written file that can be validated and exported without layout generation, use the downloadable example in @sec-pex25d-example. Terminal semantics and the current state of KLayout-generated terminals are explained in @sec-pex25d-terminals. For explicit capacitance result exclusions that retain physical geometry and shielding, use the downloadable accounting variant in @sec-pex25d-accounting-example.
 
 ## Running the `KPEX/FasterCap` engine {#sec-first-steps-run-fastercap-engine}
 

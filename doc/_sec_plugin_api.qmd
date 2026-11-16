@@ -110,6 +110,10 @@ An exporter writes the input files of a solver from a resolved `PEX25DScene` (se
 
 ```python
 class PEX25DSceneExporter(Protocol):
+    @classmethod
+    def supported_capabilities(cls) -> FrozenSet[SceneCapability]:
+        return frozenset()
+
     def export(self,
                scene: PEX25DScene,
                *,
@@ -150,6 +154,74 @@ class NetsExporter(PEX25DSceneExporter):
 def create_exporter() -> NetsExporter:
     return NetsExporter()
 ```
+
+#### Preserve Scene Capabilities {#sec-plugin-api-scene-features}
+
+The host checks required scene capabilities before invoking an exporter.
+
+The `supported_capabilities()` class method returns a `FrozenSet[SceneCapability]`: an immutable set of typed enum members. Support can be queried on the class without constructing an exporter or loading its optional geometry dependencies. Derived exporters can extend `super().supported_capabilities()`.
+
+The default method returns an empty set. Structural implementations without the method also support only scenes requiring no additional capabilities. They cannot silently consume required geometry, electrical-identity or accounting semantics.
+
+A physical exporter must preserve both the reference geometry and the electrical ownership described in @sec-pex25d-ground-isolation. The geometry and ownership contracts are:
+
+- `GROUND_CUTOUTS` means the exporter subtracts the complete opening geometry from the reference slab and preserves the corresponding coating geometry
+- `ELECTRICAL_IDENTITY` means it respects the reference net and keeps independent floating bodies distinct from named nets
+
+Declaring a capability is a promise that the exporter implements it. A scene requiring an undeclared capability is rejected before export. Solver labels may need disambiguation; preserve the returned body-name mapping alongside the solver artifacts.
+
+Use the shared helpers for the same geometry and ownership rules as the built-in exporters. Given a resolved `scene` and a finite `field_region` in the scene's integer coordinate grid:
+
+```python
+from klayout_pex.plugin_api.v1 import (
+    ground_body,
+    retained_ground_region,
+    solver_body_names,
+)
+
+labels = solver_body_names(scene)
+reference_name = labels[ground_body(scene)]
+reference_region = retained_ground_region(
+    scene.ground_plane, field_region
+)
+```
+
+`ground_body` and `conductor_body` return an `ElectricalBody`. Its `BodyKind` distinguishes a named net (`NET`) from an independent floating body (`FLOATING_BODY`). The identity does not depend on label spelling. `retained_ground_region` subtracts the union of openings while preserving their islands. `write_solver_body_map` writes the label mapping when disambiguation is needed.
+
+The geometry helpers use `KLayout` regions when called. Importing the public helper names does not load that optional geometry backend, so plugin discovery can remain independent of it.
+
+#### Capacitance Accounting {#sec-plugin-api-capacitance-accounting}
+
+| `SceneCapability` member | Contract |
+|:---|:---|
+| `CAPACITANCE_ACCOUNTING` | Preserve physical geometry and common electrical potential, retain accounting identities through the solve, and apply the explicit result policies |
+
+: Exporter support for capacitance accounting {#tbl-plugin-accounting-capability tbl-colwidths="[44,56]"}
+
+An exporter whose `export()` implements the complete accounting contract overrides the class method:
+
+```python
+from typing import FrozenSet
+from klayout_pex.plugin_api.v1 import (
+    PEX25DSceneExporter, SceneCapability,
+)
+
+
+class AccountingExporter(PEX25DSceneExporter):
+    @classmethod
+    def supported_capabilities(cls) -> FrozenSet[SceneCapability]:
+        return frozenset({
+            SceneCapability.CAPACITANCE_ACCOUNTING,
+        })
+```
+
+An exporter declares every contract it implements. All capabilities required by a scene must be supported; declaring an unrelated capability cannot substitute for a missing one. The built-in `FasterCap` and `FastCap2` exporters declare all three. The `STL` exporter declares the two geometry and electrical-identity contracts, so it rejects accounting scenes.
+
+Declaring the capability alone does not implement support. The exporter must distinguish physical electrical bodies from charge-accounting parts, preserve `accounting_part_id` and `accounting_regions`, and keep the physical reference body distinct from routing on the same net. Parts of a connected `NET` retain one potential; splitting their accounting identity must not introduce another independent physical terminal.
+
+The built-in `FasterCap`/`FastCap2` path records the accounting map alongside solver input and uses it when consuming the matrix. A plugin that cannot carry that meaning through its solver and result consumer must leave that capability undeclared. The host then rejects the scene before the plugin writes output. Unknown protobuf required-capability values are rejected independently of the plugin's declaration.
+
+See @sec-pex25d-accounting for the text records, exact-grid rules and runnable example. These policies do not infer intrinsic compact-device capacitance ownership.
 
 #### Example: FEM Solvers Elmer and Palace {#sec-plugin-api-fem}
 
