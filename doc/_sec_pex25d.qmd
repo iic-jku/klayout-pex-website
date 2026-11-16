@@ -268,7 +268,7 @@ CAP_EXCLUDE_SUBSTRATE <net>
 
 Overlapping regions retain all their memberships. A policy applies when its own membership and layer conditions match; another overlapping region does not broaden those conditions. A mask touching only a conductor edge selects no area.
 
-These are explicit result policies. They do not infer the intrinsic capacitance owned by a compact device model from a terminal mask or from two net names.
+These are explicit result policies. They do not infer the intrinsic capacitance owned by a compact device model from a terminal mask or from two net names. In particular, they do not make field-solver extraction with retained metal-capacitor models safe. `kpex extract` rejects that combination before geometry generation, as described in @sec-first-steps-field-solver-device-models.
 
 ##### Run the Accounting Example {#sec-pex25d-accounting-example}
 

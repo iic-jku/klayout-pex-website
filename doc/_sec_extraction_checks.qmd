@@ -250,7 +250,9 @@ Exact elimination can create many new couplings. The check limits each evaluatio
 
 ## Comparing Device Capacitance with a Model {#sec-device-capacitance-check}
 
-A blackboxed capacitor keeps its device model in the netlist. `KPEX` suppresses coupling between its internal plates so that the netlist does not count that capacitance twice. Ordinarily, that suppression also hides a useful diagnostic: how closely would the geometry-based extraction agree with the device's nominal capacitance?
+In `KPEX/2.5D`, a blackboxed capacitor keeps its device model in the netlist. The extractor suppresses coupling between its internal plates so that the netlist does not count that capacitance twice. Ordinarily, that suppression also hides a useful diagnostic: how closely would the geometry-based extraction agree with the device's nominal capacitance?
+
+For field solvers, retaining a metal-capacitor model needs intrinsic device ownership that is not yet implemented; @sec-first-steps-field-solver-device-models explains the guard and supported alternatives.
 
 `--check-device-caps` observes those otherwise suppressed contributions. It does not add them to the exported netlist. The prerequisites are `--gds`, `--2.5D`, `--blackbox y`, and `--mode CC` or `--mode RC`.
 

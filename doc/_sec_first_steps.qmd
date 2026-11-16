@@ -35,6 +35,19 @@ find testdata/designs/sky130A -name "*.gds.gz"
 find testdata/designs/ihp-sg13g2 -name "*.gds.gz"
 ```
 
+## Choosing Device Models {#sec-first-steps-field-solver-device-models}
+
+Blackboxing retains a recognized device's compact SPICE [@Nagel_1975] model. Whiteboxing replaces the mapped metal-capacitor models with capacitance extracted from their physical geometry; other recognized device models remain. Whiteboxing is the current default, so choose explicitly for metal capacitors, such as the MOM-capacitors[^abbrev-mom] in `sky130A`:
+
+- `--2.5D --blackbox y`: retain the capacitor models and extract their external coupling
+- `--fastercap --blackbox n` or `--fastcap --blackbox n`: replace the models with full-geometry field-solver capacitance
+
+`FasterCap` and `FastCap2` reject `--blackbox y` before geometry generation when mapped metal-capacitor models would remain in the extracted netlist. The field matrix includes the intrinsic plate capacitance. Adding it beside the retained model would count that capacitance twice.
+
+An exclusion marker alone does not identify all plate and enclosure geometry belonging to a device's intrinsic capacitance. Automatic device ownership is not implemented, and the explicit accounting policies in @sec-pex25d-accounting do not bypass this guard.
+
+A field-solver run with `--blackbox y` remains supported when no mapped metal-capacitor models are retained. This includes models removed by an explicit `--cut`.
+
 ## Running `KPEX/2.5D` {#sec-first-steps-run-2_5d}
 
 From the `KPEX` source directory:
@@ -45,7 +58,7 @@ kpex extract --pdk sky130A --2.5D --mode RC --blackbox y \
   --out-netlist nfet_li1-rc.spice
 ```
 
-`CC` extracts capacitances with one equipotential node per net. `R` resolves the wire resistance, and `RC` adds the coupling capacitances to that distributed network. `--blackbox y` retains recognized device models instead of extracting their modeled capacitor interiors. Select it explicitly because the current prototype defaults to whiteboxing for development.
+`CC` extracts capacitances with one equipotential node per net. `R` resolves the wire resistance, and `RC` adds the coupling capacitances to that distributed network. The example retains the device models with `--blackbox y` (@sec-first-steps-field-solver-device-models).
 
 Use `--schematic` to follow an existing testbench interface (@sec-netlist-interface). `RC` enables consistency failures by default; @sec-extraction-checks explains the diagnostics and the additional checks that can be requested.
 
@@ -84,13 +97,9 @@ Preconditions:
 - `klayout-pex` was installed, see @sec-intro-installation
 - `FasterCap` was installed, see @sec-intro-installation
 
-::: {.callout-note}
-Normally, devices with SPICE [@Nagel_1975] simulation models (e.g. like MOM-capacitors[^abbrev-mom] in the sky130A PDK) are ignored ("blackboxed") during parasitic extraction.
+### Extracting Full Capacitor Geometry {#sec-first-steps-field-solver-whitebox}
 
-`kpex` has an option `--blackbox n` to allow extraction of those devices (whiteboxing), which can be useful during development (during the prototype phase, whiteboxing is actually the default setting, so please use `--blackbox y` to explicitly configure blackboxing).
-:::
-
-Let's try the following:
+This example selects `--blackbox n` to extract the capacitor's full geometry, following @sec-first-steps-field-solver-device-models. First, try the command without selecting an engine:
 ```bash
 kpex extract --pdk sky130A --blackbox n --gds \
   testdata/designs/sky130A/*/cap_vpp_04p4x04p6_l1m1m2_noshield.gds.gz
