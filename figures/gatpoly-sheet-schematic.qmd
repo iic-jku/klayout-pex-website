@@ -1,0 +1,32 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-gatpoly-sheet-schematic
+#| echo: false
+#| fig-width: 6
+#| fig-height: 1.5
+#| fig-cap: "Two-terminal equivalent of the fixed strip. Its geometry and ports remain the same for all three sheet-resistance selections."
+import schemdraw as sd
+import schemdraw.elements as elm
+sd.svgconfig.svg2 = False
+
+with sd.Drawing(canvas='svg') as d:
+    d.config(unit=3, fontsize=14)
+    elm.Resistor().at((0, 0)).to((5, 0)).label(r'$R_{AB}=R_{\square}L/W$')
+    elm.Dot().at((0, 0)).label('A', loc='left')
+    elm.Dot().at((5, 0)).label('B', loc='right')
+```

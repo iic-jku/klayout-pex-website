@@ -1,0 +1,17 @@
+*********************************************************
+*** NGSPICE file created by KLayout-PEX 0.9.0
+*** -----------------------------------------------------
+***     Extraction Engine: KPEX/2.5D
+***     Technology: sky130a
+***     Date: 2026-11-13 18:04:18
+*********************************************************
+
+.SUBCKT r_via_stack_1x1_minsize_poly_to_met5 li1 met1 met2 met3 met4 met5 poly
+Rext_1 li1 li1|met1|met2|met3|met4|met5|poly 0.001
+Rext_2 li1 met1 23
+Rext_3 li1 poly 252
+Rext_4 met1 met2 15
+Rext_5 met2 met3 8
+Rext_6 met3 met4 8
+Rext_7 met4 met5 0.891
+.ENDS r_via_stack_1x1_minsize_poly_to_met5
