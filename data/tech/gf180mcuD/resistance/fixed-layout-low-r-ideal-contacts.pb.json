@@ -1,0 +1,242 @@
+{
+  "description": "Fixed-layout low resistance sensitivity; assumed 2 fF MIM plate mapping; nominal capacitance; ideal contacts/vias are an extraction assumption, not specified physical minima",
+  "id": "fixed-layout-low-r-ideal-contacts",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Apply 0.18 +/- 0.027 Ohm/square to FuseTop of the five-metal, 2 fF/um2 MIM-B selection",
+        "id": "mim-density-mapping",
+        "reason": "The maintainer interprets the 0.295 um TiN/Al/TiN stack as common to density options. This is an explicitly adopted engineering assumption, not a foundry-qualified 2 fF resistance limit",
+        "source_ids": [
+          "mim-stack-sheet",
+          "mim-stack-thickness",
+          "mim-2ff",
+          "plate-interpretation"
+        ]
+      },
+      {
+        "description": "The explicit reference scenario uses 180 mOhm/square FuseTop; the default nominal dataset retains 500 mOhm/square",
+        "id": "reference-not-default",
+        "reason": "The low/high values bracket this 180 mOhm/square reference, not the established default estimate derived from the 1/1.5 fF specification",
+        "source_ids": [
+          "mim-stack-sheet",
+          "mim-1p5ff",
+          "mim-2ff"
+        ]
+      },
+      {
+        "description": "Apply the selected sheet and per-cut values to unchanged extracted layout geometry",
+        "id": "fixed-layout",
+        "reason": "The data does not define arbitrary-width corrections, temperature dependence, dimension shifts, statistical coverage or simultaneous manufacturing extrema",
+        "source_ids": [
+          "sheet-limits",
+          "contact-limits",
+          "mim-stack-sheet"
+        ]
+      },
+      {
+        "description": "All three scenarios retain nominal empirical capacitance and geometry, with no device-reference dataset or physical-stack match",
+        "id": "noncorrelated-capacitance",
+        "reason": "No correlation between these resistance sensitivities, capacitance corners, physical recipes or compact-device corners has been established",
+        "source_ids": [
+          "sheet-limits",
+          "mim-stack-sheet",
+          "plate-interpretation"
+        ]
+      },
+      {
+        "description": "Retain the established P+ salicided Poly2 and wide unsalicided Nwell mapping",
+        "id": "poly-and-well",
+        "reason": "These are published wide-structure sheet values, applied at fixed drawn dimensions; recognized resistor devices keep their own compact models",
+        "source_ids": [
+          "sheet-limits"
+        ]
+      },
+      {
+        "description": "Map the Nwell tap contact to the N+ salicided contact and the MIM top via to Via4; use 5.9 Ohm/cut for the reference Poly2 contact",
+        "id": "contact-mapping",
+        "reason": "Preserve existing conductor/contact ownership and the corrected poly-contact value rather than the MAGIC nominal 8 Ohm/cut value",
+        "source_ids": [
+          "contact-limits"
+        ]
+      },
+      {
+        "description": "Convert Ohm/square and Ohm/cut to milliohms by multiplying by 1000; retain already-milliohm metal rows",
+        "id": "source-units",
+        "reason": "FuseTop 0.18 +/- 0.027 Ohm/square gives 153/180/207 mOhm/square; the selected top metal is the 11kA row, not ordinary Metal5",
+        "source_ids": [
+          "sheet-limits",
+          "contact-limits",
+          "mim-stack-sheet"
+        ]
+      },
+      {
+        "description": "Use exactly zero contact/via resistance as the separately named ideal-contact sensitivity, following the maintained MAGIC low-R convention",
+        "id": "ideal-low-contacts",
+        "reason": "Primary minimum contact/via entries are -- (unspecified). No physical zero minimum is asserted, no missing primary value is converted to zero, and the reference/high scenarios use their explicit published values",
+        "source_ids": [
+          "contact-limits",
+          "magic-ideal-contact"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-16",
+        "reason": "Expose reviewed source values and explicit engineering assumptions without changing the default nominal dataset",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/547"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "sheet-limits",
+          "contact-limits",
+          "mim-stack-sheet",
+          "mim-stack-thickness",
+          "mim-1p5ff",
+          "mim-2ff",
+          "plate-interpretation",
+          "magic-ideal-contact"
+        ],
+        "summary": "Add low fixed-layout resistance sensitivity"
+      }
+    ],
+    "sources": [
+      {
+        "description": "Primary electrical sheet-resistance limits",
+        "id": "sheet-limits",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "a20ccbc509cefd992e733472b96a6712efc65793b823a2ccd1aa90d7727c25af",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/5_General_Specification1.csv"
+      },
+      {
+        "description": "Primary contact/via specifications; minimum values are unspecified",
+        "id": "contact-limits",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "eb9a9e7983bd4f83205a329b99e9a0516cba079d9067357d5e899c73b584980e",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/5_General_Specification2.csv"
+      },
+      {
+        "description": "Interconnect MIM plate material sheet resistance",
+        "id": "mim-stack-sheet",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "98e9a330fcfea7e1918fa9b90ca7cac457456f29174447337a3c793794e1ce17",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/5_Sheet_Rho_table.csv"
+      },
+      {
+        "description": "Interconnect MIM plate material thickness",
+        "id": "mim-stack-thickness",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "8cc79cb291280a03bed6d08d5bf440cabe81b0e22381a0c358b99d8be6e44114",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/3_General_conductor.csv"
+      },
+      {
+        "description": "Alternative 1.5 fF MIM specification with 0.5 Ohm/square typical plate resistance",
+        "id": "mim-1p5ff",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "35fee2eb0304a624508f61b64c973006a13191db0dfaef0d06db3c923fbf26d6",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/6_Passive_Elements4.csv"
+      },
+      {
+        "description": "Selected 2 fF MIM specification with no plate-resistance limits",
+        "id": "mim-2ff",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "7597c4460eb7ca9aa85241f922c04c7fa6a5baafce22efa86ae56000b6a46cd8",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/6_Passive_Elements6.csv"
+      },
+      {
+        "description": "Maintainer interpretation of the 0.18 Ohm/square plate stack and assumed density-option mapping",
+        "id": "plate-interpretation",
+        "revision": "2026-11-13",
+        "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/issues/55#issuecomment-6865435725"
+      },
+      {
+        "description": "Maintained extraction convention for ideal contacts/vias in low-R styles",
+        "id": "magic-ideal-contact",
+        "options": {
+          "HRPOLY1K": "1",
+          "METALS5": "1",
+          "MIM": "1",
+          "THICKMET1P1": "1",
+          "variants": "lrhc,lrlc"
+        },
+        "revision": "5740c4a81c42f9fe4af5ef2ee258a99151053d28",
+        "sha256": "e8ab78e8f3c61b43d00ef493d247700ff76477ad6e9b84d2aebafde62be61fb8",
+        "uri": "https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/gf180mcu/magic/gf180mcu-extract.tech"
+      }
+    ]
+  },
+  "resistance": {
+    "contacts": [
+      {
+        "contact_name": "contact_nsd_con",
+        "device_layer_name": "Nplus",
+        "layer_above": "Metal1"
+      },
+      {
+        "contact_name": "contact_psd_con",
+        "device_layer_name": "Pplus",
+        "layer_above": "Metal1"
+      },
+      {
+        "contact_name": "contact_poly_con",
+        "device_layer_name": "Poly2",
+        "layer_above": "Metal1"
+      },
+      {
+        "contact_name": "contact_ntap_con",
+        "device_layer_name": "Nwell",
+        "layer_above": "Metal1"
+      }
+    ],
+    "layers": [
+      {
+        "layer_name": "Poly2",
+        "resistance": 1000.0
+      },
+      {
+        "layer_name": "Metal1",
+        "resistance": 76.0
+      },
+      {
+        "layer_name": "Metal2",
+        "resistance": 76.0
+      },
+      {
+        "layer_name": "Metal3",
+        "resistance": 76.0
+      },
+      {
+        "layer_name": "Metal4",
+        "resistance": 76.0
+      },
+      {
+        "layer_name": "Metal5",
+        "resistance": 31.0
+      },
+      {
+        "layer_name": "Nwell",
+        "resistance": 800000.0
+      },
+      {
+        "layer_name": "FuseTop",
+        "resistance": 153.0
+      }
+    ],
+    "vias": [
+      {
+        "via_name": "Via1"
+      },
+      {
+        "via_name": "Via2"
+      },
+      {
+        "via_name": "Via3"
+      },
+      {
+        "via_name": "Via4"
+      }
+    ]
+  }
+}

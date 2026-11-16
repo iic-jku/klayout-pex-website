@@ -50,6 +50,30 @@
     },
     {
       "file": {
+        "path": "resistance/fixed-layout-low-r-ideal-contacts.pb.json",
+        "sha256": "34b442f00707d219e46fd1e06ed1d49d69ad651a5f6d528b30a30841ef7cf397"
+      },
+      "id": "fixed-layout-low-r-ideal-contacts",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/fixed-layout-reference-r.pb.json",
+        "sha256": "23f2142317b39fc1d46f9eb9d8747e1a8d757c47b0cb56085fcdc7c4e821dc3e"
+      },
+      "id": "fixed-layout-reference-r",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/fixed-layout-high-r.pb.json",
+        "sha256": "49dae49b27e467355b698f1ddd626521035e568ad176c47390bc3a1e6eba697e"
+      },
+      "id": "fixed-layout-high-r",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
         "path": "device_references/low.pb.json",
         "sha256": "c663bf633a8433145142dee7e6ae2b1a29b8343518bd10cded12b2c7783f9ffe"
       },
@@ -104,7 +128,7 @@
         ]
       }
     ],
-    "data_revision": "physical-capiche-2",
+    "data_revision": "3",
     "history": [
       {
         "date": "2026-11-12",
@@ -161,6 +185,25 @@
         ],
         "revision": "physical-capiche-2",
         "summary": "Declare source physical C-only scenarios"
+      },
+      {
+        "date": "2026-11-16",
+        "reason": "Keep a 180 mOhm/square plate reference distinct from the unchanged default; distinguish ideal-contact sensitivity from unspecified primary minima",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/547"
+        ],
+        "revision": "3",
+        "source_ids": [
+          "sheet-limits",
+          "contact-limits",
+          "mim-stack-sheet",
+          "mim-stack-thickness",
+          "mim-1p5ff",
+          "mim-2ff",
+          "plate-interpretation",
+          "magic-ideal-contact"
+        ],
+        "summary": "Add qualified fixed-layout resistance sensitivity scenarios"
       }
     ],
     "sources": [
@@ -210,6 +253,68 @@
         "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064_mim.spice"
       },
       {
+        "description": "Primary electrical sheet-resistance limits",
+        "id": "sheet-limits",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "a20ccbc509cefd992e733472b96a6712efc65793b823a2ccd1aa90d7727c25af",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/5_General_Specification1.csv"
+      },
+      {
+        "description": "Primary contact/via specifications; minimum values are unspecified",
+        "id": "contact-limits",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "eb9a9e7983bd4f83205a329b99e9a0516cba079d9067357d5e899c73b584980e",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/5_General_Specification2.csv"
+      },
+      {
+        "description": "Interconnect MIM plate material sheet resistance",
+        "id": "mim-stack-sheet",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "98e9a330fcfea7e1918fa9b90ca7cac457456f29174447337a3c793794e1ce17",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/5_Sheet_Rho_table.csv"
+      },
+      {
+        "description": "Interconnect MIM plate material thickness",
+        "id": "mim-stack-thickness",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "8cc79cb291280a03bed6d08d5bf440cabe81b0e22381a0c358b99d8be6e44114",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/3_General_conductor.csv"
+      },
+      {
+        "description": "Alternative 1.5 fF MIM specification with 0.5 Ohm/square typical plate resistance",
+        "id": "mim-1p5ff",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "35fee2eb0304a624508f61b64c973006a13191db0dfaef0d06db3c923fbf26d6",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/6_Passive_Elements4.csv"
+      },
+      {
+        "description": "Selected 2 fF MIM specification with no plate-resistance limits",
+        "id": "mim-2ff",
+        "revision": "25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a",
+        "sha256": "7597c4460eb7ca9aa85241f922c04c7fa6a5baafce22efa86ae56000b6a46cd8",
+        "uri": "https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/6_Passive_Elements6.csv"
+      },
+      {
+        "description": "Maintainer interpretation of the 0.18 Ohm/square plate stack and assumed density-option mapping",
+        "id": "plate-interpretation",
+        "revision": "2026-11-13",
+        "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/issues/55#issuecomment-6865435725"
+      },
+      {
+        "description": "Maintained extraction convention for ideal contacts/vias in low-R styles",
+        "id": "magic-ideal-contact",
+        "options": {
+          "HRPOLY1K": "1",
+          "METALS5": "1",
+          "MIM": "1",
+          "THICKMET1P1": "1",
+          "variants": "lrhc,lrlc"
+        },
+        "revision": "5740c4a81c42f9fe4af5ef2ee258a99151053d28",
+        "sha256": "e8ab78e8f3c61b43d00ef493d247700ff76477ad6e9b84d2aebafde62be61fb8",
+        "uri": "https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/gf180mcu/magic/gf180mcu-extract.tech"
+      },
+      {
         "description": "Explicit process and R/C-style mapping for physical-stack results",
         "id": "capiche-magic-mapping",
         "revision": "85905e8810982bd89966cbf8b7e9d3fd1e922d42",
@@ -227,6 +332,27 @@
       "physical_stack_matches": true,
       "process_stack": "nominal",
       "resistance": "nominal"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout low resistance sensitivity; assumed 2 fF MIM plate mapping; nominal capacitance; ideal contacts/vias are an extraction assumption, not specified physical minima",
+      "id": "fixed-layout-low-r-ideal-contacts",
+      "process_stack": "nominal",
+      "resistance": "fixed-layout-low-r-ideal-contacts"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout reference resistance sensitivity; assumed 2 fF MIM plate mapping; nominal capacitance",
+      "id": "fixed-layout-reference-r",
+      "process_stack": "nominal",
+      "resistance": "fixed-layout-reference-r"
+    },
+    {
+      "capacitance": "nominal",
+      "description": "Fixed-layout high resistance sensitivity; assumed 2 fF MIM plate mapping; nominal capacitance",
+      "id": "fixed-layout-high-r",
+      "process_stack": "nominal",
+      "resistance": "fixed-layout-high-r"
     },
     {
       "capacitance": "low",
