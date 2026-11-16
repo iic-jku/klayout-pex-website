@@ -26,6 +26,7 @@ The development catalogs also provide:
 - Isolated IHP `GatPoly` sheet-resistance sensitivities (@sec-corner-gatpoly-sheet)
 - Complete `ihp-sg13cmos5l` fixed-layout resistance sensitivities (@sec-corner-cmos5l-resistance)
 - `sky130A` resistance sensitivities with explicit MIM sheet bounds (@sec-corner-sky130-resistance)
+- `gf180mcuD` resistance sensitivities with explicit plate and ideal-contact assumptions (@sec-corner-gf180-resistance)
 - Independent MIM device-reference components (@sec-corner-device-references)
 - Source-related physical recipes (@sec-corner-physical-recipes)
 
@@ -209,7 +210,7 @@ Each supported PDK has complete `nominal`, `low` and `high` capacitance datasets
 | Technology | Capacitance datasets | Selection examples |
 |:---|:---|:---|
 | `sky130A` | [`nominal`](../data/tech/sky130A/capacitance/nominal.pb.json), [`low`](../data/tech/sky130A/capacitance/low.pb.json), [`high`](../data/tech/sky130A/capacitance/high.pb.json) | `nominal`; R/C sensitivities in @sec-corner-sky130-resistance |
-| `gf180mcuD` | [`nominal`](../data/tech/gf180mcuD/capacitance/nominal.pb.json), [`low`](../data/tech/gf180mcuD/capacitance/low.pb.json), [`high`](../data/tech/gf180mcuD/capacitance/high.pb.json) | `nominal` |
+| `gf180mcuD` | [`nominal`](../data/tech/gf180mcuD/capacitance/nominal.pb.json), [`low`](../data/tech/gf180mcuD/capacitance/low.pb.json), [`high`](../data/tech/gf180mcuD/capacitance/high.pb.json) | `nominal`; R-only sensitivities in @sec-corner-gf180-resistance |
 | `ihp-sg13g2` | [`nominal`](../data/tech/ihp-sg13g2/capacitance/nominal.pb.json), [`low`](../data/tech/ihp-sg13g2/capacitance/low.pb.json), [`high`](../data/tech/ihp-sg13g2/capacitance/high.pb.json) | `nominal`; `GatPoly` sensitivities in @sec-corner-gatpoly-sheet |
 | `ihp-sg13cmos5l` | [`nominal`](../data/tech/ihp-sg13cmos5l/capacitance/nominal.pb.json), [`low`](../data/tech/ihp-sg13cmos5l/capacitance/low.pb.json), [`high`](../data/tech/ihp-sg13cmos5l/capacitance/high.pb.json) | `nominal`; sheet and full resistance sensitivities in @sec-corner-cmos5l-resistance |
 : Capacitance components and selection examples {#tbl-corner-availability tbl-colwidths="[25,32,43]"}
@@ -471,6 +472,78 @@ The full netlist also includes a dangling 0.001 $\Omega$ tie from `li1` to the o
 The distinct high-R and low-R results come from `via3` and `via4`, which depend on both R and C choices. This via stack demonstrates the source-dependent cut values; it does not establish correlation for MIM sheet bounds.
 
 {{< pagebreak >}}
+
+### Varying `gf180mcuD` Resistance {#sec-corner-gf180-resistance}
+
+The `gf180mcuD` catalog provides three resistance sensitivities with explicit source assumptions for the existing layout. They retain nominal capacitance and geometry. The default `nominal` scenario remains unchanged.
+
+- `fixed-layout-reference-r` uses a `FuseTop` sheet resistance of $180\,\mathrm{m}\Omega/\square$
+- `fixed-layout-high-r` uses the high sheet and contact values, including $207\,\mathrm{m}\Omega/\square$ for `FuseTop`
+- `fixed-layout-low-r-ideal-contacts` uses low sheet values, including $153\,\mathrm{m}\Omega/\square$ for `FuseTop`, with an explicitly assumed ideal contact/via connection
+
+The low and high plate values bracket the **$180\,\mathrm{m}\Omega/\square$ reference**, not the default nominal value of **$500\,\mathrm{m}\Omega/\square$**. The scenario names keep that distinction visible when comparing results.
+
+#### Separating Plate Sources {#sec-corner-gf180-plate-sources}
+
+The maintained [interconnect sheet-resistance table](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/5_Sheet_Rho_table.csv) specifies $0.18\pm0.027\,\Omega/\square$ for the MIM plate.
+
+The named stack is `TiN600AMIMAL2000ATiN350A`. Its $0.295\,\mu\mathrm{m}$ thickness agrees with the [conductor table](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/layout/inter_specs/tables_clear/3_General_conductor.csv).
+
+The [maintainer's interpretation](https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/issues/55#issuecomment-6865435725) supports this material-stack value and assumes that the density options share the plate construction. Applying it to the selected five-metal, 2 fF/µm² `MIM-B` option is an engineering assumption: the option's [electrical table](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/6_Passive_Elements6.csv) does not specify plate resistance.
+
+`KPEX` retains $500\,\mathrm{m}\Omega/\square$ in `nominal` because that was its established estimate from the 1/1.5 fF specifications. Selecting the new reference is deliberate; installing a newer version does not change the default estimate.
+
+#### Applying Sheet and Contact Values {#sec-corner-gf180-resistance-laws}
+
+The conductor values below use $R=R_{\square}L/W$ at unchanged drawn dimensions. The [electrical sheet-resistance specification](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/5_General_Specification1.csv) supplies the conductor limits other than the `FuseTop` plate values discussed above. `Metal5` uses the selected thick `11kA` top-metal row, not the ordinary fifth-metal row.
+
+| Conductor | Low | Reference | High |
+|:---|---:|---:|---:|
+| `Poly2` | 1.0 | 7.3 | 15.0 |
+| `Metal1`, `Metal2`, `Metal3`, `Metal4` | 0.076 | 0.090 | 0.104 |
+| `Metal5` | 0.031 | 0.040 | 0.049 |
+| `Nwell` | 800 | 1000 | 1200 |
+| `FuseTop` | 0.153 | 0.180 | 0.207 |
+: Fixed-layout `gf180mcuD` sheet sensitivity in $\Omega/\square$ {#tbl-gf180-sheet-sensitivity tbl-colwidths="[40,20,20,20]"}
+
+::: {.content-visible when-format="pdf"}
+
+{{< pagebreak >}}
+
+:::
+
+Each cut contributes its per-cut resistance. With equipotential landing pads, $N$ identical cuts in parallel give $R=R_{\mathrm{cut}}/N$. The extraction also retains conductor access and spreading resistance for real layouts.
+
+| Contact or via | Ideal-contact assumption | Reference | High |
+|:---|---:|---:|---:|
+| `Contact` on `Nplus` or `Nwell` | 0 | 6.3 | 15 |
+| `Contact` on `Pplus` | 0 | 5.2 | 15 |
+| `Contact` on `Poly2` | 0 | 5.9 | 15 |
+| `Via1`, `Via2`, `Via3`, `Via4` | 0 | 4.5 | 15 |
+: Fixed-layout `gf180mcuD` contact sensitivity in $\Omega/\mathrm{cut}$ {#tbl-gf180-contact-sensitivity tbl-colwidths="[40,20,20,20]"}
+
+The primary [contact specification](https://github.com/fossi-foundation/gf180mcu-pdk/blob/25ed9c64b64b8e1b93cc4d2d5cade4cd82383a9a/docs/analog/spice/elec_specs/tables_clear/5_General_Specification2.csv) writes `--` for all minimum values. That means **unspecified**, not zero. The separately named ideal-contact scenario follows the explicit zeros in the maintained [`MAGIC` low-R extraction block](https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/gf180mcu/magic/gf180mcu-extract.tech#L330-L435). It is not a measured physical lower limit. The reference and high datasets record only the primary nonzero values.
+
+The `Poly2` reference contact remains 5.9 Ω/cut. The contact from `Nwell` uses the established `Nplus` contact mapping, and the MIM top landing uses the `Via4` per-cut law. With `--blackbox y`, recognized compact devices retain their own models and terminal boundaries (@sec-first-steps-run-2_5d).
+
+#### Selecting the Sensitivity {#sec-corner-gf180-resistance-selection}
+
+```bash
+kpex extract --pdk gf180mcuD --2.5D --mode RC --blackbox y \
+  --corner fixed-layout-reference-r --gds design.gds \
+  --out-netlist design-reference-r.spice
+```
+
+Select `fixed-layout-high-r` or `fixed-layout-low-r-ideal-contacts` explicitly for the other comparisons. Do not interpret the default `nominal` result as the midpoint of this plate-resistance range.
+
+The [ideal-contact low-R dataset](../data/tech/gf180mcuD/resistance/fixed-layout-low-r-ideal-contacts.pb.json), [reference dataset](../data/tech/gf180mcuD/resistance/fixed-layout-reference-r.pb.json), and [high-R dataset](../data/tech/gf180mcuD/resistance/fixed-layout-high-r.pb.json) record the exact source revisions, hashes and assumptions.
+
+#### Limits {#sec-corner-gf180-resistance-limits}
+
+These are fixed-layout sensitivities. They do not establish a foundry-qualified 2 fF plate law, correlated R/C corners, simultaneous manufacturing extrema, width or temperature corrections, or statistical coverage. They select no automatic device-capacitance reference and declare no matching field-solver stack. Combining them with nonnominal capacitance needs a separately declared scenario and a justified interpretation.
+
+An ideal contact merges its electrical nodes. Separately named SPICE ports on the same node retain the existing 1 mΩ label tie. That export tie is not a physical contact value and does not divide by the number of cuts.
+
 
 ### Matching Physical Geometry to Analytical Tables {#sec-corner-physical-stack}
 
