@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="940" height="390" viewBox="0 80 940 390">
+<defs>
+</defs>
+<rect x="0" y="80" width="940" height="390" fill="white" />
+<path d="M210,360 L210,255.5 L377.0,255.5 L377.0,145.5 L623.0,145.5 L623.0,255.5 L780,255.5 L780,360 Z" fill="#ddd0ec" stroke="#183247" stroke-width="1.2" />
+<path d="M210,360 L210,277.5 L393.5,277.5 L393.5,167.5 L606.5,167.5 L606.5,277.5 L780,277.5 L780,360 Z" fill="#d5e9f7" stroke="#183247" stroke-width="1.2" />
+<rect x="410" y="250" width="180" height="110" fill="#b7d8bf" stroke="#183247" stroke-width="1.5" />
+<text x="500" y="310" font-size="20" text-anchor="middle" fill="#183247" font-family="sans-serif">TopMetal1</text>
+<text x="500" y="211" font-size="18" text-anchor="middle" fill="#183247" font-family="sans-serif">pass1</text>
+<text x="500" y="131" font-size="18" text-anchor="middle" fill="#183247" font-family="sans-serif">pass2</text>
+<path d="M500,137 L500,151" stroke="#183247" stroke-width="1" />
+<text x="230" y="321" font-size="17" text-anchor="start" fill="#183247" font-family="sans-serif">pass1 in field</text>
+<text x="765" y="236" font-size="17" text-anchor="end" fill="#183247" font-family="sans-serif">pass2 in field</text>
+<path d="M715,241 L715,266" stroke="#183247" stroke-width="1" />
+<path d="M180,255.5 L180,360" stroke="#183247" stroke-width="1.4" />
+<path d="M175,255.5 L185,255.5" stroke="#183247" stroke-width="1.4" />
+<path d="M175,360 L185,360" stroke="#183247" stroke-width="1.4" />
+<text x="164" y="312.75" font-size="17" text-anchor="end" fill="#183247" font-family="sans-serif">1.9 µm</text>
+<text x="165" y="237" font-size="16" text-anchor="end" fill="#183247" font-family="sans-serif">Field extent</text>
+<path d="M830,145.5 L830,167.5" stroke="#183247" stroke-width="1.4" />
+<path d="M825,145.5 L835,145.5" stroke="#183247" stroke-width="1.4" />
+<path d="M825,167.5 L835,167.5" stroke="#183247" stroke-width="1.4" />
+<text x="846" y="161.5" font-size="17" text-anchor="start" fill="#183247" font-family="sans-serif">0.4 µm</text>
+<path d="M830,167.5 L830,250" stroke="#183247" stroke-width="1.4" />
+<path d="M825,167.5 L835,167.5" stroke="#183247" stroke-width="1.4" />
+<path d="M825,250 L835,250" stroke="#183247" stroke-width="1.4" />
+<text x="846" y="213.75" font-size="17" text-anchor="start" fill="#183247" font-family="sans-serif">1.5 µm</text>
+<path d="M830,250 L830,360" stroke="#183247" stroke-width="1.4" />
+<path d="M825,250 L835,250" stroke="#183247" stroke-width="1.4" />
+<path d="M825,360 L835,360" stroke="#183247" stroke-width="1.4" />
+<text x="846" y="310.0" font-size="17" text-anchor="start" fill="#183247" font-family="sans-serif">2.0 µm</text>
+<text x="829" y="112" font-size="16" text-anchor="middle" fill="#183247" font-family="sans-serif">Top increments</text>
+<path d="M165,360 L838,360" stroke="#183247" stroke-width="1" stroke-dasharray="5,4" />
+<text x="210" y="397" font-size="18" text-anchor="start" fill="#183247" font-family="sans-serif">Root bottom: z = 5.4 µm</text>
+<text x="210" y="430" font-size="18" text-anchor="start" fill="#183247" font-family="sans-serif">Field top: 5.4 + 1.9 = 7.3 µm</text>
+<text x="540" y="430" font-size="18" text-anchor="start" fill="#183247" font-family="sans-serif">Side reach: 0.3 + 0.3 = 0.6 µm</text>
+</svg>

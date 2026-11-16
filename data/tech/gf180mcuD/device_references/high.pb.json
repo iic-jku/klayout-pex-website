@@ -1,0 +1,72 @@
+{
+  "description": "high MIM-only device references",
+  "device_references": {
+    "devices": [
+      {
+        "capacitance_references": [
+          {
+            "capacitance": "area_density*width*length + edge_density*2*(width+length)",
+            "description": "mimcap_ss 2 fF/um2 MIM mutual capacitance at zero bias, 25 C and zero mismatch. Area and perimeter follow mim_corner_2p0ff. Excludes leakage conductance. Other MIM options and MOS capacitors are not covered.",
+            "parameters": {
+              "area_density": "2.189e-15",
+              "edge_density": "2.6213e-16",
+              "length": "c_length*1e6",
+              "width": "c_width*1e6"
+            },
+            "source": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064_mim.spice",
+            "terminal_names": [
+              "B",
+              "A"
+            ],
+            "valid_when": "width>0 && length>0"
+          }
+        ],
+        "lvs_device_class_name": "cap_mim_2f0fF"
+      }
+    ]
+  },
+  "id": "high",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Only the listed MIM devices have corner references; unlisted MOM, RF and other capacitor models remain unchecked",
+        "id": "partial-device-coverage",
+        "reason": "Interconnect corner coefficients do not establish those devices' independent reference laws",
+        "source_ids": [
+          "corner-parameters",
+          "mim-model"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Check the same corner without scaling nominal MOM estimates",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/551"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "corner-parameters",
+          "mim-model"
+        ],
+        "summary": "Add compact-model MIM corner references"
+      }
+    ],
+    "sources": [
+      {
+        "description": "models/ngspice/sm141064.spice",
+        "id": "corner-parameters",
+        "revision": "5e4be8726e2ae8be099c4131f697a353d6457874",
+        "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064.spice"
+      },
+      {
+        "description": "models/ngspice/sm141064_mim.spice",
+        "id": "mim-model",
+        "revision": "5e4be8726e2ae8be099c4131f697a353d6457874",
+        "uri": "https://github.com/fossi-foundation/globalfoundries-pdk-libs-gf180mcu_fd_pr/blob/5e4be8726e2ae8be099c4131f697a353d6457874/models/ngspice/sm141064_mim.spice"
+      }
+    ]
+  }
+}

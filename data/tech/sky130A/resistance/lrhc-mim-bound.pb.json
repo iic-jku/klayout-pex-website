@@ -1,0 +1,194 @@
+{
+  "description": "Fixed-layout low-R/high-C sensitivity envelope with lower MIM sheet-resistance bound; not a source-correlated process corner",
+  "id": "lrhc-mim-bound",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Apply source sheet and per-cut resistances to unchanged extracted polygons and cut counts",
+        "id": "fixed-layout-material-law",
+        "reason": "This sensitivity envelope does not apply compact-model dimension shifts or claim total geometry/process worst-case bounds",
+        "source_ids": [
+          "resistance-extraction-table",
+          "resistance-model-lrhc"
+        ]
+      },
+      {
+        "description": "Use source-style rnw for nwell and rcvia3/rcvia4 for via3/via4, including their MIM contact aliases",
+        "id": "model-overrides",
+        "reason": "Preserve the nominal KPEX material mapping while retaining differences between all four source R/C combinations",
+        "source_ids": [
+          "resistance-model-lrhc"
+        ]
+      },
+      {
+        "description": "Assign the lower published RSCAPM limit to both MIM top plates in this low-R sensitivity envelope",
+        "id": "mim-spec-bound",
+        "reason": "This is an engineering combination of published bounds; no source establishes its correlation with the selected R/C style",
+        "source_ids": [
+          "mim-resistance-specification",
+          "resistance-model-lrhc"
+        ]
+      },
+      {
+        "description": "No correlated physical stack, compact-device reference or transistor process corner is claimed",
+        "id": "capability-limits",
+        "reason": "An analytical material sensitivity envelope does not establish those separate capabilities",
+        "source_ids": [
+          "resistance-extraction-table",
+          "resistance-model-lrhc",
+          "mim-resistance-specification"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Enable fixed-layout sensitivity without silently inventing a correlated MIM corner law",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/546"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "resistance-extraction-table",
+          "resistance-model-lrhc",
+          "mim-resistance-specification"
+        ],
+        "summary": "Add lrhc resistance values with explicit MIM specification bound"
+      }
+    ],
+    "sources": [
+      {
+        "description": "Fixed-layout sheet and cut resistance extraction table",
+        "id": "resistance-extraction-table",
+        "options": {
+          "METAL5": "1",
+          "MIM": "1",
+          "REDISTRIBUTION": "1",
+          "cut_resistance_unit": "mOhm/cut",
+          "sheet_resistance_unit": "mOhm/square",
+          "variants": "lrhc"
+        },
+        "revision": "5740c4a81c42f9fe4af5ef2ee258a99151053d28",
+        "sha256": "28267a7090be9ace22f7d4876fb4fcf285eefeabab805f00e65923ebf31e90e1",
+        "uri": "https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/sky130/magic/sky130-extract.tech"
+      },
+      {
+        "description": "Source res_low__cap_high nwell and via resistance parameters",
+        "id": "resistance-model-lrhc",
+        "options": {
+          "rcvia3_unit": "Ohm/cut",
+          "rcvia4_unit": "Ohm/cut",
+          "rnw_unit": "Ohm/square"
+        },
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "30bf08f792bb9c569f76b3fe3c81825551f5a0750a65208b49a2010ad9b765c3",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_high.spice"
+      },
+      {
+        "description": "RSCAPM specification limits for both MIM top electrodes",
+        "id": "mim-resistance-specification",
+        "options": {
+          "bound": "LSL",
+          "parameter": "RSCAPM",
+          "source_unit": "Ohm/square"
+        },
+        "revision": "7198cf647113f56041e02abf3eb623692820c5e1",
+        "sha256": "4dcab6b9d0fc9c843828d7c9363603de497edd82589d1a8297e0ea24a32bf37f",
+        "uri": "https://github.com/google/skywater-pdk/blob/7198cf647113f56041e02abf3eb623692820c5e1/docs/rules/device-details/cap_mim/cap_mim-table0.rst"
+      }
+    ]
+  },
+  "resistance": {
+    "contacts": [
+      {
+        "contact_name": "licon_nsd_con",
+        "device_layer_name": "nsdm",
+        "layer_above": "li1",
+        "resistance": 95000.0
+      },
+      {
+        "contact_name": "licon_psd_con",
+        "device_layer_name": "psdm",
+        "layer_above": "li1",
+        "resistance": 345000.0
+      },
+      {
+        "contact_name": "licon_poly_con",
+        "device_layer_name": "poly",
+        "layer_above": "li1",
+        "resistance": 52000.0
+      },
+      {
+        "contact_name": "licon_ntap_con",
+        "device_layer_name": "nwell",
+        "layer_above": "li1",
+        "resistance": 95000.0
+      }
+    ],
+    "layers": [
+      {
+        "layer_name": "poly",
+        "resistance": 42200.0
+      },
+      {
+        "layer_name": "li1",
+        "resistance": 10500.0
+      },
+      {
+        "layer_name": "met1",
+        "resistance": 105.0
+      },
+      {
+        "layer_name": "met2",
+        "resistance": 105.0
+      },
+      {
+        "layer_name": "met3",
+        "resistance": 38.0
+      },
+      {
+        "layer_name": "met4",
+        "resistance": 38.0
+      },
+      {
+        "layer_name": "met5",
+        "resistance": 21.0
+      },
+      {
+        "layer_name": "capm",
+        "resistance": 4800.0
+      },
+      {
+        "layer_name": "capm2",
+        "resistance": 4800.0
+      },
+      {
+        "layer_name": "nwell",
+        "resistance": 1240000.0
+      }
+    ],
+    "vias": [
+      {
+        "resistance": 1600.0,
+        "via_name": "mcon"
+      },
+      {
+        "resistance": 2000.0,
+        "via_name": "via"
+      },
+      {
+        "resistance": 500.0,
+        "via_name": "via2"
+      },
+      {
+        "resistance": 500.0,
+        "via_name": "via3"
+      },
+      {
+        "resistance": 12.0,
+        "via_name": "via4"
+      }
+    ]
+  }
+}

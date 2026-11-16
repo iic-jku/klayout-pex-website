@@ -47,12 +47,112 @@
       },
       "id": "high",
       "kind": "CAPACITANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/hrhc-mim-bound.pb.json",
+        "sha256": "842bb5c4516e7d56bf9e407b4c58069fb4479ca4a80d1663fdea043c6f1e5070"
+      },
+      "id": "hrhc-mim-bound",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/hrlc-mim-bound.pb.json",
+        "sha256": "b7d965313a3d020878185f82097014330235ac14f3e04c26570f00a248d5f005"
+      },
+      "id": "hrlc-mim-bound",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/lrhc-mim-bound.pb.json",
+        "sha256": "67b84895c7822af148e6d73173aafc47d726ba02f0f6ec1b6a2190c3983af6f6"
+      },
+      "id": "lrhc-mim-bound",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "resistance/lrlc-mim-bound.pb.json",
+        "sha256": "6d2c31d662641e59d989751b3f209068b43029fc663917d8dc46b043f04ecc06"
+      },
+      "id": "lrlc-mim-bound",
+      "kind": "RESISTANCE"
+    },
+    {
+      "file": {
+        "path": "device_references/hrhc.pb.json",
+        "sha256": "785f82e124a6892c57733dfaeee5bce60c1b34df30ad1de92d5cf762df112892"
+      },
+      "id": "hrhc",
+      "kind": "DEVICE_REFERENCES"
+    },
+    {
+      "file": {
+        "path": "device_references/hrlc.pb.json",
+        "sha256": "6252ece7cf1e9e6df550103c9456f0f308f9ea941ea45eeaefcbf80ab3114dd7"
+      },
+      "id": "hrlc",
+      "kind": "DEVICE_REFERENCES"
+    },
+    {
+      "file": {
+        "path": "device_references/lrhc.pb.json",
+        "sha256": "933d6bca88b29d3bc3e6961106302fa70ddf764e223bd323f675f93bb660c660"
+      },
+      "id": "lrhc",
+      "kind": "DEVICE_REFERENCES"
+    },
+    {
+      "file": {
+        "path": "device_references/lrlc.pb.json",
+        "sha256": "a1a17a1bf6eff3fa27c146f86c7f510635133123045e48d99f7f66de3ab3a70f"
+      },
+      "id": "lrlc",
+      "kind": "DEVICE_REFERENCES"
+    },
+    {
+      "file": {
+        "path": "process_stack/capiche-low.pb.json",
+        "sha256": "8989fb7b1f87b6d2a1ddd14f9acce1c9846a7a457948814085afd248130e9820"
+      },
+      "id": "capiche-low",
+      "kind": "PROCESS_STACK"
+    },
+    {
+      "file": {
+        "path": "process_stack/capiche-high.pb.json",
+        "sha256": "d62bfc8de231fde5c59f2699401787cf553e198980b9904cd4663bffd4488231"
+      },
+      "id": "capiche-high",
+      "kind": "PROCESS_STACK"
     }
   ],
   "default_scenario": "nominal",
-  "description": "Nominal scenario and low/high capacitance components for sky130A",
+  "description": "Explicit extraction scenarios and capacitance components for sky130A",
   "provenance": {
-    "data_revision": "2",
+    "assumptions": [
+      {
+        "description": "The source maps the selected process stack directories to MAGIC hrlc/lrlc low-C and hrhc/lrhc high-C blocks. The authored physical scenarios retain nominal R, omit device references and retain layout-dependent MIM restrictions",
+        "id": "physical-c-pairing",
+        "reason": "physical_stack_matches declares the source-related recipe, not identical fitted numbers, a correlated R law or silicon calibration",
+        "source_ids": [
+          "capiche-magic-mapping",
+          "extraction-table"
+        ]
+      },
+      {
+        "description": "Physical recipes are pinned to Capiche 85905e8. IHP coefficient revision 14b1ab8 includes the corrected coatings committed four minutes earlier. SKY130/GF180 coefficient files last changed at open_pdks bb8c82e after Capiche bf6bee7 introduced the selected physical profiles; later pinned Capiche changes do not alter their geometry/materials",
+        "id": "physical-coefficient-revisions",
+        "reason": "Keep recipe and empirical-table revision identities explicit rather than infer a match from names",
+        "source_ids": [
+          "capiche-magic-mapping",
+          "extraction-table"
+        ]
+      }
+    ],
+    "data_revision": "physical-capiche-2",
     "history": [
       {
         "date": "2026-11-12",
@@ -82,6 +182,50 @@
           "mim-model-2"
         ],
         "summary": "Add low/high capacitance components"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Expose available resistance evidence while keeping unverified process correlations explicit",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/546"
+        ],
+        "revision": "3",
+        "source_ids": [
+          "resistance-extraction-table",
+          "resistance-model-hrhc",
+          "mim-resistance-specification",
+          "resistance-model-hrlc",
+          "resistance-model-lrhc",
+          "resistance-model-lrlc"
+        ],
+        "summary": "Add explicit fixed-layout resistance and MIM-bound sensitivity scenarios"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Keep compact-model device laws distinct from empirical interconnect coefficients",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/551"
+        ],
+        "revision": "device-mim-1",
+        "summary": "Add independent MIM corner references"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Keep physical interconnect inputs independent of empirical coefficients and resistance laws",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/550"
+        ],
+        "revision": "physical-capiche-1",
+        "summary": "Add source-specific physical recipes"
+      },
+      {
+        "date": "2026-11-13",
+        "reason": "Expose qualified recipes with explicit layout restrictions while holding resistance nominal",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/550"
+        ],
+        "revision": "physical-capiche-2",
+        "summary": "Declare source physical C-only scenarios"
       }
     ],
     "sources": [
@@ -130,6 +274,86 @@
         "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
         "sha256": "459dde9efbf35abed0554d5203fc2ed4e8a10a25422a6794bf7662a71517dc75",
         "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_high__lin.spice"
+      },
+      {
+        "description": "Fixed-layout sheet and cut resistance extraction table",
+        "id": "resistance-extraction-table",
+        "options": {
+          "METAL5": "1",
+          "MIM": "1",
+          "REDISTRIBUTION": "1",
+          "cut_resistance_unit": "mOhm/cut",
+          "sheet_resistance_unit": "mOhm/square"
+        },
+        "revision": "5740c4a81c42f9fe4af5ef2ee258a99151053d28",
+        "sha256": "28267a7090be9ace22f7d4876fb4fcf285eefeabab805f00e65923ebf31e90e1",
+        "uri": "https://github.com/fossi-foundation/open-pdks/blob/5740c4a81c42f9fe4af5ef2ee258a99151053d28/sky130/magic/sky130-extract.tech"
+      },
+      {
+        "description": "Source res_high__cap_high nwell and via resistance parameters",
+        "id": "resistance-model-hrhc",
+        "options": {
+          "rcvia3_unit": "Ohm/cut",
+          "rcvia4_unit": "Ohm/cut",
+          "rnw_unit": "Ohm/square"
+        },
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "38ec47a4a5fa0d5a23dcab8dee6c43086503204c71ea956e0d78471cadc909a4",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_high__cap_high.spice"
+      },
+      {
+        "description": "RSCAPM specification limits for both MIM top electrodes",
+        "id": "mim-resistance-specification",
+        "options": {
+          "parameter": "RSCAPM",
+          "source_unit": "Ohm/square"
+        },
+        "revision": "7198cf647113f56041e02abf3eb623692820c5e1",
+        "sha256": "4dcab6b9d0fc9c843828d7c9363603de497edd82589d1a8297e0ea24a32bf37f",
+        "uri": "https://github.com/google/skywater-pdk/blob/7198cf647113f56041e02abf3eb623692820c5e1/docs/rules/device-details/cap_mim/cap_mim-table0.rst"
+      },
+      {
+        "description": "Source res_high__cap_low nwell and via resistance parameters",
+        "id": "resistance-model-hrlc",
+        "options": {
+          "rcvia3_unit": "Ohm/cut",
+          "rcvia4_unit": "Ohm/cut",
+          "rnw_unit": "Ohm/square"
+        },
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "fa31c9c9a72f46cd4666428ff3c338a2e912578914f77049d7d15980fb546b85",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_high__cap_low.spice"
+      },
+      {
+        "description": "Source res_low__cap_high nwell and via resistance parameters",
+        "id": "resistance-model-lrhc",
+        "options": {
+          "rcvia3_unit": "Ohm/cut",
+          "rcvia4_unit": "Ohm/cut",
+          "rnw_unit": "Ohm/square"
+        },
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "30bf08f792bb9c569f76b3fe3c81825551f5a0750a65208b49a2010ad9b765c3",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_high.spice"
+      },
+      {
+        "description": "Source res_low__cap_low nwell and via resistance parameters",
+        "id": "resistance-model-lrlc",
+        "options": {
+          "rcvia3_unit": "Ohm/cut",
+          "rcvia4_unit": "Ohm/cut",
+          "rnw_unit": "Ohm/square"
+        },
+        "revision": "29b55153fd9f4badef05a02667184b81789d1f61",
+        "sha256": "8d8f19bfd7d9728508b0a45bfbfae293fed168b902cb2fc820fb40a7c2627ac0",
+        "uri": "https://github.com/fossi-foundation/skywater-pdk-libs-sky130_fd_pr/blob/29b55153fd9f4badef05a02667184b81789d1f61/models/r%2Bc/res_low__cap_low.spice"
+      },
+      {
+        "description": "Explicit process and R/C-style mapping for physical-stack results",
+        "id": "capiche-magic-mapping",
+        "revision": "85905e8810982bd89966cbf8b7e9d3fd1e922d42",
+        "sha256": "6f40e806634dcdd7c820a3de8f9d083e4ef4f75c89e9ba210dce87e221889a76",
+        "uri": "https://github.com/RTimothyEdwards/capiche/blob/85905e8810982bd89966cbf8b7e9d3fd1e922d42/src/capiche/merge_extract.py"
       }
     ]
   },
@@ -141,6 +365,50 @@
       "id": "nominal",
       "physical_stack_matches": true,
       "process_stack": "nominal",
+      "resistance": "nominal"
+    },
+    {
+      "capacitance": "high",
+      "description": "Fixed-layout high-R/high-C sensitivity envelope with upper MIM sheet-resistance bound; not a source-correlated process corner",
+      "id": "hrhc-mim-bound",
+      "process_stack": "nominal",
+      "resistance": "hrhc-mim-bound"
+    },
+    {
+      "capacitance": "low",
+      "description": "Fixed-layout high-R/low-C sensitivity envelope with upper MIM sheet-resistance bound; not a source-correlated process corner",
+      "id": "hrlc-mim-bound",
+      "process_stack": "nominal",
+      "resistance": "hrlc-mim-bound"
+    },
+    {
+      "capacitance": "high",
+      "description": "Fixed-layout low-R/high-C sensitivity envelope with lower MIM sheet-resistance bound; not a source-correlated process corner",
+      "id": "lrhc-mim-bound",
+      "process_stack": "nominal",
+      "resistance": "lrhc-mim-bound"
+    },
+    {
+      "capacitance": "low",
+      "description": "Fixed-layout low-R/low-C sensitivity envelope with lower MIM sheet-resistance bound; not a source-correlated process corner",
+      "id": "lrlc-mim-bound",
+      "process_stack": "nominal",
+      "resistance": "lrlc-mim-bound"
+    },
+    {
+      "capacitance": "low",
+      "description": "Source low-C physical interconnect recipe with nominal R; layout-dependent MIM restrictions apply. No correlated R or device-reference claim",
+      "id": "capiche-low-c",
+      "physical_stack_matches": true,
+      "process_stack": "capiche-low",
+      "resistance": "nominal"
+    },
+    {
+      "capacitance": "high",
+      "description": "Source high-C physical interconnect recipe with nominal R; layout-dependent MIM restrictions apply. No correlated R or device-reference claim",
+      "id": "capiche-high-c",
+      "physical_stack_matches": true,
+      "process_stack": "capiche-high",
       "resistance": "nominal"
     }
   ],

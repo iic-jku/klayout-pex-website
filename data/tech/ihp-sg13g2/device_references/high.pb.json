@@ -1,0 +1,72 @@
+{
+  "description": "high MIM-only device references",
+  "device_references": {
+    "devices": [
+      {
+        "capacitance_references": [
+          {
+            "capacitance": "(area_density*width*length + edge_density*2*(width+length))*m",
+            "description": "cap_wcs cap_cmim low-frequency mutual capacitance at zero bias, 27 C and zero mismatch. Only CJ varies with cap_carea; CJSW remains 40 aF/um. Excludes series resistance, substrate shunts and RF models. MOM references remain unavailable.",
+            "parameters": {
+              "area_density": "1.65e-15",
+              "edge_density": "4e-17",
+              "length": "l*1e6",
+              "width": "w*1e6"
+            },
+            "source": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/capacitors_mod.lib",
+            "terminal_names": [
+              "mim_top",
+              "mim_btm"
+            ],
+            "valid_when": "width>0 && length>0 && m>0"
+          }
+        ],
+        "lvs_device_class_name": "cap_cmim"
+      }
+    ]
+  },
+  "id": "high",
+  "provenance": {
+    "assumptions": [
+      {
+        "description": "Only the listed MIM devices have corner references; unlisted MOM, RF and other capacitor models remain unchecked",
+        "id": "partial-device-coverage",
+        "reason": "Interconnect corner coefficients do not establish those devices' independent reference laws",
+        "source_ids": [
+          "corner-parameters",
+          "mim-model"
+        ]
+      }
+    ],
+    "data_revision": "1",
+    "history": [
+      {
+        "date": "2026-11-13",
+        "reason": "Check the same corner without scaling nominal MOM estimates",
+        "references": [
+          "https://github.com/iic-jku/klayout-pex/issues/551"
+        ],
+        "revision": "1",
+        "source_ids": [
+          "corner-parameters",
+          "mim-model"
+        ],
+        "summary": "Add compact-model MIM corner references"
+      }
+    ],
+    "sources": [
+      {
+        "description": "ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib",
+        "id": "corner-parameters",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/cornerCAP.lib"
+      },
+      {
+        "description": "ihp-sg13g2/libs.tech/ngspice/models/capacitors_mod.lib",
+        "id": "mim-model",
+        "revision": "e73adb4045731ddec21634146d536380057f6a26",
+        "uri": "https://github.com/IHP-GmbH/IHP-Open-PDK/blob/e73adb4045731ddec21634146d536380057f6a26/ihp-sg13g2/libs.tech/ngspice/models/capacitors_mod.lib"
+      }
+    ]
+  }
+}

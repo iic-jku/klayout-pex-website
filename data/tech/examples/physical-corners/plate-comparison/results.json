@@ -1,0 +1,211 @@
+{
+  "snapshot": "Final integrated source recipe snapshot, 13 November 2026",
+  "pattern": "10 um square first/second routing-metal parallel plates with selected manufactured width bias, physical recipe and 8 um field margin",
+  "analytical": "epsilon_0 * epsilon_r * manufactured_width^2 / dielectric_gap",
+  "interpretation": "Finite 3D plates include fringe; area-only comparison checks physical units/gaps/materials and records the excess. No fit to empirical coefficients or silicon calibration. Source data and physical settings are unchanged.",
+  "results": [
+    {
+      "pdk": "gf180mcuD",
+      "corner": "low",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 5.468899999999999e-15,
+          "backward_F": 5.4615e-15,
+          "mutual_F": 5.4652e-15,
+          "log": "gf180mcuD-low-0.02.log",
+          "sha256": "1b9bdcb533f48513c6e508f9645822ccd5181ff2e545139319ffe2891f61cb0f"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 5.46504e-15,
+          "backward_F": 5.46595e-15,
+          "mutual_F": 5.4654949999999995e-15,
+          "log": "gf180mcuD-low-0.005.log",
+          "sha256": "457ba1f30e838e8db96d1a050b7421de4a200854094c0e660f59258ddd1de5b1"
+        }
+      ],
+      "area_only_F": 4.925834666369959e-15,
+      "relative_excess": 0.10955713502007103,
+      "relative_refinement_change": 5.3977896508738965e-05
+    },
+    {
+      "pdk": "gf180mcuD",
+      "corner": "high",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 7.98858e-15,
+          "backward_F": 7.99579e-15,
+          "mutual_F": 7.992185e-15,
+          "log": "gf180mcuD-high-0.02.log",
+          "sha256": "dba648eda99ad7b6c5124780763582eb5ebc567873ebe774ea97244761017c3c"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 8.01768e-15,
+          "backward_F": 8.016710000000001e-15,
+          "mutual_F": 8.017195e-15,
+          "log": "gf180mcuD-high-0.005.log",
+          "sha256": "1841e838f33c3a1eefa050fca0d3256c825dd8bdb9f1ff1d69c38cb519266fb4"
+        }
+      ],
+      "area_only_F": 7.363149948274429e-15,
+      "relative_excess": 0.08882680052969016,
+      "relative_refinement_change": 0.003129306941718646
+    },
+    {
+      "pdk": "ihp-sg13g2",
+      "corner": "low",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 6.5763899999999996e-15,
+          "backward_F": 6.56689e-15,
+          "mutual_F": 6.57164e-15,
+          "log": "ihp-sg13g2-low-0.02.log",
+          "sha256": "d4b161abcd54f2e02034b72aa974ff75959f17045bb9d468845fd29887d98a22"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 6.57629e-15,
+          "backward_F": 6.57332e-15,
+          "mutual_F": 6.574805e-15,
+          "log": "ihp-sg13g2-low-0.005.log",
+          "sha256": "816d8c8c883b466c6015474a849aa918e0ce0518acb5933cf5b33a97735f3dc3"
+        }
+      ],
+      "area_only_F": 6.050361672080001e-15,
+      "relative_excess": 0.0866796658355311,
+      "relative_refinement_change": 0.00048161493934539834
+    },
+    {
+      "pdk": "ihp-sg13g2",
+      "corner": "high",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 8.06375e-15,
+          "backward_F": 8.04651e-15,
+          "mutual_F": 8.055129999999999e-15,
+          "log": "ihp-sg13g2-high-0.02.log",
+          "sha256": "c9e4396e0b9332dc8c801aecf2ea30edac74a7efbedb9aa50e8e690a53ac6e6f"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 8.053320000000001e-15,
+          "backward_F": 8.05253e-15,
+          "mutual_F": 8.052925000000001e-15,
+          "log": "ihp-sg13g2-high-0.005.log",
+          "sha256": "25ecc678d7a14435b579aa2cfcdc02f90a3c66779a711476c8b6b06247aca8cf"
+        }
+      ],
+      "area_only_F": 7.394886488097778e-15,
+      "relative_excess": 0.08898561363468516,
+      "relative_refinement_change": -0.0002737385988801355
+    },
+    {
+      "pdk": "ihp-sg13cmos5l",
+      "corner": "low",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 6.5771e-15,
+          "backward_F": 6.57311e-15,
+          "mutual_F": 6.575105e-15,
+          "log": "ihp-sg13cmos5l-low-0.02.log",
+          "sha256": "482e2ca33f5c4986faf9ae58cd253157f1fd232e8a597eeafa1ca12163be9118"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 6.5852400000000005e-15,
+          "backward_F": 6.58841e-15,
+          "mutual_F": 6.586825000000001e-15,
+          "log": "ihp-sg13cmos5l-low-0.005.log",
+          "sha256": "5754a0dc01c29f6d7095ab47752483998950933c6e565f996f32c8dc60859433"
+        }
+      ],
+      "area_only_F": 6.050361672080001e-15,
+      "relative_excess": 0.08866632393160279,
+      "relative_refinement_change": 0.0017824810402269353
+    },
+    {
+      "pdk": "ihp-sg13cmos5l",
+      "corner": "high",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 8.052989999999999e-15,
+          "backward_F": 8.0502e-15,
+          "mutual_F": 8.051595e-15,
+          "log": "ihp-sg13cmos5l-high-0.02.log",
+          "sha256": "28d99dd02b193608bd155a800d7f699e98940c168552c97ac3f8143987e758e5"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 8.06308e-15,
+          "backward_F": 8.06586e-15,
+          "mutual_F": 8.064469999999999e-15,
+          "log": "ihp-sg13cmos5l-high-0.005.log",
+          "sha256": "334ebc44a4edb5ab4bcb114539d127df24d2c6a14e14d1fe269626adcea76cc3"
+        }
+      ],
+      "area_only_F": 7.394886488097778e-15,
+      "relative_excess": 0.0905468275922734,
+      "relative_refinement_change": 0.0015990620491963536
+    },
+    {
+      "pdk": "sky130A",
+      "corner": "low",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 9.87292e-15,
+          "backward_F": 9.94834e-15,
+          "mutual_F": 9.910629999999999e-15,
+          "log": "sky130A-low-0.02.log",
+          "sha256": "1bbe76e8d794e927fd63bba905f709b673f03ff4248d13d18d6378bc3914527e"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 9.901069999999999e-15,
+          "backward_F": 9.94445e-15,
+          "mutual_F": 9.922759999999999e-15,
+          "log": "sky130A-low-0.005.log",
+          "sha256": "8fabfadc691b94842abc2ebd9ccade1504ac8e9854b73bfe2e799cda68233144"
+        }
+      ],
+      "area_only_F": 9.227873859742325e-15,
+      "relative_excess": 0.07530295177626956,
+      "relative_refinement_change": 0.0012239383369170298
+    },
+    {
+      "pdk": "sky130A",
+      "corner": "high",
+      "estimates": [
+        {
+          "tolerance": 0.02,
+          "forward_F": 3.5685099999999996e-14,
+          "backward_F": 3.57142e-14,
+          "mutual_F": 3.569965e-14,
+          "log": "sky130A-high-0.02.log",
+          "sha256": "adc5933063a4253e197d000e49bcd10164fc46aa9c45f5dbd09e17e51a238999"
+        },
+        {
+          "tolerance": 0.005,
+          "forward_F": 3.56674e-14,
+          "backward_F": 3.57351e-14,
+          "mutual_F": 3.5701250000000004e-14,
+          "log": "sky130A-high-0.005.log",
+          "sha256": "3d698a194d0bd6a0a7b0ab2db87cde014507988d4c4dbf011a83b183f98fbdac"
+        }
+      ],
+      "area_only_F": 3.4754572684496905e-14,
+      "relative_excess": 0.027238928359069936,
+      "relative_refinement_change": 4.481836656666793e-05
+    }
+  ],
+  "all_numerical_values_identical_to_previous": true,
+  "commit": "1d4154b4bea08d7b96a108e062f3f1ba18e811a4",
+  "source_commit": "1d4154b4bea08d7b96a108e062f3f1ba18e811a4"
+}

@@ -1,0 +1,38 @@
+#%lvsdb-klayout
+
+# Layout
+layout(
+ top(strip)
+ unit(0.001)
+
+ # Layer section
+ # This section lists the mask layers (drawing or derived) and their connections.
+
+ # Mask layers
+ layer(poly_con '5/0')
+ layer(poly_pin_con '5/2')
+ layer(poly_text '5/25')
+
+ # Mask layer connectivity
+ connect(poly_con poly_con poly_pin_con poly_text)
+ connect(poly_pin_con poly_con)
+ connect(poly_text poly_con)
+
+ # Circuit section
+ # Circuits are the hierarchical building blocks of the netlist.
+ circuit(strip
+
+  # Circuit boundary
+  rect((0 0) (10001 500))
+
+  # Nets with their geometries
+  net(1 name('A,B')
+   rect(poly_con (0 0) (10000 500))
+   rect(poly_pin_con (-10000 -500) (1 500))
+   rect(poly_pin_con (9999 -500) (1 500))
+   text(poly_text A (-10001 -250))
+   text(poly_text B (10000 0))
+  )
+
+ )
+)
