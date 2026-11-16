@@ -1,0 +1,55 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-physical-width-bias
+#| echo: false
+#| fig-cap: "Signed full-width bias moves both boundaries. The drawing is schematic; the displacement is exaggerated for clarity."
+#| fig-alt: "A positive bias grows a rectangular metal strip beyond its dashed drawn boundary. A negative bias shrinks the strip. Each side moves by half the total width change."
+import drawsvg as dw
+w,h=900,340
+d=dw.Drawing(w,h)
+d.append(dw.Rectangle(0,0,w,h,fill='white'))
+ink='#183247'
+
+def text(s,x,y,size=19,anchor='middle',color=ink):
+    d.append(dw.Text(s,size,x,y,text_anchor=anchor,fill=color,font_family='sans-serif'))
+
+def dimension(x1,y1,x2,y2):
+    d.append(dw.Line(x1,y1,x2,y2,stroke=ink,stroke_width=1.5))
+    if y1==y2:
+        for x in (x1,x2):d.append(dw.Line(x,y1-6,x,y1+6,stroke=ink,stroke_width=1.5))
+    else:
+        for y in (y1,y2):d.append(dw.Line(x1-6,y,x1+6,y,stroke=ink,stroke_width=1.5))
+for center,label,delta,color in [(230,'Positive bias: metal grows',20,'#2171a5'),(670,'Negative bias: metal shrinks',-20,'#a15b16')]:
+    left,right,top,bottom=center-115,center+115,100,220
+    text(label,center,34)
+    d.append(dw.Rectangle(left-delta,top-delta,right-left+2*delta,bottom-top+2*delta,
+                          fill=color,fill_opacity=.18,stroke=color,stroke_width=2))
+    d.append(dw.Rectangle(left,top,right-left,bottom-top,fill='none',stroke=ink,stroke_width=1.5,stroke_dasharray='6,5'))
+    text('Manufactured metal',center,168,18,color=color)
+    dimension(left,270,right,270)
+    text('Drawn width W',center,299,18)
+    dimension(left-delta,48,right+delta,48)
+    text('Physical width W + b',center,72,16,color=color)
+    for edge,position in [(left,left-delta),(right,right+delta)]:
+        dimension(edge,252,position,252)
+    text('|b| / 2',left-45,328,16)
+    text('|b| / 2',right+45,328,16)
+    d.append(dw.Line(left-45,310,(left+left-delta)/2,258,stroke=ink,stroke_width=1))
+    d.append(dw.Line(right+45,310,(right+right+delta)/2,258,stroke=ink,stroke_width=1))
+d
+```

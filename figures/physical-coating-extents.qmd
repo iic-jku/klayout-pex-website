@@ -1,0 +1,64 @@
+::: {.content-hidden}
+Copyright (C) 2024-2026 Martin Köhler and co-authors (martin.koehler@jku.at)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+:::
+
+```{python}
+#| label: fig-physical-coating-extents
+#| echo: false
+#| fig-cap: "Incremental top and side offsets versus cumulative field height in the `ihp-sg13cmos5l` recipe. Vertical dimensions follow the source; the wire width is illustrative."
+#| fig-alt: "TopMetal1 is surrounded first by pass1 oxide, then by pass2 nitride. Above the wire the coatings add 1.5 and 0.4 micrometres. In the field their outer heights are 1.5 and 1.9 micrometres from the metal bottom."
+import drawsvg as dw
+w,h=940,390
+d=dw.Drawing(w,h,origin=(0,80))
+d.append(dw.Rectangle(0,80,w,h,fill='white'))
+ink='#183247';base=360;scale=55
+left,right=410,590
+metal_top=base-2*scale
+
+def text(s,x,y,size=18,anchor='start'):
+    d.append(dw.Text(s,size,x,y,text_anchor=anchor,fill=ink,font_family='sans-serif'))
+
+def envelope(side,top,field,color):
+    x1,x2=left-side*scale,right+side*scale
+    yt,yf=base-(2+top)*scale,base-field*scale
+    points=[(210,base),(210,yf),(x1,yf),(x1,yt),(x2,yt),(x2,yf),(780,yf),(780,base)]
+    d.append(dw.Lines(*[v for xy in points for v in xy],close=True,fill=color,stroke=ink,stroke_width=1.2))
+envelope(.6,1.9,1.9,'#ddd0ec')
+envelope(.3,1.5,1.5,'#d5e9f7')
+d.append(dw.Rectangle(left,metal_top,right-left,base-metal_top,fill='#b7d8bf',stroke=ink,stroke_width=1.5))
+text('TopMetal1',500,310,20,'middle')
+text('pass1',500,211,18,'middle')
+text('pass2',500,131,18,'middle')
+d.append(dw.Line(500,137,500,151,stroke=ink,stroke_width=1))
+text('pass1 in field',230,321,17)
+text('pass2 in field',765,236,17,'end')
+d.append(dw.Line(715,241,715,266,stroke=ink,stroke_width=1))
+
+def dimension(x,yt,yb,label,tx,anchor):
+    d.append(dw.Line(x,yt,x,yb,stroke=ink,stroke_width=1.4))
+    for y in (yt,yb):d.append(dw.Line(x-5,y,x+5,y,stroke=ink,stroke_width=1.4))
+    text(label,tx,(yt+yb)/2+5,17,anchor)
+dimension(180,base-1.9*scale,base,'1.9 µm',164,'end')
+text('Field extent',165,237,16,'end')
+dimension(830,base-3.9*scale,base-3.5*scale,'0.4 µm',846,'start')
+dimension(830,base-3.5*scale,metal_top,'1.5 µm',846,'start')
+dimension(830,metal_top,base,'2.0 µm',846,'start')
+text('Top increments',829,112,16,'middle')
+d.append(dw.Line(165,base,838,base,stroke=ink,stroke_width=1,stroke_dasharray='5,4'))
+text('Root bottom: z = 5.4 µm',210,397,18)
+text('Field top: 5.4 + 1.9 = 7.3 µm',210,430,18)
+text('Side reach: 0.3 + 0.3 = 0.6 µm',540,430,18)
+d
+```
